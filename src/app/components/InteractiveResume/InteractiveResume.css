@@ -1,0 +1,207 @@
+.workxp-container {
+  font-family: "Syne", sans-serif;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  text-align: left;
+  max-width: 1200px;
+}
+
+/* Header styling */
+.workxp-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.workxp-header h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  text-transform: none;
+  /* color: #333; */
+}
+
+.workxp-header p {
+  font-size: 1.2rem;
+  color: #ffddcc;
+}
+
+/* Buttons */
+.workxp-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.workxp-buttons button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.workxp-buttons button:hover {
+  opacity: 0.9;
+}
+
+.workxp-buttons .resume-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.workxp-buttons .resume-button:hover {
+  background-color: #0056b3;
+}
+
+.workxp-buttons .download-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.workxp-buttons .download-button:hover {
+  background-color: #1e7e34;
+}
+
+.xp-section{
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+/* Experience cards */
+.experience-card {
+  background-color: #ffffff30;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.experience-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffddcc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(242, 237, 234, 0.121);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.experience-date {
+  font-size: 1rem;
+  font-weight: lighter;
+}
+
+.experience-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Story items */
+.story-item {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #555;
+}
+
+.story-item strong {
+  color: #333;
+}
+
+/* Skills and interests */
+.skills-container,
+.interests-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.skill-item,
+.interest-item {
+  background-color: #ffffff6c;
+  color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.skill-item:hover,
+.interest-item:hover {
+  background-color: #bbdefb;
+}
+
+/* Education section */
+
+.edu-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.education-item {
+  background-color: #ffffff6c;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 49%;
+  justify-content: space-evenly;
+}
+
+.education-item p {
+  margin: 0.5rem 0;
+}
+
+.education-item .institution {
+  font-weight: 700;
+  color: #faeee9;
+}
+
+.education-item .program {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .workxp-container {
+    padding: 1rem;
+  }
+
+  .workxp-header h1 {
+    font-size: 2rem;
+  }
+
+  .workxp-buttons button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .experience-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .experience-card p {
+    font-size: 0.9rem;
+  }
+}

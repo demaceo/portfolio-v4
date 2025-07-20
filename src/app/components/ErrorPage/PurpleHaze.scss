@@ -1,0 +1,184 @@
+
+@import url("https://fonts.googleapis.com/css?family=Lato:400,300");
+
+// .haze-wrapper {
+//   background: #332b33;
+//   width: 100%;
+//   height: 100%;
+// }
+
+.purple-haze-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.h {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/overlay.png");
+  /* width: 500px; */
+  /* height: 500px; */
+  height: 70vh;
+  width: 96vw;
+  overflow: hidden;
+  position: absolute;
+  border: 4px solid rgba(255, 255, 255, 0.799);
+  /* left: 0; */
+  /* right: 0; */
+  /* margin: auto; */
+  // margin: 5vh 2vw;
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  background-color: #332b33;
+}
+
+.haze-title,
+.haze-subtitle {
+  position: absolute;
+  z-index: 3;
+  text-transform: uppercase;
+  text-shadow: 0px 10px rgba(0, 0, 0, 0.15);
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translateY(-50%);
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  color: white;
+  animation: fadeInText 3s ease-in forwards;
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.revealed {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.haze-title {
+  letter-spacing: 2.5vw;
+  // font-size: 18px;
+  font-size: 3em;
+  top: 43%;
+}
+
+.title-2 {
+  letter-spacing: 2.5vw;
+  font-size: 3em;
+  top: 54%;
+}
+
+.haze-subtitle {
+  letter-spacing: 1vw;
+  font-size: 1rem;
+  top: 65%;
+  color: white;
+}
+
+/* Smoke Circles */
+.c {
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 400px;
+  position: absolute;
+  margin: auto;
+  opacity: 0.25;
+  width: calc(var(--index) * 40px);
+  // filter: blur(1px);
+
+  height: calc(var(--index) * 1px);
+  // right: calc(var(--index) * 10px);
+  bottom: calc(var(--index) * 10px);
+  // filter: url("#blur-filter"); /* Apply the SVG blur filter */
+  animation: spin 10s linear infinite;
+  // transform-origin: calc(var(--index) * 20px) calc(var(--index) * 5px);
+  // animation: smoke-move #{3 + (var(--index) / 20)}s infinite ease-in-out alternate;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.c:nth-of-type(n) {
+  width: calc(var(--index) * 6px);
+  // height: calc(var(--index) * 10px);
+  // right: calc(var(--index) * 10px);
+  // bottom: calc(var(--index) * 10px);
+  background: rgba(
+    calc(1 + (var(--index) * 3)),
+    calc(63 + (var(--index) * 1)),
+    205,
+    calc(90 - (var(--index) / 80))
+  );
+}
+
+@for $i from 1 through 80 {
+  .c:nth-of-type(#{$i}) {
+    --index: #{$i};
+  }
+}
+
+// .c:nth-of-type(n) {
+//   box-shadow: 3px 0px rgba(255, 255, 255, -0.025),
+//     6px -5px rgba(10, 0, 0, -0.025);
+//   width: calc(var(--index) * 40px);
+//   height: calc(var(--index) * 1px);
+//   right: calc(var(--index) * 100px);
+//   left: calc(var(--index) * 100px);
+//   bottom: calc(var(--index) * 10px);
+//   transform-origin: calc(var(--index) * 4px) calc(var(--index) * 2px);
+//   background: rgba(
+//     calc(90 + (var(--index) * 3)),
+//     calc(33 + (var(--index) * 1)),
+//     180,
+//     calc(1 - (var(--index) / 200))
+//   );
+// }
+
+// @for $i from 1 through 80 {
+//   .c:nth-of-type(#{$i}) {
+//     --index: #{$i};
+//     width: random(90) + 30px; // Randomized width
+//     height: random(40) + px; // Randomized height
+//     bottom: random(100) + px;
+//     border-radius: random(50);
+//     filter: blur(5px);
+//     animation: smoke-move #{3 + ($i / 20)}s infinite ease-in-out alternate;
+//   }
+// }
+
+// // Define the keyframes for rising smoke
+// @keyframes smoke-move {
+//   0% {
+//     transform: translateY(0) translateX(0) scale(1);
+//     opacity: 0.5;
+//     filter: blur(5px);
+//   }
+//   50% {
+//     transform: translateY(-60px) translateX(random(10) - 5 + px) scale(1.1);
+//     opacity: 0.25;
+//     filter: blur(5px); // Maintain a consistent blur effect
+//   }
+//   100% {
+//     transform: translateY(-80px) translateX(random(20) - 10 + px) scale(1.2);
+//     opacity: 0;
+//     filter: blur(5px);
+//   }
+// }
