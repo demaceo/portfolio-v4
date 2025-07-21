@@ -1,70 +1,71 @@
 # Portfolio v4 - Demaceo Vincent
 
-A modern, interactive portfolio website built with Next.js 15, showcasing professional experience, projects, and skills through an immersive digital experience.
+A modern, performance-optimized portfolio website built with Next.js 15, showcasing professional experience, projects, and skills through an immersive, interactive digital experience.
 
 ## 🚀 Live Demo
 
-Visit the live portfolio: [https://demaceo.com](https://demaceo.com) _(or your deployed URL)_
+Visit the live portfolio: [https://demaceo.com](https://demaceo.com)
 
 ## ✨ Features
 
 ### 🎨 Interactive Design
 
-- **Dual Interface**: MacOS-inspired desktop view and iOS-style mobile experience
-- **Smooth Animations**: Powered by Framer Motion for seamless transitions
-- **Responsive Design**: Fully optimized for desktop, tablet, and mobile devices
-- **Dark Theme**: Modern aesthetic with gradient backgrounds and glass morphism effects
+- **Modern UI/UX**: Gradient-based design system with glass morphism effects
+- **Smooth Animations**: Powered by Framer Motion for seamless transitions and micro-interactions
+- **Responsive Design**: Mobile-first approach, fully optimized for all device sizes
+- **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
 
-### 📱 Multi-Platform Experience
+### 🚀 Performance Optimized
 
-- **Desktop Mode**: MacOS-style interface with menu bar, desktop icons, and windows
-- **Mobile Mode**: iPhone-inspired home screen with app icons and dock navigation
-- **Adaptive Layout**: Automatically detects device type and adjusts interface accordingly
+- **Feature-Based Architecture**: Organized components by business domain for better maintainability
+- **Next.js 15**: Latest App Router with optimized image handling and asset management
+- **TypeScript**: Full type safety and enhanced developer experience
+- **CSS Variables**: Dynamic theming system with consistent color palette
 
 ### 🎯 Core Sections
 
-- **Mindset**: Personal philosophy, values, and professional approach
-- **Skillset**: Technical skills ticker, service offerings, and core principles
-- **Projects**: Interactive gallery of current and archived work
-- **Contact**: Integrated contact form with EmailJS for direct communication
-- **Resume**: Interactive, downloadable PDF resume with export functionality
+- **About Me**: Personal introduction with interactive skill pills and tooltips
+- **Service Spectrum**: Interactive flip cards showcasing service offerings
+- **Project Gallery**: Animated showcase of current and archived work
+- **Skills & Principles**: Dynamic toolbelt and core values presentation
+- **Interactive Resume**: PDF-exportable resume with professional layout
+- **Contact Integration**: Floating contact button with EmailJS integration
 
 ### 🛠️ Technical Highlights
 
-- **Modern Stack**: Next.js 15 with App Router and TypeScript
-- **Performance**: Optimized images, lazy loading, and efficient animations
-- **Accessibility**: Semantic HTML, proper ARIA labels, and keyboard navigation
+- **Modern Stack**: Next.js 15.4.2 with App Router and React 19
+- **Performance**: Optimized images, lazy loading, and efficient bundle splitting
+- **Developer Experience**: ESLint, TypeScript, and modular component architecture
 - **SEO Ready**: Proper meta tags, structured data, and optimized routing
 
 ## 🔧 Tech Stack
 
-### Frontend
+### Core Technologies
 
 - **Framework**: Next.js 15.4.2 with App Router
 - **Language**: TypeScript 5
-- **Styling**: CSS Modules with custom animations
+- **UI Library**: React 19.1.0
+- **Styling**: CSS Modules with custom CSS variables and animations
+- **Animation**: Framer Motion 12.23.6
+
+### Key Dependencies
+
 - **Icons**: FontAwesome (brands & solid icons)
-- **Animations**: Framer Motion 12.23.6
-- **Images**: Next.js Image optimization with external domain support
-
-### Functionality
-
-- **Email**: EmailJS for contact form integration
+- **Email**: EmailJS Browser 4.4.1 for contact form integration
 - **PDF Generation**: html2canvas + jsPDF for resume downloads
-- **Responsive**: Mobile-first design with breakpoint optimization
-- **Routing**: Next.js App Router with dynamic routes
+- **Build Tool**: Next.js with Turbopack for faster development
 
-### Development
+### Development Tools
 
 - **Linting**: ESLint with Next.js configuration
-- **Build Tool**: Next.js with Turbopack for faster development
+- **Styling**: Tailwind CSS 4 (configured)
 - **Package Manager**: npm
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 18+ (recommended: 20+)
 - npm, yarn, pnpm, or bun
 
 ### Installation
@@ -84,15 +85,12 @@ Visit the live portfolio: [https://demaceo.com](https://demaceo.com) _(or your d
    yarn install
    # or
    pnpm install
-   # or
-   bun install
    ```
 
-3. **Environment Setup** _(if needed)_
+3. **Environment Setup** _(optional)_
 
    ```bash
-   # Create .env.local for any environment variables
-   # Example: EmailJS configuration
+   # Create .env.local for EmailJS integration
    NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
    NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
    NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
@@ -102,12 +100,7 @@ Visit the live portfolio: [https://demaceo.com](https://demaceo.com) _(or your d
 
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
+   # Uses Turbopack for faster builds
    ```
 
 5. **Open your browser**
@@ -118,75 +111,85 @@ Visit the live portfolio: [https://demaceo.com](https://demaceo.com) _(or your d
 ```
 src/
 ├── app/
-│   ├── components/           # Reusable UI components
-│   │   ├── AboutMe/         # Personal introduction and values
-│   │   ├── Contact/         # Contact section and form integration
-│   │   ├── ContactForm/     # Standalone contact form
-│   │   ├── HomeScreen/      # Main landing interface (dual-mode)
-│   │   ├── InteractiveResume/  # PDF-exportable resume
-│   │   ├── Layout/          # App-wide layout wrapper
-│   │   ├── NavBar/          # Navigation component
-│   │   ├── PrinciplesList/  # Core principles display
-│   │   ├── ProjectGallery/  # Animated project showcase
-│   │   ├── QuirkyPopup/     # Interactive modal system
-│   │   ├── RandomButton/    # Easter egg functionality
-│   │   ├── ServiceSpectrum/ # Service offerings with flip cards
-│   │   └── Toolbelt/        # Skills ticker animation
-│   ├── utilities/           # Data and helper functions
-│   │   ├── projectData.ts   # Project information and metadata
-│   │   ├── servicesData.ts  # Service offerings data
-│   │   ├── principlesData.ts # Core principles content
-│   │   ├── timelineData.ts  # Career timeline information
-│   │   └── DemaceoResume.tsx # Resume data structure
-│   ├── mindset/            # About page route
-│   ├── skillset/           # Skills and services page route
-│   ├── projects/           # Projects gallery route
-│   ├── contact/            # Contact page route
-│   ├── project/[id]/       # Dynamic project detail pages
-│   ├── globals.css         # Global styles and variables
-│   ├── layout.tsx          # Root layout
-│   └── page.tsx            # Home page
-├── assets/
-│   ├── icons/              # Service and project icons
-│   ├── logo/               # Brand assets
-│   └── bg/                 # Background images
-└── public/                 # Static assets
+│   ├── components/                    # Component organization
+│   │   ├── features/                  # Feature-based components
+│   │   │   ├── contact/              # Contact functionality
+│   │   │   │   ├── Contact/          # Main contact section
+│   │   │   │   ├── ContactForm/      # Form component
+│   │   │   │   └── FloatingContactButton/ # Floating CTA
+│   │   │   ├── home/                 # Homepage components
+│   │   │   │   ├── HomeScreen/       # Main landing interface
+│   │   │   │   ├── QuirkyPopup/      # Interactive modals
+│   │   │   │   └── RandomButton/     # Easter egg functionality
+│   │   │   ├── projects/             # Project-related components
+│   │   │   │   └── ProjectGallery/   # Animated project showcase
+│   │   │   └── skills/               # Skills and services
+│   │   │       ├── ServiceSpectrum/  # Service cards with flip animation
+│   │   │       ├── Toolbelt/         # Skills ticker animation
+│   │   │       └── PrinciplesList/   # Core principles display
+│   │   ├── shared/                   # Shared across features
+│   │   │   ├── AboutMe/              # Personal introduction
+│   │   │   └── InteractiveResume/    # PDF-exportable resume
+│   │   └── ui/                       # Pure UI components
+│   │       ├── Layout/               # App-wide layout wrapper
+│   │       └── NavBar/               # Navigation component
+│   ├── data/                         # Data and content
+│   │   ├── projects.ts               # Project information
+│   │   ├── services.ts               # Service offerings
+│   │   ├── principles.ts             # Core principles
+│   │   ├── timeline.ts               # Career timeline
+│   │   └── DemaceoResume.tsx         # Resume structure
+│   ├── lib/                          # Utilities and types
+│   │   ├── types.ts                  # TypeScript definitions
+│   │   └── constants/                # App constants
+│   ├── mindset/                      # About page route
+│   ├── skillset/                     # Skills page route
+│   ├── projects/                     # Projects page route
+│   ├── project/[id]/                 # Dynamic project pages
+│   ├── globals.css                   # Global styles and CSS variables
+│   ├── layout.tsx                    # Root layout with metadata
+│   └── page.tsx                      # Homepage
+├── public/                           # Static assets (optimized for Next.js)
+│   ├── icons/                        # Service and project icons
+│   ├── logo/                         # Brand assets
+│   └── bg/                           # Background images
+└── package.json                      # Dependencies and scripts
 ```
 
 ## 🎨 Key Components
 
 ### HomeScreen
 
-The centerpiece component that provides dual-interface experience:
+Multi-mode landing experience with:
 
-- **Desktop Mode**: MacOS-inspired with menubar, desktop icons, and quirky interactions
-- **Mobile Mode**: iOS-style home screen with app icons and bottom dock
-- **Easter Eggs**: Hidden interactions in the desktop menu system
-
-### ProjectGallery
-
-Animated showcase of work with:
-
-- **Framer Motion**: Scroll-triggered animations
-- **Dual Categories**: Current and archived projects
-- **External Images**: GitHub and Giphy integration
-- **Responsive Cards**: Adaptive layout for all screen sizes
+- **Interactive Design**: Engaging animations and micro-interactions
+- **Easter Eggs**: Hidden functionality and quirky elements
+- **Responsive Layout**: Adapts seamlessly across devices
 
 ### ServiceSpectrum
 
-Interactive service cards featuring:
+Interactive service showcase featuring:
 
-- **Flip Animation**: Hover/click to reveal detailed descriptions
-- **Icon Integration**: Custom service icons
-- **Contact Integration**: Direct connection to contact form
+- **Flip Animation**: Smooth hover/click transitions revealing details
+- **Gradient Theming**: Consistent with app's visual design system
+- **Mobile Optimization**: Touch-friendly interactions
+
+### ProjectGallery
+
+Professional project showcase with:
+
+- **Framer Motion**: Scroll-triggered and hover animations
+- **Category Filtering**: Current vs archived projects
+- **External Integration**: GitHub and media assets
+- **Performance**: Optimized image loading and lazy rendering
 
 ### InteractiveResume
 
-Full-featured resume component with:
+Professional resume component with:
 
-- **PDF Export**: Browser-based PDF generation
-- **Professional Layout**: Clean, printable design
-- **Dynamic Content**: Pulls from structured data
+- **PDF Export**: Client-side PDF generation with html2canvas
+- **Print Optimization**: Clean, professional layout
+- **Dynamic Content**: Structured data-driven content
 
 ## 🌐 Deployment
 
@@ -197,19 +200,15 @@ npm run build
 npm start
 ```
 
-### Deployment Platforms
+### Recommended Platforms
 
-This project is optimized for deployment on:
-
-- **Vercel** (recommended - built by Next.js creators)
+- **Vercel** (optimal for Next.js)
 - **Netlify**
 - **AWS Amplify**
 - **Railway**
 - **DigitalOcean Apps**
 
-### Environment Variables for Production
-
-Set up these variables in your deployment platform:
+### Environment Variables
 
 ```bash
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
@@ -219,59 +218,71 @@ NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
 
 ## 🎛️ Customization
 
-### Personal Data
+### Content Updates
 
-Update your information in these files:
-
-- `/src/app/utilities/DemaceoResume.tsx` - Resume content
-- `/src/app/utilities/projectData.ts` - Project portfolio
-- `/src/app/utilities/servicesData.ts` - Service offerings
-- `/src/app/components/AboutMe/AboutMe.tsx` - Personal introduction
+- **Resume**: `/src/app/data/DemaceoResume.tsx`
+- **Projects**: `/src/app/data/projects.ts`
+- **Services**: `/src/app/data/services.ts`
+- **About**: `/src/app/components/shared/AboutMe/AboutMe.tsx`
 
 ### Styling
 
-- **Colors**: Update CSS custom properties in `globals.css`
-- **Fonts**: Modify font imports in `layout.tsx`
-- **Animations**: Adjust Framer Motion configs in component files
-- **Responsive**: Update breakpoints in component CSS files
+- **Theme Colors**: CSS variables in `globals.css`
+- **Fonts**: Import configuration in `layout.tsx`
+- **Components**: Individual CSS modules per component
+- **Responsive**: Mobile-first breakpoints
 
 ### Assets
 
-Replace files in:
+- **Brand Assets**: `/public/logo/`
+- **Icons**: `/public/icons/`
+- **Images**: `/public/bg/`
 
-- `/src/assets/logo/` - Your brand assets
-- `/src/assets/icons/` - Service/skill icons
-- `/src/assets/bg/` - Background images
-
-## 🔧 Scripts
+## 🔧 Available Scripts
 
 ```bash
-npm run dev          # Start development server with Turbopack
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint for code quality
+npm run dev          # Development server with Turbopack
+npm run build        # Production build
+npm run start        # Production server
+npm run lint         # ESLint code quality check
 ```
+
+## 🚀 Performance Features
+
+- **Image Optimization**: Next.js Image component with lazy loading
+- **Bundle Splitting**: Feature-based code organization
+- **CSS Variables**: Dynamic theming without runtime overhead
+- **Tree Shaking**: Optimized imports and unused code elimination
+- **Modern Output**: ES2022+ for modern browsers
+
+## 📱 Browser Support
+
+- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Mobile**: iOS Safari 14+, Chrome Mobile 90+
+- **Features**: CSS Grid, Flexbox, CSS Variables, ES2022
+
+## 🤝 Contributing
+
+This is a personal portfolio, but suggestions are welcome:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/improvement`)
+3. Commit changes (`git commit -am 'Add improvement'`)
+4. Push to branch (`git push origin feature/improvement`)
+5. Create a Pull Request
 
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🤝 Contributing
-
-While this is a personal portfolio, suggestions and improvements are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-
 ## 📧 Contact
 
 **Demaceo Vincent**
 
-- Portfolio: [https://demaceo.com](https://demaceo.com)
-- LinkedIn: [https://linkedin.com/in/demaceo](https://linkedin.com/in/demaceo)
-- Email: hdemaceo@gmail.com
+- 🌐 Portfolio: [demaceo.com](https://demaceo.com)
+- 💼 LinkedIn: [linkedin.com/in/demaceo](https://linkedin.com/in/demaceo)
+- 📧 Email: hdemaceo@gmail.com
 
 ---
 
-Built with ❤️ using Next.js, TypeScript, and modern web technologies.
+Built with ❤️ using Next.js 15, TypeScript, and modern web technologies • Optimized for performance and accessibility
