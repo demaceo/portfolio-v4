@@ -4,18 +4,11 @@ import "./ServiceSpectrum.css";
 import { motion } from "framer-motion";
 import services from "@/data/services";
 import { useState, useEffect } from "react";
-import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
-import { ASSET_PATHS } from "@/lib/constants/paths";
 import Image from "next/image";
 
 const ServiceSpectrum = () => {
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
-  const [showContactForm, setShowContactForm] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = showContactForm ? "hidden" : "auto";
-  }, [showContactForm]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -64,13 +57,15 @@ const ServiceSpectrum = () => {
                   width={80}
                   height={80}
                 />
+                <h3 className="service-title">{title}</h3>
+                {isMobile && (
+                  <p className="service-description">{description}</p>
+                )}
               </div>
-              <h3 className="service-title">{title}</h3>
-              {isMobile && <p className="service-description">{description}</p>}
-            </div>
-            <div className="card-back">
-              <h3 className="service-title">{title}</h3>
-              <p className="service-description">{description}</p>
+              <div className="card-back">
+                <h3 className="service-title">{title}</h3>
+                <p className="service-description">{description}</p>
+              </div>
             </div>
           </div>
         ))}

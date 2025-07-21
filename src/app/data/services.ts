@@ -17,21 +17,21 @@ const services = [
     id: "sb3",
     title: "Front End Development",
     description:
-      "I convert ideas and interfaces into responsive, accessible, production-ready code. My code is thoughtful, maintainable, and responsive — bridging the gap between creativity and functionality while keeping performance and accessibility in focus. Think smooth transitions, semantic structure, and a UI that actually feels like it was built for people.",
+      "I convert ideas and interfaces into responsive, accessible, production-ready code. My code is thoughtful, maintainable, and responsive. Think smooth transitions, semantic structure, and a UI that actually feels like it was built for people.",
     icon: "/icons/FED.png",
   },
   {
     id: "sb4",
     title: "API & Microservices",
     description:
-      "Good software needs solid structure. I design APIs that act like reliable messengers — fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations — the goal is clean communication between systems, no drama",
+      "Good software needs solid structure. I design APIs that act like reliable messengers: fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations, the goal is clean communication between systems, no drama",
     icon: "/icons/AM.png",
   },
   {
     id: "sb5",
     title: "Cloud & DevOps",
     description:
-      "I set up infrastructure that doesn't get in your way. I help take projects from 'it works on my machine..' to 'it works everywhere!' From Docker containers and CI/CD pipelines to AWS and Azure deployments, I automate the tedious stuff so your ideas ship faster — and more reliably. Out of sight but not out of mind - infrastructure as it should be.",
+      "I set up infrastructure that doesn't get in your way. I help take projects from 'it works on my machine..' to 'it works everywhere!' From Docker containers and CI/CD pipelines to AWS and Azure deployments, I automate the tedious stuff so your ideas ship faster and more reliably. Out of sight but not out of mind - infrastructure as it should be.",
     icon: "/icons/CDO.png",
   },
   {
@@ -45,7 +45,7 @@ const services = [
     id: "sb7",
     title: "Automation & Scripting",
     description:
-      "If it's repetitive, it can/should be automated and if I can automate it, I will. I build lightweight scripts and tools that cut down on repetitive tasks, reduce human error, and free up time for the stuff that actually needs a human.",
+      "If it's repetitive, it likely can/should be automated and if I can automate it, I will. I build lightweight scripts and tools that cut down on repetitive tasks, reduce human error, and free up time for the stuff that actually needs a human.",
     icon: "/icons/AS.png",
   },
 ];
