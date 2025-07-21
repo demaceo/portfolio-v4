@@ -1,15 +1,14 @@
+"use client";
+
 import { motion } from "framer-motion";
 import projectData from "../../utilities/projectData";
 import Image, { StaticImageData } from "next/image";
-
 import "./ProjectGallery.css";
 
 export default function ProjectGallery() {
   // ── separate live vs. archived work ──────────────────────────────
   const activeProjects = projectData.filter((p) => !p.archived);
   const archivedProjects = projectData.filter((p) => p.archived);
-
-  // ── helper that returns an animated card ─────────────────────────
 
   type Project = {
     id: number;
@@ -21,6 +20,7 @@ export default function ProjectGallery() {
     archived?: boolean;
   };
 
+  // ── helper that returns an animated card ─────────────────────────
   const card = (
     { id, image, name, description, link, icon }: Project,
     index: number,
@@ -49,6 +49,8 @@ export default function ProjectGallery() {
             className="project-image"
             src={image}
             alt={name}
+            width={400}
+            height={250}
             loading="lazy"
             onError={(e) => {
               const img = e.target as HTMLImageElement;
