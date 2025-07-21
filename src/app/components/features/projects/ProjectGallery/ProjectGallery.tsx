@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { projectsData } from "@/data/projects";
-import { Project } from "@/lib/types";
 import Image, { StaticImageData } from "next/image";
 import "./ProjectGallery.css";
 

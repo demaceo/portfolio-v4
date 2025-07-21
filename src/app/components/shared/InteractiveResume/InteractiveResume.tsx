@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import DemaceoResume from "../../utilities/DemaceoResume";
+import DemaceoResume from "@/data/DemaceoResume";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./InteractiveResume.css";
