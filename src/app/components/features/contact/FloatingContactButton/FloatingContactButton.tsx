@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ContactForm from "../ContactForm/ContactForm";
-import logo from "../../../assets/logo/PORTFOLIO_LOGO.png";
+import { ASSET_PATHS } from "@/lib/constants/paths";
 import "./FloatingContactButton.css";
 
 const FloatingContactButton: React.FC = () => {
@@ -39,7 +39,7 @@ const FloatingContactButton: React.FC = () => {
         title="Contact Me"
       >
         <Image
-          src={logo}
+          src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
           alt="Contact"
           width={60}
           height={60}

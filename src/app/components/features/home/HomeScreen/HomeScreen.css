@@ -27,7 +27,7 @@
 .macintosh-container {
   height: 100vh;
   /* background: #c0c0c0; */
-  background-image: url("../../../assets/bg/palmtreeleaves-5.jpg");
+  background-image: url("/images/palmtreeleaves-5.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -37,7 +37,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  /* cursor: url("../../../assets/logo/logo(light).png") 6 6, default; */
+  /* cursor: url("/logos/logo(light).png") 6 6, default; */
 }
 
 .mac-screen {
@@ -396,7 +396,7 @@
 .iphone-container {
   height: 100vh;
   width: 100vw;
-  background-image: url("../../../assets/bg/palmtreeleaves-7.jpg");
+  background-image: url("/images/palmtreeleaves-7.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

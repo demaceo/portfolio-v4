@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import principlesData from "../../utilities/principlesData";
+import principlesData from "@/data/principles";
 import "./PrinciplesList.css";
 
 export default function PrinciplesList() {

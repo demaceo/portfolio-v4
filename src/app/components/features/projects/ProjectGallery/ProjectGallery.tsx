@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import projectData from "../../utilities/projectData";
+import { projectsData } from "@/data/projects";
+import { Project } from "@/lib/types";
 import Image, { StaticImageData } from "next/image";
 import "./ProjectGallery.css";
 
 export default function ProjectGallery() {
   // ── separate live vs. archived work ──────────────────────────────
-  const activeProjects = projectData.filter((p) => !p.archived);
-  const archivedProjects = projectData.filter((p) => p.archived);
+  const activeProjects = projectsData.filter((p: Project) => !p.archived);
+  const archivedProjects = projectsData.filter((p: Project) => p.archived);
 
   type Project = {
     id: number;

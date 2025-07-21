@@ -1,6 +1,6 @@
-import AboutMe from "../components/AboutMe/AboutMe";
-import Layout from "../components/Layout/Layout";
-import FloatingContactButton from "../components/FloatingContactButton/FloatingContactButton";
+import AboutMe from "@/components/shared/AboutMe/AboutMe";
+import Layout from "@/components/ui/Layout/Layout";
+import FloatingContactButton from "@/components/features/contact/FloatingContactButton/FloatingContactButton";
 
 export default function MindsetPage() {
   return (

@@ -17,11 +17,11 @@ import {
   // faFilm,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import ContactForm from "../ContactForm/ContactForm";
+import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
 import QuirkyModal from "../QuirkyPopup/QuirkyPopup";
 import RandomButton from "../RandomButton/RandomButton";
-import logo from "../../../assets/logo/PORTFOLIO_LOGO.png";
-import projectData from "../../utilities/projectData";
+import { ASSET_PATHS } from "@/lib/constants/paths";
+import { projectsData } from "@/data/projects";
 import Image from "next/image";
 import "./HomeScreen.css";
 
@@ -183,7 +183,7 @@ const HomeScreen = () => {
     { name: "Contact", icon: faEnvelope, path: "/contact" },
   ];
 
-  const mobileApps = projectData
+  const mobileApps = projectsData
     .filter((project) => !project.archived)
     .slice(0, 6)
     .map((project) => {
@@ -195,7 +195,7 @@ const HomeScreen = () => {
       } else if (project.icon === "fa fa-paw icon") {
         icon = faPaw;
       } else if (project.id === 1 || project.id === 0) {
-        image = project.image;
+        image = project.image ?? "";
         // } else if (project.icon === "fas fa-robot icon") {
         //   icon = faRobot;
         // } else if (project.icon === "fas fa-music icon") {
@@ -224,7 +224,13 @@ const HomeScreen = () => {
       <div className="iphone-container">
         <div className="iphone-screen">
           <div className="status-bar">
-            <Image className="carrier" alt="portfolio-logo" src={logo} />
+            <Image
+              className="carrier"
+              alt="portfolio-logo"
+              src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
+              width={20}
+              height={20}
+            />
             <span className="time">{formatTime(currentTime)}</span>
           </div>
 
@@ -266,6 +272,8 @@ const HomeScreen = () => {
                         className="app-image"
                         src={app.image}
                         alt={app.name}
+                        width={32}
+                        height={32}
                       />
                     )}
                   </span>
@@ -357,7 +365,13 @@ const HomeScreen = () => {
       >
         <div className="menu-bar">
           <div className="menu-left">
-            <Image className="my-logo" alt="portfolio-logo" src={logo} />
+            <Image
+              className="my-logo"
+              alt="portfolio-logo"
+              src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
+              width={24}
+              height={24}
+            />
             <span
               className="menu-item"
               onClick={handleFileClick}

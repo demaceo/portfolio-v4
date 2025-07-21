@@ -1,5 +1,5 @@
-import ProjectGallery from "../components/ProjectGallery/ProjectGallery";
-import Layout from "../components/Layout/Layout";
+import ProjectGallery from "@/components/features/projects/ProjectGallery/ProjectGallery";
+import Layout from "@/components/ui/Layout/Layout";
 
 export default function ProjectsPage() {
   return (

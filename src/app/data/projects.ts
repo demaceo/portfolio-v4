@@ -1,7 +1,6 @@
-import ppLogo from "../../assets/icons/pp_icon.png";
-import unmaskedIcon from "../../assets/icons/unmasked-logo.png";
+import { Project } from "@/lib/types";
 
-const projectData = [
+const projectData: Project[] = [
   {
     id: 8,
     name: "Engineer My Career",
@@ -14,7 +13,7 @@ const projectData = [
   {
     id: 0,
     name: "Pinpoint",
-    image: ppLogo,
+    image: "/icons/pp_icon.png",
     description:
       "A tool to help U.S. citizens find and engage with their elected officials using data visualization and AI-powered message drafting.",
     link: "https://pinpoint-flax.vercel.app/",
@@ -23,7 +22,7 @@ const projectData = [
   {
     id: 1,
     name: "Unmasked Coaching",
-    image: unmaskedIcon,
+    image: "/icons/unmasked-logo.png",
     description:
       "Unmasked Coaching helps individuals unlock their true potential through personalized career guidance, professional development, and strategic growth.",
     link: "https://unmasked-coaching.com",
@@ -48,7 +47,6 @@ const projectData = [
       "Moody Tunes is a music recommendation engine that provides music recommendations based on a user's mood. Users are able to save songs into their 'Favorites' and view the information at a later time, or play the song directly from Spotify.",
     link: "https://demaceo.github.io/moodytoonz/",
     icon: "fas fa-theater-masks icon",
-    con: "fa fa-paw icon",
     archived: true,
   },
   // {
@@ -95,3 +93,5 @@ const projectData = [
 ];
 
 export default projectData;
+export { projectData };
+export { projectData as projectsData };

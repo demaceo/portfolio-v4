@@ -2,10 +2,10 @@
 
 import "./ServiceSpectrum.css";
 import { motion } from "framer-motion";
-import services from "../../utilities/servicesData";
+import services from "@/data/services";
 import { useState, useEffect } from "react";
-import ContactForm from "../ContactForm/ContactForm";
-import logoFelt from "../../../assets/logo/PORTFOLIO_LOGO.png";
+import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
+import { ASSET_PATHS } from "@/lib/constants/paths";
 import Image from "next/image";
 
 const ServiceSpectrum = () => {

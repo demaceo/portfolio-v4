@@ -2,7 +2,7 @@
 "use client";
 
 import "./NavBar.css";
-import logo from "../../../assets/logo/logo(light).png";
+import { ASSET_PATHS } from "@/lib/constants/paths";
 import { useState, memo, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -37,7 +37,13 @@ const NavBar = memo(() => {
   return (
     <header className={`nav-container ${showNavbar ? "visible" : "hidden"}`}>
       <Link href="/" className="logo-container" onClick={closeMenu}>
-        <Image className="logo" alt="portfolio-logo" src={logo} />
+        <Image
+          className="logo"
+          alt="portfolio-logo"
+          src={`${ASSET_PATHS.LOGOS}/logo(light).png`}
+          width={50}
+          height={50}
+        />
         <div className="descriptor-container">
           <div className="name">Demaceo Vincent</div>
           <div className="occupation">Developer | Designer </div>
