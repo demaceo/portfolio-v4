@@ -75,43 +75,6 @@ const ServiceSpectrum = () => {
           </div>
         ))}
       </div>
-
-      {/* Contact card */}
-      <div
-        className="contact-logo-card"
-        onClick={() => setShowContactForm(true)}
-      >
-        <div className="card-inner no-flip">
-          <div className="card-front">
-            <div className="illustration-container">
-              <Image
-                src={logoFelt}
-                alt="Contact"
-                loading="lazy"
-                decoding="async"
-                className="illustration"
-                width={80}
-                height={80}
-              />
-            </div>
-            <h3 className="contact-title">Contact</h3>
-          </div>
-        </div>
-      </div>
-
-      {showContactForm && (
-        <div
-          className="contact-modal-overlay"
-          onClick={() => setShowContactForm(false)}
-        >
-          <div
-            className="contact-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ContactForm onClose={() => setShowContactForm(false)} />
-          </div>
-        </div>
-      )}
     </motion.section>
   );
 };
