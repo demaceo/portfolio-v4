@@ -1,15 +1,10 @@
 import ProjectGallery from "../components/ProjectGallery/ProjectGallery";
-import Link from "next/link";
+import Layout from "../components/Layout/Layout";
 
 export default function ProjectsPage() {
   return (
-    <main>
-      <nav style={{ padding: "1rem", background: "#f5f5f5" }}>
-        <Link href="/" style={{ textDecoration: "none", color: "#007acc" }}>
-          ← Back to Home
-        </Link>
-      </nav>
+    <Layout>
       <ProjectGallery />
-    </main>
+    </Layout>
   );
 }

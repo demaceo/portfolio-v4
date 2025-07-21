@@ -1,3 +1,5 @@
+"use client";
+
 import "./ServiceSpectrum.css";
 import { motion } from "framer-motion";
 import services from "../../utilities/servicesData";
@@ -25,7 +27,6 @@ const ServiceSpectrum = () => {
 
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
 
   const handleCardToggle = (index: number): void =>
     setFlippedIndex((prev: number | null) => (prev === index ? null : index));
@@ -89,6 +90,8 @@ const ServiceSpectrum = () => {
                 loading="lazy"
                 decoding="async"
                 className="illustration"
+                width={80}
+                height={80}
               />
             </div>
             <h3 className="contact-title">Contact</h3>

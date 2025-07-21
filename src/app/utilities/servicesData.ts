@@ -1,10 +1,10 @@
-import webappsIcon from "../../../assets/icons/WACS.png";
-import mobileappIcon from "../../../assets/icons/MAD.png";
-import frontendIcon from "../../../assets/icons/FED.png";
-import apiIcon from "../../../assets/icons/AM.png";
-import clouddevopsIcon from "../../../assets/icons/CDO.png";
-import databasesIcon from "../../../assets/icons/DDD.png";
-import automationIcon from "../../../assets/icons/AS.png";
+import webappsIcon from "../../assets/icons/WACS.png";
+import mobileappIcon from "../../assets/icons/MAD.png";
+import frontendIcon from "../../assets/icons/FED.png";
+import apiIcon from "../../assets/icons/AM.png";
+import clouddevopsIcon from "../../assets/icons/CDO.png";
+import databasesIcon from "../../assets/icons/DDD.png";
+import automationIcon from "../../assets/icons/AS.png";
 
 const services = [
   {

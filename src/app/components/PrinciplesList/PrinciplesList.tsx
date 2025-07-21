@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import principlesData from "../../utilities/principlesData";
 import "./PrinciplesList.css";

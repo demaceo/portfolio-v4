@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import Layout from "../../components/Layout/Layout";
 import projectData from "../../utilities/projectData";
 
 interface ProjectPageProps {
@@ -18,8 +19,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   }
 
   return (
-    <main>
-      <nav style={{ padding: "1rem", background: "#f5f5f5" }}>
+    <Layout>
+      <div
+        style={{ padding: "1rem", background: "#f5f5f5", marginBottom: "2rem" }}
+      >
         <Link
           href="/"
           style={{
@@ -36,7 +39,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         >
           ← Back to Projects
         </Link>
-      </nav>
+      </div>
       <div className="project-detail" style={{ padding: "2rem" }}>
         <h1>{project.name}</h1>
         <p>{project.description}</p>
@@ -55,7 +58,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </a>
         )}
       </div>
-    </main>
+    </Layout>
   );
 }
 

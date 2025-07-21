@@ -1,15 +1,10 @@
 import AboutMe from "../components/AboutMe/AboutMe";
-import Link from "next/link";
+import Layout from "../components/Layout/Layout";
 
 export default function MindsetPage() {
   return (
-    <main>
-      <nav style={{ padding: "1rem", background: "#f5f5f5" }}>
-        <Link href="/" style={{ textDecoration: "none", color: "#007acc" }}>
-          ← Back to Home
-        </Link>
-      </nav>
+    <Layout>
       <AboutMe />
-    </main>
+    </Layout>
   );
 }

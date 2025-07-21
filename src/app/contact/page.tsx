@@ -1,15 +1,21 @@
-import Contact from "../components/Contact/Contact";
-import Link from "next/link";
+import ContactForm from "../components/ContactForm/ContactForm";
+import NavBar from "../components/NavBar/NavBar";
 
 export default function ContactPage() {
   return (
-    <main>
-      <nav style={{ padding: "1rem", background: "#f5f5f5" }}>
-        <Link href="/" style={{ textDecoration: "none", color: "#007acc" }}>
-          ← Back to Home
-        </Link>
-      </nav>
-      <Contact />
-    </main>
+    <div className="portfolio-container">
+      <NavBar />
+      <main
+        style={{
+          minHeight: "80vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
+        <ContactForm onClose={() => window.history.back()} />
+      </main>
+    </div>
   );
 }

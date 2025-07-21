@@ -1,17 +1,16 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import "../styles/NavBar.css";
-import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logo/logo(light).png";
+import "./NavBar.css";
+import logo from "../../../assets/logo/logo(light).png";
 import { useState, memo, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/dist/client/link";
 
 const NavBar = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const location = useLocation();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -35,7 +34,7 @@ const NavBar = memo(() => {
 
   return (
     <header className={`nav-container ${showNavbar ? "visible" : "hidden"}`}>
-      <Link to="/" className="logo-container" onClick={closeMenu}>
+      <Link href="/" className="logo-container" onClick={closeMenu}>
         <Image className="logo" alt="portfolio-logo" src={logo} />
         <div className="descriptor-container">
           <div className="name">Demaceo Vincent</div>
@@ -62,7 +61,7 @@ const NavBar = memo(() => {
           className={`nav-links-container${isMenuOpen ? "-open" : ""}`}
         >
           <Link
-            to="/mindset"
+            href="/mindset"
             className={`nav-link ${
               location.pathname === "/mindset" ? "active-link" : ""
             }`}
@@ -71,7 +70,7 @@ const NavBar = memo(() => {
             MINDSET{" "}
           </Link>
           <Link
-            to="/skillset"
+            href="/skillset"
             className={`nav-link ${
               location.pathname === "/skillset" ? "active-link" : ""
             }`}
@@ -81,7 +80,7 @@ const NavBar = memo(() => {
           </Link>
 
           <Link
-            to="/projects"
+            href="/projects"
             className={`nav-link ${
               location.pathname === "/projects" ? "active-link" : ""
             }`}

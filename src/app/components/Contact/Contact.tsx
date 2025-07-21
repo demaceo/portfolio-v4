@@ -1,10 +1,13 @@
+"use client";
+
 import "./Contact.css";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import ContactForm from "../ContactForm/ContactForm";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Link from "next/dist/client/link";
+
 
 export default function Contact() {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -55,7 +58,7 @@ export default function Contact() {
           </button>
 
           <Link
-            to="https://www.linkedin.com/in/demaceo/"
+            href="https://www.linkedin.com/in/demaceo/"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-contact-link"
