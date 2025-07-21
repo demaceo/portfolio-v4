@@ -5,9 +5,11 @@ import "./NavBar.css";
 import logo from "../../../assets/logo/logo(light).png";
 import { useState, memo, useEffect } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Link from "next/dist/client/link";
 
 const NavBar = memo(() => {
+  const location = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -63,7 +65,7 @@ const NavBar = memo(() => {
           <Link
             href="/mindset"
             className={`nav-link ${
-              location.pathname === "/mindset" ? "active-link" : ""
+              location === "/mindset" ? "active-link" : ""
             }`}
             onClick={closeMenu}
           >
@@ -72,7 +74,7 @@ const NavBar = memo(() => {
           <Link
             href="/skillset"
             className={`nav-link ${
-              location.pathname === "/skillset" ? "active-link" : ""
+              location === "/skillset" ? "active-link" : ""
             }`}
             onClick={closeMenu}
           >
@@ -82,7 +84,7 @@ const NavBar = memo(() => {
           <Link
             href="/projects"
             className={`nav-link ${
-              location.pathname === "/projects" ? "active-link" : ""
+              location === "/projects" ? "active-link" : ""
             }`}
             onClick={closeMenu}
           >
