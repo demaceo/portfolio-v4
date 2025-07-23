@@ -7,7 +7,16 @@ import ContactForm from "../ContactForm/ContactForm";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/dist/client/link";
+import { EXTERNAL_LINKS } from "@/lib/constants/paths";
 
+// Declare Calendly for TypeScript
+declare global {
+  interface Window {
+    Calendly: {
+      initPopupWidget: (options: { url: string }) => void;
+    };
+  }
+}
 
 export default function Contact() {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -18,7 +27,36 @@ export default function Contact() {
     } else {
       document.body.style.overflow = "auto";
     }
+
+    // Load Calendly script
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Load Calendly CSS
+    const link = document.createElement("link");
+    link.href = "https://assets.calendly.com/assets/external/widget.css";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    return () => {
+      // Cleanup
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
   }, [showContactForm]);
+
+  const handleCalendlyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({ url: EXTERNAL_LINKS.CALENDLY });
+    }
+  };
 
   return (
     <>
@@ -58,7 +96,7 @@ export default function Contact() {
           </button>
 
           <Link
-            href="https://www.linkedin.com/in/demaceo/"
+            href={EXTERNAL_LINKS.LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
             className="footer-contact-link"
@@ -66,6 +104,14 @@ export default function Contact() {
             <FontAwesomeIcon className="contact-icon" icon={faLinkedinIn} />
             <span className="contact-text">LinkedIn</span>
           </Link>
+
+          <button
+            className="popup-button calendly-contact-btn"
+            onClick={handleCalendlyClick}
+          >
+            <i className="fas fa-calendar-alt contact-icon"></i>
+            <span className="contact-text">Schedule a Chat</span>
+          </button>
         </div>
       </motion.section>
     </>

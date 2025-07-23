@@ -140,6 +140,82 @@
   font-size: 11px;
 }
 
+/* Alternative Contact Methods */
+.alternative-contact-methods {
+  padding: 15px;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f8f8;
+}
+
+.contact-divider {
+  text-align: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.contact-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #d0d0d0;
+  z-index: 1;
+}
+
+.contact-divider span {
+  background: #f8f8f8;
+  padding: 0 10px;
+  font-size: 11px;
+  color: #666;
+  position: relative;
+  z-index: 2;
+}
+
+.alternative-buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.alternative-contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border: 1px solid #3b3a3a;
+  background: #ffffff;
+  color: #3b3a3a;
+  text-decoration: none;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.alternative-contact-btn:hover {
+  background: #3b3a3a;
+  color: #ffffff;
+  box-shadow: 1px 1px 0px #000000;
+}
+
+.alternative-contact-btn i {
+  font-size: 12px;
+}
+
+.linkedin-btn:hover {
+  background: #0077b5;
+  border-color: #0077b5;
+}
+
+.calendly-btn:hover {
+  background: #006bff;
+  border-color: #006bff;
+}
+
 /* Responsive */
 @media (max-width: 500px) {
   .email-form-wrapper {
@@ -151,6 +227,15 @@
   }
 
   .contact-window-title {
+    font-size: 10px;
+  }
+
+  .alternative-buttons {
+    gap: 8px;
+  }
+
+  .alternative-contact-btn {
+    padding: 8px 12px;
     font-size: 10px;
   }
 }

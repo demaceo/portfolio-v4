@@ -9,11 +9,11 @@ export const ROUTES = {
     MINDSET: '/mindset',
     SKILLSET: '/skillset',
     PROJECTS: '/projects',
-    PROJECT: '/project',
 } as const;
 
 export const EXTERNAL_LINKS = {
     GITHUB: 'https://github.com/demaceovincent',
     LINKEDIN: 'https://linkedin.com/in/demaceovincent',
     EMAIL: 'mailto:hello@demaceo.com',
+    CALENDLY: 'https://calendly.com/demaceo/30min',
 } as const;

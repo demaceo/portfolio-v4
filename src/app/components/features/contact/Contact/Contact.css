@@ -142,6 +142,31 @@
   transform: scale(1.1);
 }
 
+.calendly-contact-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 107, 255, 0.1) 0%,
+    rgba(0, 89, 255, 0.05) 100%
+  );
+  border: 1px solid rgba(0, 107, 255, 0.3);
+}
+
+.calendly-contact-btn:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 107, 255, 0.8) 0%,
+    rgba(0, 89, 255, 0.9) 100%
+  );
+  border-color: rgba(0, 107, 255, 0.8);
+  box-shadow: 0 20px 40px rgba(0, 107, 255, 0.3),
+    0 0 30px rgba(0, 107, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.calendly-contact-btn:hover .contact-icon {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
 .contact-text {
   font-size: 1rem;
   font-weight: 500;

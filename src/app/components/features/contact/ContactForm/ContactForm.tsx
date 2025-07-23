@@ -1,10 +1,20 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
+import { EXTERNAL_LINKS } from "@/lib/constants/paths";
 import "./ContactForm.css";
 
 interface ContactFormProps {
   onClose: () => void;
+}
+
+// Declare Calendly for TypeScript
+declare global {
+  interface Window {
+    Calendly: {
+      initPopupWidget: (options: { url: string }) => void;
+    };
+  }
 }
 
 const ContactForm = ({ onClose }: ContactFormProps) => {
@@ -14,7 +24,36 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
 
   useEffect(() => {
     nameInputRef.current?.focus();
+
+    // Load Calendly script
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Load Calendly CSS
+    const link = document.createElement("link");
+    link.href = "https://assets.calendly.com/assets/external/widget.css";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    return () => {
+      // Cleanup
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
   }, []);
+
+  const handleCalendlyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({ url: EXTERNAL_LINKS.CALENDLY });
+    }
+  };
 
   type ShowMessageFn = (message: string) => void;
 
@@ -105,6 +144,32 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
         >
           {stateMessage}
         </p>
+
+        <div className="alternative-contact-methods">
+          <div className="contact-divider">
+            <span>or connect via</span>
+          </div>
+
+          <div className="alternative-buttons">
+            <a
+              href={EXTERNAL_LINKS.LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="alternative-contact-btn linkedin-btn"
+            >
+              <i className="fab fa-linkedin-in"></i>
+              LinkedIn
+            </a>
+
+            <button
+              onClick={handleCalendlyClick}
+              className="alternative-contact-btn calendly-btn"
+            >
+              <i className="fas fa-calendar-alt"></i>
+              Schedule a Coffee Chat
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
