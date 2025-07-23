@@ -119,7 +119,7 @@ const QuirkyPopup: React.FC<QuirkyPopupProps> = ({
           </p>
           {showRandomButton && (
             <div className="and-then-hint">
-              <p>Click the button below to continue the adventure...</p>
+              <p>Click the button, wherever it is.</p>
             </div>
           )}
         </div>
