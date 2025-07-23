@@ -12,8 +12,8 @@ export const ROUTES = {
 } as const;
 
 export const EXTERNAL_LINKS = {
-    GITHUB: 'https://github.com/demaceovincent',
-    LINKEDIN: 'https://linkedin.com/in/demaceovincent',
-    EMAIL: 'mailto:hello@demaceo.com',
+    GITHUB: 'https://github.com/demaceo',
+    LINKEDIN: 'https://linkedin.com/in/demaceo',
+    EMAIL: 'mailto:hdemaceo@gmail.com',
     CALENDLY: 'https://calendly.com/demaceo/30min',
 } as const;

@@ -56,7 +56,7 @@ const QuirkyPopup: React.FC<QuirkyPopupProps> = ({
       case "edit":
         return "✏️";
       case "view":
-        return "🙃";
+        return "�️";
       case "special":
         return "✨";
       default:
@@ -64,41 +64,75 @@ const QuirkyPopup: React.FC<QuirkyPopupProps> = ({
     }
   };
 
+  const getAriaLabel = () => {
+    switch (type) {
+      case "file":
+        return "File menu notification";
+      case "edit":
+        return "Edit menu notification";
+      case "view":
+        return "View menu notification";
+      case "special":
+        return "Special effects notification";
+      default:
+        return "Notification";
+    }
+  };
+
   return (
     <div
       className="quirky-modal-overlay"
       onClick={showRandomButton ? undefined : onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-message"
     >
       <div
         className={`quirky-modal ${getModalClass()}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="quirky-modal-header">
-          <span className="quirky-modal-icon">{getIcon()}</span>
+          <div className="modal-header-content">
+            <span
+              className="quirky-modal-icon"
+              role="img"
+              aria-label={getAriaLabel()}
+            >
+              {getIcon()}
+            </span>
+          </div>
           {!showRandomButton && (
-            <button className="quirky-modal-close" onClick={onClose}>
+            <button
+              className="quirky-modal-close"
+              onClick={onClose}
+              aria-label="Close notification"
+              type="button"
+            >
               ×
             </button>
           )}
         </div>
         <div className="quirky-modal-content">
-          <p className="quirky-modal-message">{message}</p>
+          <p id="modal-message" className="quirky-modal-message">
+            {message}
+          </p>
           {showRandomButton && (
             <div className="and-then-hint">
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "#666",
-                  fontStyle: "italic",
-                  marginTop: "10px",
-                }}
-              ></p>
+              <p>Click the button below to continue the adventure...</p>
             </div>
           )}
         </div>
         {!showRandomButton && (
           <div className="quirky-modal-footer">
-            <div className="quirky-modal-progress"></div>
+            <div
+              className="quirky-modal-progress"
+              role="progressbar"
+              aria-label="Auto-close timer"
+              aria-valuenow={100}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            ></div>
           </div>
         )}
       </div>

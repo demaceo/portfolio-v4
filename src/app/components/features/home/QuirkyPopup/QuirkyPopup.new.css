@@ -101,12 +101,6 @@
   position: relative;
 }
 
-.modal-header-content {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
 .quirky-modal-icon {
   font-size: 28px;
   margin-right: 16px;

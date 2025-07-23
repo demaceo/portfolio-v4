@@ -1,0 +1,862 @@
+/* Modern Clean Quirky Modal Styles */
+.quirky-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px) saturate(1.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: modernFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+@keyframes modernFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(1);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(12px) saturate(1.1);
+  }
+}
+
+.quirky-modal {
+  background: linear-gradient(
+    145deg,
+    rgba(25, 25, 45, 0.95) 0%,
+    rgba(30, 30, 55, 0.98) 25%,
+    rgba(20, 20, 40, 0.95) 75%,
+    rgba(15, 15, 35, 0.98) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 16px 40px rgba(0, 0, 0, 0.4),
+    0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3), 0 0 40px rgba(92, 129, 202, 0.15),
+    0 0 80px rgba(249, 140, 112, 0.1);
+  width: 90%;
+  max-width: 480px;
+  min-height: 160px;
+  position: relative;
+  overflow: hidden;
+  animation: futuristicSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter",
+    "SF Pro Display", sans-serif;
+  cursor: default;
+  backdrop-filter: blur(20px);
+}
+
+/* Futuristic glow border animation */
+.quirky-modal::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    rgba(92, 129, 202, 0.6) 0%,
+    rgba(249, 140, 112, 0.6) 25%,
+    rgba(139, 69, 19, 0.6) 50%,
+    rgba(92, 129, 202, 0.6) 75%,
+    rgba(249, 140, 112, 0.6) 100%
+  );
+  background-size: 400% 400%;
+  border-radius: 26px;
+  z-index: -1;
+  animation: futuristicBorderFlow 4s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes futuristicBorderFlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes futuristicSlideIn {
+  from {
+    transform: translate3d(0, 60px, 0) scale(0.8);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.quirky-modal-header {
+  background: linear-gradient(
+    135deg,
+    rgba(92, 129, 202, 0.15) 0%,
+    rgba(249, 140, 112, 0.15) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Futuristic scanning line effect */
+.quirky-modal-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(92, 129, 202, 0.3) 50%,
+    transparent 100%
+  );
+  animation: futuristicScan 3s ease-in-out infinite;
+}
+
+@keyframes futuristicScan {
+  0%,
+  100% {
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    left: 100%;
+    opacity: 1;
+  }
+}
+
+.quirky-modal-icon {
+  font-size: 32px;
+  margin-right: 16px;
+  background: linear-gradient(
+    135deg,
+    var(--gradient-start, rgba(92, 129, 202, 1)) 0%,
+    var(--gradient-end, rgba(249, 140, 112, 1)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: futuristicIconPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(92, 129, 202, 0.5));
+}
+
+@keyframes futuristicIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(92, 129, 202, 0.5));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 20px rgba(249, 140, 112, 0.7));
+  }
+}
+
+.quirky-modal-close {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 10;
+}
+
+.quirky-modal-close:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 90, 95, 0.8) 0%,
+    rgba(255, 70, 85, 0.9) 100%
+  );
+  border-color: rgba(255, 90, 95, 0.6);
+  color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(255, 90, 95, 0.4);
+}
+
+.quirky-modal-close:active {
+  transform: scale(0.95);
+}
+
+.quirky-modal-content {
+  padding: 32px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.quirky-modal-message {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced Progress Bar */
+.quirky-modal-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--gradient-start, rgba(92, 129, 202, 1)) 0%,
+    var(--gradient-end, rgba(249, 140, 112, 1)) 100%
+  );
+  border-radius: 0 0 24px 24px;
+  animation: futuristicProgress 3s linear forwards;
+  box-shadow: 0 0 20px rgba(92, 129, 202, 0.6),
+    0 0 40px rgba(249, 140, 112, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+@keyframes futuristicProgress {
+  from {
+    width: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* Type-specific styling */
+.quirky-modal.type-file .quirky-modal-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.quirky-modal.type-edit .quirky-modal-icon {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: futuristicShake 0.5s ease-in-out infinite;
+}
+
+@keyframes futuristicShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.quirky-modal.type-view .quirky-modal-icon {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: futuristicFlip 1s ease-in-out infinite;
+}
+
+@keyframes futuristicFlip {
+  0%,
+  100% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+}
+
+.quirky-modal.type-special .quirky-modal-icon {
+  background: linear-gradient(
+    135deg,
+    #ff0081 0%,
+    #ff8c42 25%,
+    #ffff00 50%,
+    #00ff41 75%,
+    #0080ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 300% 300%;
+  animation: futuristicRainbow 2s linear infinite;
+}
+
+@keyframes futuristicRainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Special rainbow progress bar */
+.quirky-modal.type-special .quirky-modal-progress {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3,
+    #ff0000
+  );
+  background-size: 400% 100%;
+  animation: futuristicProgress 3s linear forwards,
+    futuristicRainbowFlow 1.5s linear infinite,
+    futuristicSpecialGlow 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.6), 0 0 40px rgba(0, 212, 255, 0.4);
+}
+
+@keyframes futuristicRainbowFlow {
+  0% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: -400% 0;
+  }
+}
+
+@keyframes futuristicSpecialGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.6), 0 0 40px rgba(0, 212, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.8), 0 0 60px rgba(0, 212, 255, 0.6),
+      0 0 80px rgba(148, 0, 211, 0.4);
+  }
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 480px) {
+  .quirky-modal {
+    width: 95%;
+    margin: 10px;
+    max-width: none;
+    border-radius: 20px;
+  }
+
+  .quirky-modal-message {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .quirky-modal-content {
+    padding: 24px 20px;
+  }
+
+  .quirky-modal-header {
+    padding: 16px 20px;
+  }
+
+  .quirky-modal-icon {
+    font-size: 28px;
+  }
+
+  .quirky-modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 320px) {
+  .quirky-modal {
+    width: 98%;
+    margin: 5px;
+  }
+
+  .quirky-modal-message {
+    font-size: 14px;
+  }
+
+  .quirky-modal-content {
+    padding: 20px 16px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .quirky-modal,
+  .quirky-modal-overlay,
+  .quirky-modal-icon,
+  .quirky-modal-close,
+  .quirky-modal-progress,
+  .quirky-modal-header::after,
+  .quirky-modal::before {
+    animation: none !important;
+  }
+
+  .quirky-modal-overlay {
+    transition: opacity 0.3s ease;
+  }
+
+  .quirky-modal {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: dark) {
+  .quirky-modal {
+    background: linear-gradient(
+      145deg,
+      rgba(15, 15, 25, 0.98) 0%,
+      rgba(20, 20, 35, 0.99) 25%,
+      rgba(10, 10, 20, 0.98) 75%,
+      rgba(8, 8, 18, 0.99) 100%
+    );
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .quirky-modal {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .quirky-modal-message {
+    color: #ffffff;
+  }
+}
+
+.quirky-modal-icon {
+  font-size: 28px;
+  animation: iconBounce 0.8s ease-out, iconGlow 2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  z-index: 1;
+  position: relative;
+}
+
+@keyframes iconBounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-12px) scale(1.1);
+  }
+  60% {
+    transform: translateY(-6px) scale(1.05);
+  }
+}
+
+@keyframes iconGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6),
+      0 0 25px rgba(255, 215, 0, 0.3);
+  }
+}
+
+.quirky-modal-close {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+  border: 2px solid #e53e3e;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  z-index: 1;
+  position: relative;
+}
+
+.quirky-modal-close:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%);
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(255, 82, 82, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.quirky-modal-close:active {
+  transform: scale(1.05) rotate(90deg);
+  box-shadow: 0 2px 8px rgba(255, 82, 82, 0.4);
+}
+
+.quirky-modal-content {
+  padding: 25px 20px;
+  text-align: center;
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.quirky-modal-message {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.5;
+  animation: messageTypewriter 1s ease-out, messageGlow 3s ease-in-out infinite;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.3px;
+}
+
+@keyframes messageTypewriter {
+  from {
+    width: 0;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    opacity: 0.7;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageGlow {
+  0%,
+  100% {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(74, 144, 226, 0.3);
+  }
+}
+
+.quirky-modal-footer {
+  height: 6px;
+  background: linear-gradient(90deg, #e9ecef 0%, #dee2e6 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.quirky-modal-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
+  background-size: 200% 100%;
+  width: 0;
+  animation: progressBar 3s linear forwards, progressFlow 2s linear infinite;
+  box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+}
+
+@keyframes progressFlow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes progressBar {
+  to {
+    width: 100%;
+  }
+}
+
+/* File Modal Theme - Enhanced */
+.quirky-modal-file {
+  border-color: #2196f3;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(33, 150, 243, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.quirky-modal-file .quirky-modal-header {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+  border-bottom-color: #64b5f6;
+}
+
+.quirky-modal-file .quirky-modal-progress {
+  background: linear-gradient(90deg, #2196f3 0%, #03a9f4 50%, #2196f3 100%);
+  background-size: 200% 100%;
+  box-shadow: 0 0 15px rgba(33, 150, 243, 0.6);
+}
+
+/* Edit Modal Theme - Enhanced */
+.quirky-modal-edit {
+  border-color: #ff9800;
+  animation: modalSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    modalShake 0.6s ease-in-out 0.5s;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(255, 152, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@keyframes modalShake {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px) rotate(1deg);
+  }
+}
+
+.quirky-modal-edit .quirky-modal-header {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);
+  border-bottom-color: #ffb74d;
+}
+
+.quirky-modal-edit .quirky-modal-progress {
+  background: linear-gradient(90deg, #ff9800 0%, #ffc107 50%, #ff9800 100%);
+  background-size: 200% 100%;
+  box-shadow: 0 0 15px rgba(255, 152, 0, 0.6);
+}
+
+/* View Modal Theme - Enhanced */
+.quirky-modal-view {
+  border-color: #9c27b0;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(156, 39, 176, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.quirky-modal-view .quirky-modal-header {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+  border-bottom-color: #ba68c8;
+}
+
+.quirky-modal-view .quirky-modal-progress {
+  background: linear-gradient(90deg, #9c27b0 0%, #e91e63 50%, #9c27b0 100%);
+  background-size: 200% 100%;
+  box-shadow: 0 0 15px rgba(156, 39, 176, 0.6);
+}
+
+/* Special Modal Theme - Enhanced */
+.quirky-modal-special {
+  border: 3px solid transparent;
+  background: linear-gradient(#ffffff, #f8f9fa) padding-box,
+    linear-gradient(
+        45deg,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #4b0082,
+        #9400d3,
+        #ff0000
+      )
+      border-box;
+  background-size: 400% 400%;
+  animation: modalSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    rainbowPulse 2s ease-in-out infinite 0.5s, rainbowBorder 3s linear infinite;
+}
+
+@keyframes rainbowBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 400% 50%;
+  }
+}
+
+@keyframes rainbowPulse {
+  0%,
+  100% {
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 0, 110, 0.4),
+      0 0 60px rgba(255, 0, 110, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 255, 0.6),
+      0 0 80px rgba(0, 212, 255, 0.3);
+    transform: scale(1.02);
+  }
+}
+
+.quirky-modal-special .quirky-modal-header {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 110, 0.15) 0%,
+    rgba(0, 212, 255, 0.15) 25%,
+    rgba(148, 0, 211, 0.15) 50%,
+    rgba(0, 212, 255, 0.15) 75%,
+    rgba(255, 0, 110, 0.15) 100%
+  );
+  background-size: 300% 300%;
+  animation: specialGradientShift 4s ease-in-out infinite;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes specialGradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+.quirky-modal-special .quirky-modal-progress {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3,
+    #ff0000
+  );
+  background-size: 400% 100%;
+  animation: progressBar 3s linear forwards,
+    specialRainbowFlow 1.5s linear infinite, specialGlow 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.6), 0 0 40px rgba(0, 212, 255, 0.4);
+}
+
+@keyframes specialRainbowFlow {
+  0% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: -400% 0;
+  }
+}
+
+@keyframes specialGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.6), 0 0 40px rgba(0, 212, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.8), 0 0 60px rgba(0, 212, 255, 0.6),
+      0 0 80px rgba(148, 0, 211, 0.4);
+  }
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 480px) {
+  .quirky-modal {
+    width: 95%;
+    margin: 10px;
+    max-width: none;
+    border-radius: 16px;
+  }
+
+  .quirky-modal-message {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .quirky-modal-content {
+    padding: 20px 15px;
+  }
+
+  .quirky-modal-header {
+    padding: 14px 16px;
+  }
+
+  .quirky-modal-icon {
+    font-size: 24px;
+  }
+
+  .quirky-modal-close {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  .quirky-modal {
+    width: 98%;
+    margin: 5px;
+  }
+
+  .quirky-modal-message {
+    font-size: 14px;
+  }
+
+  .quirky-modal-content {
+    padding: 15px 12px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .quirky-modal,
+  .quirky-modal-overlay,
+  .quirky-modal-icon,
+  .quirky-modal-close,
+  .quirky-modal-progress,
+  .quirky-modal-header::before {
+    animation: none !important;
+  }
+
+  .quirky-modal-overlay {
+    transition: opacity 0.2s ease;
+  }
+
+  .quirky-modal {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+}
