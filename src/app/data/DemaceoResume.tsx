@@ -1,6 +1,7 @@
 export type Role =
   | "Lead Front-End Engineer"
   | "Tech Consultant"
+  | "Front-End Engineer"
   | "Roadtripper"
   | "Teaching Assistant"
   | "Student Alumni Mentor"
@@ -92,7 +93,7 @@ export const DemaceoResume: DemaceoProfile = {
     },
     {
       organization: "HypercardAI",
-      role: "Lead Front-End Engineer",
+      role: "Front-End Engineer",
       startDate: "Oct 2023",
       endDate: "Apr 2024",
       summary:
