@@ -317,6 +317,15 @@
   background: #ffffff;
   border: 1px solid #3b3a3a;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #e0e0e0;
+}
+
+.close-btn:active {
+  background: #d0d0d0;
 }
 
 .window-title {
@@ -502,6 +511,15 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-close-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.mobile-close-btn:active {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .mobile-window-title {

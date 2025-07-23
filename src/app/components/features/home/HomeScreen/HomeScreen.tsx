@@ -30,6 +30,7 @@ const HomeScreen = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [menuQuirks, setMenuQuirks] = useState({
     fileClicks: 0,
     editShake: false,
@@ -97,6 +98,10 @@ const HomeScreen = () => {
       // Internal navigation
       router.push(path);
     }
+  };
+
+  const handleWelcomeWindowClose = (): void => {
+    setShowWelcomeWindow(false);
   };
 
   // Quirky menu item handlers
@@ -235,18 +240,24 @@ const HomeScreen = () => {
           </div>
 
           <div className="wallpaper">
-            <div className="mobile-welcome-window">
-              <div className="mobile-window-title-bar">
-                <div className="mobile-window-controls">
-                  <div className="mobile-close-btn"></div>
+            {showWelcomeWindow && (
+              <div className="mobile-welcome-window">
+                <div className="mobile-window-title-bar">
+                  <div className="mobile-window-controls">
+                    <button
+                      className="mobile-close-btn"
+                      onClick={handleWelcomeWindowClose}
+                      aria-label="Close welcome window"
+                    ></button>
+                  </div>
+                  <span className="mobile-window-title">Welcome</span>
                 </div>
-                <span className="mobile-window-title">Welcome</span>
+                <div className="mobile-window-content">
+                  {/* <h2>Demaceo Vincent</h2> */}
+                  <p>Explore my work & get in touch.</p>
+                </div>
               </div>
-              <div className="mobile-window-content">
-                {/* <h2>Demaceo Vincent</h2> */}
-                <p>Explore my work & get in touch.</p>
-              </div>
-            </div>
+            )}
 
             <div className="home-apps">
               {mobileApps.map((app) => (
@@ -443,32 +454,38 @@ const HomeScreen = () => {
             ))}
           </div>
 
-          <div className="welcome-window">
-            <div className="window-title-bar">
-              <div className="window-controls">
-                <div className="close-btn"></div>
+          {showWelcomeWindow && (
+            <div className="welcome-window">
+              <div className="window-title-bar">
+                <div className="window-controls">
+                  <button
+                    className="close-btn"
+                    onClick={handleWelcomeWindowClose}
+                    aria-label="Close welcome window"
+                  ></button>
+                </div>
+                <span className="window-title">Welcome to My Portfolio</span>
               </div>
-              <span className="window-title">Welcome to My Portfolio</span>
-            </div>
-            <div className="window-content">
-              <h2>Hello, I&#39;m Demaceo Vincent</h2>
-              <p>
-                Click on the icons to explore my work, learn about me, and how
-                best to reach out.
-              </p>
-              <div className="quick-links">
-                <button onClick={() => handleAppClick("/mindset")}>
-                  About Me
-                </button>
-                <button onClick={() => handleAppClick("/projects")}>
-                  View Projects
-                </button>
-                <button onClick={() => handleAppClick("/contact")}>
-                  Contact
-                </button>
+              <div className="window-content">
+                <h2>Hello, I&#39;m Demaceo Vincent</h2>
+                <p>
+                  Click on the icons to explore my work, learn about me, and how
+                  best to reach out.
+                </p>
+                <div className="quick-links">
+                  <button onClick={() => handleAppClick("/mindset")}>
+                    About Me
+                  </button>
+                  <button onClick={() => handleAppClick("/projects")}>
+                    View Projects
+                  </button>
+                  <button onClick={() => handleAppClick("/contact")}>
+                    Contact
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="taskbar">
