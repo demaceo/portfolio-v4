@@ -385,7 +385,7 @@ const HomeScreen = () => {
             />
             <span
               className="menu-item"
-              onClick={handleFileClick}
+              // onClick={handleFileClick}
               style={{ cursor: "pointer" }}
               title={`Clicked ${menuQuirks.fileClicks} times!`}
             >
@@ -393,21 +393,21 @@ const HomeScreen = () => {
             </span>
             <span
               className="menu-item"
-              onClick={handleEditClick}
+              // onClick={handleEditClick}
               style={{ cursor: "pointer" }}
             >
               Edit
             </span>
             <span
               className="menu-item"
-              onClick={handleViewClick}
+              // onClick={handleViewClick}
               style={{ cursor: "pointer" }}
             >
               View
             </span>
             <span
               className="menu-item"
-              onClick={handleSpecialClick}
+              // onClick={handleSpecialClick}
               style={{
                 cursor: "pointer",
                 backgroundImage: menuQuirks.specialRainbow
