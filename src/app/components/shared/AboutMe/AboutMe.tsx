@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./AboutMe.css";
+import { aboutMePills } from "./aboutMePills";
 
 const AboutMe: React.FC = () => {
   return (
@@ -51,62 +52,13 @@ const AboutMe: React.FC = () => {
           where growth is both the journey and the goal.
         </p>
         <ul className="about-me-list">
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="See patterns, simplify complexity, and generate creative solutions while building trust through actively listening and collaborating"
-            >
-              <strong>Intuitive Problem Solver</strong>
-            </span>
-          </li>
-          {/* <li>
-            <span
-              className="pill-tag"
-              data-tooltip="Energized by change, challenge, and continuous learning"
-            >
-              <strong>Adaptive Learner</strong>
-            </span>
-          </li> */}
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="Listen deeply, build trust, and foster inclusive collaboration"
-            >
-              <strong>Empathetic Connector</strong>
-            </span>
-          </li>
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="Detail-oriented, organized, and steady - someone you can count on to follow through"
-            >
-              <strong>Analytical & Reliable</strong>
-            </span>
-          </li>
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="Quick to understand and articulate new concepts; skilled at building rapport with people from all walks of life"
-            >
-              <strong>Transparent Communicator</strong>
-            </span>
-          </li>
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="Driven by curiosity, integrity, and a desire to make a positive impact"
-            >
-              <strong>Purpose-Driven Innovator</strong>
-            </span>
-          </li>
-          <li>
-            <span
-              className="pill-tag"
-              data-tooltip="under construction: stay tuned to find out!"
-            >
-              <strong>& more...</strong>
-            </span>
-          </li>
+          {aboutMePills.map((pill) => (
+            <li key={pill.label}>
+              <span className="pill-tag" data-tooltip={pill.tooltip}>
+                <strong>{pill.label}</strong>
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

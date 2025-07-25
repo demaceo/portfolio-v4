@@ -42,10 +42,9 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
-import "./HomeScreen.css";
-import "./HomeScreen.menu.css";
+import "./DesktopLayout.css";
 
-const HomeScreen = () => {
+const DesktopLayout = () => {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isMobile, setIsMobile] = useState(false);
@@ -642,4 +641,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default DesktopLayout;

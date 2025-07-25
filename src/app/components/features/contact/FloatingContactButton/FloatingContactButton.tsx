@@ -45,7 +45,7 @@ const FloatingContactButton: React.FC = () => {
           height={60}
           className="floating-logo"
         />
-        <span className="floating-contact-text">Contact</span>
+        <span className="floating-contact-text">Connect</span>
       </button>
 
       {showContactForm && (
