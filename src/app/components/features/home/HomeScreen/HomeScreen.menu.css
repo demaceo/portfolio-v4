@@ -146,26 +146,27 @@
   max-width: 400px;
   padding: 0;
 }
+
 /* Menu Bar Root */
 .menu-bar {
   width: 100%;
   background: #f3f4f6;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  height: 44px;
+  height: 35px;
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.06);
   border-bottom: 1.5px solid #d1d5db;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Arial,
     sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   position: relative;
   z-index: 1000;
 }
 
 .menu-left {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   height: 100%;
   gap: 0;
 }
@@ -178,9 +179,11 @@
   margin-right: 16px;
   z-index: 1;
 }
+
 .menu-item-wrapper:last-child {
   margin-right: 0;
 }
+
 .menu-item-wrapper-active {
   z-index: 1010;
 }
@@ -197,13 +200,14 @@
   background: transparent;
   color: #22223b;
 }
+
 .menu-item-active {
   background: #e5e7eb;
 }
 
 .menu-dropdown {
   position: absolute;
-  top: 110%;
+  top: 170%;
   left: 0;
   min-width: 220px;
   background: #f3f4f6;
@@ -211,7 +215,7 @@
   box-shadow: 0 4px 18px 0 rgba(60, 60, 60, 0.1),
     0 1.5px 4px rgba(0, 0, 0, 0.06);
   border: 1.5px solid #d1d5db;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   padding: 18px 5px;
   z-index: 1011;
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -246,6 +250,7 @@
   gap: 8px 10px;
   max-width: 320px;
 }
+
 .menu-dropdown-pill-item {
   position: relative;
   display: flex;
@@ -256,10 +261,20 @@
 }
 
 .pill-tag-label {
-  flex: 1;
+  flex: 1 1 auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.18s, background 0.18s, box-shadow 0.18s;
+  border-radius: 8px;
+  padding: 2px 4px;
+}
+
+.pill-tag-mac:hover .pill-tag-label,
+.pill-tag-mac:focus .pill-tag-label {
+  background: #e0e7ef;
+  color: #1e293b;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.07);
 }
 
 .pill-tag-arrow {
@@ -269,6 +284,7 @@
   font-size: 15px;
   user-select: none;
 }
+
 .pill-tooltip-mac {
   display: none;
   position: absolute;
@@ -279,22 +295,24 @@
   background: #f9fafb;
   color: #22223b;
   border: 1.5px solid #d1d5db;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   box-shadow: 0 4px 18px 0 rgba(60, 60, 60, 0.1),
     0 1.5px 4px rgba(0, 0, 0, 0.06);
   padding: 7px 16px;
   font-size: 13px;
-  min-width: 120px;
+  min-width: 200px;
   z-index: 2000;
   white-space: pre-line;
   pointer-events: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Arial,
     sans-serif;
 }
+
 .pill-tag-mac .pill-tooltip-mac[data-show] {
   display: block !important;
   animation: fadeInMacTooltip 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 @keyframes fadeInMacTooltip {
   from {
     opacity: 0;
@@ -305,10 +323,6 @@
     transform: translateY(-50%) scale(1);
   }
 }
-/* Mac-style pill-tag tooltip for HomeScreen dropdown */
-/* duplicate .pill-tag-mac removed */
-
-/* keep only one .pill-tag-mac .pill-tooltip-mac[data-show] rule */
 
 @keyframes fadeInMacTooltip {
   from {
