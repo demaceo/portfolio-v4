@@ -63,7 +63,7 @@
 
 .menu-left {
   display: flex;
-  gap: 15px;
+  gap: 1px;
 }
 
 .my-logo {
@@ -75,94 +75,7 @@
   /* margin-top: 2.5px; */
 }
 
-.menu-item {
-  cursor: pointer;
-  padding: 2px 5px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
 
-.menu-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-.menu-item:hover {
-  background: #3b3a3a;
-  color: #ffffff;
-}
-
-.menu-item:hover::before {
-  left: 100%;
-}
-
-.menu-item:active {
-  transform: scale(0.95);
-}
-
-/* Quirky menu animations */
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateX(-2px);
-  }
-  20%,
-  40%,
-  60%,
-  80% {
-    transform: translateX(2px);
-  }
-}
-
-@keyframes rainbow-cycle {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
-  }
-}
-
-@keyframes rainbow-text {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-.shake-animation {
-  animation: shake 0.5s ease-in-out;
-}
-
-.inverted-view {
-  transform: rotate(180deg);
-  transition: transform 0.8s ease-in-out;
-}
-
-/* .inverted-view * {
-  transform: rotate(180deg);
-} */
 
 /* Fix icon positioning when view is inverted */
 .inverted-view .desktop-icon {

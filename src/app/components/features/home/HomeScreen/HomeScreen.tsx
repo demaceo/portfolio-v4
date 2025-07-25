@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,12 +18,12 @@ import {
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
-import QuirkyModal from "../QuirkyPopup/QuirkyPopup";
-import RandomButton from "../RandomButton/RandomButton";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import Image from "next/image";
+import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
 import "./HomeScreen.css";
+import "./HomeScreen.menu.css";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -31,18 +31,23 @@ const HomeScreen = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
-  const [menuQuirks, setMenuQuirks] = useState({
-    fileClicks: 0,
-    editShake: false,
-    viewInverted: false,
-    specialRainbow: false,
-  });
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    message: "",
-    type: "file" as "file" | "edit" | "view" | "special",
-    showRandomButton: false,
-  });
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const menuBarRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handleClick = (e: MouseEvent) => {
+      if (
+        menuBarRef.current &&
+        !menuBarRef.current.contains(e.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [openDropdown]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -102,82 +107,6 @@ const HomeScreen = () => {
 
   const handleWelcomeWindowClose = (): void => {
     setShowWelcomeWindow(false);
-  };
-
-  // Quirky menu item handlers
-  const showModal = (
-    message: string,
-    type: "file" | "edit" | "view" | "special",
-    showRandomButton = false
-  ) => {
-    setModalState({ isOpen: true, message, type, showRandomButton });
-  };
-
-  const handleRandomButtonClick = () => {
-    setModalState((prev) => ({
-      ...prev,
-      isOpen: false,
-      showRandomButton: false,
-    }));
-  };
-
-  const handleFileClick = () => {
-    const newCount = menuQuirks.fileClicks + 1;
-    setMenuQuirks((prev) => ({ ...prev, fileClicks: newCount }));
-
-    const messages = [
-      "Is this a bug? Or a feature? 🤔",
-      "Hey there, good to see you again..",
-      "🎪 Welcome to the digital circus! 🎪",
-      "Plot twist: There are no files.",
-      "Files? Where we're going, we don't need files!",
-      `🎉 File click #${newCount}! You're persistent, I like that! 🃏`,
-      // "You've unlocked the secret file dimension..",
-    ];
-
-    if (newCount <= messages.length) {
-      showModal(messages[newCount - 1], "file");
-    } else {
-      // Special case: Show "And then?" modal with random button
-      showModal("And then?", "file", true);
-    }
-  };
-
-  const handleEditClick = () => {
-    setMenuQuirks((prev) => ({ ...prev, editShake: true }));
-    showModal("Nope! You can't edit perfection 🤭", "edit");
-
-    setTimeout(() => {
-      setMenuQuirks((prev) => ({ ...prev, editShake: false }));
-    }, 1000);
-  };
-
-  const handleViewClick = () => {
-    setMenuQuirks((prev) => ({ ...prev, viewInverted: !prev.viewInverted }));
-    const message = menuQuirks.viewInverted
-      ? "Back to normal view! Everything is as it once was 🙂"
-      : "Welcome to the upside-down view! Everything is as it is now!";
-    showModal(message, "view");
-  };
-
-  const handleSpecialClick = () => {
-    setMenuQuirks((prev) => ({
-      ...prev,
-      specialRainbow: !prev.specialRainbow,
-    }));
-    const messages = [
-      "✨ Special Effects: ACTIVATED 👊😎",
-      "🎊 it's PARTY TIME! 🎭",
-      "🪩 Disco Mode: ENGAGED 🕺",
-    ];
-    showModal(messages[Math.floor(Math.random() * messages.length)], "special");
-
-    // Auto-disable rainbow after 10 seconds
-    if (!menuQuirks.specialRainbow) {
-      setTimeout(() => {
-        setMenuQuirks((prev) => ({ ...prev, specialRainbow: false }));
-      }, 10000);
-    }
   };
 
   const desktopApps = [
@@ -363,18 +292,8 @@ const HomeScreen = () => {
 
   return (
     <div className="macintosh-container">
-      <div
-        className={`mac-screen ${
-          menuQuirks.editShake ? "shake-animation" : ""
-        } ${menuQuirks.viewInverted ? "inverted-view" : ""}`}
-        style={{
-          filter: menuQuirks.specialRainbow ? "hue-rotate(0deg)" : "none",
-          animation: menuQuirks.specialRainbow
-            ? "rainbow-cycle 2s infinite linear"
-            : "none",
-        }}
-      >
-        <div className="menu-bar">
+      <div className="mac-screen">
+        <div className="menu-bar" ref={menuBarRef}>
           <div className="menu-left">
             <Image
               className="my-logo"
@@ -383,53 +302,186 @@ const HomeScreen = () => {
               width={24}
               height={24}
             />
-            <span
-              className="menu-item"
-              // onClick={handleFileClick}
-              style={{ cursor: "pointer" }}
-              title={`Clicked ${menuQuirks.fileClicks} times!`}
-            >
-              File{menuQuirks.fileClicks > 0 && ` (${menuQuirks.fileClicks})`}
-            </span>
-            <span
-              className="menu-item"
-              // onClick={handleEditClick}
-              style={{ cursor: "pointer" }}
-            >
-              Edit
-            </span>
-            <span
-              className="menu-item"
-              // onClick={handleViewClick}
-              style={{ cursor: "pointer" }}
-            >
-              View
-            </span>
-            <span
-              className="menu-item"
-              // onClick={handleSpecialClick}
-              style={{
-                cursor: "pointer",
-                backgroundImage: menuQuirks.specialRainbow
-                  ? "linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)"
-                  : "none",
-                backgroundColor: "transparent",
-                backgroundSize: "200% 200%",
-                animation: menuQuirks.specialRainbow
-                  ? "rainbow-text 1s infinite linear"
-                  : "none",
-                color: menuQuirks.specialRainbow ? "#fff" : "inherit",
-              }}
-            >
-              Special
-            </span>
+            {[
+              { label: "About", key: "about" },
+              { label: "Projects", key: "projects" },
+              { label: "Tech Stack", key: "tech" },
+              { label: "Services", key: "services" },
+              { label: "Contact", key: "contact" },
+            ].map((item, idx, arr) => (
+              <div
+                key={item.key}
+                className={`menu-item-wrapper${
+                  openDropdown === item.key ? " menu-item-wrapper-active" : ""
+                }`}
+                data-menu-index={idx}
+                style={{
+                  zIndex: openDropdown === item.key ? 1010 : 1,
+                  marginRight: idx < arr.length - 1 ? 16 : 0,
+                }}
+              >
+                <span
+                  className={`menu-item${
+                    openDropdown === item.key ? " menu-item-active" : ""
+                  }`}
+                  tabIndex={0}
+                  onClick={() =>
+                    setOpenDropdown(openDropdown === item.key ? null : item.key)
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ")
+                      setOpenDropdown(
+                        openDropdown === item.key ? null : item.key
+                      );
+                    if (e.key === "Escape") setOpenDropdown(null);
+                  }}
+                  aria-haspopup="true"
+                  aria-expanded={openDropdown === item.key}
+                >
+                  {item.label}
+                </span>
+                {openDropdown === item.key && (
+                  <div
+                    className={`menu-dropdown menu-dropdown-mac${
+                      openDropdown === item.key
+                        ? " menu-dropdown-mac-active"
+                        : ""
+                    }`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {item.key === "about" && (
+                      <div>
+                        <strong className="menu-dropdown-title">
+                          About Me
+                        </strong>
+                        <ul className="menu-dropdown-pills">
+                          {aboutMePills.map((pill) => (
+                            <li
+                              key={pill.label}
+                              className="menu-dropdown-pill-item"
+                            >
+                              <span
+                                className="pill-tag-mac"
+                                tabIndex={0}
+                                onMouseEnter={(e) => {
+                                  const tooltip =
+                                    e.currentTarget.querySelector(
+                                      ".pill-tooltip-mac"
+                                    );
+                                  if (tooltip)
+                                    tooltip.setAttribute("data-show", "true");
+                                }}
+                                onMouseLeave={(e) => {
+                                  const tooltip =
+                                    e.currentTarget.querySelector(
+                                      ".pill-tooltip-mac"
+                                    );
+                                  if (tooltip)
+                                    tooltip.removeAttribute("data-show");
+                                }}
+                                onFocus={(e) => {
+                                  const tooltip =
+                                    e.currentTarget.querySelector(
+                                      ".pill-tooltip-mac"
+                                    );
+                                  if (tooltip)
+                                    tooltip.setAttribute("data-show", "true");
+                                }}
+                                onBlur={(e) => {
+                                  const tooltip =
+                                    e.currentTarget.querySelector(
+                                      ".pill-tooltip-mac"
+                                    );
+                                  if (tooltip)
+                                    tooltip.removeAttribute("data-show");
+                                }}
+                              >
+                                <span className="pill-tag-label">
+                                  {pill.label}
+                                </span>
+                                <span className="pill-tag-arrow">&gt;</span>
+                                <span className="pill-tooltip-mac">
+                                  {pill.tooltip}
+                                </span>
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {item.key === "projects" && (
+                      <div>
+                        <strong style={{ fontSize: 16 }}>
+                          Featured Projects
+                        </strong>
+                        <ul
+                          style={{
+                            margin: "8px 0 0 0",
+                            paddingLeft: 18,
+                            fontSize: 14,
+                          }}
+                        >
+                          {projectsData.slice(0, 3).map((proj) => (
+                            <li key={proj.id}>{proj.name}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {item.key === "tech" && (
+                      <div>
+                        <strong style={{ fontSize: 16 }}>Tech Stack</strong>
+                        <p
+                          style={{
+                            margin: "8px 0 0 0",
+                            fontSize: 14,
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          Next.js, React, TypeScript, Node.js, CSS/SCSS, and
+                          more.
+                        </p>
+                      </div>
+                    )}
+                    {item.key === "services" && (
+                      <div>
+                        <strong style={{ fontSize: 16 }}>Services</strong>
+                        <ul
+                          style={{
+                            margin: "8px 0 0 0",
+                            paddingLeft: 18,
+                            fontSize: 14,
+                          }}
+                        >
+                          <li>Web App Development</li>
+                          <li>UI/UX Design</li>
+                          <li>Consulting</li>
+                        </ul>
+                      </div>
+                    )}
+                    {item.key === "contact" && (
+                      <div>
+                        <strong style={{ fontSize: 16 }}>Contact</strong>
+                        <p
+                          style={{
+                            margin: "8px 0 0 0",
+                            fontSize: 14,
+                            lineHeight: 1.6,
+                          }}
+                        >
+                          Email, LinkedIn, or schedule a call via Calendly.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
           <div className="menu-right">
             <span className="time">{formatTime(currentTime)}</span>
             <span className="date">{formatDate(currentTime)}</span>
           </div>
         </div>
-
         <div className="desktop">
           <div className="desktop-items">
             {desktopApps.map((app) => (
@@ -510,20 +562,6 @@ const HomeScreen = () => {
           </div>
         </div>
       )}
-
-      <QuirkyModal
-        isOpen={modalState.isOpen}
-        message={modalState.message}
-        type={modalState.type}
-        showRandomButton={modalState.showRandomButton}
-        onClose={() => setModalState((prev) => ({ ...prev, isOpen: false }))}
-        onRandomButtonClick={handleRandomButtonClick}
-      />
-
-      <RandomButton
-        isVisible={modalState.showRandomButton && modalState.isOpen}
-        onButtonClick={handleRandomButtonClick}
-      />
     </div>
   );
 };
