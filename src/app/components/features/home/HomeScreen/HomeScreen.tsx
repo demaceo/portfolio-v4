@@ -20,6 +20,26 @@ import {
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
+import services from "@/data/services";
+import {
+  faFigma,
+  faWebflow,
+  faGit,
+  faReact,
+  faJs,
+  faCss3,
+  faHtml5,
+  faGithub,
+  faNode,
+  faNpm,
+  faPython,
+  faAws,
+  faDocker,
+  faLinux,
+  faSlack,
+  faJira,
+  faMarkdown,
+} from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
 import "./HomeScreen.css";
@@ -411,65 +431,121 @@ const HomeScreen = () => {
                     )}
                     {item.key === "projects" && (
                       <div>
-                        <strong style={{ fontSize: 16 }}>
-                          Featured Projects
+                        <strong className="menu-dropdown-title">
+                          Projects
                         </strong>
-                        <ul
-                          style={{
-                            margin: "8px 0 0 0",
-                            paddingLeft: 18,
-                            fontSize: 14,
-                          }}
-                        >
-                          {projectsData.slice(0, 3).map((proj) => (
-                            <li key={proj.id}>{proj.name}</li>
-                          ))}
+                        <ul className="menu-dropdown-projects">
+                          {projectsData
+                            .filter((p) => !p.archived)
+                            .map((proj) => (
+                              <li
+                                key={proj.id}
+                                className="menu-dropdown-project-item"
+                              >
+                                {proj.image && (
+                                  <Image
+                                    src={proj.image}
+                                    alt={proj.name}
+                                    className="menu-dropdown-project-img"
+                                    width={38}
+                                    height={38}
+                                  />
+                                )}
+                                <div className="menu-dropdown-project-info">
+                                  <div className="menu-dropdown-project-title">
+                                    {proj.name}
+                                  </div>
+                                  <div className="menu-dropdown-project-desc">
+                                    {proj.description}
+                                  </div>
+                                  <a
+                                    href={proj.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="menu-dropdown-project-link"
+                                  >
+                                    Visit
+                                  </a>
+                                </div>
+                              </li>
+                            ))}
                         </ul>
                       </div>
                     )}
                     {item.key === "tech" && (
                       <div>
-                        <strong style={{ fontSize: 16 }}>Tech Stack</strong>
-                        <p
-                          style={{
-                            margin: "8px 0 0 0",
-                            fontSize: 14,
-                            lineHeight: 1.6,
-                          }}
-                        >
-                          Next.js, React, TypeScript, Node.js, CSS/SCSS, and
-                          more.
-                        </p>
+                        <strong className="menu-dropdown-title">
+                          Tech Stack
+                        </strong>
+                        <div className="menu-dropdown-tech-icons">
+                          {[
+                            { icon: faFigma, tooltip: "Figma" },
+                            { icon: faWebflow, tooltip: "Webflow" },
+                            { icon: faGit, tooltip: "Git" },
+                            { icon: faNode, tooltip: "Node.js" },
+                            { icon: faReact, tooltip: "React" },
+                            { icon: faJs, tooltip: "JavaScript" },
+                            { icon: faCss3, tooltip: "CSS" },
+                            { icon: faHtml5, tooltip: "HTML5" },
+                            { icon: faGithub, tooltip: "GitHub" },
+                            { icon: faNpm, tooltip: "NPM" },
+                            { icon: faPython, tooltip: "Python" },
+                            { icon: faAws, tooltip: "AWS" },
+                            { icon: faDocker, tooltip: "Docker" },
+                            { icon: faLinux, tooltip: "Linux" },
+                            { icon: faSlack, tooltip: "Slack" },
+                            { icon: faJira, tooltip: "Jira" },
+                            { icon: faMarkdown, tooltip: "Markdown" },
+                          ].map((item) => (
+                            <span
+                              key={item.tooltip}
+                              className="menu-dropdown-tech-icon"
+                              title={item.tooltip}
+                            >
+                              <FontAwesomeIcon icon={item.icon} />
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
                     {item.key === "services" && (
                       <div>
-                        <strong style={{ fontSize: 16 }}>Services</strong>
-                        <ul
-                          style={{
-                            margin: "8px 0 0 0",
-                            paddingLeft: 18,
-                            fontSize: 14,
-                          }}
-                        >
-                          <li>Web App Development</li>
-                          <li>UI/UX Design</li>
-                          <li>Consulting</li>
+                        <strong className="menu-dropdown-title">
+                          Services
+                        </strong>
+                        <ul className="menu-dropdown-services">
+                          {services.map((service) => (
+                            <li
+                              key={service.id}
+                              className="menu-dropdown-service-item"
+                            >
+                              {service.icon && (
+                                <Image
+                                  src={service.icon}
+                                  alt={service.title}
+                                  className="menu-dropdown-service-icon"
+                                  width={38}
+                                  height={38}
+                                />
+                              )}
+                              <div className="menu-dropdown-service-info">
+                                <div className="menu-dropdown-service-title">
+                                  {service.title}
+                                </div>
+                                <div className="menu-dropdown-service-desc">
+                                  {service.description}
+                                </div>
+                              </div>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                     )}
                     {item.key === "contact" && (
-                      <div>
-                        <strong style={{ fontSize: 16 }}>Contact</strong>
-                        <p
-                          style={{
-                            margin: "8px 0 0 0",
-                            fontSize: 14,
-                            lineHeight: 1.6,
-                          }}
-                        >
-                          Email, LinkedIn, or schedule a call via Calendly.
-                        </p>
+                      <div className="menu-dropdown-contactform">
+                        <ContactForm
+                          onClose={() => setShowContactForm(false)}
+                        />
                       </div>
                     )}
                   </div>
