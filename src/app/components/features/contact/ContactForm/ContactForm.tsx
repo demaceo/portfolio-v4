@@ -72,10 +72,10 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
 
     emailjs
       .sendForm(
-        process.env.REACT_APP_SERVICE_ID as string,
-        process.env.REACT_APP_TEMPLATE_ID as string,
+        process.env.SERVICE_ID as string,
+        process.env.TEMPLATE_ID as string,
         e.target,
-        process.env.REACT_APP_PUBLIC_KEY as string
+        process.env.PORT_KEY as string
       )
       .then(() => showMessage("Message sent!"))
       .catch(() => showMessage("Something went wrong, please try again later"))
