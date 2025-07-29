@@ -4,19 +4,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBriefcase,
+  faPaw,
+  faTheaterMasks,
+  faRobot,
+  faMusic,
+  faCookieBite,
+  faFilm,
   faUser,
   faCog,
   faLaptopCode,
   faEnvelope,
-  faBriefcase,
-  faPaw,
-  // faTheaterMasks,
-  // faRobot,
-  // faMusic,
-  // faCookieBite,
-  // faFilm,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
@@ -45,6 +46,7 @@ import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
 import "./HomeScreen.css";
 import "./HomeScreen.menu.css";
 import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
+import ProjectCard from "@/components/features/home/ProjectCard/ProjectCard";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -53,11 +55,29 @@ const HomeScreen = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<{
+    id: number;
+    name: string;
+    description: string;
+    image?: string;
+    link: string;
+  } | null>(null);
   const [selectedService, setSelectedService] = useState<{
     icon: string;
     title: string;
     description: string;
   } | null>(null);
+
+  const iconMap: Record<string, IconDefinition> = {
+    "fas fa-briefcase icon": faBriefcase,
+    "fa fa-paw icon": faPaw,
+    "fas fa-theater-masks icon": faTheaterMasks,
+    "fas fa-robot icon": faRobot,
+    "fas fa-music icon": faMusic,
+    "fas fa-cookie-bite icon": faCookieBite,
+    "fas fa-film icon": faFilm,
+  };
+
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -120,7 +140,7 @@ const HomeScreen = () => {
   }
 
   const handleAppClick = (path: HandleAppClickProps["path"]): void => {
-    if (path === "/contacgt") {
+    if (path === "/contact") {
       setShowContactForm(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
@@ -377,9 +397,9 @@ const HomeScreen = () => {
                   >
                     {item.key === "about" && (
                       <div>
-                        <strong className="menu-dropdown-title">
+                        {/* <strong className="menu-dropdown-title">
                           About Me
-                        </strong>
+                        </strong> */}
                         <ul className="menu-dropdown-pills">
                           {aboutMePills.map((pill) => (
                             <li
@@ -435,11 +455,49 @@ const HomeScreen = () => {
                         </ul>
                       </div>
                     )}
+
+                    {item.key === "services" && (
+                      <div>
+                        {/* <strong className="menu-dropdown-title">
+                          Services
+                        </strong> */}
+                        <ul className="menu-dropdown-services">
+                          {services.map((service) => (
+                            <li
+                              key={service.id}
+                              className="menu-dropdown-service-item"
+                              onClick={() =>
+                                setSelectedService({
+                                  icon: service.icon,
+                                  title: service.title,
+                                  description: service.description,
+                                })
+                              }
+                            >
+                              {service.icon && (
+                                <Image
+                                  src={service.icon}
+                                  alt={service.title}
+                                  className="menu-dropdown-service-icon"
+                                  width={38}
+                                  height={38}
+                                />
+                              )}
+                              <div className="menu-dropdown-service-info">
+                                <div className="menu-dropdown-service-title">
+                                  {service.title}
+                                </div>
+                                <div className="menu-dropdown-service-desc">
+                                  {service.description}
+                                </div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     {item.key === "projects" && (
                       <div>
-                        <strong className="menu-dropdown-title">
-                          Projects
-                        </strong>
                         <ul className="menu-dropdown-projects">
                           {projectsData
                             .filter((p) => !p.archived)
@@ -447,8 +505,20 @@ const HomeScreen = () => {
                               <li
                                 key={proj.id}
                                 className="menu-dropdown-project-item"
+                                onClick={() =>
+                                  setSelectedProject({
+                                    id: proj.id,
+                                    name: proj.name,
+                                    description: proj.description,
+                                    image:
+                                      typeof proj.image === "string"
+                                        ? proj.image
+                                        : proj.image?.src,
+                                    link: proj.link,
+                                  })
+                                }
                               >
-                                {proj.image && (
+                                {proj.image ? (
                                   <Image
                                     src={proj.image}
                                     alt={proj.name}
@@ -456,7 +526,21 @@ const HomeScreen = () => {
                                     width={38}
                                     height={38}
                                   />
-                                )}
+                                ) : proj.icon ? (
+                                  <span
+                                    className="menu-dropdown-project-img"
+                                    style={{
+                                      fontSize: 28,
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={iconMap[proj.icon] || faLaptopCode}
+                                    />
+                                  </span>
+                                ) : null}
                                 <div className="menu-dropdown-project-info">
                                   <div className="menu-dropdown-project-title">
                                     {proj.name}
@@ -512,46 +596,6 @@ const HomeScreen = () => {
                             </span>
                           ))}
                         </div>
-                      </div>
-                    )}
-                    {item.key === "services" && (
-                      <div>
-                        <strong className="menu-dropdown-title">
-                          Services
-                        </strong>
-                        <ul className="menu-dropdown-services">
-                          {services.map((service) => (
-                            <li
-                              key={service.id}
-                              className="menu-dropdown-service-item"
-                              onClick={() =>
-                                setSelectedService({
-                                  icon: service.icon,
-                                  title: service.title,
-                                  description: service.description,
-                                })
-                              }
-                            >
-                              {service.icon && (
-                                <Image
-                                  src={service.icon}
-                                  alt={service.title}
-                                  className="menu-dropdown-service-icon"
-                                  width={38}
-                                  height={38}
-                                />
-                              )}
-                              <div className="menu-dropdown-service-info">
-                                <div className="menu-dropdown-service-title">
-                                  {service.title}
-                                </div>
-                                <div className="menu-dropdown-service-desc">
-                                  {service.description}
-                                </div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
                       </div>
                     )}
                     {item.key === "contact" && (
@@ -651,6 +695,16 @@ const HomeScreen = () => {
           </div>
         </div>
       )} */}
+      {selectedProject && (
+        <ProjectCard
+          id={selectedProject.id}
+          name={selectedProject.name}
+          description={selectedProject.description}
+          image={selectedProject.image}
+          link={selectedProject.link}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
       {selectedService && (
         <ServiceCard
           icon={selectedService.icon}
