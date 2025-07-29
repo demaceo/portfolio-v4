@@ -44,6 +44,7 @@ import Image from "next/image";
 import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
 import "./HomeScreen.css";
 import "./HomeScreen.menu.css";
+import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -52,6 +53,11 @@ const HomeScreen = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<{
+    icon: string;
+    title: string;
+    description: string;
+  } | null>(null);
   const menuBarRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -114,7 +120,7 @@ const HomeScreen = () => {
   }
 
   const handleAppClick = (path: HandleAppClickProps["path"]): void => {
-    if (path === "/contact") {
+    if (path === "/contacgt") {
       setShowContactForm(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
@@ -325,7 +331,7 @@ const HomeScreen = () => {
             {[
               { label: "About", key: "about" },
               { label: "Projects", key: "projects" },
-              { label: "Tech Stack", key: "tech" },
+              // { label: "Tech Stack", key: "tech" },
               { label: "Services", key: "services" },
               { label: "Contact", key: "contact" },
             ].map((item, idx, arr) => (
@@ -518,6 +524,13 @@ const HomeScreen = () => {
                             <li
                               key={service.id}
                               className="menu-dropdown-service-item"
+                              onClick={() =>
+                                setSelectedService({
+                                  icon: service.icon,
+                                  title: service.title,
+                                  description: service.description,
+                                })
+                              }
                             >
                               {service.icon && (
                                 <Image
@@ -597,15 +610,15 @@ const HomeScreen = () => {
               <div className="window-content">
                 <h2>Hello, I&#39;m Demaceo Vincent</h2>
                 <p>
-                  Click on the icons to explore my work, learn about me, and how
-                  best to reach out.
+                  Click around to explore my work, learn about me, what services
+                  I offer, and how to best reach out!
                 </p>
                 <div className="quick-links">
                   <button onClick={() => handleAppClick("/mindset")}>
                     About Me
                   </button>
-                  <button onClick={() => handleAppClick("/projects")}>
-                    View Projects
+                  <button onClick={() => handleAppClick("/services")}>
+                    Service Spectrum
                   </button>
                   <button onClick={() => handleAppClick("/contact")}>
                     Contact
@@ -625,7 +638,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {showContactForm && (
+      {/* {showContactForm && (
         <div
           className="contact-modal-overlay"
           onClick={() => setShowContactForm(false)}
@@ -637,6 +650,14 @@ const HomeScreen = () => {
             <ContactForm onClose={() => setShowContactForm(false)} />
           </div>
         </div>
+      )} */}
+      {selectedService && (
+        <ServiceCard
+          icon={selectedService.icon}
+          title={selectedService.title}
+          description={selectedService.description}
+          onClose={() => setSelectedService(null)}
+        />
       )}
     </div>
   );
