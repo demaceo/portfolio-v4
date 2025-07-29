@@ -120,6 +120,41 @@
   padding: 0 2px;
 }
 
+/* ...existing code... */
+
+.service-card-bottom-arrows {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 22px;
+  width: 100%;
+  position: relative;
+}
+
+.service-card-arrow-bottom {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  transform: none;
+  margin: 0 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 600px) {
+  .service-card-bottom-arrows {
+    gap: 16px;
+    margin-top: 14px;
+  }
+}
+
+.service-card-arrow-bottom.service-card-arrow-left,
+.service-card-arrow-bottom.service-card-arrow-right {
+  left: auto;
+  right: auto;
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .service-card {
