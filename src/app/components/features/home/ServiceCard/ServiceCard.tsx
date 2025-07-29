@@ -11,6 +11,9 @@ interface ServiceCardProps {
   initialIndex?: number;
 }
 
+const CARD_WIDTH = 410; // match your CSS max-width
+const CARD_HEIGHT = 340; // estimate or measure your card height
+
 const ServiceCard: React.FC<ServiceCardProps> = ({
   icon,
   title,
@@ -40,6 +43,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
+
+  // Center the card on mount
+  React.useEffect(() => {
+    const centerX = window.innerWidth / 2 - CARD_WIDTH / 2;
+    const centerY = window.innerHeight / 2 - CARD_HEIGHT / 2;
+    setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
+    // eslint-disable-next-line
+  }, []);
 
   // Mouse events for drag
   const handleDragStart = (e: React.MouseEvent) => {
