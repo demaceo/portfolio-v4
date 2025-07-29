@@ -661,7 +661,7 @@ const HomeScreen = () => {
                   <button onClick={() => handleAppClick("/mindset")}>
                     About Me
                   </button>
-                  <button onClick={() => handleAppClick("/services")}>
+                  <button onClick={() => handleAppClick("/skillset")}>
                     Service Spectrum
                   </button>
                   <button onClick={() => handleAppClick("/contact")}>
@@ -682,7 +682,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* {showContactForm && (
+      {showContactForm && (
         <div
           className="contact-modal-overlay"
           onClick={() => setShowContactForm(false)}
@@ -694,7 +694,7 @@ const HomeScreen = () => {
             <ContactForm onClose={() => setShowContactForm(false)} />
           </div>
         </div>
-      )} */}
+      )}
       {selectedProject && (
         <ProjectCard
           id={selectedProject.id}
