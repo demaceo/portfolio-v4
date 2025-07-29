@@ -113,20 +113,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               aria-label="Close Project Card"
             />
           </div>
-          <span className="project-card-window-title">Projects</span>
+          <div className="project-card-window-title">
+            <span className="project-card-url-bar" title={project.link}>
+              <a href={project.link} target="_blank" rel="noopener noreferrer">
+                {project.link}
+              </a>
+            </span>
+          </div>
         </div>
         <div className="project-card-inner">
           {projectVisual}
           <h3 className="project-card-title">{project.name}</h3>
           <p className="project-card-description">{project.description}</p>
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-card-link"
-          >
-            Visit Project
-          </a>
+
           <div className="project-card-bottom-arrows">
             <button
               className="project-card-arrow project-card-arrow-bottom project-card-arrow-left"
