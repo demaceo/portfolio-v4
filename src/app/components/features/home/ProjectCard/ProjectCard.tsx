@@ -38,6 +38,9 @@ interface ProjectCardProps {
   link: string;
   onClose: () => void;
   initialIndex?: number;
+  gif?: string;
+  icon?: string;
+  archived?: boolean;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -206,27 +209,60 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               aria-label="Close Project Card"
             />
           </div>
-          <div className="project-card-window-title">
-            {/* <span className="project-card-url-bar" title={project.link}> */}
+          {/* <div className="project-card-window-title">
+            <span className="project-card-url-bar" title={project.link}>
             <a
               className="project-card-url-bar"
               title={project.link}
-               href={project.link}
+              href={project.link}
               target="_blank"
               rel="noopener noreferrer"
             >
               {project.link}
             </a>
-            {/* </span> */}
-          </div>
+            </span>
+          </div> */}
         </div>
         <div className="project-card-inner">
+          <div className="project-card-window-title">
+            {/* <span className="project-card-url-bar" title={project.link}> */}
+              <div className="project-card-top-arrows">
+                <button
+                  className="project-card-arrow project-card-arrow-top project-card-arrow-left"
+                  onClick={handlePrev}
+                  aria-label="Previous Project"
+                  tabIndex={0}
+                  type="button"
+                >
+                  &#8592;
+                </button>
+                <button
+                  className="project-card-arrow project-card-arrow-top project-card-arrow-right"
+                  onClick={handleNext}
+                  aria-label="Next Project"
+                  tabIndex={0}
+                  type="button"
+                >
+                  &#8594;
+                </button>
+              </div>
+              <a
+                className="project-card-url-bar"
+                title={project.link}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.link}
+              </a>
+            {/* </span> */}
+          </div>
           {projectVisual}
           <h3 className="project-card-title">{project.name}</h3>
           <p className="project-card-description">{project.description}</p>
-          <div className="project-card-bottom-arrows">
+          {/* <div className="project-card-top-arrows">
             <button
-              className="project-card-arrow project-card-arrow-bottom project-card-arrow-left"
+              className="project-card-arrow project-card-arrow-top project-card-arrow-left"
               onClick={handlePrev}
               aria-label="Previous Project"
               tabIndex={0}
@@ -235,7 +271,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               &#8592;
             </button>
             <button
-              className="project-card-arrow project-card-arrow-bottom project-card-arrow-right"
+              className="project-card-arrow project-card-arrow-top project-card-arrow-right"
               onClick={handleNext}
               aria-label="Next Project"
               tabIndex={0}
@@ -243,7 +279,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             >
               &#8594;
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

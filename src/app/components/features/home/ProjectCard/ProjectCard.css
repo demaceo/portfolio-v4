@@ -19,10 +19,8 @@
   border-radius: 10px 10px 8px 8px;
   max-width: 420px;
   width: 96vw;
-  box-shadow:
-    0 0 0 2px #222,
-    0 8px 32px rgba(0,0,0,0.13),
-    0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 0 0 2px #222, 0 8px 32px rgba(0, 0, 0, 0.13),
+    0 2px 8px rgba(0, 0, 0, 0.07);
   border: 2px solid #222;
   display: flex;
   flex-direction: column;
@@ -30,19 +28,25 @@
   overflow: hidden;
   font-family: "Geneva", "Chicago", "Arial", monospace, sans-serif;
   margin: 0;
-  animation: fadeInProjectCard 0.22s cubic-bezier(0.4,0,0.2,1);
+  animation: fadeInProjectCard 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeInProjectCard {
-  from { opacity: 0; transform: scale(0.97);}
-  to   { opacity: 1; transform: scale(1);}
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Title Bar (browser style) */
 .project-card-title-bar {
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 22px;
   background: linear-gradient(90deg, #e0e0e0 0%, #c7c7c7 100%);
   border-bottom: 2px solid #b1b1b1;
   padding: 0 12px;
@@ -68,7 +72,7 @@
   align-items: center;
   justify-content: center;
   transition: box-shadow 0.2s;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   position: relative;
 }
 .project-card-close-btn:hover,
@@ -81,26 +85,30 @@
 .project-card-window-title {
   flex: 1;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  padding: 0 0.5rem;
+  width: 100%;
+  /* padding: 0 0.5rem; */
 }
 
 .project-card-url-bar {
   display: block;
-  width: 80%;
+  width: 100%;
   background: #f4f4f4;
   border: 1.5px inset #b1b1b1;
   border-radius: 10px;
   font-size: 12px;
-  color: #222;
-  padding: 3px 5px;
+  color: #0b68f5;
+  text-decoration: underline;
+  text-align: left;
+  padding: 3px 15px;
   font-family: "Menlo", "Monaco", "Consolas", monospace;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 1px 1.5px rgba(0,0,0,0.07) inset;
+  box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.07) inset;
   cursor: text;
   user-select: text;
   transition: border 0.18s;
@@ -122,7 +130,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 26px 22px 18px 22px;
+  padding: 1px 5px 22px 5px;
   background: #f8f8f8;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -135,7 +143,7 @@
   background: #fff;
   border-radius: 8px;
   border: 1.5px solid #b1b1b1;
-  box-shadow: 0 1.5px 6px rgba(30,41,59,0.07);
+  box-shadow: 0 1.5px 6px rgba(30, 41, 59, 0.07);
   object-fit: contain;
   display: flex !important;
   align-items: center;
@@ -179,7 +187,7 @@
   border-radius: 3px;
   padding: 2px 10px;
   border: 1px solid #d1d1d1;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .project-card-link:hover {
   color: #1e40af;
@@ -187,28 +195,31 @@
 }
 
 /* Bottom navigation arrows */
-.project-card-bottom-arrows {
+.project-card-top-arrows {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
-  gap: 32px;
-  margin-top: 18px;
-  width: 100%;
-  position: relative;
+  /* justify-content: center; */
+  /* gap: 32px; */
+  /* margin-top: 18px; */
+  /* width: 20%; */
+  /* position: relative; */
 }
 
-.project-card-arrow-bottom {
-  position: static;
+.project-card-arrow-top {
+  /* position: static; */
   top: auto;
   left: auto;
   right: auto;
   transform: none;
   margin: 0 2px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   background: #e0e0e0;
   border: 1.5px solid #b1b1b1;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  border-radius: 10%;
+  width: 25px;
+  height: 25px;
   font-size: 1.3rem;
   color: #333;
   display: flex;
@@ -218,8 +229,8 @@
   transition: background 0.18s, border 0.18s;
   user-select: none;
 }
-.project-card-arrow-bottom:focus,
-.project-card-arrow-bottom:hover {
+.project-card-arrow-top:focus,
+.project-card-arrow-top:hover {
   background: #d1e0ff;
   border-color: #2563eb;
   color: #2563eb;
