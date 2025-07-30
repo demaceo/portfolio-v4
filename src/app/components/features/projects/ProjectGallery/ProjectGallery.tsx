@@ -28,7 +28,7 @@ export default function ProjectGallery() {
   ) => (
     <motion.article
       key={id}
-      className={`project-card ${extra}`}
+      className={`project-gallery-card ${extra}`}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
@@ -39,14 +39,14 @@ export default function ProjectGallery() {
       viewport={{ once: true }}
     >
       <a
-        className="project-image-link"
+        className="project-gallery-image-link"
         href={link}
         target="_blank"
         rel="noopener noreferrer"
       >
         {image ? (
           <Image
-            className="project-image"
+            className="project-gallery-image"
             src={image}
             alt={name}
             width={400}
@@ -58,13 +58,13 @@ export default function ProjectGallery() {
             }}
           />
         ) : (
-          <i className={`${icon} project-icon`} aria-hidden="true"></i>
+          <i className={`${icon} project-gallery-icon`} aria-hidden="true"></i>
         )}
       </a>
 
-      <div className="project-info">
-        <h2 className="project-title">{name}</h2>
-        <p className="project-description">{description}</p>
+      <div className="project-gallery-info">
+        <h2 className="project-gallery-title">{name}</h2>
+        <p className="project-gallery-description">{description}</p>
       </div>
     </motion.article>
   );
@@ -72,12 +72,16 @@ export default function ProjectGallery() {
   return (
     <section className="projects-container">
       {/* ── current projects ── */}
-      <h2 className="section-title shadowed-text">Current</h2>
-      {activeProjects.map((p, i) => card(p, i, "icon-container"))}
+      <h2 className="project-gallery-section-title shadowed-text">Current</h2>
+      {activeProjects.map((p, i) =>
+        card(p, i, "project-gallery-icon-container")
+      )}
       {/* ── archived projects ── */}
       {archivedProjects.length > 0 && (
         <>
-          <h2 className="section-title shadowed-text">Archived</h2>
+          <h2 className="project-gallery-section-title shadowed-text">
+            Archived
+          </h2>
           {archivedProjects.map((p, i) => card(p, i, "archived"))}
         </>
       )}

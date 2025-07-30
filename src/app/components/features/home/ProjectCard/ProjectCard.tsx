@@ -150,7 +150,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   if (project.image) {
     projectVisual = (
       <Image
-        src={project.image}
+        src={project.gif || ""}
         alt={project.name}
         width={56}
         height={56}
@@ -258,7 +258,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             {/* </span> */}
           </div>
           {projectVisual}
-          <h3 className="project-card-title">{project.name}</h3>
+          {/* <h3 className="project-card-title">{project.name}</h3> */}
           <p className="project-card-description">{project.description}</p>
           {/* <div className="project-card-top-arrows">
             <button

@@ -15,13 +15,13 @@
 
 /* Card Window */
 .project-card {
-  background: #f8f8f8;
+  /* background: #f8f8f8; */
   border-radius: 10px 10px 8px 8px;
   max-width: 420px;
   width: 96vw;
   box-shadow: 0 0 0 2px #222, 0 8px 32px rgba(0, 0, 0, 0.13),
     0 2px 8px rgba(0, 0, 0, 0.07);
-  border: 2px solid #222;
+  border: 4px solid #222;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -46,10 +46,11 @@
 .project-card-title-bar {
   display: flex;
   align-items: center;
-  height: 22px;
-  background: linear-gradient(90deg, #e0e0e0 0%, #c7c7c7 100%);
-  border-bottom: 2px solid #b1b1b1;
-  padding: 0 12px;
+  height: 15px;
+  /* background: linear-gradient(90deg, #e0e0e0 0%, #c7c7c7 100%); */
+    background: #3b3a3a;
+  /* border-bottom: 2px solid #b1b1b1; */
+  padding: 0 8px;
   position: relative;
   user-select: none;
 }
@@ -96,7 +97,7 @@
 .project-card-url-bar {
   display: block;
   width: 100%;
-  background: #f4f4f4;
+  background: #e9e7e7c2;
   border: 1.5px inset #b1b1b1;
   border-radius: 10px;
   font-size: 12px;
@@ -112,8 +113,8 @@
   cursor: text;
   user-select: text;
   transition: border 0.18s;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 2px 0 5px;
+
   border-width: 2px;
   border-style: inset;
   border-color: #b1b1b1 #e0e0e0 #e0e0e0 #b1b1b1;
@@ -130,19 +131,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1px 5px 22px 5px;
-  background: #f8f8f8;
+  padding: 1px 1px 12px 1px;
+  background: #f8f8f816;
+  backdrop-filter: blur(10px);
+
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 
 .project-card-icon {
-  width: 56px;
-  height: 56px;
+  width: 100%;
+  height: fit-content;
   margin-bottom: 16px;
-  background: #fff;
+  /* background: #fff; */
   border-radius: 8px;
-  border: 1.5px solid #b1b1b1;
+  /* border: 1.5px solid #b1b1b1; */
   box-shadow: 0 1.5px 6px rgba(30, 41, 59, 0.07);
   object-fit: contain;
   display: flex !important;
@@ -163,17 +166,16 @@
 }
 
 .project-card-description {
-  font-size: 0.99rem;
+  font-size: 0.89rem;
   text-align: center;
-  color: #444;
-  /* margin-bottom: 0; */
-  line-height: 1.6;
-  padding: 0 2px;
-  background: #f3f3f3;
+  color: #ffffff;
+  /* line-height: 1.6; */
+  padding: 5px;
+  background: #2d2d2d8c;
   border-radius: 4px;
-  border: 1px solid #e3e3e3;
-  margin-top: 4px;
-  margin-bottom: 10px;
+  border: 1px solid #e3e3e344;
+  margin: 4px;
+  margin-bottom: 0px;
 }
 
 .project-card-link {
@@ -220,7 +222,7 @@
   border-radius: 10%;
   width: 25px;
   height: 25px;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: #333;
   display: flex;
   align-items: center;

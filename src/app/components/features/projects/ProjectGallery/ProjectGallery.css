@@ -7,7 +7,7 @@
   gap: 3rem;
 }
 
-.project-card {
+.project-gallery-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -27,7 +27,7 @@
   position: relative;
 }
 
-.project-card::before {
+.project-gallery-card::before {
   content: "";
   position: absolute;
   top: -50%;
@@ -44,11 +44,11 @@
   transition: transform 1.2s ease;
 }
 
-.project-card:hover::before {
+.project-gallery-card:hover::before {
   transform: rotate(25deg) translateX(30%);
 }
 
-.project-image-link {
+.project-gallery-image-link {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,15 +57,15 @@
   text-decoration: none;
 }
 
-.icon-container img {
+.project-gallery-icon-container img {
   object-fit: contain;
 }
 
-.icon-container img:hover {
+.project-gallery-icon-container img:hover {
   transform: scale(1.05);
 }
 
-.project-image {
+.project-gallery-image {
   max-width: fit-content;
   /* min-width: 100%; */
   height: 200px; /* Set a fixed height */
@@ -74,18 +74,18 @@
   transition: transform 0.4s ease;
 }
 
-.project-image:hover {
+.project-gallery-image:hover {
   transform: scale(1.05);
 }
 
-.project-icon {
+.project-gallery-icon {
   font-size: 8rem;
   color: #264653;
   text-shadow: 0 2px 0 rgb(247, 170, 233);
   z-index: 1;
 }
 
-.project-info {
+.project-gallery-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -94,21 +94,21 @@
   z-index: 1;
 }
 
-.project-title {
+.project-gallery-title {
   font-size: 2rem;
   margin: 0;
   font-weight: 400;
   /* text-transform: uppercase; */
 }
 
-.project-description {
+.project-gallery-description {
   margin-top: 1rem;
   font-size: 1.2rem;
   opacity: 0.8;
 }
 
 /* ===== section headings ===== */
-.section-title {
+.project-gallery-section-title {
   margin: 4rem 0 2rem;
   font-size: 2.5rem;
   letter-spacing: 0.5rem;
@@ -123,34 +123,34 @@
 }
 
 /* ===== archived cards ===== */
-.project-container.archived {
+.projects-container.archived {
   filter: grayscale(92%);
   opacity: 0.65;
   transition: filter 0.3s, opacity 0.3s;
 }
-.project-container.archived:hover {
+.projects-container.archived:hover {
   filter: none;
   opacity: 1;
 }
 
 /* Responsive */
 @media (max-width: 800px) {
-  .project-card {
+  .project-gallery-card {
     flex-direction: column;
     width: 90%;
     text-align: center;
   }
 
-  .project-info {
+  .project-gallery-info {
     width: 100%;
     margin-top: 1rem;
   }
 
-  .project-title {
+  .project-gallery-title {
     font-size: 1.8rem;
   }
 
-  .project-description {
+  .project-gallery-description {
     font-size: 1rem;
   }
 }

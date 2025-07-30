@@ -19,19 +19,26 @@
   border-radius: 15px;
   max-width: 410px;
   width: 94vw;
-  box-shadow: 2px 2px 0px #3b3a3a, 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 2px 2px 0px #3b3a3a, 0 8px 32px rgba(0, 0, 0, 0.13),
+    0 2px 8px rgba(0, 0, 0, 0.07);
   border: 2px solid #3b3a3a;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   overflow: hidden;
-  animation: fadeInServiceCard 0.22s cubic-bezier(0.4,0,0.2,1);
+  animation: fadeInServiceCard 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: "Geneva", "Chicago", monospace, sans-serif;
 }
 
 @keyframes fadeInServiceCard {
-  from { opacity: 0; transform: scale(0.97);}
-  to   { opacity: 1; transform: scale(1);}
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Title bar styling */
@@ -48,13 +55,15 @@
 .service-card-window-controls {
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
 }
 
 .service-card-close-btn {
   width: 10px;
   height: 10px;
-  background: #fff;
+  background: #f80303;
   border: 1px solid #3b3a3a;
   border-radius: 50%;
   cursor: pointer;
@@ -97,7 +106,7 @@
   background: #f3f4f6;
   border-radius: 10px;
   border: 1.5px solid #e5e7eb;
-  box-shadow: 0 1.5px 6px rgba(30,41,59,0.07);
+  box-shadow: 0 1.5px 6px rgba(30, 41, 59, 0.07);
   object-fit: contain;
   display: block;
 }
@@ -120,8 +129,6 @@
   padding: 0 2px;
 }
 
-/* ...existing code... */
-
 .service-card-bottom-arrows {
   display: flex;
   justify-content: center;
@@ -133,12 +140,16 @@
 
 .service-card-arrow-bottom {
   position: static;
+  font-size: 1.5rem;
+  color: #3b3a3a;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
   top: auto;
   left: auto;
   right: auto;
   transform: none;
   margin: 0 2px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 600px) {
@@ -153,7 +164,6 @@
   left: auto;
   right: auto;
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 600px) {

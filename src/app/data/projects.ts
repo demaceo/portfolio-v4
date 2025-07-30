@@ -4,11 +4,12 @@ const projectData: Project[] = [
   {
     id: 8,
     name: "Engineer My Career",
+    image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif", 
     description:
       "Engineer My Career helps developers plan, track, and accelerate their growth with personalized road-maps, skill assessments, and job-search tooling.",
     link: "https://engineermycareer.com",
     icon: "fas fa-briefcase icon",
-    image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
+    gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
   },
   {
     id: 0,
@@ -38,7 +39,7 @@ const projectData: Project[] = [
       "A pet adoption platform that connects users with rescue shelters across the U.S., integrating the Petfinder API for real-time listings.",
     link: "https://demaceo.github.io/adoptdontshop/",
     icon: "fa fa-paw icon",
-    // archived: true,
+    archived: true,
   },
   {
     id: 3,

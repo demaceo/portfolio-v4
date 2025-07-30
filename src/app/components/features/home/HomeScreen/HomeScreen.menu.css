@@ -58,6 +58,7 @@
   align-items: flex-start;
   gap: 14px;
   padding: 8px 0;
+  border-radius: 8px ;
   border-bottom: 1px solid #ececec;
   transition: background-color 0.18s, box-shadow 0.18s;
   cursor: pointer;
@@ -70,7 +71,7 @@
 /* Add hover/focus effect for project items */
 .menu-dropdown-project-item:hover,
 .menu-dropdown-project-item:focus {
-  background-color: #e0e0e0;
+  background-color: #bbb8b8;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
   outline: none;
 }
@@ -86,7 +87,7 @@
   bottom: 6px;
   width: 3px;
   border-radius: 2px;
-  background: #2563eb;
+  /* background: #2563eb; */
 }
 
 /* Ensure relative positioning for pseudo-element */
@@ -134,6 +135,7 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
+  border-radius: 8px;
   padding: 8px 0;
   border-bottom: 1px solid #ececec;
 }
@@ -172,14 +174,15 @@
   white-space: nowrap;
 }
 .menu-dropdown-service-item:hover {
-  background-color: #e0e0e0;
+  background-color: #bbb8b8;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* --- Contact Dropdown --- */
 .menu-dropdown-contactform {
-  margin-top: 10px;
+
+  margin-top: 1px;
   min-width: 320px;
   max-width: 400px;
   padding: 0;
@@ -245,16 +248,18 @@
 
 .menu-dropdown {
   position: absolute;
-  top: 170%;
+  top: 180%;
   left: 0;
   min-width: 220px;
-  background: #f3f4f6;
+  background: #e9ebeec1;
+  /* filter: blur(0px); */
+  backdrop-filter: blur(10px);
   color: #22223b;
   box-shadow: 0 4px 18px 0 rgba(60, 60, 60, 0.1),
     0 1.5px 4px rgba(0, 0, 0, 0.06);
   border: 1.5px solid #d1d5db;
-  /* border-radius: 12px; */
-  padding: 18px 5px;
+  border-radius: 12px;
+  padding: 1px 5px;
   z-index: 1011;
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
