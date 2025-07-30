@@ -8,6 +8,7 @@ export interface Project {
     link: string;
     icon?: string;
     archived?: boolean;
+    gif?: string; // Optional field for GIFs
 }
 
 export interface Service {
