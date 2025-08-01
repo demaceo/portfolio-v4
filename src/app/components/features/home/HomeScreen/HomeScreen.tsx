@@ -47,6 +47,7 @@ import "./HomeScreen.css";
 import "./HomeScreen.menu.css";
 import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
 import ProjectCard from "@/components/features/home/ProjectCard/ProjectCard";
+import AboutMeModal from "@/components/features/home/AboutMeModal/AboutMeModal";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -54,6 +55,7 @@ const HomeScreen = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
+  const [showAboutMe, setShowAboutMe] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<{
     id: number;
@@ -145,6 +147,8 @@ const HomeScreen = () => {
   ): void => {
     if (path === "/contact" || isToggle) {
       setShowContactForm(!showContactForm);
+    } else if (path === "/mindset") {
+      setShowAboutMe(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -716,6 +720,7 @@ const HomeScreen = () => {
           onClose={() => setSelectedService(null)}
         />
       )}
+      {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
     </div>
   );
 };
