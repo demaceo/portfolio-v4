@@ -139,9 +139,12 @@ const HomeScreen = () => {
     path: string;
   }
 
-  const handleAppClick = (path: HandleAppClickProps["path"]): void => {
-    if (path === "/contact") {
-      setShowContactForm(true);
+  const handleAppClick = (
+    path: HandleAppClickProps["path"],
+    isToggle?: boolean
+  ): void => {
+    if (path === "/contact" || isToggle) {
+      setShowContactForm(!showContactForm);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -160,7 +163,7 @@ const HomeScreen = () => {
     { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
     // { name: "Resume", icon: faFileAlt, path: "/resume" },
-    { name: "Contact", icon: faEnvelope, path: "/contact" },
+    { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
 
   const mobileApps = projectsData
@@ -306,12 +309,12 @@ const HomeScreen = () => {
             <button
               className="dock-app"
               type="button"
-              onClick={() => handleAppClick("/contact")}
+              onClick={() => setShowContactForm(!showContactForm)}
               tabIndex={0}
               aria-label="Contact"
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
-                  handleAppClick("/contact");
+                  setShowContactForm(!showContactForm);
                 }
               }}
             >
@@ -622,12 +625,12 @@ const HomeScreen = () => {
                 key={app.name}
                 className="desktop-icon"
                 type="button"
-                onClick={() => handleAppClick(app.path)}
+                onClick={() => handleAppClick(app.path, app.isToggle)}
                 tabIndex={0}
                 aria-label={app.name}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    handleAppClick(app.path);
+                    handleAppClick(app.path, app.isToggle);
                   }
                 }}
               >

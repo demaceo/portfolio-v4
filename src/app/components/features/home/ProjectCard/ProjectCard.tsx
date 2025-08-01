@@ -38,7 +38,7 @@ interface ProjectCardProps {
   link: string;
   onClose: () => void;
   initialIndex?: number;
-  gif?: string;
+  // gif?: string;
   icon?: string;
   archived?: boolean;
 }
@@ -150,7 +150,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   if (project.image) {
     projectVisual = (
       <Image
-        src={project.gif || ""}
+        src={project.image || ""}
         alt={project.name}
         width={56}
         height={56}
