@@ -19,6 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
+import InteractiveResume from "@/components/shared/InteractiveResume/InteractiveResume";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
@@ -48,6 +49,7 @@ import "./HomeScreen.menu.css";
 import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
 import ProjectCard from "@/components/features/home/ProjectCard/ProjectCard";
 import AboutMeModal from "@/components/features/home/AboutMeModal/AboutMeModal";
+import SkillsetModal from "@/components/features/home/SkillsetModal/SkillsetModal";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -56,6 +58,8 @@ const HomeScreen = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
+  const [showResume, setShowResume] = useState(false);
+  const [showSkillset, setShowSkillset] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<{
     id: number;
@@ -149,6 +153,8 @@ const HomeScreen = () => {
       setShowContactForm(!showContactForm);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
+    } else if (path === "/skillset") {
+      setShowSkillset(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -720,7 +726,15 @@ const HomeScreen = () => {
           onClose={() => setSelectedService(null)}
         />
       )}
-      {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
+      {showAboutMe && (
+        <AboutMeModal
+          onClose={() => setShowAboutMe(false)}
+          onOpenContact={() => setShowContactForm(true)}
+          onOpenResume={() => setShowResume(true)}
+        />
+      )}
+      {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
+      {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
     </div>
   );
 };
