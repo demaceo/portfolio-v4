@@ -247,6 +247,10 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
                                 height={180}
                                 className="project-image"
                                 loading="lazy"
+                                unoptimized={
+                                  typeof project.image === "string" &&
+                                  project.image.includes(".gif")
+                                }
                               />
                             ) : project.icon ? (
                               <div
@@ -345,6 +349,10 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
                                 height={180}
                                 className="project-image"
                                 loading="lazy"
+                                unoptimized={
+                                  typeof project.image === "string" &&
+                                  project.image.includes(".gif")
+                                }
                               />
                             ) : project.icon ? (
                               <div className="project-icon-container">
