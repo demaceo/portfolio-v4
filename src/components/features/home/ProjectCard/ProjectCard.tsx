@@ -148,6 +148,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         width={56}
         height={56}
         className="project-card-icon"
+        unoptimized={
+          typeof project.image === "string" && project.image.includes(".gif")
+        }
       />
     );
   } else if (project.icon) {
