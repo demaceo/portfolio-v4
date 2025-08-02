@@ -51,7 +51,7 @@
 }
 
 .menu-bar {
-  height: 20px;
+  height: 18px;
   background: #ffffff;
   border-bottom: 1px solid #3b3a3a;
   display: flex;
@@ -59,6 +59,7 @@
   align-items: center;
   padding: 10px 10px;
   font-size: 12px;
+  vertical-align: bottom;
 }
 
 .menu-left {
@@ -67,15 +68,14 @@
 }
 
 .my-logo {
-  height: 25px;
-  width: auto;
+  width: 25px;
+    height: 20px;
+
   object-fit: contain;
-  vertical-align: bottom;
+  /* vertical-align: bottom; */
   margin-right: 5px;
   /* margin-top: 2.5px; */
 }
-
-
 
 /* Fix icon positioning when view is inverted */
 .inverted-view .desktop-icon {
