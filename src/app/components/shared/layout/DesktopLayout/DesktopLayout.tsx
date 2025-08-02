@@ -222,7 +222,7 @@ const DesktopLayout = () => {
                   }}
                 >
                   <span className="icon">
-                    {app.icon && typeof app.icon !== "number" && (
+                    {isIconDefinition(app.icon) && (
                       <FontAwesomeIcon icon={app.icon} />
                     )}
                     {app.image && (
