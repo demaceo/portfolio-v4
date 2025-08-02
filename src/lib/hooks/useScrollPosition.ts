@@ -10,7 +10,10 @@ export function useScrollPosition() {
         let lastScrollY = window.pageYOffset;
 
         const updateScrollPosition = () => {
-            const currentScrollY = window.pageYOffset;
+        let lastScrollY = window.scrollY;
+
+        const updateScrollPosition = () => {
+            const currentScrollY = window.scrollY;
             setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
             setScrollY(currentScrollY);
             lastScrollY = currentScrollY;
