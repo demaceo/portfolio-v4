@@ -24,7 +24,7 @@ const services = [
     id: "sb4",
     title: "API & Microservices",
     description:
-      "Good software needs solid structure. I design APIs that act like reliable messengers: fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations, the goal is clean communication between systems, no drama",
+      "Good software needs solid structure. I design APIs that act like reliable messengers: fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations, the goal is clean communication between systems, no drama.",
     icon: "/icons/AM.png",
   },
   {
