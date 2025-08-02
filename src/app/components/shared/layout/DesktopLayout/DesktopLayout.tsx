@@ -40,7 +40,7 @@ import {
   faMarkdown,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
+import { aboutMePills } from "@/data/aboutMePills";
 import "./DesktopLayout.css";
 
 const DesktopLayout = () => {

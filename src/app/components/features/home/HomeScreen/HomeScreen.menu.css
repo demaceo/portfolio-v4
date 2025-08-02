@@ -1,17 +1,19 @@
 /* --- Projects Dropdown --- */
 .menu-dropdown-projects {
-  margin: 12px 0 0 0;
-  padding: 8px;
+  margin: 14px 0 10px 0;
+  padding: 12px;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  max-height: 360px;
+  gap: 6px;
+  /* max-height: 380px; */
   overflow-y: auto;
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
 }
 
 /* Enhanced scrollbar for all dropdowns */
@@ -39,113 +41,167 @@
 }
 
 .menu-dropdown-project-img {
-  width: 42px;
-  height: 42px;
+  width: 78px;
+  height: 78px;
   object-fit: cover;
-  border-radius: 8px;
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.15s ease;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-dropdown-project-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(29, 78, 216, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .menu-dropdown-project-info {
   flex: 1;
   min-width: 0;
-  padding-left: 2px;
+  padding-left: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .menu-dropdown-project-title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1f2937;
-  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f172a;
+  margin-bottom: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  transition: color 0.3s ease;
 }
 
 .menu-dropdown-project-desc {
   font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 6px;
-  line-height: 1.4;
+  color: #64748b;
+  margin-bottom: 8px;
+  line-height: 1.5;
   max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 400;
+  transition: color 0.3s ease;
 }
 
 .menu-dropdown-project-link {
   font-size: 11px;
   color: #3b82f6;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.15s ease;
-  background: #eff6ff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid #dbeafe;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
   display: inline-block;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.1);
 }
 
 .menu-dropdown-project-link:hover {
-  color: #1d4ed8;
-  background: #dbeafe;
-  border-color: #93c5fd;
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .menu-dropdown-project-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px 8px;
-  border-radius: 6px;
+  gap: 16px;
+  padding: 16px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
   position: relative;
-  transition: all 0.15s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+}
+
+.menu-dropdown-project-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.02) 0%,
+    rgba(29, 78, 216, 0.02) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .menu-dropdown-project-item:last-child {
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 .menu-dropdown-project-item:hover,
 .menu-dropdown-project-item:focus {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-color: #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(248, 250, 252, 0.9) 100%
+  );
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.08);
   outline: none;
-  transform: translateY(-1px);
-}
-
-.menu-dropdown-project-item:hover .menu-dropdown-project-img {
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .menu-dropdown-project-item:hover::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 3px;
-  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-  border-radius: 2px;
-  animation: slideIn 0.2s ease;
+  opacity: 1;
 }
 
-@keyframes slideIn {
-  from {
-    height: 0;
-    opacity: 0;
-  }
-  to {
-    height: 60%;
-    opacity: 1;
-  }
+.menu-dropdown-project-item:hover .menu-dropdown-project-img {
+  transform: scale(1.08) rotate(1deg);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-dropdown-project-item:hover .menu-dropdown-project-img::before {
+  opacity: 1;
+}
+
+.menu-dropdown-project-item:hover .menu-dropdown-project-title {
+  color: #1e40af;
+}
+
+.menu-dropdown-project-item:hover .menu-dropdown-project-desc {
+  color: #475569;
+}
+
+.menu-dropdown-project-item:active {
+  transform: translateY(-1px);
 }
 
 /* --- Tech Stack Dropdown --- */
@@ -301,15 +357,47 @@
 }
 
 /* --- Contact Dropdown --- */
-.menu-dropdown-contactform {
+.menu-dropdown-contact-info {
   margin-top: 8px;
-  min-width: 320px;
-  max-width: 400px;
-  padding: 12px;
+  min-width: 280px;
+  max-width: 320px;
+  padding: 16px;
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.contact-info-text {
+  margin-bottom: 12px;
+}
+
+.contact-info-text p {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.contact-trigger-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.contact-trigger-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 /* Menu Bar Root */
@@ -408,13 +496,13 @@
 }
 
 .menu-dropdown-pills {
-  margin: 14px 0 0 0;
+  margin: 16px 0 0 0;
   width: 100%;
   padding: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 10px;
+  gap: 12px 8px;
   max-width: 320px;
 }
 
@@ -424,7 +512,19 @@
   align-items: center;
   justify-content: space-between;
   min-width: 100%;
-  border-bottom: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 8px 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.menu-dropdown-pill-item:hover {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border-color: rgba(14, 116, 144, 0.3);
+  box-shadow: 0 4px 12px rgba(14, 116, 144, 0.15);
+  transform: translateY(-1px);
 }
 
 .pill-tag-label {
@@ -432,24 +532,35 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.18s, background 0.18s, box-shadow 0.18s;
-  border-radius: 8px;
-  padding: 2px 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  letter-spacing: 0.02em;
 }
 
 .pill-tag-mac:hover .pill-tag-label,
 .pill-tag-mac:focus .pill-tag-label {
-  background: #e0e7ef;
-  color: #1e293b;
-  box-shadow: 0 2px 8px 0 rgba(30, 41, 59, 0.07);
+  background: rgba(255, 255, 255, 0.8);
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(14, 116, 144, 0.1);
+  backdrop-filter: blur(4px);
 }
 
 .pill-tag-arrow {
-  margin-left: 15px;
-  color: #b0b0b0;
-  font-weight: 700;
-  font-size: 15px;
+  margin-left: 12px;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 14px;
   user-select: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-dropdown-pill-item:hover .pill-tag-arrow {
+  color: #0e7490;
+  transform: translateX(2px);
 }
 
 .pill-tooltip-mac {
@@ -458,21 +569,36 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: 12px;
-  background: #f9fafb;
-  color: #22223b;
-  border: 1.5px solid #d1d5db;
-  /* border-radius: 10px; */
-  box-shadow: 0 4px 18px 0 rgba(60, 60, 60, 0.1),
-    0 1.5px 4px rgba(0, 0, 0, 0.06);
-  padding: 7px 16px;
+  margin-left: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  color: #1e293b;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
   font-size: 13px;
+  line-height: 1.5;
   min-width: 200px;
+  max-width: 280px;
   z-index: 2000;
   white-space: pre-line;
   pointer-events: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Arial,
     sans-serif;
+  font-weight: 400;
+  backdrop-filter: blur(8px);
+}
+
+.pill-tooltip-mac::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(-1px 0 1px rgba(148, 163, 184, 0.1));
 }
 
 .pill-tag-mac .pill-tooltip-mac[data-show] {

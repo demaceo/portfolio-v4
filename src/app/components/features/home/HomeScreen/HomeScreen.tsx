@@ -17,7 +17,7 @@ import {
   faEnvelope,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { aboutMePills, AboutMePill } from "@/data/aboutMePills";
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
 import InteractiveResume from "@/components/shared/InteractiveResume/InteractiveResume";
 import { ASSET_PATHS } from "@/lib/constants/paths";
@@ -336,17 +336,7 @@ const HomeScreen = () => {
           </div>
         </div>
         {showContactForm && (
-          <div
-            className="contact-modal-overlay"
-            onClick={() => setShowContactForm(false)}
-          >
-            <div
-              className="contact-modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ContactForm onClose={() => setShowContactForm(false)} />
-            </div>
-          </div>
+          <ContactForm onClose={() => setShowContactForm(false)} />
         )}
       </div>
     );
@@ -365,10 +355,10 @@ const HomeScreen = () => {
               height={24}
             />
             {[
-              // { label: "About", key: "about" },
-              { label: "Projects", key: "projects" },
+              { label: "About", key: "about" },
               // { label: "Tech Stack", key: "tech" },
-              // { label: "Services", key: "services" },
+              { label: "Projects", key: "projects" },
+              { label: "Services", key: "services" },
               { label: "Contact", key: "contact" },
             ].map((item, idx, arr) => (
               <div
@@ -411,9 +401,8 @@ const HomeScreen = () => {
                     }`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {/* {item.key === "about" && (
+                    {item.key === "about" && (
                       <div>
-                   
                         <ul className="menu-dropdown-pills">
                           {aboutMePills.map((pill) => (
                             <li
@@ -459,7 +448,6 @@ const HomeScreen = () => {
                                 <span className="pill-tag-label">
                                   {pill.label}
                                 </span>
-                                <span className="pill-tag-arrow">&gt;</span>
                                 <span className="pill-tooltip-mac">
                                   {pill.tooltip}
                                 </span>
@@ -468,13 +456,10 @@ const HomeScreen = () => {
                           ))}
                         </ul>
                       </div>
-                    )} */}
+                    )}
 
                     {item.key === "services" && (
                       <div>
-                        {/* <strong className="menu-dropdown-title">
-                          Services
-                        </strong> */}
                         <ul className="menu-dropdown-services">
                           {services.map((service) => (
                             <li
@@ -556,7 +541,9 @@ const HomeScreen = () => {
                                         }}
                                       >
                                         <FontAwesomeIcon
-                                          icon={iconMap[proj.icon] || faLaptopCode}
+                                          icon={
+                                            iconMap[proj.icon] || faLaptopCode
+                                          }
                                         />
                                       </span>
                                     );
@@ -621,10 +608,21 @@ const HomeScreen = () => {
                       </div>
                     )}
                     {item.key === "contact" && (
-                      <div className="menu-dropdown-contactform">
-                        <ContactForm
-                          onClose={() => setShowContactForm(false)}
-                        />
+                      <div className="menu-dropdown-contact-info">
+                        <div className="contact-info-text">
+                          <p>
+                            Ready to connect? Let&apos;s start a conversation!
+                          </p>
+                        </div>
+                        <button
+                          className="contact-trigger-btn"
+                          onClick={() => {
+                            setShowContactForm(true);
+                            setOpenDropdown(null);
+                          }}
+                        >
+                          Open Contact Form
+                        </button>
                       </div>
                     )}
                   </div>
@@ -705,17 +703,7 @@ const HomeScreen = () => {
       </div>
 
       {showContactForm && (
-        <div
-          className="contact-modal-overlay"
-          onClick={() => setShowContactForm(false)}
-        >
-          <div
-            className="contact-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ContactForm onClose={() => setShowContactForm(false)} />
-          </div>
-        </div>
+        <ContactForm onClose={() => setShowContactForm(false)} />
       )}
       {selectedProject && (
         <ProjectCard

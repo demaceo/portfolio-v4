@@ -86,88 +86,93 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
   };
 
   return (
-    <div className="contact-form-container">
-      <div className="email-form-wrapper">
-        <div className="contact-title-bar">
-          <div className="contact-window-controls">
-            <button
-              className="contact-close-btn"
-              onClick={onClose}
-              aria-label="Close Contact Form"
-            ></button>
-          </div>
-          <span className="contact-window-title">Contact Me</span>
-        </div>
-
-        <form className="email-form" onSubmit={sendEmail}>
-          <label htmlFor="from_name">Name</label>
-          <input
-            ref={nameInputRef}
-            type="text"
-            name="from_name"
-            id="from_name"
-            placeholder="Enter your name"
-            required
-          />
-
-          <label htmlFor="reply_to">Email</label>
-          <input
-            type="email"
-            name="reply_to"
-            id="reply_to"
-            placeholder="Enter your email"
-            required
-          />
-
-          <label htmlFor="message">Message</label>
-          <textarea
-            name="message"
-            id="message"
-            placeholder="Enter your message"
-            required
-          />
-
-          <input
-            id="submit-button"
-            type="submit"
-            value={isSubmitting ? "Sending..." : "Send"}
-            disabled={isSubmitting}
-            aria-disabled={isSubmitting}
-          />
-        </form>
-
-        <p
-          id="form-sent-status"
-          aria-live="polite"
-          role="status"
-          style={{ minHeight: "1.5rem" }}
-        >
-          {stateMessage}
-        </p>
-
-        <div className="alternative-contact-methods">
-          <div className="contact-divider">
-            <span>or connect via</span>
+    <div className="contact-modal-overlay" onClick={onClose}>
+      <div
+        className="contact-form-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="email-form-wrapper">
+          <div className="contact-title-bar">
+            <div className="contact-window-controls">
+              <button
+                className="contact-close-btn"
+                onClick={onClose}
+                aria-label="Close Contact Form"
+              ></button>
+            </div>
+            <span className="contact-window-title">Contact Me</span>
           </div>
 
-          <div className="alternative-buttons">
-            <a
-              href={EXTERNAL_LINKS.LINKEDIN}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="alternative-contact-btn linkedin-btn"
-            >
-              <i className="fab fa-linkedin-in"></i>
-              LinkedIn
-            </a>
+          <form className="email-form" onSubmit={sendEmail}>
+            <label htmlFor="from_name">Name</label>
+            <input
+              ref={nameInputRef}
+              type="text"
+              name="from_name"
+              id="from_name"
+              placeholder="Enter your name"
+              required
+            />
 
-            <button
-              onClick={handleCalendlyClick}
-              className="alternative-contact-btn calendly-btn"
-            >
-              <i className="fas fa-calendar-alt"></i>
-              Schedule a Coffee Chat
-            </button>
+            <label htmlFor="reply_to">Email</label>
+            <input
+              type="email"
+              name="reply_to"
+              id="reply_to"
+              placeholder="Enter your email"
+              required
+            />
+
+            <label htmlFor="message">Message</label>
+            <textarea
+              name="message"
+              id="message"
+              placeholder="Enter your message"
+              required
+            />
+
+            <input
+              id="submit-button"
+              type="submit"
+              value={isSubmitting ? "Sending..." : "Send"}
+              disabled={isSubmitting}
+              aria-disabled={isSubmitting}
+            />
+          </form>
+
+          <p
+            id="form-sent-status"
+            aria-live="polite"
+            role="status"
+            style={{ minHeight: "1.5rem" }}
+          >
+            {stateMessage}
+          </p>
+
+          <div className="alternative-contact-methods">
+            <div className="contact-divider">
+              <span>or connect via</span>
+            </div>
+
+            <div className="alternative-buttons">
+              <a
+                href={EXTERNAL_LINKS.LINKEDIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="alternative-contact-btn linkedin-btn"
+              >
+                <i className="fab fa-linkedin-in"></i>
+                LinkedIn
+              </a>
+
+              <button
+                onClick={handleCalendlyClick}
+                className="alternative-contact-btn calendly-btn"
+              >
+                <i className="fas fa-calendar-alt"></i>
+                Schedule a Coffee Chat
+              </button>
+            </div>
           </div>
         </div>
       </div>

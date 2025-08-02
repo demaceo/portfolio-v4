@@ -1,20 +1,51 @@
+/* Modal Overlay */
+.contact-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .contact-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Geneva", "Chicago", monospace, sans-serif;
   color: #3b3a3a;
-  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .email-form-wrapper {
   position: relative;
   background: #ffffff;
   border: 2px solid #3b3a3a;
-  box-shadow: 2px 2px 0px #3b3a3a;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
   padding: 0;
   width: 100%;
   max-width: 400px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .contact-title-bar {
@@ -218,8 +249,16 @@
 
 /* Responsive */
 @media (max-width: 500px) {
+  .contact-modal-overlay {
+    padding: 10px;
+  }
+
+  .contact-form-container {
+    max-width: 100%;
+  }
+
   .email-form-wrapper {
-    max-width: 350px;
+    max-width: 100%;
   }
 
   .email-form {

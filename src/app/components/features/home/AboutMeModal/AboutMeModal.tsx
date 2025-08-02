@@ -1,8 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  aboutMePills,
-  AboutMePill,
-} from "@/components/shared/AboutMe/aboutMePills";
+import { aboutMePills, AboutMePill } from "@/data/aboutMePills";
 import "./AboutMeModal.css";
 
 interface AboutMeModalProps {
