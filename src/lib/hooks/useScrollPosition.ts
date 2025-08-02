@@ -9,7 +9,6 @@ export function useScrollPosition() {
     useEffect(() => {
         let lastScrollY = window.pageYOffset;
 
-        const updateScrollPosition = () => {
         let lastScrollY = window.scrollY;
 
         const updateScrollPosition = () => {
