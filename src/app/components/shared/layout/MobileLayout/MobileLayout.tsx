@@ -147,9 +147,7 @@ const MobileLayout = () => {
                 }}
               >
                 <span className="icon">
-                  {isIconDefinition(app.icon) && (
-                    <FontAwesomeIcon icon={app.icon} />
-                  )}
+                  {app.icon && <FontAwesomeIcon icon={app.icon} />}
                   {app.image && (
                     <Image
                       className="app-image"
