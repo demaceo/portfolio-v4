@@ -36,7 +36,6 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<
     "services" | "tools" | "principles"
   >("services");
-  const [openPrinciple, setOpenPrinciple] = useState<number | null>(null);
   const dragOffset = useRef({ x: 0, y: 0 });
 
   // Center the modal on mount
@@ -138,10 +137,6 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
   const handleTouchEnd = () => {
     setDragging(false);
     document.body.style.userSelect = "";
-  };
-
-  const handlePrincipleToggle = (index: number) => {
-    setOpenPrinciple((prev) => (prev === index ? null : index));
   };
 
   return (
@@ -322,35 +317,14 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
                 >
                   <h2>Principles & Strategies</h2>
                   <div className="principles-list">
-                    {principlesData.map((principle, index) => (
-                      <div
-                        key={principle.id}
-                        className={`principle-item ${
-                          openPrinciple === index ? "open" : ""
-                        }`}
-                      >
-                        <button
-                          className="principle-header"
-                          onClick={() => handlePrincipleToggle(index)}
-                          aria-expanded={openPrinciple === index}
-                        >
+                    {principlesData.map((principle) => (
+                      <div key={principle.id} className="principle-item">
+                        <div className="principle-header">
                           <h3>{principle.title}</h3>
-                          <span className="principle-toggle">
-                            {openPrinciple === index ? "−" : "+"}
-                          </span>
-                        </button>
-                        <AnimatePresence>
-                          {openPrinciple === index && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="principle-content"
-                            >
-                              <p>{principle.description}</p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                          <p className="principle-description">
+                            {principle.description}
+                          </p>
+                        </div>
                       </div>
                     ))}
                   </div>

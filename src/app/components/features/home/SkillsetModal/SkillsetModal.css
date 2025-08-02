@@ -364,11 +364,13 @@
 /* Enhanced Services Grid - Classic Mac Aesthetic */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 28px;
   margin-top: 32px;
   padding: 0 12px;
-  max-width: 1200px;
+  /* max-width: 100%; */
+  justify-content: center;
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
 }
@@ -684,11 +686,11 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 16px;
-  overflow: hidden;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   position: relative;
+  margin-bottom: 4px;
 }
 
 .principle-item::before {
@@ -708,71 +710,45 @@
 }
 
 .principle-item:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0, 122, 255, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 122, 255, 0.15),
-    0 4px 16px rgba(0, 122, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+  border-color: rgba(0, 122, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.1),
+    0 3px 12px rgba(0, 122, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .principle-header {
   width: 100%;
-  padding: 24px;
+  padding: 28px 32px;
   background: transparent;
   border: none;
   text-align: left;
-  cursor: pointer;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background-color 0.3s ease;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
   z-index: 1;
-}
-
-.principle-header:hover {
-  background: rgba(0, 122, 255, 0.05);
-}
-
-.principle-header:focus {
-  outline: none;
-  background: rgba(0, 122, 255, 0.08);
 }
 
 .principle-header h3 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #1d1d1f;
-  margin: 0;
+  margin: 0 0 12px 0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
-.principle-toggle {
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: #007aff;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-.principle-item.open .principle-toggle {
-  transform: rotate(180deg);
-}
-
-.principle-content {
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-}
-
-.principle-content p {
-  padding: 0 24px 24px;
-  margin: 0;
+.principle-description {
   font-size: 1rem;
-  line-height: 1.7;
-  color: #515154;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  line-height: 1.6;
+  color: #6a6a6a;
+  margin: 0;
   font-weight: 400;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  opacity: 0.9;
 }
 
 /* Enhanced Responsive Design */
@@ -925,17 +901,17 @@
   }
 
   .principle-header {
-    padding: 20px;
+    padding: 24px 28px;
   }
 
   .principle-header h3 {
     font-size: 1.1rem;
+    margin-bottom: 10px;
   }
 
-  .principle-content p {
-    padding: 0 20px 20px;
+  .principle-description {
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 }
 
@@ -1024,11 +1000,17 @@
   }
 
   .principle-header {
-    padding: 16px;
+    padding: 20px 24px;
   }
 
-  .principle-content p {
-    padding: 0 16px 16px;
+  .principle-header h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .principle-description {
+    font-size: 0.9rem;
+    line-height: 1.4;
   }
 }
 
@@ -1081,8 +1063,7 @@
 
 /* Focus states for better accessibility */
 .service-card:focus-visible,
-.tool-item:focus-visible,
-.principle-header:focus-visible {
+.tool-item:focus-visible {
   outline: 2px solid #007aff;
   outline-offset: 2px;
 }
@@ -1138,7 +1119,7 @@
     color: #f2f2f7;
   }
 
-  .principle-content p {
+  .principle-description {
     color: #8e8e93;
   }
 }

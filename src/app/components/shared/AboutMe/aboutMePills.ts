@@ -1,6 +1,7 @@
 export interface AboutMePill {
     label: string;
     tooltip: string;
+    link?: string;
 }
 
 export const aboutMePills: AboutMePill[] = [
@@ -36,6 +37,7 @@ export const aboutMePills: AboutMePill[] = [
     },
     {
         label: "& more...",
-        tooltip: "stay tuned to find out!",
+        tooltip: "check out this documentary I was recently featured in!",
+        link: "https://roadtripnation.com/roadtrip/tech-for-us-documentary",
     },
 ];

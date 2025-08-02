@@ -2,9 +2,16 @@
 
 import React from "react";
 import "./AboutMe.css";
-import { aboutMePills } from "./aboutMePills";
+import { aboutMePills, AboutMePill } from "./aboutMePills";
 
 const AboutMe: React.FC = () => {
+  const handlePillClick = (pill: AboutMePill) => {
+    if (pill.link) {
+      console.log("Pill clicked:", pill.label, pill.link);
+      window.open(pill.link, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <section className="about-me-container">
       <div className="about-me-title-container">
@@ -54,9 +61,20 @@ const AboutMe: React.FC = () => {
         <ul className="about-me-list">
           {aboutMePills.map((pill) => (
             <li key={pill.label}>
-              <span className="pill-tag" data-tooltip={pill.tooltip}>
-                <strong>{pill.label}</strong>
-              </span>
+              {pill.link ? (
+                <div
+                  className="pill-tag pill-link"
+                  data-tooltip={pill.tooltip}
+                  onClick={() => handlePillClick(pill)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <strong>{pill.label}</strong>
+                </div>
+              ) : (
+                <span className="pill-tag" data-tooltip={pill.tooltip}>
+                  <strong>{pill.label}</strong>
+                </span>
+              )}
             </li>
           ))}
         </ul>

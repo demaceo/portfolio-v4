@@ -1,5 +1,8 @@
 import React, { useState, useRef } from "react";
-import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
+import {
+  aboutMePills,
+  AboutMePill,
+} from "@/components/shared/AboutMe/aboutMePills";
 import "./AboutMeModal.css";
 
 interface AboutMeModalProps {
@@ -19,6 +22,9 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
   const [scrollProgress, setScrollProgress] = useState(0);
   const dragOffset = useRef({ x: 0, y: 0 });
   const bodyRef = useRef<HTMLDivElement>(null);
+
+  // Tooltip state
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   // Center the modal on mount
   React.useEffect(() => {
@@ -43,6 +49,24 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
       return () => bodyElement.removeEventListener("scroll", handleScroll);
     }
   }, []);
+
+  const handlePillClick = (pill: AboutMePill) => {
+    // Toggle tooltip display for all pills
+    if (activeTooltip === pill.label) {
+      setActiveTooltip(null);
+    } else {
+      setActiveTooltip(pill.label);
+    }
+
+    // Handle link navigation for clickable pills
+    if (pill.link) {
+      console.log("Modal pill clicked:", pill.label, pill.link);
+      // Small delay to show tooltip before opening link
+      setTimeout(() => {
+        window.open(pill.link, "_blank", "noopener,noreferrer");
+      }, 300);
+    }
+  };
 
   // Action button handlers
   const handleContactMe = () => {
@@ -111,6 +135,14 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
     document.body.style.userSelect = "";
   };
 
+  // Close tooltip when clicking outside of pills
+  const handleModalClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest(".about-modal-pill")) {
+      setActiveTooltip(null);
+    }
+  };
+
   return (
     <div
       className="about-modal-overlay"
@@ -150,7 +182,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
           <span className="about-modal-window-title">About</span>
         </div>
 
-        <div className="about-modal-content">
+        <div className="about-modal-content" onClick={handleModalClick}>
           <div className="about-modal-header">
             <h2>Hello, I&apos;m Demaceo Vincent</h2>
             <p className="about-modal-subtitle">
@@ -201,10 +233,24 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
                 {aboutMePills.map((pill) => (
                   <div
                     key={pill.label}
-                    className="about-modal-pill"
-                    title={pill.tooltip}
+                    className={`about-modal-pill ${
+                      pill.link ? "clickable" : ""
+                    } ${activeTooltip === pill.label ? "active" : ""}`}
+                    onClick={() => handlePillClick(pill)}
+                    style={{ cursor: "pointer" }}
                   >
                     {pill.label}
+                    {activeTooltip === pill.label && (
+                      <div className="about-modal-pill-tooltip">
+                        {pill.tooltip}
+                        {pill.link && (
+                          <span className="tooltip-link-hint">
+                            {" "}
+                            (Click to open)
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

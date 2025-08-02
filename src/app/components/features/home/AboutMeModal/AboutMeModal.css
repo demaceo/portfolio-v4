@@ -285,6 +285,80 @@
   transition: all 0.1s ease;
 }
 
+/* Clickable pill styles */
+.about-modal-pill.clickable {
+  cursor: pointer;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.about-modal-pill.clickable:hover {
+  background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
+  border-color: #d97706;
+  color: #78350f;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.about-modal-pill.clickable:active {
+  transform: translateY(0) scale(1);
+  transition: all 0.1s ease;
+}
+
+/* Tooltip styles */
+.about-modal-pill-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  white-space: normal;
+  z-index: 1000;
+  margin-top: 8px;
+  max-width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+.about-modal-pill-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.9);
+}
+
+.tooltip-link-hint {
+  color: #fbbf24;
+  font-weight: 500;
+}
+
+.about-modal-pill.active {
+  z-index: 100;
+  position: relative;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 /* Enhanced Footer with Progress and Actions */
 .about-modal-footer {
   flex-shrink: 0;
