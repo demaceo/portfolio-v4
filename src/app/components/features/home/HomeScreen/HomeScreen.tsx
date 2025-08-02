@@ -362,10 +362,10 @@ const HomeScreen = () => {
               height={24}
             />
             {[
-              { label: "About", key: "about" },
+              // { label: "About", key: "about" },
               { label: "Projects", key: "projects" },
               // { label: "Tech Stack", key: "tech" },
-              { label: "Services", key: "services" },
+              // { label: "Services", key: "services" },
               { label: "Contact", key: "contact" },
             ].map((item, idx, arr) => (
               <div
@@ -408,11 +408,9 @@ const HomeScreen = () => {
                     }`}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {item.key === "about" && (
+                    {/* {item.key === "about" && (
                       <div>
-                        {/* <strong className="menu-dropdown-title">
-                          About Me
-                        </strong> */}
+                   
                         <ul className="menu-dropdown-pills">
                           {aboutMePills.map((pill) => (
                             <li
@@ -467,7 +465,7 @@ const HomeScreen = () => {
                           ))}
                         </ul>
                       </div>
-                    )}
+                    )} */}
 
                     {item.key === "services" && (
                       <div>
