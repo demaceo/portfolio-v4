@@ -1,6 +1,6 @@
 # Portfolio v4 - Demaceo Vincent
 
-A modern, performance-optimized portfolio website built with Next.js 15, showcasing professional experience, projects, and skills through an immersive, interactive digital experience.
+A modern, performance-optimized portfolio website built with Next.js 15, showcasing professional experience, projects, and skills through an immersive, interactive digital experience with a unique oldschool Macintosh aesthetic.
 
 ## 🚀 Live Demo
 
@@ -10,32 +10,35 @@ Visit the live portfolio: [https://demaceo.com](https://demaceo.com)
 
 ### 🎨 Interactive Design
 
-- **Modern UI/UX**: Gradient-based design system with glass morphism effects
+- **Retro-Modern UI/UX**: Unique blend of classic Macintosh System 7/Platinum aesthetics with modern functionality
+- **Glass Morphism & Mac Classic**: Seamless integration of contemporary glass effects with nostalgic computing elements
 - **Smooth Animations**: Powered by Framer Motion for seamless transitions and micro-interactions
 - **Responsive Design**: Mobile-first approach, fully optimized for all device sizes
 - **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
 
 ### 🚀 Performance Optimized
 
-- **Feature-Based Architecture**: Organized components by business domain for better maintainability
+- **Feature-Based Architecture**: Organized components by business domain for better maintainability and scalability
 - **Next.js 15**: Latest App Router with optimized image handling and asset management
 - **TypeScript**: Full type safety and enhanced developer experience
-- **CSS Variables**: Dynamic theming system with consistent color palette
+- **Modular CSS**: Component-scoped styling with CSS modules and custom properties
+- **Optimized Bundle Splitting**: Efficient code organization for faster load times
 
 ### 🎯 Core Sections
 
-- **About Me**: Personal introduction with interactive skill pills and tooltips
-- **Service Spectrum**: Interactive flip cards showcasing service offerings
-- **Project Gallery**: Animated showcase of current and archived work
-- **Skills & Principles**: Dynamic toolbelt and core values presentation
-- **Interactive Resume**: PDF-exportable resume with professional layout
-- **Contact Integration**: Floating contact button with EmailJS integration
+- **Interactive Home Screen**: Mac-inspired desktop interface with draggable windows and classic UI elements
+- **About Me**: Personal introduction with interactive skill pills and animated tooltips
+- **SkillsetModal**: Oldschool Macintosh-styled modal featuring services, tools, and principles
+- **Project Gallery**: Animated showcase of current and archived work with modal presentations
+- **Contact System**: Full modal contact form with EmailJS integration and floating contact button
+- **Interactive Resume**: PDF-exportable resume with professional layout and download functionality
 
 ### 🛠️ Technical Highlights
 
 - **Modern Stack**: Next.js 15.4.2 with App Router and React 19
+- **Nostalgic Aesthetics**: Authentic Mac System 7 design language with classic fonts and UI patterns
 - **Performance**: Optimized images, lazy loading, and efficient bundle splitting
-- **Developer Experience**: ESLint, TypeScript, and modular component architecture
+- **Developer Experience**: ESLint, TypeScript, and feature-based modular architecture
 - **SEO Ready**: Proper meta tags, structured data, and optimized routing
 
 ## 🔧 Tech Stack
@@ -106,55 +109,186 @@ Visit the live portfolio: [https://demaceo.com](https://demaceo.com)
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
+## 🎨 Design Philosophy
+
+### Retro-Modern Aesthetic
+
+This portfolio uniquely blends nostalgic computing aesthetics with modern web technologies:
+
+- **Classic Mac System 7/Platinum UI**: Authentic oldschool Macintosh design language with proper gradients, inset/outset borders, and classic typography (Chicago, Geneva, Charcoal fonts)
+- **Glass Morphism**: Contemporary design elements with backdrop blur effects and translucent surfaces
+- **Seamless Integration**: Thoughtful combination of retro and modern elements that feels both familiar and fresh
+
+### Component Architecture
+
+The application follows a **feature-based architecture** for optimal maintainability:
+
+- **Domain-Driven Organization**: Components grouped by business domain rather than technical type
+- **Barrel Exports**: Clean import statements using index.ts files for better developer experience
+- **TypeScript Path Mapping**: Intuitive import aliases (`@/features/*`, `@/data/*`, `@/lib/*`)
+- **Modular CSS**: Component-scoped styling with CSS modules preventing style conflicts
+
+## 🚧 Recent Improvements
+
+### File Structure Optimization (v4.1)
+
+- **Migrated to Feature-Based Architecture**: Reorganized all components by business domain
+- **Improved Import Paths**: Updated TypeScript path mappings for better developer experience
+- **Enhanced Maintainability**: Clear separation of concerns with logical component grouping
+- **Better Scalability**: Structure ready for future feature additions
+
+### UI/UX Enhancements
+
+- **SkillsetModal Redesign**: Complete transformation to authentic oldschool Macintosh aesthetic
+- **Contact Form Modal**: Converted to full modal experience with backdrop interaction
+- **Enhanced AboutMePills**: Modern pill design with improved visual hierarchy
+- **Classic Mac Window Controls**: Authentic System 7 window elements with proper interaction states
+
+## 🛠️ Development Guidelines
+
+### Adding New Features
+
+1. **Create feature directory** in `src/components/features/`
+2. **Add barrel export** in feature's `index.ts`
+3. **Update TypeScript paths** if needed in `tsconfig.json`
+4. **Follow naming conventions** with PascalCase for components
+
+### Styling Approach
+
+- **CSS Modules**: Use `.module.css` for component-specific styles
+- **CSS Variables**: Leverage custom properties for consistent theming
+- **Responsive Design**: Mobile-first approach with progressive enhancement
+- **Classic Mac Elements**: Maintain authentic System 7 design patterns where applicable
+
 ## 📁 Project Structure
 
 ```
-src/
-├── app/
-│   ├── components/                    # Component organization
-│   │   ├── features/                  # Feature-based components
-│   │   │   ├── contact/              # Contact functionality
-│   │   │   │   ├── Contact/          # Main contact section
-│   │   │   │   ├── ContactForm/      # Form component
-│   │   │   │   └── FloatingContactButton/ # Floating CTA
-│   │   │   ├── home/                 # Homepage components
-│   │   │   │   ├── HomeScreen/       # Main landing interface
-│   │   │   │   ├── QuirkyPopup/      # Interactive modals
-│   │   │   │   └── RandomButton/     # Easter egg functionality
-│   │   │   ├── projects/             # Project-related components
-│   │   │   │   └── ProjectGallery/   # Animated project showcase
-│   │   │   └── skills/               # Skills and services
-│   │   │       ├── ServiceSpectrum/  # Service cards with flip animation
-│   │   │       ├── Toolbelt/         # Skills ticker animation
-│   │   │       └── PrinciplesList/   # Core principles display
-│   │   ├── shared/                   # Shared across features
-│   │   │   ├── AboutMe/              # Personal introduction
-│   │   │   └── InteractiveResume/    # PDF-exportable resume
-│   │   └── ui/                       # Pure UI components
-│   │       ├── Layout/               # App-wide layout wrapper
-│   │       └── NavBar/               # Navigation component
-│   ├── data/                         # Data and content
-│   │   ├── projects.ts               # Project information
-│   │   ├── services.ts               # Service offerings
-│   │   ├── principles.ts             # Core principles
-│   │   ├── timeline.ts               # Career timeline
-│   │   └── DemaceoResume.tsx         # Resume structure
-│   ├── lib/                          # Utilities and types
-│   │   ├── types.ts                  # TypeScript definitions
-│   │   └── constants/                # App constants
-│   ├── mindset/                      # About page route
-│   ├── skillset/                     # Skills page route
-│   ├── projects/                     # Projects page route
-│   ├── project/[id]/                 # Dynamic project pages
-│   ├── globals.css                   # Global styles and CSS variables
-│   ├── layout.tsx                    # Root layout with metadata
-│   └── page.tsx                      # Homepage
-├── public/                           # Static assets (optimized for Next.js)
-│   ├── icons/                        # Service and project icons
-│   ├── logo/                         # Brand assets
-│   └── bg/                           # Background images
-└── package.json                      # Dependencies and scripts
+portfolio-v4/
+├── .env.local                        # Environment variables
+├── .gitignore                        # Git ignore rules
+├── package.json                      # Dependencies and scripts
+├── next.config.ts                    # Next.js configuration
+├── tsconfig.json                     # TypeScript configuration
+├── README.md                         # Project documentation
+│
+├── public/                           # Static assets
+│   ├── icons/                        # Service/feature icons
+│   ├── images/                       # Static images and media
+│   ├── logos/                        # Brand logos and assets
+│   └── projects/                     # Project screenshots
+│
+└── src/                              # Source code
+    ├── app/                          # Next.js App Router
+    │   ├── layout.tsx                # Root layout component
+    │   ├── page.tsx                  # Home page
+    │   ├── globals.css               # Global styles and variables
+    │   ├── loading.tsx               # Loading UI
+    │   ├── error.tsx                 # Error UI
+    │   ├── not-found.tsx             # 404 page
+    │   │
+    │   ├── (routes)/                 # Route groups
+    │   │   ├── desktop/              # Desktop view route
+    │   │   │   └── page.tsx
+    │   │   ├── mobile/               # Mobile view route
+    │   │   │   └── page.tsx
+    │   │   └── project/              # Dynamic project routes
+    │   │       └── [id]/
+    │   │           └── page.tsx
+    │   │
+    │   └── api/                      # API routes
+    │       ├── contact/              # Contact form API
+    │       │   └── route.ts
+    │       └── health/               # Health check API
+    │           └── route.ts
+    │
+    ├── components/                   # React components (Feature-organized)
+    │   ├── features/                 # Business domain components
+    │   │   ├── home/                 # Homepage functionality
+    │   │   │   ├── HomeScreen/       # Main desktop interface
+    │   │   │   └── index.ts          # Feature exports
+    │   │   ├── contact/              # Contact functionality
+    │   │   │   ├── ContactForm/      # Modal contact form
+    │   │   │   ├── FloatingContactButton/ # Floating CTA
+    │   │   │   └── index.ts          # Feature exports
+    │   │   ├── skills/               # Skills and services
+    │   │   │   ├── SkillsetModal/    # Mac-styled skills modal
+    │   │   │   ├── ServiceCard/      # Service display cards
+    │   │   │   └── index.ts          # Feature exports
+    │   │   ├── portfolio/            # Project portfolio
+    │   │   │   ├── ProjectCard/      # Individual project cards
+    │   │   │   ├── ProjectsModal/    # Projects overview modal
+    │   │   │   └── index.ts          # Feature exports
+    │   │   ├── about/                # About section
+    │   │   │   ├── AboutMeModal/     # About modal component
+    │   │   │   └── index.ts          # Feature exports
+    │   │   └── resume/               # Resume functionality
+    │   │       ├── InteractiveResume/ # PDF-exportable resume
+    │   │       └── index.ts          # Feature exports
+    │   │
+    │   ├── layout/                   # Layout components
+    │   │   ├── DesktopLayout/        # Desktop-specific layout
+    │   │   ├── MobileLayout/         # Mobile-specific layout
+    │   │   └── index.ts              # Layout exports
+    │   │
+    │   ├── ui/                       # Reusable UI components
+    │   │   ├── Layout/               # App-wide layout wrapper
+    │   │   ├── NavBar/               # Navigation component
+    │   │   └── index.ts              # UI exports
+    │   │
+    │   └── common/                   # Shared utilities
+    │       ├── ErrorBoundary/        # Error handling
+    │       ├── Loading/              # Loading states
+    │       └── index.ts              # Common exports
+    │
+    ├── data/                         # Static data and content
+    │   ├── projects.ts               # Project information
+    │   ├── services.ts               # Service offerings
+    │   ├── principles.ts             # Core principles
+    │   ├── aboutMePills.ts           # About section data
+    │   ├── timeline.ts               # Career timeline
+    │   ├── navigation.ts             # Navigation data
+    │   ├── DemaceoResume.tsx         # Resume structure
+    │   └── index.ts                  # Data exports
+    │
+    ├── lib/                          # Utilities and configurations
+    │   ├── constants/                # Application constants
+    │   │   ├── paths.ts              # Asset and route paths
+    │   │   ├── routes.ts             # Application routes
+    │   │   └── index.ts              # Constants exports
+    │   ├── utils/                    # Utility functions
+    │   │   ├── formatting.ts         # Data formatting
+    │   │   ├── validation.ts         # Input validation
+    │   │   └── index.ts              # Utils exports
+    │   ├── types/                    # TypeScript definitions
+    │   │   ├── global.ts             # Global types
+    │   │   ├── components.ts         # Component types
+    │   │   └── index.ts              # Type exports
+    │   └── services/                 # External service integrations
+    │       ├── emailjs.ts            # Email service
+    │       └── index.ts              # Service exports
+    │
+    ├── hooks/                        # Custom React hooks
+    │   ├── useProjects.ts            # Project data hook
+    │   ├── useScrollPosition.ts      # Scroll tracking hook
+    │   └── index.ts                  # Hook exports
+    │
+    └── styles/                       # Global styles and themes
+        ├── globals.css               # Global CSS variables
+        ├── components.css            # Component-specific styles
+        └── themes/                   # Theme variations
+            ├── light.css             # Light theme
+            └── dark.css              # Dark theme
 ```
+
+│ ├── layout.tsx # Root layout with metadata
+│ └── page.tsx # Homepage
+├── public/ # Static assets (optimized for Next.js)
+│ ├── icons/ # Service and project icons
+│ ├── logo/ # Brand assets
+│ └── bg/ # Background images
+└── package.json # Dependencies and scripts
+
+````
 
 ## 🎨 Key Components
 
@@ -198,7 +332,7 @@ Professional resume component with:
 ```bash
 npm run build
 npm start
-```
+````
 
 ### Recommended Platforms
 
@@ -263,26 +397,39 @@ npm run lint         # ESLint code quality check
 
 ## 🤝 Contributing
 
-This is a personal portfolio, but suggestions are welcome:
+This is a personal portfolio project, but I welcome:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Commit changes (`git commit -am 'Add improvement'`)
-4. Push to branch (`git push origin feature/improvement`)
-5. Create a Pull Request
+- **Bug Reports**: Found an issue? Please open an issue with details
+- **Feature Suggestions**: Ideas for improvements are always appreciated
+- **Code Reviews**: Feedback on architecture and implementation
+- **Design Feedback**: Thoughts on the retro-modern aesthetic blend
+
+## � Contact
+
+### Demaceo Vincent
+
+**Senior Full-Stack Developer & UI/UX Designer**
+
+- 📧 Email: [hdemaceo@gmail.com](mailto:hdemaceo@gmail.com)
+- 🌐 Portfolio: [https://demaceo.com](https://demaceo.com)
+- 💼 LinkedIn: [linkedin.com/in/demaceovincent](https://linkedin.com/in/demaceovincent)
+- � GitHub: [github.com/demaceo](https://github.com/demaceo)
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📧 Contact
+## 🙏 Acknowledgments
 
-**Demaceo Vincent**
-
-- 🌐 Portfolio: [demaceo.com](https://demaceo.com)
-- 💼 LinkedIn: [linkedin.com/in/demaceo](https://linkedin.com/in/demaceo)
-- 📧 Email: hdemaceo@gmail.com
+- **Next.js Team**: For the incredible framework and developer experience
+- **Vercel**: For seamless deployment and hosting
+- **FontAwesome**: For the comprehensive icon library
+- **EmailJS**: For reliable email service integration
+- **Apple/Mac OS Classic**: For the timeless design inspiration
+- **Open Source Community**: For the countless libraries and tools that make this possible
 
 ---
 
-Built with ❤️ using Next.js 15, TypeScript, and modern web technologies • Optimized for performance and accessibility
+**Built with ❤️ and nostalgia by Demaceo Vincent**
+
+_Blending the charm of classic computing with the power of modern web technologies_

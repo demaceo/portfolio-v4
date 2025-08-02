@@ -19,15 +19,20 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/app/*"],
-      "@/components/*": ["./src/app/components/*"],
-      "@/lib/*": ["./src/app/lib/*"],
-      "@/data/*": ["./src/app/data/*"],
-      "@/styles/*": ["./src/app/styles/*"],
-      "@/types/*": ["./src/app/lib/types/*"],
-      "@/hooks/*": ["./src/app/lib/hooks/*"],
-      "@/utils/*": ["./src/app/lib/utils/*"],
-      "@/constants/*": ["./src/app/lib/constants/*"]
+      "@/*": ["./src/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/ui/*": ["./src/components/ui/*"],
+      "@/features/*": ["./src/components/features/*"],
+      "@/layout/*": ["./src/components/layout/*"],
+      "@/common/*": ["./src/components/common/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/lib/utils/*"],
+      "@/types/*": ["./src/lib/types/*"],
+      "@/constants/*": ["./src/lib/constants/*"],
+      "@/hooks/*": ["./src/lib/hooks/*"],
+      "@/data/*": ["./src/data/*"],
+      "@/styles/*": ["./src/styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

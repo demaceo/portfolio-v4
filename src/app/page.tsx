@@ -1,4 +1,4 @@
-import HomeScreen from "@/components/features/home/HomeScreen/HomeScreen";
+import HomeScreen from "@/features/home/HomeScreen/HomeScreen";
 import "./globals.css";
 
 export default function Home() {
