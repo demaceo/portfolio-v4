@@ -7,10 +7,9 @@ export function useScrollPosition() {
     const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down');
 
     useEffect(() => {
-        let lastScrollY = window.pageYOffset;
-
         let lastScrollY = window.scrollY;
 
+        const updateScrollPosition = () => {
             const currentScrollY = window.scrollY;
             setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
             setScrollY(currentScrollY);
