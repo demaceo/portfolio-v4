@@ -24,7 +24,6 @@ const projectData: Project[] = [
   {
     id: 1,
     name: "Unmasked Coaching",
-    // image: "/icons/unmasked-logo.png",
     description:
       "Unmasked Coaching helps individuals unlock their true potential through personalized career guidance, professional development, and strategic growth.",
     link: "https://unmasked-coaching.com",
