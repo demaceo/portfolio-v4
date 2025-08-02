@@ -43,7 +43,6 @@ import {
   faMarkdown,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import { aboutMePills } from "@/components/shared/AboutMe/aboutMePills";
 import "./HomeScreen.css";
 import "./HomeScreen.menu.css";
 import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
@@ -533,29 +532,37 @@ const HomeScreen = () => {
                                   })
                                 }
                               >
-                                {proj.image ? (
-                                  <Image
-                                    src={proj.image}
-                                    alt={proj.name}
-                                    className="menu-dropdown-project-img"
-                                    width={38}
-                                    height={38}
-                                  />
-                                ) : proj.icon ? (
-                                  <span
-                                    className="menu-dropdown-project-img"
-                                    style={{
-                                      fontSize: 28,
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                    }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={iconMap[proj.icon] || faLaptopCode}
-                                    />
-                                  </span>
-                                ) : null}
+                                {(() => {
+                                  let projectVisual = null;
+                                  if (proj.image) {
+                                    projectVisual = (
+                                      <Image
+                                        src={proj.image}
+                                        alt={proj.name}
+                                        className="menu-dropdown-project-img"
+                                        width={38}
+                                        height={38}
+                                      />
+                                    );
+                                  } else if (proj.icon) {
+                                    projectVisual = (
+                                      <span
+                                        className="menu-dropdown-project-img"
+                                        style={{
+                                          fontSize: 28,
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                        }}
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={iconMap[proj.icon] || faLaptopCode}
+                                        />
+                                      </span>
+                                    );
+                                  }
+                                  return projectVisual;
+                                })()}
                                 <div className="menu-dropdown-project-info">
                                   <div className="menu-dropdown-project-title">
                                     {proj.name}

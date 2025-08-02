@@ -33,22 +33,16 @@ const CARD_HEIGHT = 380; // estimate or measure your card height
 interface ProjectCardProps {
   id: number;
   name: string;
-  description: string;
-  image?: string;
-  link: string;
+  description?: string; // Optional since component uses project.description from data
+  image?: string; // Optional since component uses project.image from data
+  link?: string; // Optional since component uses project.link from data
   onClose: () => void;
   initialIndex?: number;
-  // gif?: string;
-  icon?: string;
-  archived?: boolean;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   name,
-  description,
-  image,
-  link,
   onClose,
   initialIndex,
 }) => {
@@ -85,7 +79,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const centerX = window.innerWidth / 2 - CARD_WIDTH / 2;
     const centerY = window.innerHeight / 2 - CARD_HEIGHT / 2;
     setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
-    // eslint-disable-next-line
   }, []);
 
   // Mouse events for drag
@@ -226,35 +219,35 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <div className="project-card-inner">
           <div className="project-card-window-title">
             {/* <span className="project-card-url-bar" title={project.link}> */}
-              <div className="project-card-top-arrows">
-                <button
-                  className="project-card-arrow project-card-arrow-top project-card-arrow-left"
-                  onClick={handlePrev}
-                  aria-label="Previous Project"
-                  tabIndex={0}
-                  type="button"
-                >
-                  &#8592;
-                </button>
-                <button
-                  className="project-card-arrow project-card-arrow-top project-card-arrow-right"
-                  onClick={handleNext}
-                  aria-label="Next Project"
-                  tabIndex={0}
-                  type="button"
-                >
-                  &#8594;
-                </button>
-              </div>
-              <a
-                className="project-card-url-bar"
-                title={project.link}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="project-card-top-arrows">
+              <button
+                className="project-card-arrow project-card-arrow-top project-card-arrow-left"
+                onClick={handlePrev}
+                aria-label="Previous Project"
+                tabIndex={0}
+                type="button"
               >
-                {project.link}
-              </a>
+                &#8592;
+              </button>
+              <button
+                className="project-card-arrow project-card-arrow-top project-card-arrow-right"
+                onClick={handleNext}
+                aria-label="Next Project"
+                tabIndex={0}
+                type="button"
+              >
+                &#8594;
+              </button>
+            </div>
+            <a
+              className="project-card-url-bar"
+              title={project.link}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {project.link}
+            </a>
             {/* </span> */}
           </div>
           {projectVisual}

@@ -6,7 +6,7 @@ import services from "@/data/services";
 interface ServiceCardProps {
   icon: string;
   title: string;
-  description: string;
+  description?: string; // Optional since component uses service.description from data
   onClose: () => void;
   initialIndex?: number;
 }
@@ -17,7 +17,6 @@ const CARD_HEIGHT = 340; // estimate or measure your card height
 const ServiceCard: React.FC<ServiceCardProps> = ({
   icon,
   title,
-  description,
   onClose,
   initialIndex,
 }) => {
@@ -49,7 +48,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     const centerX = window.innerWidth / 2 - CARD_WIDTH / 2;
     const centerY = window.innerHeight / 2 - CARD_HEIGHT / 2;
     setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
-    // eslint-disable-next-line
   }, []);
 
   // Mouse events for drag
