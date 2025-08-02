@@ -12,21 +12,57 @@ function ExperienceCard({
   readonly exp: (typeof DemaceoResume.experiences)[0];
 }) {
   return (
-    <div className="experience-card">
+    <article
+      className="experience-card"
+      role="article"
+      aria-label={`${exp.role} position at ${exp.organization}`}
+      tabIndex={0}
+    >
       <h3>
-        {exp.role} @ {exp.organization}{" "}
-        <span className="experience-date">
-          {exp.startDate} {exp.endDate ? `— ${exp.endDate}` : ""}
+        <span className="role-organization">
+          {exp.role} @ {exp.organization}
+        </span>{" "}
+        <span
+          className="experience-date"
+          aria-label={`Duration: ${exp.startDate} to ${
+            exp.endDate || "present"
+          }`}
+        >
+          {exp.startDate} {exp.endDate ? `— ${exp.endDate}` : "— Present"}
         </span>
       </h3>
 
       <p>{exp.summary}</p>
-    </div>
+    </article>
   );
 }
 
-export default function InteractiveResume() {
+interface InteractiveResumeProps {
+  onClose: () => void;
+}
+
+export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
   const resumeRef = useRef<HTMLDivElement>(null);
+
+  // Handle keyboard navigation
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  // Focus management
+  React.useEffect(() => {
+    const modalContainer = document.querySelector(".resume-modal-container");
+    if (modalContainer) {
+      (modalContainer as HTMLElement).focus();
+    }
+  }, []);
   const {
     name,
     title,
@@ -55,70 +91,157 @@ export default function InteractiveResume() {
   };
 
   return (
-    <div className="workxp-container" ref={resumeRef}>
-      <header className="workxp-header">
-        <h1 className="shadowed-text">{name}</h1>
-        <p>{title}</p>
-        <div>
-          <a href={website} className="underline">
-            Portfolio
-          </a>{" "}
-          |{" "}
-          <a href={linkedin} className="underline">
-            LinkedIn
-          </a>
-        </div>
-        <div className="workxp-buttons">
-          <button onClick={handleDownloadPdf} className="download-button">
-            Download PDF
-          </button>
-        </div>
-      </header>
-
-      <main>
-        <section className="xp-section">
-          <h2 className="shadowed-text">Experience</h2>
-          {experiences.map((exp) => (
-            <ExperienceCard
-              key={`${exp.role}-${exp.organization}-${exp.startDate}`}
-              exp={exp}
+    <div
+      className="resume-modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="resume-title"
+    >
+      <div
+        className="resume-modal-container"
+        onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
+        role="document"
+      >
+        <div className="resume-modal-title-bar">
+          <div className="resume-modal-window-controls">
+            <button
+              className="resume-close-btn"
+              onClick={onClose}
+              aria-label="Close Resume Window"
+              title="Close"
             />
-          ))}
-        </section>
-
-        <section className="xp-section">
-          <h2 className="shadowed-text">Education</h2>
-          <div className="edu-container">
-            {education.map((edu) => (
-              <div
-                key={`${edu.institution}-${edu.program}`}
-                className="education-item"
-              >
-                <p className="institution">{edu.institution}</p>
-                <p className="program">{edu.program}</p>
+            <div className="resume-minimize-btn" aria-hidden="true" />
+            <div className="resume-maximize-btn" aria-hidden="true" />
+          </div>
+          <span className="resume-window-title" id="resume-title">
+            Work Experience - Resume 
+          </span>
+          <div className="resume-modal-actions">
+            <button
+              className="resume-download-btn"
+              onClick={handleDownloadPdf}
+              aria-label="Download resume as PDF"
+              title="Download PDF"
+            >
+              <span className="download-icon">⬇</span>
+              Download PDF
+            </button>
+          </div>
+        </div>
+        <div className="resume-content-wrapper">
+          <div className="workxp-container" ref={resumeRef}>
+            <header className="workxp-header">
+              <h1 className="shadowed-text">{name}</h1>
+              <p>{title}</p>
+              <nav aria-label="Contact links">
+                <a
+                  href={website}
+                  className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit portfolio website"
+                >
+                  Portfolio
+                </a>{" "}
+                |{" "}
+                <a
+                  href={linkedin}
+                  className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit LinkedIn profile"
+                >
+                  LinkedIn
+                </a>
+              </nav>
+              <div className="workxp-buttons">
+                <button onClick={handleDownloadPdf} className="download-button">
+                  Download PDF
+                </button>
               </div>
-            ))}
-          </div>
-        </section>
+            </header>
 
-        <section className="xp-section">
-          <h2 className="shadowed-text">Skills & Interests</h2>
-          <div className="skills-container">
-            {skills.map((skill) => (
-              <span key={skill} className="skill-item">
-                {skill}
-              </span>
-            ))}
+            <main role="main" aria-label="Resume content">
+              <section
+                className="xp-section"
+                aria-labelledby="experience-heading"
+              >
+                <h2 id="experience-heading" className="shadowed-text">
+                  Experience
+                </h2>
+                {experiences.map((exp) => (
+                  <ExperienceCard
+                    key={`${exp.role}-${exp.organization}-${exp.startDate}`}
+                    exp={exp}
+                  />
+                ))}
+              </section>
+
+              <section
+                className="xp-section"
+                aria-labelledby="education-heading"
+              >
+                <h2 id="education-heading" className="shadowed-text">
+                  Education
+                </h2>
+                <div className="edu-container">
+                  {education.map((edu) => (
+                    <div
+                      key={`${edu.institution}-${edu.program}`}
+                      className="education-item"
+                      role="article"
+                      aria-label={`Education at ${edu.institution}`}
+                    >
+                      <p className="institution">{edu.institution}</p>
+                      <p className="program">{edu.program}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section className="xp-section" aria-labelledby="skills-heading">
+                <h2 id="skills-heading" className="shadowed-text">
+                  Skills & Interests
+                </h2>
+                <div
+                  className="skills-container"
+                  role="list"
+                  aria-label="Technical skills"
+                >
+                  {skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="skill-item"
+                      role="listitem"
+                      tabIndex={0}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                <div
+                  className="interests-container"
+                  role="list"
+                  aria-label="Personal interests"
+                >
+                  {interests.map((interest) => (
+                    <span
+                      key={interest}
+                      className="interest-item"
+                      role="listitem"
+                      tabIndex={0}
+                    >
+                      {interest}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            </main>
           </div>
-          <div className="interests-container">
-            {interests.map((i) => (
-              <span key={i} className="interest-item">
-                {i}
-              </span>
-            ))}
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 }

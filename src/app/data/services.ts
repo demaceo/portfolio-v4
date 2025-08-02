@@ -24,21 +24,21 @@ const services = [
     id: "sb4",
     title: "API & Microservices",
     description:
-      "Good software needs solid structure. I design APIs that act like reliable messengers: fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations, the goal is clean communication between systems, no drama",
+      "Good software needs solid structure. I design APIs that act like reliable messengers: fast, secure, and easy to work with. Whether it's building microservices or wiring up third-party integrations, the goal is clean communication between systems, no drama.",
     icon: "/icons/AM.png",
   },
   {
     id: "sb5",
     title: "Cloud & DevOps",
     description:
-      "I set up infrastructure that doesn't get in your way. I help take projects from 'it works on my machine..' to 'it works everywhere!' From Docker containers and CI/CD pipelines to AWS and Azure deployments, I automate the tedious stuff so your ideas ship faster and more reliably. Out of sight but not out of mind - infrastructure as it should be.",
+      "I set up infrastructure that doesn't get in your way. I help take projects from 'it works on my machine..' to 'it works everywhere!'. I automate the tedious stuff so your ideas ship faster and more reliably. Out of sight but not out of mind - infrastructure as it should be.",
     icon: "/icons/CDO.png",
   },
   {
     id: "sb6",
     title: "Data & Database Design",
     description:
-      "We expect our data to be cleanly organized, quickly accessible, and securely protected. Whether it's MongoDB, PostgreSQL, or something in between, I organize data in a way that makes it easy to find, secure to store, and fast to query — because performance starts at the schema.",
+      "We expect our data to be cleanly organized, quickly accessible, and securely protected. Whether it's MongoDB, PostgreSQL, or something in between, I organize data in a way that makes it easy to find, secure to store, and fast to query.",
     icon: "/icons/DDD.png",
   },
   {

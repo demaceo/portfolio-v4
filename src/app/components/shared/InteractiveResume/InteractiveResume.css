@@ -1,30 +1,240 @@
+/* Modal styles - Browser Window Aesthetic */
+.resume-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+.resume-modal-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 8px 25px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Browser-style Title Bar */
+.resume-modal-title-bar {
+  background: linear-gradient(180deg, #e8e8e8 0%, #d1d1d1 100%);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #b8b8b8;
+  min-height: 28px;
+  user-select: none;
+}
+
+.resume-modal-window-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.resume-close-btn {
+  background: linear-gradient(135deg, #ff5f57 0%, #ff4944 100%);
+  border: 1px solid #d33e3e;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.resume-close-btn:hover {
+  background: linear-gradient(135deg, #ff3b30 0%, #e60026 100%);
+  transform: scale(1.1);
+}
+
+.resume-close-btn:focus {
+  box-shadow: 0 0 0 2px rgba(255, 95, 87, 0.4);
+}
+
+.resume-minimize-btn,
+.resume-maximize-btn {
+  background: linear-gradient(135deg, #ffbd2e 0%, #ffab00 100%);
+  border: 1px solid #e6a300;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.resume-modal-title-bar:hover .resume-minimize-btn,
+.resume-modal-title-bar:hover .resume-maximize-btn {
+  opacity: 1;
+}
+
+.resume-window-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  flex: 1;
+  margin: 0 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resume-modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.resume-download-btn {
+  background: linear-gradient(135deg, #007aff 0%, #0051d0 100%);
+  border: 1px solid #0051d0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.resume-download-btn:hover {
+  background: linear-gradient(135deg, #0051d0 0%, #003d99 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+.resume-download-btn:focus {
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.4);
+}
+
+.download-icon {
+  font-size: 10px;
+}
+
+/* Content Container */
+.resume-content-wrapper {
+  height: calc(90vh - 28px);
+  overflow-y: auto;
+  background: white;
+  border-radius: 0 0 12px 12px;
+}
+
+.resume-content-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.resume-content-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0 0 12px 0;
+}
+
+.resume-content-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.resume-content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 .workxp-container {
-  font-family: "Syne", sans-serif;
-  background-color: rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "SF Pro Display", sans-serif;
+  background: white;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin: 2rem auto;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
   text-align: left;
-  max-width: 1200px;
+  max-width: none;
+  line-height: 1.6;
+  color: #1d1d1f;
 }
 
 /* Header styling */
 .workxp-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .workxp-header h1 {
-  font-size: 3rem;
-  font-weight: 500;
+  font-size: 2.5rem;
+  font-weight: 600;
   text-transform: none;
-  /* color: #333; */
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .workxp-header p {
-  font-size: 1.2rem;
-  color: #ffddcc;
+  font-size: 1.1rem;
+  color: #6e6e73;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.workxp-header a {
+  color: #007aff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.workxp-header a:hover {
+  color: #0051d0;
+  text-decoration: underline;
+}
+
+.workxp-header a:focus {
+  outline: 2px solid rgba(0, 122, 255, 0.4);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Buttons */
@@ -67,47 +277,59 @@
   background-color: #1e7e34;
 }
 
-.xp-section{
+.xp-section {
   margin-bottom: 2rem;
   text-align: left;
 }
 
 /* Experience cards */
 .experience-card {
-  background-color: #ffffff30;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .experience-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  border-color: #007aff;
 }
 
 .experience-card h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ffddcc;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1d1d1f;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 2px solid rgba(242, 237, 234, 0.121);
-  padding-bottom: 0.5rem;
+  align-items: flex-start;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.75rem;
   margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.role-organization {
+  flex: 1;
 }
 
 .experience-date {
-  font-size: 1rem;
-  font-weight: lighter;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #6e6e73;
+  white-space: nowrap;
 }
 
 .experience-card p {
   font-size: 1rem;
-  color: #666;
+  color: #515154;
   margin-top: 0.5rem;
+  line-height: 1.6;
 }
 
 /* Story items */
@@ -135,18 +357,24 @@
 
 .skill-item,
 .interest-item {
-  background-color: #ffffff6c;
-  color: #007bff;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #1d1d1f;
+  border: 1px solid #dee2e6;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: default;
 }
 
 .skill-item:hover,
 .interest-item:hover {
-  background-color: #bbdefb;
+  background: linear-gradient(135deg, #007aff 0%, #0051d0 100%);
+  color: white;
+  border-color: #007aff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.25);
 }
 
 /* Education section */
@@ -184,6 +412,34 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .resume-modal-overlay {
+    padding: 10px;
+  }
+
+  .resume-modal-container {
+    max-width: 100vw;
+    max-height: 95vh;
+  }
+
+  .resume-modal-title-bar {
+    padding: 6px 12px;
+    min-height: 24px;
+  }
+
+  .resume-window-title {
+    font-size: 12px;
+    margin: 0 8px;
+  }
+
+  .resume-download-btn {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .download-icon {
+    display: none;
+  }
+
   .workxp-container {
     padding: 1rem;
   }
@@ -192,16 +448,134 @@
     font-size: 2rem;
   }
 
-  .workxp-buttons button {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
+  .workxp-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
   }
 
   .experience-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .experience-date {
+    font-size: 0.8rem;
   }
 
   .experience-card p {
     font-size: 0.9rem;
+  }
+
+  .skill-item,
+  .interest-item {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .resume-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .resume-modal-container {
+    background: #1c1c1e;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .resume-modal-title-bar {
+    background: linear-gradient(180deg, #2c2c2e 0%, #1c1c1e 100%);
+    border-bottom-color: #3a3a3c;
+  }
+
+  .resume-window-title {
+    color: #f2f2f7;
+  }
+
+  .resume-content-wrapper {
+    background: #1c1c1e;
+  }
+
+  .workxp-container {
+    background: #1c1c1e;
+    color: #f2f2f7;
+  }
+
+  .workxp-header h1 {
+    color: #f2f2f7;
+  }
+
+  .workxp-header p {
+    color: #8e8e93;
+  }
+
+  .experience-card {
+    background: #2c2c2e;
+    border-color: #3a3a3c;
+  }
+
+  .experience-card h3 {
+    color: #f2f2f7;
+    border-bottom-color: #3a3a3c;
+  }
+
+  .experience-card p {
+    color: #8e8e93;
+  }
+
+  .skill-item,
+  .interest-item {
+    background: linear-gradient(135deg, #2c2c2e 0%, #3a3a3c 100%);
+    color: #f2f2f7;
+    border-color: #48484a;
+  }
+}
+
+/* Focus states for better accessibility */
+.resume-close-btn:focus-visible,
+.resume-download-btn:focus-visible {
+  outline: 2px solid #007aff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .experience-card {
+    border-width: 2px;
+  }
+
+  .skill-item,
+  .interest-item {
+    border-width: 2px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .resume-modal-overlay,
+  .resume-modal-title-bar {
+    display: none;
+  }
+
+  .resume-modal-container {
+    box-shadow: none;
+    border: none;
+    max-width: none;
+    max-height: none;
+  }
+
+  .workxp-container {
+    padding: 0;
   }
 }
