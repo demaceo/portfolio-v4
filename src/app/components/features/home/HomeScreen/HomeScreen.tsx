@@ -50,6 +50,7 @@ import ServiceCard from "@/components/features/home/ServiceCard/ServiceCard";
 import ProjectCard from "@/components/features/home/ProjectCard/ProjectCard";
 import AboutMeModal from "@/components/features/home/AboutMeModal/AboutMeModal";
 import SkillsetModal from "@/components/features/home/SkillsetModal/SkillsetModal";
+import ProjectsModal from "@/components/features/home/ProjectsModal/ProjectsModal";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -60,6 +61,7 @@ const HomeScreen = () => {
   const [showAboutMe, setShowAboutMe] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [showSkillset, setShowSkillset] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<{
     id: number;
@@ -155,6 +157,8 @@ const HomeScreen = () => {
       setShowAboutMe(true);
     } else if (path === "/skillset") {
       setShowSkillset(true);
+    } else if (path === "/projects") {
+      setShowProjects(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -733,6 +737,7 @@ const HomeScreen = () => {
       )}
       {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
       {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
+      {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
     </div>
   );
 };
