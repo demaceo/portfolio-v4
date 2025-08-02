@@ -14,7 +14,6 @@ const projectData: Project[] = [
   {
     id: 0,
     name: "Pinpoint",
-    // image: "/icons/pp_icon.png",
     description:
       "A tool to help U.S. citizens find and engage with their elected officials using data visualization and AI-powered message drafting.",
     link: "https://pinpoint-flax.vercel.app/",
