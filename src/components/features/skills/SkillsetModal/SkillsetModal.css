@@ -1,5 +1,22 @@
 /* ===== OLDSCHOOL MACINTOSH DESKTOP UI - MODERN CLASSIC ===== */
 
+/* === TYPOGRAPHY SYSTEM === */
+:root {
+  /* Classic Mac Font Stack - Authentic but readable */
+  --font-system-classic: "Chicago", "Geneva", "Charcoal", "Monaco", monospace,
+    sans-serif;
+  --font-system-body: "Geneva", "Charcoal", "Helvetica", system-ui, sans-serif;
+
+  /* Readable Font Sizes - Classic Mac inspired but modern */
+  --font-size-xs: 11px; /* Minimum readable size */
+  --font-size-sm: 12px; /* Small text */
+  --font-size-base: 13px; /* Body text */
+  --font-size-md: 14px; /* Medium text */
+  --font-size-lg: 16px; /* Large text */
+  --font-size-xl: 18px; /* Extra large */
+  --font-size-title: 20px; /* Titles */
+}
+
 /* Modal Overlay with Classic Mac System 7 Inspiration */
 .skillset-modal-overlay {
   position: fixed;
@@ -7,7 +24,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
+  /* background: radial-gradient(
       circle at 25% 25%,
       rgba(199, 199, 199, 0.1) 0%,
       transparent 40%
@@ -24,12 +41,12 @@
       transparent 1px,
       transparent 3px
     ),
-    #c7c7c7;
+    #c7c7c7; */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: macSystemBoot 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* animation: macSystemBoot 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
 }
 
 @keyframes macSystemBoot {
@@ -66,13 +83,13 @@
 
 /* Classic Mac Window with System 7 Aesthetic */
 .skillset-modal {
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     #ffffff 0%,
     #f0f0f0 25%,
     #e8e8e8 75%,
     #dddddd 100%
-  );
+  ); */
   border: 2px solid #000000;
   box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080,
     inset 2px 2px 0 #dfdfdf, inset -2px -2px 0 #404040,
@@ -80,14 +97,15 @@
   width: 1100px;
   height: 750px;
   overflow: hidden;
-  animation: macWindowOpen 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* animation: macWindowOpen 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
   display: flex;
   flex-direction: column;
   position: relative;
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-base);
 }
 
-@keyframes macWindowOpen {
+/* @keyframes macWindowOpen {
   0% {
     opacity: 0;
     transform: scale(0.3) translateY(-50px);
@@ -102,7 +120,7 @@
     transform: scale(1) translateY(0);
     filter: blur(0px);
   }
-}
+} */
 
 /* Classic Mac Title Bar with Platinum Appearance */
 .skillset-modal-title-bar {
@@ -154,7 +172,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   font-weight: bold;
   color: #000000;
   transform: translate(-50%, -50%);
@@ -189,7 +207,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 8px;
+  font-size: var(--font-size-xs);
   font-weight: bold;
   color: #000000;
   transform: translate(-50%, -50%);
@@ -201,7 +219,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 7px;
+  font-size: var(--font-size-xs);
   color: #000000;
   transform: translate(-50%, -50%);
   line-height: 1;
@@ -209,8 +227,8 @@
 
 /* Classic Mac Window Title */
 .skillset-modal-window-title {
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 12px;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-sm);
   font-weight: bold;
   color: #000000;
   text-align: center;
@@ -261,8 +279,8 @@
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 11px;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-xs);
   font-weight: bold;
   color: #000000;
   cursor: pointer;
@@ -341,8 +359,8 @@
 }
 
 .skillset-section h2 {
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 16px;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-lg);
   font-weight: bold;
   color: #000000;
   margin-bottom: 20px;
@@ -352,49 +370,6 @@
   background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
   border: 2px outset #e0e0e0;
   letter-spacing: 1px;
-}
-
-/* Classic Mac Services Grid */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-  padding: 0 8px;
-  justify-content: center;
-}
-
-/* Modal Body */
-.skillset-modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 24px;
-}
-
-.skillset-modal-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.skillset-modal-body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.skillset-modal-body::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-  transition: background 0.2s ease;
-}
-
-.skillset-modal-body::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-.skillset-section h2 {
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #1d1d1f;
-  margin-bottom: 24px;
-  text-align: center;
 }
 
 /* Enhanced Services Grid - Improved Layout */
@@ -430,7 +405,7 @@
   animation: macFadeIn 0.5s ease forwards;
   opacity: 0;
   transform: translateY(10px);
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
+  font-family: var(--font-system-body);
 }
 
 .service-card:nth-child(1) {
@@ -549,12 +524,11 @@
 
 /* Typography - Enhanced Hierarchy & Readability */
 .service-card-content h3 {
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: #1a1a1a;
   margin: 0 0 16px 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
+  font-family: var(--font-system-classic);
   letter-spacing: -0.025em;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
   position: relative;
@@ -566,12 +540,11 @@
 }
 
 .service-card-content p {
-  font-size: 0.925rem;
+  font-size: var(--font-size-base);
   line-height: 1.6;
   margin: 0;
   text-align: left;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
+  font-family: var(--font-system-body);
   font-weight: 400;
   position: relative;
   z-index: 2;
@@ -668,8 +641,8 @@
 }
 
 .tool-category h3 {
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-md);
   font-weight: bold;
   color: #000000;
   margin-bottom: 16px;
@@ -723,8 +696,8 @@
 }
 
 .tool-item span {
-  font-family: "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 10px;
+  font-family: var(--font-system-body);
+  font-size: var(--font-size-xs);
   font-weight: bold;
   color: #000000;
   text-shadow: 1px 1px 0 #ffffff;
@@ -735,12 +708,6 @@
 
 .tool-item:hover .tool-name {
   color: white;
-}
-
-.tool-item span {
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-align: center;
 }
 
 /* Classic Mac Principles Section */
@@ -791,8 +758,8 @@
 }
 
 .principle-header h3 {
-  font-family: "Chicago", "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-system-classic);
+  font-size: var(--font-size-md);
   font-weight: bold;
   color: #000000;
   margin: 0 0 8px 0;
@@ -802,17 +769,8 @@
 }
 
 .principle-description {
-  font-family: "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 11px;
-  line-height: 1.4;
-  color: #000000;
-  text-shadow: 1px 1px 0 #ffffff;
-  margin: 0;
-}
-
-.principle-description {
-  font-family: "Geneva", "Charcoal", monospace, sans-serif;
-  font-size: 11px;
+  font-family: var(--font-system-body);
+  font-size: var(--font-size-xs);
   line-height: 1.4;
   color: #000000;
   text-shadow: 1px 1px 0 #ffffff;
@@ -892,7 +850,7 @@
   }
 
   .skillset-tab {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     padding: 10px 12px;
     border-radius: 8px;
   }
@@ -920,13 +878,13 @@
   }
 
   .service-card-content h3 {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     line-height: 1.2;
     margin-bottom: 8px;
   }
 
   .service-card-content p {
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
     line-height: 1.4;
   }
 
@@ -945,7 +903,7 @@
 
   .category-title,
   .tool-category h3 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
     margin-bottom: 16px;
   }
 
@@ -965,7 +923,7 @@
   }
 
   .tool-name {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
   }
 
   .principles-list {
@@ -978,12 +936,12 @@
   }
 
   .principle-header h3 {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     margin-bottom: 6px;
   }
 
   .principle-description {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     line-height: 1.3;
   }
 }
@@ -1021,13 +979,13 @@
   }
 
   .service-card-content h3 {
-    font-size: 0.95rem;
+    font-size: var(--font-size-base);
     line-height: 1.1;
     margin-bottom: 6px;
   }
 
   .service-card-content p {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     line-height: 1.3;
   }
 
@@ -1052,7 +1010,7 @@
 
   .category-title,
   .tool-category h3 {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     margin-bottom: 12px;
   }
 
@@ -1072,7 +1030,7 @@
   }
 
   .tool-name {
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
   }
 
   .principles-list {
@@ -1089,12 +1047,12 @@
   }
 
   .principle-header h3 {
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     margin-bottom: 5px;
   }
 
   .principle-description {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     line-height: 1.2;
   }
 }
@@ -1205,7 +1163,7 @@
   }
 
   .principle-description {
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     line-height: 1.1;
   }
 }

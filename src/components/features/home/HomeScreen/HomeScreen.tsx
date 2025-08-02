@@ -53,7 +53,8 @@ import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
 
 const HomeScreen = () => {
   const router = useRouter();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
@@ -103,6 +104,10 @@ const HomeScreen = () => {
   }, [openDropdown]);
 
   useEffect(() => {
+    // Set mounted flag and initial time on client
+    setIsMounted(true);
+    setCurrentTime(new Date());
+
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -227,7 +232,9 @@ const HomeScreen = () => {
               width={20}
               height={20}
             />
-            <span className="time">{formatTime(currentTime)}</span>
+            <span className="time">
+              {isMounted && currentTime ? formatTime(currentTime) : "--:-- --"}
+            </span>
           </div>
 
           <div className="wallpaper">
@@ -631,8 +638,14 @@ const HomeScreen = () => {
             ))}
           </div>
           <div className="menu-right">
-            <span className="time">{formatTime(currentTime)}</span>
-            <span className="date">{formatDate(currentTime)}</span>
+            <span className="time">
+              {isMounted && currentTime ? formatTime(currentTime) : "--:-- --"}
+            </span>
+            <span className="date">
+              {isMounted && currentTime
+                ? formatDate(currentTime)
+                : "-- --, ----"}
+            </span>
           </div>
         </div>
         <div className="desktop">
