@@ -1,0 +1,717 @@
+/* Modern Mobile Layout Styles */
+.iphone-container {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #f5576c 75%,
+    #4facfe 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientFlow 12s ease-in-out infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.iphone-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 20%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba(0, 212, 255, 0.1) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+@keyframes gradientFlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.iphone-screen {
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  max-height: 820px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  backdrop-filter: blur(20px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 12px 25px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.iphone-screen::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.status-bar {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background: transparent;
+  position: relative;
+  z-index: 5;
+}
+
+.carrier {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.time {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 17px;
+}
+
+.wallpaper {
+  flex: 1;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+}
+
+.mobile-welcome-window {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  margin: 0 auto 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mobile-window-title-bar {
+  height: 45px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+  border-radius: 23px 23px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-window-controls {
+  position: absolute;
+  left: 20px;
+}
+
+.mobile-close-btn {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-close-btn:hover {
+  background: linear-gradient(135deg, #ff5252, #f44336);
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
+}
+
+.mobile-close-btn:active {
+  transform: scale(0.95);
+}
+
+.mobile-window-title {
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.mobile-window-content {
+  padding: 25px;
+  text-align: center;
+}
+
+.mobile-window-content h2 {
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mobile-window-content p {
+  margin: 0 0 20px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-quick-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.mobile-quick-link-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+}
+
+.mobile-quick-link-btn:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.2)
+  );
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-quick-link-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.home-apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+  padding: 0 15px;
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 15px 8px;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+.app-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.app-icon:hover::before {
+  opacity: 1;
+}
+
+.app-icon:active {
+  transform: scale(0.9);
+  transition: transform 0.15s ease;
+}
+
+.app-icon .icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dynamic gradient styles for app icons */
+.app-icon:nth-child(1) .icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4),
+    0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+.app-icon:nth-child(2) .icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4),
+    0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+.app-icon:nth-child(3) .icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4),
+    0 4px 12px rgba(0, 242, 254, 0.3);
+}
+
+.app-icon:nth-child(4) .icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  box-shadow: 0 8px 25px rgba(67, 233, 123, 0.4),
+    0 4px 12px rgba(56, 249, 215, 0.3);
+}
+
+.app-icon:nth-child(5) .icon {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  box-shadow: 0 8px 25px rgba(250, 112, 154, 0.4),
+    0 4px 12px rgba(254, 225, 64, 0.3);
+}
+
+.app-icon:nth-child(6) .icon {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  box-shadow: 0 8px 25px rgba(255, 154, 158, 0.4),
+    0 4px 12px rgba(254, 207, 239, 0.3);
+}
+
+.app-icon .icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.app-icon:hover .icon {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.app-icon:active .icon {
+  transform: scale(0.95);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.app-image {
+  width: 65px;
+  height: 65px;
+  border-radius: 18px;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.app-name {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 75px;
+  word-wrap: break-word;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 2px;
+}
+
+.page-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 25px 0 15px;
+  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.page-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.page-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.2);
+}
+
+.page-dot.active {
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  transform: scale(1.4);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.dock-mobile {
+  height: 95px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  padding: 0 25px;
+  position: relative;
+  margin: 0 20px 25px 20px;
+  border-radius: 30px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: slideInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+
+.dock-mobile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.dock-app {
+  width: 65px;
+  height: 65px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: #ffffff;
+  outline: none;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Enhanced dock app gradients with unique colors */
+.dock-app:nth-child(1) {
+  /* About Me */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5),
+    0 4px 12px rgba(118, 75, 162, 0.4);
+}
+
+.dock-app:nth-child(2) {
+  /* Skillset */
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 8px 25px rgba(240, 147, 251, 0.5),
+    0 4px 12px rgba(245, 87, 108, 0.4);
+}
+
+.dock-app:nth-child(3) {
+  /* Projects */
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.5),
+    0 4px 12px rgba(0, 242, 254, 0.4);
+}
+
+.dock-app:nth-child(4) {
+  /* Contact */
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  box-shadow: 0 8px 25px rgba(67, 233, 123, 0.5),
+    0 4px 12px rgba(56, 249, 215, 0.4);
+}
+
+.dock-app::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.dock-app:hover {
+  transform: translateY(-5px) scale(1.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 10px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.dock-app:active {
+  transform: translateY(-2px) scale(1.02);
+  transition: transform 0.15s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Modal and overlay styles */
+.contact-modal-overlay,
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.contact-modal-content,
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(30px);
+  border-radius: 25px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 12px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: modalSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.close-button:hover {
+  background: linear-gradient(135deg, #ff5252, #f44336);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.6);
+}
+
+.close-button:active {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 420px) {
+  .iphone-screen {
+    max-width: 340px;
+    max-height: 740px;
+    border-radius: 35px;
+  }
+
+  .mobile-welcome-window {
+    max-width: 280px;
+  }
+
+  .home-apps {
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .app-icon .icon {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+
+  .dock-app {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+
+  .dock-mobile {
+    gap: 20px;
+    margin: 0 15px 20px 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-apps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .app-icon .icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .app-name {
+    font-size: 12px;
+  }
+
+  .dock-app {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .dock-mobile {
+    height: 80px;
+    gap: 15px;
+  }
+}
