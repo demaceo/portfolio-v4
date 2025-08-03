@@ -1002,7 +1002,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
   padding: 25px;
   animation: modalFadeIn 0.6s ease-out;
 }
@@ -1026,10 +1026,12 @@
     rgba(26, 26, 46, 0.9) 100%
   );
   backdrop-filter: blur(40px);
+
   border-radius: 30px;
-  max-width: 95vw;
-  max-height: 95vh;
-  overflow: hidden;
+  width: 90vw;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(0, 245, 255, 0.2);
   animation: modalSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1066,7 +1068,28 @@
   transition: all 0.4s ease;
   box-shadow: 0 8px 20px rgba(255, 48, 48, 0.4),
     0 0 0 2px rgba(255, 48, 48, 0.2);
-  z-index: 10;
+  z-index: 10001;
+}
+
+/* Contact Form specific styling within modal */
+.contact-modal-content .contact-form,
+.contact-modal-content form {
+  padding: 20px;
+  color: white;
+}
+
+.contact-modal-content input,
+.contact-modal-content textarea,
+.contact-modal-content select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 10px;
+}
+
+.contact-modal-content input::placeholder,
+.contact-modal-content textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .close-button:hover {
