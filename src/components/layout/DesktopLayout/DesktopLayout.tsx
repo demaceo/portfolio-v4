@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBriefcase,
   faPaw,
   faTheaterMasks,
   faRobot,
@@ -44,6 +43,9 @@ const HomeScreen = () => {
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [hoveredTechCategory, setHoveredTechCategory] = useState<string | null>(
+    null
+  );
   const [selectedProject, setSelectedProject] = useState<{
     id: number;
     name: string;
@@ -71,11 +73,15 @@ const HomeScreen = () => {
 
   // Define category order and display names for tech stack
   const techStackCategories = [
-    { key: "Frontend", name: "Frontend", limit: 6 },
-    { key: "Backend", name: "Backend", limit: 4 },
-    { key: "DevOps", name: "DevOps", limit: 4 },
-    { key: "Cloud", name: "Cloud", limit: 4 },
-    { key: "Design", name: "Design", limit: 3 },
+    { key: "Frontend", name: "Frontend Development" },
+    { key: "Backend", name: "Backend Development" },
+    { key: "DevOps", name: "DevOps & Version Control" },
+    { key: "Cloud", name: "Cloud & Infrastructure" },
+    { key: "Design", name: "Design Tools" },
+    { key: "Package Management", name: "Package Management" },
+    { key: "Collaboration", name: "Collaboration" },
+    { key: "Project Management", name: "Project Management" },
+    { key: "Documentation", name: "Documentation & Testing" },
   ];
 
   // Helper function to group tools by category
@@ -89,40 +95,44 @@ const HomeScreen = () => {
     }, {} as Record<string, typeof tools>);
   };
 
-  // Helper function to render tech category
-  const renderTechCategory = (
-    category: { key: string; name: string; limit: number },
-    groupedTools: Record<string, typeof tools>
-  ) => {
+  // Helper function to render category item
+  const renderCategoryItem = (category: { key: string; name: string }) => {
+    const groupedTools = getGroupedTools();
     const categoryTools = groupedTools[category.key] || [];
-    const displayTools = categoryTools.slice(0, category.limit);
 
-    if (displayTools.length === 0) return null;
+    if (categoryTools.length === 0) return null;
 
     return (
-      <div key={category.key} className="tech-category">
-        <div className="tech-category-label">{category.name}</div>
-        <div className="tech-category-icons">
-          {displayTools.map((tool, index) => (
-            <span
-              key={`${category.key}-${index}`}
-              className="menu-dropdown-tech-icon"
-              title={tool.tooltip}
-            >
-              <FontAwesomeIcon icon={tool.icon} />
-            </span>
-          ))}
-          {categoryTools.length > category.limit && (
-            <span
-              className="tech-more-indicator"
-              title={`+${
-                categoryTools.length - category.limit
-              } more ${category.name.toLowerCase()} tools`}
-            >
-              +{categoryTools.length - category.limit}
-            </span>
-          )}
+      <div
+        key={category.key}
+        className="tech-category-item"
+        onMouseEnter={() => setHoveredTechCategory(category.key)}
+        onMouseLeave={() => setHoveredTechCategory(null)}
+      >
+        <div className="tech-category-main">
+          <span className="tech-category-name">{category.name}</span>
+          <span className="tech-category-count">({categoryTools.length})</span>
         </div>
+
+        {hoveredTechCategory === category.key && (
+          <div className="tech-tools-submenu">
+            <div className="tech-tools-grid">
+              {categoryTools.map((tool, index) => (
+                <div
+                  key={`${category.key}-${index}`}
+                  className="tech-tool-item"
+                  title={tool.tooltip}
+                >
+                  <FontAwesomeIcon
+                    icon={tool.icon}
+                    className="tech-tool-icon"
+                  />
+                  <span className="tech-tool-name">{tool.tooltip}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -224,9 +234,9 @@ const HomeScreen = () => {
             />
             {[
               { label: "About", key: "about" },
+              { label: "Services", key: "services" },
               { label: "Tech Stack", key: "tech" },
               { label: "Projects", key: "projects" },
-              { label: "Services", key: "services" },
               { label: "Contact", key: "contact" },
             ].map((item, idx, arr) => (
               <div
@@ -463,12 +473,9 @@ const HomeScreen = () => {
                     )}
                     {item.key === "tech" && (
                       <div>
-                        <strong className="menu-dropdown-title">
-                          Tech Stack
-                        </strong>
                         <div className="menu-dropdown-tech-categories">
                           {techStackCategories.map((category) =>
-                            renderTechCategory(category, getGroupedTools())
+                            renderCategoryItem(category)
                           )}
                           <div className="tech-view-all">
                             <button
