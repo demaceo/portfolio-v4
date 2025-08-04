@@ -36,7 +36,6 @@ import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
 const HomeScreen = () => {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState(new Date());
-  // const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);

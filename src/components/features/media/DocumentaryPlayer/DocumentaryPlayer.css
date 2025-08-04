@@ -60,9 +60,32 @@
   max-width: 900px;
   width: 100%;
   max-height: 90vh;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   animation: documentarySlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid var(--documentary-border);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom Scrollbar */
+.documentary-player-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.documentary-player-container::-webkit-scrollbar-track {
+  background: var(--documentary-surface);
+  border-radius: 10px;
+}
+
+.documentary-player-container::-webkit-scrollbar-thumb {
+  background: var(--documentary-border);
+  border-radius: 10px;
+  transition: var(--documentary-transition-fast);
+}
+
+.documentary-player-container::-webkit-scrollbar-thumb:hover {
+  background: var(--documentary-text-secondary);
 }
 
 @keyframes documentarySlideIn {
@@ -88,6 +111,7 @@
     #e8e8ed 100%
   );
   border-bottom: 1px solid var(--documentary-border);
+  flex-shrink: 0;
 }
 
 .documentary-badge {
@@ -138,6 +162,7 @@
   width: 100%;
   background: #000;
   aspect-ratio: 16/9;
+  flex-shrink: 0;
 }
 
 .documentary-thumbnail {
@@ -219,6 +244,8 @@
 /* === CONTENT SECTION === */
 .documentary-content {
   padding: 28px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .documentary-header {
@@ -355,10 +382,12 @@
 @media (max-width: 768px) {
   .documentary-player-overlay {
     padding: 16px;
+    align-items: flex-start;
+    padding-top: 40px;
   }
 
   .documentary-player-container {
-    max-height: 95vh;
+    max-height: calc(100vh - 80px);
     border-radius: 16px;
   }
 
@@ -405,6 +434,12 @@
 @media (max-width: 480px) {
   .documentary-player-overlay {
     padding: 12px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .documentary-player-container {
+    max-height: calc(100vh - 40px);
   }
 
   .documentary-player-header {
@@ -417,6 +452,15 @@
 
   .documentary-title {
     font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .documentary-description {
+    margin-bottom: 20px;
+  }
+
+  .documentary-meta {
+    margin-bottom: 20px;
   }
 
   .documentary-actions {

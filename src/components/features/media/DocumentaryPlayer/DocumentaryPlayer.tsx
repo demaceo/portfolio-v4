@@ -75,7 +75,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         <div className="documentary-content">
           <div className="documentary-header">
             <h2 className="documentary-title">
-              Unmasked: The Hidden Struggles of American Masculinity
+              Tech For Us
             </h2>
             <p className="documentary-subtitle">
               Featured Story · Technology & Career Development
