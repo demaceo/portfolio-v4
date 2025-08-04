@@ -23,25 +23,7 @@ import InteractiveResume from "@/features/resume/InteractiveResume/InteractiveRe
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
-import {
-  faFigma,
-  faWebflow,
-  faGit,
-  faReact,
-  faJs,
-  faCss3,
-  faHtml5,
-  faGithub,
-  faNode,
-  faNpm,
-  faPython,
-  faAws,
-  faDocker,
-  faLinux,
-  faSlack,
-  faJira,
-  faMarkdown,
-} from "@fortawesome/free-brands-svg-icons";
+import tools from "@/data/toolbelt";
 import Image from "next/image";
 import "./DesktopLayout.css";
 import "./DesktopLayout.menu.css";
@@ -86,6 +68,64 @@ const HomeScreen = () => {
   };
 
   const menuBarRef = useRef<HTMLDivElement>(null);
+
+  // Define category order and display names for tech stack
+  const techStackCategories = [
+    { key: "Frontend", name: "Frontend", limit: 6 },
+    { key: "Backend", name: "Backend", limit: 4 },
+    { key: "DevOps", name: "DevOps", limit: 4 },
+    { key: "Cloud", name: "Cloud", limit: 4 },
+    { key: "Design", name: "Design", limit: 3 },
+  ];
+
+  // Helper function to group tools by category
+  const getGroupedTools = () => {
+    return tools.reduce((acc, tool) => {
+      if (!acc[tool.category]) {
+        acc[tool.category] = [];
+      }
+      acc[tool.category].push(tool);
+      return acc;
+    }, {} as Record<string, typeof tools>);
+  };
+
+  // Helper function to render tech category
+  const renderTechCategory = (
+    category: { key: string; name: string; limit: number },
+    groupedTools: Record<string, typeof tools>
+  ) => {
+    const categoryTools = groupedTools[category.key] || [];
+    const displayTools = categoryTools.slice(0, category.limit);
+
+    if (displayTools.length === 0) return null;
+
+    return (
+      <div key={category.key} className="tech-category">
+        <div className="tech-category-label">{category.name}</div>
+        <div className="tech-category-icons">
+          {displayTools.map((tool, index) => (
+            <span
+              key={`${category.key}-${index}`}
+              className="menu-dropdown-tech-icon"
+              title={tool.tooltip}
+            >
+              <FontAwesomeIcon icon={tool.icon} />
+            </span>
+          ))}
+          {categoryTools.length > category.limit && (
+            <span
+              className="tech-more-indicator"
+              title={`+${
+                categoryTools.length - category.limit
+              } more ${category.name.toLowerCase()} tools`}
+            >
+              +{categoryTools.length - category.limit}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -184,7 +224,7 @@ const HomeScreen = () => {
             />
             {[
               { label: "About", key: "about" },
-              // { label: "Tech Stack", key: "tech" },
+              { label: "Tech Stack", key: "tech" },
               { label: "Projects", key: "projects" },
               { label: "Services", key: "services" },
               { label: "Contact", key: "contact" },
@@ -238,8 +278,30 @@ const HomeScreen = () => {
                               className="menu-dropdown-pill-item"
                             >
                               <span
-                                className="pill-tag-mac"
+                                className={`pill-tag-mac ${
+                                  pill.label === "& more..."
+                                    ? "pill-tag-clickable"
+                                    : ""
+                                }`}
                                 tabIndex={0}
+                                onClick={() => {
+                                  if (pill.label === "& more...") {
+                                    setShowAboutMe(true);
+                                    setOpenDropdown(null); // Close the dropdown
+                                  } else if (pill.link) {
+                                    window.open(pill.link, "_blank");
+                                  }
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    if (pill.label === "& more...") {
+                                      setShowAboutMe(true);
+                                      setOpenDropdown(null); // Close the dropdown
+                                    } else if (pill.link) {
+                                      window.open(pill.link, "_blank");
+                                    }
+                                  }
+                                }}
                                 onMouseEnter={(e) => {
                                   const tooltip =
                                     e.currentTarget.querySelector(
@@ -404,34 +466,22 @@ const HomeScreen = () => {
                         <strong className="menu-dropdown-title">
                           Tech Stack
                         </strong>
-                        <div className="menu-dropdown-tech-icons">
-                          {[
-                            { icon: faFigma, tooltip: "Figma" },
-                            { icon: faWebflow, tooltip: "Webflow" },
-                            { icon: faGit, tooltip: "Git" },
-                            { icon: faNode, tooltip: "Node.js" },
-                            { icon: faReact, tooltip: "React" },
-                            { icon: faJs, tooltip: "JavaScript" },
-                            { icon: faCss3, tooltip: "CSS" },
-                            { icon: faHtml5, tooltip: "HTML5" },
-                            { icon: faGithub, tooltip: "GitHub" },
-                            { icon: faNpm, tooltip: "NPM" },
-                            { icon: faPython, tooltip: "Python" },
-                            { icon: faAws, tooltip: "AWS" },
-                            { icon: faDocker, tooltip: "Docker" },
-                            { icon: faLinux, tooltip: "Linux" },
-                            { icon: faSlack, tooltip: "Slack" },
-                            { icon: faJira, tooltip: "Jira" },
-                            { icon: faMarkdown, tooltip: "Markdown" },
-                          ].map((item) => (
-                            <span
-                              key={item.tooltip}
-                              className="menu-dropdown-tech-icon"
-                              title={item.tooltip}
+                        <div className="menu-dropdown-tech-categories">
+                          {techStackCategories.map((category) =>
+                            renderTechCategory(category, getGroupedTools())
+                          )}
+                          <div className="tech-view-all">
+                            <button
+                              className="tech-view-all-btn"
+                              onClick={() => {
+                                setShowSkillset(true);
+                                setOpenDropdown(null);
+                              }}
+                              title="View complete tech stack"
                             >
-                              <FontAwesomeIcon icon={item.icon} />
-                            </span>
-                          ))}
+                              View All Tools & Skills
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
