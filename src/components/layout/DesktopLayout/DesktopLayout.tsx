@@ -43,8 +43,8 @@ import {
   faMarkdown,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import "./HomeScreen.css";
-import "./HomeScreen.menu.css";
+import "./DesktopLayout.css";
+import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
