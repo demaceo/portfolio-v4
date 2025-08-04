@@ -17,7 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
 import AboutMeModal from "@/components/features/about/AboutMeModal/AboutMeModal";
-import ProjectsModal from "@/components/features/portfolio/ProjectsModal/ProjectsModal";
+import SkillsetModal from "@/components/features/skills/SkillsetModal/SkillsetModal";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import Image from "next/image";
@@ -54,7 +54,7 @@ const MobileLayout = () => {
       setShowContactForm(true);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
-    } else if (path === "/projects") {
+    } else if (path === "/skillset") {
       setShowProjects(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
@@ -79,7 +79,7 @@ const MobileLayout = () => {
       if (project.icon === "fa fa-paw icon") {
         icon = faPaw;
       } else if (project.id === 1 || project.id === 0) {
-        image = project.image ?? "";
+        image = project.icon ?? "";
         // } else if (project.icon === "fas fa-robot icon") {
         //   icon = faRobot;
         // } else if (project.icon === "fas fa-music icon") {
@@ -88,10 +88,7 @@ const MobileLayout = () => {
         //   icon = faCookieBite;
         // } else if (project.icon === "fas fa-film icon") {
         //   icon = faFilm;
-      } else {
-        // Default icon for projects without specific icons
-        icon = faLaptopCode;
-      }
+      } 
 
       return {
         name: project.name,
@@ -193,12 +190,12 @@ const MobileLayout = () => {
           <button
             className="dock-app"
             type="button"
-            onClick={() => handleAppClick("/projects")}
+            onClick={() => handleAppClick("/skillset")}
             tabIndex={0}
-            aria-label="Projects"
+            aria-label="Services"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                handleAppClick("/projects");
+                handleAppClick("/skillset");
               }
             }}
           >
@@ -228,13 +225,6 @@ const MobileLayout = () => {
           onClick={() => setShowContactForm(false)}
         >
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="close-button"
-              onClick={() => setShowContactForm(false)}
-              aria-label="Close Contact modal"
-            >
-              ×
-            </button>
             <div className="contact-form-inner">
               <ContactForm onClose={() => setShowContactForm(false)} />
             </div>
@@ -244,7 +234,7 @@ const MobileLayout = () => {
 
       {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
 
-      {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+      {showProjects && <SkillsetModal onClose={() => setShowProjects(false)} />}
     </div>
   );
 };

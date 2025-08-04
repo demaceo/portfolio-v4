@@ -8,8 +8,8 @@ const projectData: Project[] = [
     description:
       "Engineer My Career helps developers plan, track, and accelerate their growth with personalized road-maps, skill assessments, and job-search tooling.",
     link: "https://engineermycareer.com",
-    // icon: "fas fa-briefcase icon",
-    icon: "",
+    icon: "fas fa-briefcase icon",
+    // icon: "",
     gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
   },
   {
@@ -18,7 +18,7 @@ const projectData: Project[] = [
     description:
       "A tool to help U.S. citizens find and engage with their elected officials using data visualization and AI-powered message drafting.",
     link: "https://pinpoint-flax.vercel.app/",
-    icon: "",
+    icon: "/icons/pp_icon.png",
     image: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BqcHJydDE0OWlyaXBzbzIweTV4bjh2bzNidW1oenprMHdpaTRxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9zB7dPkmU7FUBNh8A/giphy.gif"
   },
   {
@@ -27,7 +27,7 @@ const projectData: Project[] = [
     description:
       "Unmasked Coaching helps individuals unlock their true potential through personalized career guidance, professional development, and strategic growth.",
     link: "https://unmasked-coaching.com",
-    icon: "",
+    icon: "/icons/unmasked-logo.png",
     image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXRhZ3h4aTM5eWgyMjdscWY3bXJwaGQybHRiMnM0YjVhYW5vcHU0OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sizoIiglMpC57qXlaq/giphy.gif",
   },
   {
