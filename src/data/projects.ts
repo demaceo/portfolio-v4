@@ -12,6 +12,17 @@ const projectData: Project[] = [
     gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
   },
   {
+    id: 9,
+    name: "PBS Documentary Feature",
+    image: "https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto",
+    description: "Featured in a PBS documentary exploring technology, innovation, and career development in the modern digital landscape.",
+    link: "https://player.pbs.org/video/in-our-genes/", // Replace with actual PBS link
+    icon: "fas fa-film icon",
+    type: "documentary",
+    duration: "25:33",
+    network: "PBS",
+  },
+  {
     id: 0,
     name: "Pinpoint",
     description:

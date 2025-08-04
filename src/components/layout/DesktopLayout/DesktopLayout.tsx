@@ -28,6 +28,7 @@ import "./DesktopLayout.css";
 import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
+import DocumentaryPlayer from "@/components/features/media/DocumentaryPlayer/DocumentaryPlayer";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
 import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
 import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
@@ -42,6 +43,7 @@ const HomeScreen = () => {
   const [showResume, setShowResume] = useState(false);
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [showDocumentary, setShowDocumentary] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [hoveredTechCategory, setHoveredTechCategory] = useState<string | null>(
     null
@@ -199,6 +201,8 @@ const HomeScreen = () => {
       setShowSkillset(true);
     } else if (path === "/projects") {
       setShowProjects(true);
+    } else if (path === "/documentary") {
+      setShowDocumentary(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -216,6 +220,7 @@ const HomeScreen = () => {
     { name: "Mindset", icon: faUser, path: "/mindset" },
     { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
+    { name: "PBS Doc", icon: faFilm, path: "/documentary" },
     // { name: "Resume", icon: faFileAlt, path: "/resume" },
     { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
@@ -618,6 +623,9 @@ const HomeScreen = () => {
       {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
       {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
       {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+      {showDocumentary && (
+        <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
+      )}
     </div>
   );
 };

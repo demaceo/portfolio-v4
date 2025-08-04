@@ -7,6 +7,9 @@ export interface Project {
     description: string;
     link: string;
     icon?: string;
+    type?: string;
+    duration?: string;
+    network?: string;
     archived?: boolean;
     gif?: string; // Optional field for GIFs
 }
