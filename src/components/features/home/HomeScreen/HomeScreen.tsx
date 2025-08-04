@@ -251,7 +251,7 @@ const HomeScreen = () => {
                   <span className="mobile-window-title">Welcome</span>
                 </div>
                 <div className="mobile-window-content">
-                  {/* <h2>Demaceo Vincent</h2> */}
+                  <h2>Demaceo Vincent</h2>
                   <p>Explore my work & get in touch.</p>
                 </div>
               </div>

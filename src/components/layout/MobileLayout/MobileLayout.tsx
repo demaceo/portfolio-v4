@@ -7,7 +7,7 @@ import {
   faUser,
   faLaptopCode,
   faEnvelope,
-  faBriefcase,
+  // faBriefcase,
   faPaw,
   // faTheaterMasks,
   // faRobot,
@@ -68,9 +68,7 @@ const MobileLayout = () => {
       // Map project icons to FontAwesome icons
       let icon: IconDefinition | undefined;
       let image = project.image || "";
-      if (project.icon === "fas fa-briefcase icon") {
-        icon = faBriefcase;
-      } else if (project.icon === "fa fa-paw icon") {
+      if (project.icon === "fa fa-paw icon") {
         icon = faPaw;
       } else if (project.id === 1 || project.id === 0) {
         image = project.image ?? "";
@@ -125,7 +123,7 @@ const MobileLayout = () => {
                 <span className="mobile-window-title">Welcome</span>
               </div>
               <div className="mobile-window-content">
-                {/* <h2>Demaceo Vincent</h2> */}
+                <h2>Demaceo Vincent</h2>
                 <p>Explore my work & get in touch.</p>
               </div>
             </div>
