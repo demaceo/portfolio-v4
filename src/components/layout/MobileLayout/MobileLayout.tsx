@@ -16,6 +16,8 @@ import {
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
+import AboutMeModal from "@/components/features/about/AboutMeModal/AboutMeModal";
+import ProjectsModal from "@/components/features/portfolio/ProjectsModal/ProjectsModal";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import Image from "next/image";
@@ -26,6 +28,8 @@ const MobileLayout = () => {
   const [currentTime] = useState(new Date());
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
+  const [showAboutMe, setShowAboutMe] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
 
   interface FormatTimeOptions {
     hour: "2-digit";
@@ -48,6 +52,10 @@ const MobileLayout = () => {
   const handleAppClick = (path: HandleAppClickProps["path"]): void => {
     if (path === "/contact") {
       setShowContactForm(true);
+    } else if (path === "/mindset") {
+      setShowAboutMe(true);
+    } else if (path === "/projects") {
+      setShowProjects(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -212,19 +220,31 @@ const MobileLayout = () => {
           </button>
         </div>
       </div>
+
+      {/* Modals rendered outside iphone-screen to avoid z-index issues */}
       {showContactForm && (
         <div
-          className="contact-modal-overlay"
+          className="modal-overlay"
           onClick={() => setShowContactForm(false)}
         >
-          <div
-            className="contact-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ContactForm onClose={() => setShowContactForm(false)} />
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-button"
+              onClick={() => setShowContactForm(false)}
+              aria-label="Close Contact modal"
+            >
+              ×
+            </button>
+            <div className="contact-form-inner">
+              <ContactForm onClose={() => setShowContactForm(false)} />
+            </div>
           </div>
         </div>
       )}
+
+      {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
+
+      {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
     </div>
   );
 };
