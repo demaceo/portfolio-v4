@@ -13,10 +13,10 @@ const projectData: Project[] = [
   },
   {
     id: 9,
-    name: "PBS Documentary Feature",
+    name: "Unmasked: The Hidden Struggles of American Masculinity",
     image: "https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto",
-    description: "Featured in a PBS documentary exploring technology, innovation, and career development in the modern digital landscape.",
-    link: "https://player.pbs.org/video/in-our-genes/", // Replace with actual PBS link
+    description: "Featured in a PBS documentary exploring the intersection of technology, innovation, and career development in the modern digital landscape. The documentary highlights personal stories of professionals navigating challenges and building meaningful careers in tech.",
+    link: "https://player.pbs.org/video/in-our-genes/",
     icon: "fas fa-film icon",
     type: "documentary",
     duration: "25:33",

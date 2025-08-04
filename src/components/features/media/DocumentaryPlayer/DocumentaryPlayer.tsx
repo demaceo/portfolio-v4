@@ -8,6 +8,9 @@ import {
   faTimes,
   faExternalLinkAlt,
   faFilm,
+  faClock,
+  faTv,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import "./DocumentaryPlayer.css";
 
@@ -22,77 +25,106 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="documentary-player-overlay">
-      <div className="documentary-player-container">
+    <div className="documentary-player-overlay" onClick={onClose}>
+      <div
+        className="documentary-player-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
         <div className="documentary-player-header">
-          <div className="documentary-info">
-            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
-            <div className="documentary-title-info">
-              <h2>PBS Documentary Feature</h2>
-              <p className="documentary-network">PBS · 25:33</p>
-            </div>
+          <div className="documentary-badge">
+            <FontAwesomeIcon icon={faFilm} className="badge-icon" />
+            <span>PBS Documentary</span>
           </div>
-          <button className="close-button" onClick={onClose}>
+          <button
+            className="close-button"
+            onClick={onClose}
+            aria-label="Close documentary player"
+          >
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>
 
-        <div className="documentary-player-content">
-          <div className="documentary-thumbnail-container">
-            <Image
-              src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
-              alt="PBS Documentary Thumbnail"
-              className="documentary-thumbnail"
-              width={1440}
-              height={810}
-              priority
-            />
-            <div className="play-overlay">
-              <button className="play-button" onClick={handlePlayClick}>
-                <FontAwesomeIcon icon={faPlay} />
-                <span>Watch on PBS</span>
-              </button>
-            </div>
+        {/* Video Thumbnail */}
+        <div className="documentary-thumbnail-container">
+          <Image
+            src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
+            alt="PBS Documentary: Unmasked - The Hidden Struggles of American Masculinity"
+            className="documentary-thumbnail"
+            width={1440}
+            height={810}
+            priority
+          />
+          <div className="play-overlay">
+            <button
+              className="play-button"
+              onClick={handlePlayClick}
+              aria-label="Watch documentary on PBS"
+            >
+              <FontAwesomeIcon icon={faPlay} />
+              <span>Watch on PBS</span>
+            </button>
+          </div>
+          <div className="duration-badge">
+            <FontAwesomeIcon icon={faClock} />
+            <span>25:33</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="documentary-content">
+          <div className="documentary-header">
+            <h2 className="documentary-title">
+              Unmasked: The Hidden Struggles of American Masculinity
+            </h2>
+            <p className="documentary-subtitle">
+              Featured Story · Technology & Career Development
+            </p>
           </div>
 
           <div className="documentary-description">
-            <h3>Featured Story</h3>
             <p>
-              I was featured in this PBS documentary exploring technology,
-              innovation, and career development in the modern digital
-              landscape. The documentary highlights stories of professionals
-              navigating the tech industry and building meaningful careers.
+              I was featured in this PBS documentary exploring the intersection
+              of technology, innovation, and career development in the modern
+              digital landscape. The documentary highlights personal stories of
+              professionals navigating challenges and building meaningful
+              careers in tech.
             </p>
+          </div>
 
-            <div className="documentary-features">
-              <div className="feature-item">
-                <span className="feature-label">Network:</span>
-                <span className="feature-value">PBS</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-label">Duration:</span>
-                <span className="feature-value">25 minutes 33 seconds</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-label">Topic:</span>
-                <span className="feature-value">
-                  Technology & Career Development
-                </span>
+          <div className="documentary-meta">
+            <div className="meta-item">
+              <FontAwesomeIcon icon={faTv} className="meta-icon" />
+              <div className="meta-content">
+                <span className="meta-label">Network</span>
+                <span className="meta-value">PBS</span>
               </div>
             </div>
-
-            <div className="documentary-actions">
-              <button
-                className="action-button primary"
-                onClick={handlePlayClick}
-              >
-                <FontAwesomeIcon icon={faExternalLinkAlt} />
-                Watch on PBS.org
-              </button>
-              <button className="action-button secondary" onClick={onClose}>
-                Close
-              </button>
+            <div className="meta-item">
+              <FontAwesomeIcon icon={faClock} className="meta-icon" />
+              <div className="meta-content">
+                <span className="meta-label">Duration</span>
+                <span className="meta-value">25 minutes</span>
+              </div>
             </div>
+            <div className="meta-item">
+              <FontAwesomeIcon icon={faAward} className="meta-icon" />
+              <div className="meta-content">
+                <span className="meta-label">Topic</span>
+                <span className="meta-value">Tech Innovation</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="documentary-actions">
+            <button
+              className="action-button primary"
+              onClick={handlePlayClick}
+              aria-label="Watch full documentary on PBS"
+            >
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+              Watch Full Documentary
+            </button>
           </div>
         </div>
       </div>
