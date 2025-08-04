@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBriefcase,
   faPaw,
   faTheaterMasks,
   faRobot,
@@ -23,28 +22,10 @@ import InteractiveResume from "@/features/resume/InteractiveResume/InteractiveRe
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
-import {
-  faFigma,
-  faWebflow,
-  faGit,
-  faReact,
-  faJs,
-  faCss3,
-  faHtml5,
-  faGithub,
-  faNode,
-  faNpm,
-  faPython,
-  faAws,
-  faDocker,
-  faLinux,
-  faSlack,
-  faJira,
-  faMarkdown,
-} from "@fortawesome/free-brands-svg-icons";
+import tools from "@/data/toolbelt";
 import Image from "next/image";
-import "./HomeScreen.css";
-import "./HomeScreen.menu.css";
+import "./DesktopLayout.css";
+import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
@@ -54,7 +35,7 @@ import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
 const HomeScreen = () => {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
@@ -62,6 +43,9 @@ const HomeScreen = () => {
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [hoveredTechCategory, setHoveredTechCategory] = useState<string | null>(
+    null
+  );
   const [selectedProject, setSelectedProject] = useState<{
     id: number;
     name: string;
@@ -76,7 +60,7 @@ const HomeScreen = () => {
   } | null>(null);
 
   const iconMap: Record<string, IconDefinition> = {
-    "fas fa-briefcase icon": faBriefcase,
+    // "fas fa-briefcase icon": faBriefcase,
     "fa fa-paw icon": faPaw,
     "fas fa-theater-masks icon": faTheaterMasks,
     "fas fa-robot icon": faRobot,
@@ -86,6 +70,72 @@ const HomeScreen = () => {
   };
 
   const menuBarRef = useRef<HTMLDivElement>(null);
+
+  // Define category order and display names for tech stack
+  const techStackCategories = [
+    { key: "Frontend", name: "Frontend Development" },
+    { key: "Backend", name: "Backend Development" },
+    { key: "DevOps", name: "DevOps & Version Control" },
+    { key: "Cloud", name: "Cloud & Infrastructure" },
+    { key: "Design", name: "Design Tools" },
+    { key: "Package Management", name: "Package Management" },
+    { key: "Collaboration", name: "Collaboration" },
+    { key: "Project Management", name: "Project Management" },
+    { key: "Documentation", name: "Documentation & Testing" },
+  ];
+
+  // Helper function to group tools by category
+  const getGroupedTools = () => {
+    return tools.reduce((acc, tool) => {
+      if (!acc[tool.category]) {
+        acc[tool.category] = [];
+      }
+      acc[tool.category].push(tool);
+      return acc;
+    }, {} as Record<string, typeof tools>);
+  };
+
+  // Helper function to render category item
+  const renderCategoryItem = (category: { key: string; name: string }) => {
+    const groupedTools = getGroupedTools();
+    const categoryTools = groupedTools[category.key] || [];
+
+    if (categoryTools.length === 0) return null;
+
+    return (
+      <div
+        key={category.key}
+        className="tech-category-item"
+        onMouseEnter={() => setHoveredTechCategory(category.key)}
+        onMouseLeave={() => setHoveredTechCategory(null)}
+      >
+        <div className="tech-category-main">
+          <span className="tech-category-name">{category.name}</span>
+          <span className="tech-category-count">({categoryTools.length})</span>
+        </div>
+
+        {hoveredTechCategory === category.key && (
+          <div className="tech-tools-submenu">
+            <div className="tech-tools-grid">
+              {categoryTools.map((tool, index) => (
+                <div
+                  key={`${category.key}-${index}`}
+                  className="tech-tool-item"
+                  title={tool.tooltip}
+                >
+                  <FontAwesomeIcon
+                    icon={tool.icon}
+                    className="tech-tool-icon"
+                  />
+                  <span className="tech-tool-name">{tool.tooltip}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -106,17 +156,8 @@ const HomeScreen = () => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
     return () => {
       clearInterval(timer);
-      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -179,169 +220,6 @@ const HomeScreen = () => {
     { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
 
-  const mobileApps = projectsData
-    .filter((project) => !project.archived)
-    .slice(0, 6)
-    .map((project) => {
-      // Map project icons to FontAwesome icons
-      let icon: IconDefinition | undefined;
-      let image = project.image || "";
-      if (project.icon === "fas fa-briefcase icon") {
-        icon = faBriefcase;
-      } else if (project.icon === "fa fa-paw icon") {
-        icon = faPaw;
-      } else if (project.id === 1 || project.id === 0) {
-        image = project.image ?? "";
-        // } else if (project.icon === "fas fa-robot icon") {
-        //   icon = faRobot;
-        // } else if (project.icon === "fas fa-music icon") {
-        //   icon = faMusic;
-        // } else if (project.icon === "fas fa-cookie-bite icon") {
-        //   icon = faCookieBite;
-        // } else if (project.icon === "fas fa-film icon") {
-        //   icon = faFilm;
-      } else {
-        // Default icon for projects without specific icons
-        icon = faLaptopCode;
-      }
-
-      return {
-        name: project.name,
-        icon: icon,
-        image,
-        path: project.link.startsWith("http")
-          ? project.link
-          : `/project/${project.id}`,
-      };
-    });
-
-  if (isMobile) {
-    return (
-      <div className="iphone-container">
-        <div className="iphone-screen">
-          <div className="status-bar">
-            <Image
-              className="carrier"
-              alt="portfolio-logo"
-              src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
-              width={20}
-              height={20}
-            />
-            <span className="time">{formatTime(currentTime)}</span>
-          </div>
-
-          <div className="wallpaper">
-            {showWelcomeWindow && (
-              <div className="mobile-welcome-window">
-                <div className="mobile-window-title-bar">
-                  <div className="mobile-window-controls">
-                    <button
-                      className="mobile-close-btn"
-                      onClick={handleWelcomeWindowClose}
-                      aria-label="Close welcome window"
-                    ></button>
-                  </div>
-                  <span className="mobile-window-title">Welcome</span>
-                </div>
-                <div className="mobile-window-content">
-                  {/* <h2>Demaceo Vincent</h2> */}
-                  <p>Explore my work & get in touch.</p>
-                </div>
-              </div>
-            )}
-
-            <div className="home-apps">
-              {mobileApps.map((app) => (
-                <button
-                  key={app.name}
-                  className="app-icon"
-                  type="button"
-                  onClick={() => handleAppClick(app.path)}
-                  tabIndex={0}
-                  aria-label={app.name}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      handleAppClick(app.path);
-                    }
-                  }}
-                >
-                  <span className="icon">
-                    {app.icon && typeof app.icon !== "number" && (
-                      <FontAwesomeIcon icon={app.icon} />
-                    )}
-                    {app.image && (
-                      <Image
-                        className="app-image"
-                        src={app.image}
-                        alt={app.name}
-                        width={32}
-                        height={32}
-                      />
-                    )}
-                  </span>
-                  <span className="app-name">{app.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="page-indicators">
-            <div className="page-dot active"></div>
-            <div className="page-dot"></div>
-          </div>
-
-          <div className="dock-mobile">
-            <button
-              className="dock-app"
-              type="button"
-              onClick={() => handleAppClick("/mindset")}
-              tabIndex={0}
-              aria-label="About Me"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleAppClick("/mindset");
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </button>
-            <button
-              className="dock-app"
-              type="button"
-              onClick={() => handleAppClick("/projects")}
-              tabIndex={0}
-              aria-label="Projects"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleAppClick("/projects");
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faLaptopCode} />
-            </button>
-            <button
-              className="dock-app"
-              type="button"
-              onClick={() => setShowContactForm(!showContactForm)}
-              tabIndex={0}
-              aria-label="Contact"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  setShowContactForm(!showContactForm);
-                }
-              }}
-            >
-              <FontAwesomeIcon icon={faEnvelope} />
-            </button>
-          </div>
-        </div>
-        {showContactForm && (
-          <ContactForm onClose={() => setShowContactForm(false)} />
-        )}
-      </div>
-    );
-  }
-
   return (
     <div className="macintosh-container">
       <div className="mac-screen">
@@ -356,9 +234,9 @@ const HomeScreen = () => {
             />
             {[
               { label: "About", key: "about" },
-              // { label: "Tech Stack", key: "tech" },
-              { label: "Projects", key: "projects" },
               { label: "Services", key: "services" },
+              { label: "Tech Stack", key: "tech" },
+              { label: "Projects", key: "projects" },
               { label: "Contact", key: "contact" },
             ].map((item, idx, arr) => (
               <div
@@ -410,8 +288,30 @@ const HomeScreen = () => {
                               className="menu-dropdown-pill-item"
                             >
                               <span
-                                className="pill-tag-mac"
+                                className={`pill-tag-mac ${
+                                  pill.label === "& more..."
+                                    ? "pill-tag-clickable"
+                                    : ""
+                                }`}
                                 tabIndex={0}
+                                onClick={() => {
+                                  if (pill.label === "& more...") {
+                                    setShowAboutMe(true);
+                                    setOpenDropdown(null); // Close the dropdown
+                                  } else if (pill.link) {
+                                    window.open(pill.link, "_blank");
+                                  }
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    if (pill.label === "& more...") {
+                                      setShowAboutMe(true);
+                                      setOpenDropdown(null); // Close the dropdown
+                                    } else if (pill.link) {
+                                      window.open(pill.link, "_blank");
+                                    }
+                                  }
+                                }}
                                 onMouseEnter={(e) => {
                                   const tooltip =
                                     e.currentTarget.querySelector(
@@ -573,37 +473,22 @@ const HomeScreen = () => {
                     )}
                     {item.key === "tech" && (
                       <div>
-                        <strong className="menu-dropdown-title">
-                          Tech Stack
-                        </strong>
-                        <div className="menu-dropdown-tech-icons">
-                          {[
-                            { icon: faFigma, tooltip: "Figma" },
-                            { icon: faWebflow, tooltip: "Webflow" },
-                            { icon: faGit, tooltip: "Git" },
-                            { icon: faNode, tooltip: "Node.js" },
-                            { icon: faReact, tooltip: "React" },
-                            { icon: faJs, tooltip: "JavaScript" },
-                            { icon: faCss3, tooltip: "CSS" },
-                            { icon: faHtml5, tooltip: "HTML5" },
-                            { icon: faGithub, tooltip: "GitHub" },
-                            { icon: faNpm, tooltip: "NPM" },
-                            { icon: faPython, tooltip: "Python" },
-                            { icon: faAws, tooltip: "AWS" },
-                            { icon: faDocker, tooltip: "Docker" },
-                            { icon: faLinux, tooltip: "Linux" },
-                            { icon: faSlack, tooltip: "Slack" },
-                            { icon: faJira, tooltip: "Jira" },
-                            { icon: faMarkdown, tooltip: "Markdown" },
-                          ].map((item) => (
-                            <span
-                              key={item.tooltip}
-                              className="menu-dropdown-tech-icon"
-                              title={item.tooltip}
+                        <div className="menu-dropdown-tech-categories">
+                          {techStackCategories.map((category) =>
+                            renderCategoryItem(category)
+                          )}
+                          <div className="tech-view-all">
+                            <button
+                              className="tech-view-all-btn"
+                              onClick={() => {
+                                setShowSkillset(true);
+                                setOpenDropdown(null);
+                              }}
+                              title="View complete tech stack"
                             >
-                              <FontAwesomeIcon icon={item.icon} />
-                            </span>
-                          ))}
+                              View All Tools & Skills
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
