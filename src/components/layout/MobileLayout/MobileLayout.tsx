@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBriefcase,
+  // faBriefcase,
   faPaw,
   faUser,
   faCog,
@@ -97,9 +97,7 @@ const MobileLayout = () => {
       // Map project icons to FontAwesome icons
       let icon: IconDefinition | undefined;
       let image = project.image || "";
-      if (project.icon === "fas fa-briefcase icon") {
-        icon = faBriefcase;
-      } else if (project.icon === "fa fa-paw icon") {
+      if (project.icon === "fa fa-paw icon") {
         icon = faPaw;
       } else if (project.id === 1 || project.id === 0) {
         image = project.image ?? "";
@@ -147,7 +145,7 @@ const MobileLayout = () => {
             width={20}
             height={20}
           />
-          <span className="time">{formatTime(currentTime)}</span>
+          <span className="mobile-time">{formatTime(currentTime)}</span>
         </div>
 
         <div className="wallpaper">
@@ -292,17 +290,7 @@ const MobileLayout = () => {
         </div>
       </div>
       {showContactForm && (
-        <div
-          className="contact-modal-overlay"
-          onClick={() => setShowContactForm(false)}
-        >
-          <div
-            className="contact-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ContactForm onClose={() => setShowContactForm(false)} />
-          </div>
-        </div>
+        <ContactForm onClose={() => setShowContactForm(false)} />
       )}
 
       {/* AboutMe Modal */}
