@@ -1,10 +1,10 @@
-import HomeScreen from "@/features/home/HomeScreen/HomeScreen";
+import { ResponsiveLayout } from "@/components/layout";
 import "./globals.css";
 
 export default function Home() {
   return (
     <main>
-      <HomeScreen />
+      <ResponsiveLayout />
     </main>
   );
 }
