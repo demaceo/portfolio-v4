@@ -178,7 +178,35 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                   title={`Tech For Us - ${selectedEpisode.title}`}
                 />
               </div>
-            </div>
+              {isValidEmbedId(selectedEpisode.embedId) ? (
+                <div
+                  className="pbs-viral-player-wrapper"
+                  style={{
+                    position: "relative",
+                    paddingTop: "calc(56.25% + 43px)",
+                  }}
+                >
+                  <iframe
+                    src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
+                      selectedEpisode.embedId
+                    )}/`}
+                    allowFullScreen
+                    allow="encrypted-media"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      width: "100%",
+                      height: "100%",
+                      border: 0,
+                    }}
+                    title={`Tech For Us - ${selectedEpisode.title}`}
+                  />
+                </div>
+              ) : (
+                <div className="documentary-iframe-error">
+                  <p>Invalid video identifier. Unable to load video.</p>
+                </div>
+              )}
           )}
         </div>
 
