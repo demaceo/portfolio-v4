@@ -86,7 +86,7 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
       format: [canvas.width, canvas.height],
     });
     pdf.addImage(imageData, "PNG", 0, 0, canvas.width, canvas.height);
-    pdf.save("DemaceoResume.pdf");
+    pdf.save("Demaceo_Howard_Resume.pdf");
   };
 
   return (
@@ -153,11 +153,7 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
                   LinkedIn
                 </a>
               </nav>
-              {/* <div className="workxp-buttons">
-                <button onClick={handleDownloadPdf} className="download-button">
-                  Download PDF
-                </button>
-              </div> */}
+            
             </header>
 
             <main role="main" aria-label="Resume content">

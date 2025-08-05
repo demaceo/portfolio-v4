@@ -28,7 +28,7 @@ import "./DesktopLayout.css";
 import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
-import DocumentaryPlayer from "@/components/features/media/DocumentaryPlayer/DocumentaryPlayer";
+import { DocumentaryPlayer } from "@/components/features/media";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
 import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
 import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
