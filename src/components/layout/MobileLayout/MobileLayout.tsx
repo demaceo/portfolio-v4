@@ -10,11 +10,11 @@ import {
   faCog,
   faFilm,
 } from "@fortawesome/free-solid-svg-icons";
-import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
-import AboutMeModal from "@/components/features/about/AboutMeModal/AboutMeModal";
-import SkillsetModal from "@/components/features/skills/SkillsetModal/SkillsetModal";
-import ProjectsModal from "@/components/features/portfolio/ProjectsModal/ProjectsModal";
-import { DocumentaryPlayer } from "@/components/features/media";
+import ContactForm from "@/features/contact/ContactForm/ContactForm";
+import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
+import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
+import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
+import { DocumentaryPlayer } from "@/features/media";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import Image from "next/image";
 import "./MobileLayout.css";
@@ -205,11 +205,36 @@ const MobileLayout = () => {
         </div>
       )}
 
-      {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
-      {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
-      {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+      {showAboutMe && (
+        <div className="modal-overlay" onClick={() => setShowAboutMe(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <AboutMeModal onClose={() => setShowAboutMe(false)} />
+          </div>
+        </div>
+      )}
+      {showSkillset && (
+        <div className="modal-overlay" onClick={() => setShowSkillset(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <SkillsetModal onClose={() => setShowSkillset(false)} />
+          </div>
+        </div>
+      )}
+      {showProjects && (
+        <div className="modal-overlay" onClick={() => setShowProjects(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <ProjectsModal onClose={() => setShowProjects(false)} />
+          </div>
+        </div>
+      )}
       {showDocumentary && (
-        <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDocumentary(false)}
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
+          </div>
+        </div>
       )}
     </div>
   );

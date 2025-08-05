@@ -442,6 +442,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(0, 245, 255, 0.2);
   animation: modalSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
 }
 
 @keyframes modalSlideIn {
@@ -499,4 +500,60 @@
   background: transparent;
   box-shadow: none;
   border: none;
+}
+
+/* Hide individual modal overlays when wrapped in MobileLayout modal */
+.modal-content .skillset-modal-overlay,
+.modal-content .projects-modal-overlay,
+.modal-content .about-modal-overlay,
+.modal-content .resume-modal-overlay,
+.modal-content .documentary-player-overlay {
+  position: static !important;
+  background: none !important;
+  padding: 0 !important;
+  z-index: auto !important;
+  display: block !important;
+  backdrop-filter: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+}
+
+/* Ensure modal containers within our overlay are transparent */
+.modal-content .skillset-modal-container,
+.modal-content .projects-modal-container,
+.modal-content .about-modal-container,
+.modal-content .resume-modal-container,
+.modal-content .documentary-player-container,
+.modal-content .skillset-modal,
+.modal-content .projects-modal,
+.modal-content .about-modal,
+.modal-content .resume-modal,
+.modal-content .documentary-player {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  position: static !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force all child elements to be visible */
+.modal-content * {
+  visibility: visible !important;
+}
+
+/* Ensure modal content is displayed properly */
+.modal-content > * {
+  display: block !important;
 }
