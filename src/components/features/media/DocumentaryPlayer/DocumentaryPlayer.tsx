@@ -15,42 +15,24 @@ import {
   faCompress,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
+import { documentaryEpisodes, type Episode } from "@/data";
 import "./DocumentaryPlayer.css";
-
-interface Episode {
-  id: string;
-  title: string;
-  duration: string;
-  embedId: string;
-  externalUrl: string;
-}
 
 interface DocumentaryPlayerProps {
   onClose: () => void;
 }
 
-const episodes: Episode[] = [
-  {
-    id: "episode-1",
-    title: "Breaking Barriers",
-    duration: "25:33",
-    embedId: "3103491061",
-    externalUrl:
-      "https://www.pbs.org/video/breaking-barriers-tech-for-us-kaq5cy/",
-  },
-  {
-    id: "episode-2",
-    title: "Building Futures",
-    duration: "26:45",
-    embedId: "3103497515",
-    externalUrl: "https://www.pbs.org/video/building-futures-tech-for-us-ep2/",
-  },
-];
+// Utility function to sanitize embed IDs
+const sanitizeEmbedId = (embedId: string): string => {
+  return embedId.replace(/[^a-zA-Z0-9]/g, "");
+};
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [selectedEpisode, setSelectedEpisode] = useState<Episode>(episodes[0]);
+  const [selectedEpisode, setSelectedEpisode] = useState<Episode>(
+    documentaryEpisodes[0]
+  );
   const [showEpisodeList, setShowEpisodeList] = useState(false);
 
   const handleLoadVideo = () => {
@@ -119,7 +101,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
           <div className="episode-selector">
             <h3>Choose Episode</h3>
             <div className="episode-list">
-              {episodes.map((episode) => (
+              {documentaryEpisodes.map((episode: Episode) => (
                 <button
                   key={episode.id}
                   className={`episode-item ${
@@ -181,7 +163,9 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 }}
               >
                 <iframe
-                  src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(selectedEpisode.embedId)}/`}
+                  src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
+                    selectedEpisode.embedId
+                  )}/`}
                   allowFullScreen
                   allow="encrypted-media"
                   style={{
@@ -207,8 +191,10 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
               </h2>
               <p className="documentary-subtitle">
                 Episode{" "}
-                {episodes.findIndex((ep) => ep.id === selectedEpisode.id) + 1} ·
-                Technology & Career Development
+                {documentaryEpisodes.findIndex(
+                  (ep: Episode) => ep.id === selectedEpisode.id
+                ) + 1}{" "}
+                · Technology & Career Development
               </p>
             </div>
 
