@@ -7,19 +7,15 @@ import {
   faUser,
   faLaptopCode,
   faEnvelope,
-  // faBriefcase,
-  faPaw,
-  // faTheaterMasks,
-  // faRobot,
-  // faMusic,
-  // faCookieBite,
-  type IconDefinition,
+  faCog,
+  faFilm,
 } from "@fortawesome/free-solid-svg-icons";
-import ContactForm from "@/components/features/contact/ContactForm/ContactForm";
-import AboutMeModal from "@/components/features/about/AboutMeModal/AboutMeModal";
-import SkillsetModal from "@/components/features/skills/SkillsetModal/SkillsetModal";
+import ContactForm from "@/features/contact/ContactForm/ContactForm";
+import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
+import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
+import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
+import { DocumentaryPlayer } from "@/features/media";
 import { ASSET_PATHS } from "@/lib/constants/paths";
-import { projectsData } from "@/data/projects";
 import Image from "next/image";
 import "./MobileLayout.css";
 
@@ -29,7 +25,10 @@ const MobileLayout = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
+  const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [showDocumentary, setShowDocumentary] = useState(false);
+  const [showContactNotification, setShowContactNotification] = useState(true);
 
   interface FormatTimeOptions {
     hour: "2-digit";
@@ -49,13 +48,21 @@ const MobileLayout = () => {
     path: string;
   }
 
-  const handleAppClick = (path: HandleAppClickProps["path"]): void => {
-    if (path === "/contact") {
-      setShowContactForm(true);
+  const handleAppClick = (
+    path: HandleAppClickProps["path"],
+    isToggle?: boolean
+  ): void => {
+    if (path === "/contact" || isToggle) {
+      setShowContactForm(!showContactForm);
+      setShowContactNotification(false);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
     } else if (path === "/skillset") {
+      setShowSkillset(true);
+    } else if (path === "/projects") {
       setShowProjects(true);
+    } else if (path === "/documentary") {
+      setShowDocumentary(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -69,36 +76,13 @@ const MobileLayout = () => {
     setShowWelcomeWindow(false);
   };
 
-  const mobileApps = projectsData
-    .filter((project) => !project.archived)
-    .slice(0, 6)
-    .map((project) => {
-      // Map project icons to FontAwesome icons
-      let icon: IconDefinition | undefined;
-      let image = project.image || "";
-      if (project.icon === "fa fa-paw icon") {
-        icon = faPaw;
-      } else if (project.id === 1 || project.id === 0) {
-        image = project.icon ?? "";
-        // } else if (project.icon === "fas fa-robot icon") {
-        //   icon = faRobot;
-        // } else if (project.icon === "fas fa-music icon") {
-        //   icon = faMusic;
-        // } else if (project.icon === "fas fa-cookie-bite icon") {
-        //   icon = faCookieBite;
-        // } else if (project.icon === "fas fa-film icon") {
-        //   icon = faFilm;
-      } 
-
-      return {
-        name: project.name,
-        icon: icon,
-        image,
-        path: project.link.startsWith("http")
-          ? project.link
-          : `/project/${project.id}`,
-      };
-    });
+  const mobileApps = [
+    // { name: "Mindset", icon: faUser, path: "/mindset" },
+    // { name: "Skillset", icon: faCog, path: "/skillset" },
+    { name: "Projects", icon: faLaptopCode, path: "/projects" },
+    { name: "PBS Doc", icon: faFilm, path: "/documentary" },
+    // { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
+  ];
 
   return (
     <div className="iphone-container">
@@ -150,16 +134,7 @@ const MobileLayout = () => {
                 }}
               >
                 <span className="icon">
-                  {app.icon && <FontAwesomeIcon icon={app.icon} />}
-                  {app.image && (
-                    <Image
-                      className="app-image"
-                      src={app.image}
-                      alt={app.name}
-                      width={32}
-                      height={32}
-                    />
-                  )}
+                  <FontAwesomeIcon icon={app.icon} />
                 </span>
                 <span className="app-name">{app.name}</span>
               </button>
@@ -199,7 +174,7 @@ const MobileLayout = () => {
               }
             }}
           >
-            <FontAwesomeIcon icon={faLaptopCode} />
+            <FontAwesomeIcon icon={faCog} />
           </button>
           <button
             className="dock-app"
@@ -214,6 +189,9 @@ const MobileLayout = () => {
             }}
           >
             <FontAwesomeIcon icon={faEnvelope} />
+            {showContactNotification && (
+              <div className="notification-badge">!</div>
+            )}
           </button>
         </div>
       </div>
@@ -232,9 +210,37 @@ const MobileLayout = () => {
         </div>
       )}
 
-      {showAboutMe && <AboutMeModal onClose={() => setShowAboutMe(false)} />}
-
-      {showProjects && <SkillsetModal onClose={() => setShowProjects(false)} />}
+      {showAboutMe && (
+        <div className="modal-overlay" onClick={() => setShowAboutMe(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <AboutMeModal onClose={() => setShowAboutMe(false)} />
+          </div>
+        </div>
+      )}
+      {showSkillset && (
+        <div className="modal-overlay" onClick={() => setShowSkillset(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <SkillsetModal onClose={() => setShowSkillset(false)} />
+          </div>
+        </div>
+      )}
+      {showProjects && (
+        <div className="modal-overlay" onClick={() => setShowProjects(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <ProjectsModal onClose={() => setShowProjects(false)} />
+          </div>
+        </div>
+      )}
+      {showDocumentary && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowDocumentary(false)}
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

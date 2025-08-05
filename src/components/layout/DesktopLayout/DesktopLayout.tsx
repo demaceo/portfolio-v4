@@ -28,6 +28,7 @@ import "./DesktopLayout.css";
 import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
+import { DocumentaryPlayer } from "@/components/features/media";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
 import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
 import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
@@ -35,13 +36,14 @@ import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
 const HomeScreen = () => {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState(new Date());
-  // const [isMobile, setIsMobile] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [showDocumentary, setShowDocumentary] = useState(false);
+  const [showContactNotification, setShowContactNotification] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [hoveredTechCategory, setHoveredTechCategory] = useState<string | null>(
     null
@@ -193,12 +195,15 @@ const HomeScreen = () => {
   ): void => {
     if (path === "/contact" || isToggle) {
       setShowContactForm(!showContactForm);
+      setShowContactNotification(false);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
     } else if (path === "/skillset") {
       setShowSkillset(true);
     } else if (path === "/projects") {
       setShowProjects(true);
+    } else if (path === "/documentary") {
+      setShowDocumentary(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
       window.open(path, "_blank");
@@ -216,6 +221,7 @@ const HomeScreen = () => {
     { name: "Mindset", icon: faUser, path: "/mindset" },
     { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
+    { name: "PBS Doc", icon: faFilm, path: "/documentary" },
     // { name: "Resume", icon: faFileAlt, path: "/resume" },
     { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
@@ -538,6 +544,9 @@ const HomeScreen = () => {
               >
                 <div className="icon-image">
                   <FontAwesomeIcon icon={app.icon} />
+                  {app.name === "Contact" && showContactNotification && (
+                    <div className="notification-badge">!</div>
+                  )}
                 </div>
                 <span className="icon-label">{app.name}</span>
               </button>
@@ -618,6 +627,9 @@ const HomeScreen = () => {
       {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
       {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
       {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+      {showDocumentary && (
+        <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
+      )}
     </div>
   );
 };

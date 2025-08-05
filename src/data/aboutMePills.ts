@@ -37,7 +37,7 @@ export const aboutMePills: AboutMePill[] = [
     },
     {
         label: "& more...",
-        tooltip: "check out this documentary I was recently featured in!",
+        tooltip: "click to learn more!",
         link: "https://roadtripnation.com/roadtrip/tech-for-us-documentary",
     },
 ];

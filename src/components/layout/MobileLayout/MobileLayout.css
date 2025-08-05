@@ -303,12 +303,13 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 0 20px;
+  padding: 15px 20px;
   position: relative;
   margin: 0 15px 20px 15px;
   border-radius: 25px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  overflow: visible;
 }
 
 .dock-mobile::before {
@@ -344,7 +345,7 @@
   outline: none;
   border: none;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Different gradients for dock apps */
@@ -393,6 +394,40 @@
     0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
+/* Notification Badge for Mobile */
+.dock-app .notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff3b30;
+  color: white;
+  border-radius: 50%;
+  overflow: visible;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  z-index: 20;
+  animation: mobilepulse 2s infinite;
+}
+
+@keyframes mobilepulse {
+  0% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(255, 59, 48, 0.7);
+  }
+  70% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 12px rgba(255, 59, 48, 0);
+  }
+  100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+}
+
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -436,12 +471,15 @@
   border-radius: 30px;
   width: 90vw;
   max-width: 600px;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(0, 245, 255, 0.2);
   animation: modalSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 @keyframes modalSlideIn {
@@ -499,4 +537,156 @@
   background: transparent;
   box-shadow: none;
   border: none;
+}
+
+/* Hide individual modal overlays when wrapped in MobileLayout modal */
+.modal-content .skillset-modal-overlay,
+.modal-content .projects-modal-overlay,
+.modal-content .about-modal-overlay,
+.modal-content .resume-modal-overlay,
+.modal-content .documentary-player-overlay {
+  position: static !important;
+  background: none !important;
+  padding: 0 !important;
+  z-index: auto !important;
+  display: block !important;
+  backdrop-filter: none !important;
+  width: 100% !important;
+  height: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+/* Ensure modal containers within our overlay are transparent and scrollable */
+.modal-content .skillset-modal-container,
+.modal-content .projects-modal-container,
+.modal-content .about-modal-container,
+.modal-content .resume-modal-container,
+.modal-content .documentary-player-container,
+.modal-content .skillset-modal,
+.modal-content .projects-modal,
+.modal-content .about-modal,
+.modal-content .resume-modal,
+.modal-content .documentary-player {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  position: static !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+/* Allow scrolling in modal content areas */
+.modal-content .about-modal-body,
+.modal-content .skillset-modal-body,
+.modal-content .projects-modal-body,
+.modal-content .resume-modal-body,
+.modal-content .documentary-content {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: none !important;
+  height: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Force all child elements to be visible and scrollable */
+.modal-content * {
+  visibility: visible !important;
+  max-height: none !important;
+}
+
+/* Ensure modal content is displayed properly */
+.modal-content > * {
+  display: block !important;
+  overflow: visible !important;
+}
+
+/* === MOBILE MODAL SCROLLING ENHANCEMENTS === */
+
+/* Improve scrolling experience on mobile */
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+
+  /* Custom scrollbar for mobile modals */
+  .modal-content::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 245, 255, 0.5);
+    border-radius: 2px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 245, 255, 0.8);
+  }
+
+  /* Ensure modal content areas are scrollable */
+  .modal-content .about-modal-content,
+  .modal-content .skillset-modal-content,
+  .modal-content .projects-modal-content,
+  .modal-content .resume-content,
+  .modal-content .documentary-player-content {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Fix any potential height constraints */
+  .modal-content .about-modal,
+  .modal-content .skillset-modal,
+  .modal-content .projects-modal,
+  .modal-content .resume-modal,
+  .modal-content .documentary-player-container {
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .modal-content {
+    max-height: 95vh;
+    width: 95vw;
+    margin: 2.5vh auto;
+  }
+}
+
+/* Portrait mobile optimization */
+@media (max-width: 768px) and (orientation: portrait) {
+  .modal-content {
+    max-height: 85vh;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .modal-content {
+    max-height: 90vh;
+    width: 85vw;
+  }
 }

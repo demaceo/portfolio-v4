@@ -156,8 +156,7 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
               onClick={onClose}
               aria-label="Close Projects Modal"
             />
-            <div className="projects-minimize-btn" aria-hidden="true" />
-            <div className="projects-maximize-btn" aria-hidden="true" />
+      
           </div>
           <span className="projects-modal-window-title" id="projects-title">
             Project Portfolio
