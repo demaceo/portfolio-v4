@@ -69,7 +69,7 @@
 
 .my-logo {
   width: 25px;
-    height: 20px;
+  height: 20px;
 
   object-fit: contain;
   /* vertical-align: bottom; */
@@ -128,7 +128,7 @@
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transform-origin: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
 }
 
@@ -176,6 +176,40 @@
   margin-bottom: 5px;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  position: relative;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: -8px;
+  background: #ff3b30;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 59, 48, 0.7);
+  }
+  70% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(255, 59, 48, 0);
+  }
+  100% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 59, 48, 0);
+  }
 }
 
 .desktop-icon:hover .icon-image {

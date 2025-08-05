@@ -28,6 +28,7 @@ const MobileLayout = () => {
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showDocumentary, setShowDocumentary] = useState(false);
+  const [showContactNotification, setShowContactNotification] = useState(true);
 
   interface FormatTimeOptions {
     hour: "2-digit";
@@ -53,6 +54,7 @@ const MobileLayout = () => {
   ): void => {
     if (path === "/contact" || isToggle) {
       setShowContactForm(!showContactForm);
+      setShowContactNotification(false);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
     } else if (path === "/skillset") {
@@ -187,6 +189,9 @@ const MobileLayout = () => {
             }}
           >
             <FontAwesomeIcon icon={faEnvelope} />
+            {showContactNotification && (
+              <div className="notification-badge">!</div>
+            )}
           </button>
         </div>
       </div>

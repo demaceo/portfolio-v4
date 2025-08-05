@@ -170,7 +170,7 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                 className="alternative-contact-btn calendly-btn"
               >
                 <i className="fas fa-calendar-alt"></i>
-                Schedule a Coffee Chat
+                Schedule a Virtual Chat
               </button>
             </div>
           </div>

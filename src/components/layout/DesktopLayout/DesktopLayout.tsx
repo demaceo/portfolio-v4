@@ -43,6 +43,7 @@ const HomeScreen = () => {
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showDocumentary, setShowDocumentary] = useState(false);
+  const [showContactNotification, setShowContactNotification] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [hoveredTechCategory, setHoveredTechCategory] = useState<string | null>(
     null
@@ -194,6 +195,7 @@ const HomeScreen = () => {
   ): void => {
     if (path === "/contact" || isToggle) {
       setShowContactForm(!showContactForm);
+      setShowContactNotification(false);
     } else if (path === "/mindset") {
       setShowAboutMe(true);
     } else if (path === "/skillset") {
@@ -542,6 +544,9 @@ const HomeScreen = () => {
               >
                 <div className="icon-image">
                   <FontAwesomeIcon icon={app.icon} />
+                  {app.name === "Contact" && showContactNotification && (
+                    <div className="notification-badge">!</div>
+                  )}
                 </div>
                 <span className="icon-label">{app.name}</span>
               </button>
