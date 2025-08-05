@@ -2,6 +2,8 @@
 
 import React, { useRef } from "react";
 import DemaceoResume from "@/data/DemaceoResume";
+import tools from "@/data/toolbelt";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./InteractiveResume.css";
@@ -14,7 +16,6 @@ function ExperienceCard({
   return (
     <article
       className="experience-card"
-      role="article"
       aria-label={`${exp.role} position at ${exp.organization}`}
       tabIndex={0}
     >
@@ -70,8 +71,6 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
     // email,
     website,
     linkedin,
-    skills,
-    interests,
     experiences,
     education,
   } = DemaceoResume;
@@ -112,11 +111,9 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
               aria-label="Close Resume Window"
               title="Close"
             />
-            <div className="resume-minimize-btn" aria-hidden="true" />
-            <div className="resume-maximize-btn" aria-hidden="true" />
           </div>
           <span className="resume-window-title" id="resume-title">
-            Work Experience - Resume 
+            Professional Work Experience
           </span>
           <div className="resume-modal-actions">
             <button
@@ -203,38 +200,24 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
 
               <section className="xp-section" aria-labelledby="skills-heading">
                 <h2 id="skills-heading" className="shadowed-text">
-                  Skills & Interests
+                  Technical Skills
                 </h2>
                 <div
-                  className="skills-container"
+                  className="tools-container"
                   role="list"
-                  aria-label="Technical skills"
+                  aria-label="Technical tools and skills"
                 >
-                  {skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="skill-item"
+                  {tools.map((tool, index) => (
+                    <div
+                      key={index}
+                      className="tool-item"
                       role="listitem"
                       tabIndex={0}
+                      title={tool.tooltip}
                     >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                <div
-                  className="interests-container"
-                  role="list"
-                  aria-label="Personal interests"
-                >
-                  {interests.map((interest) => (
-                    <span
-                      key={interest}
-                      className="interest-item"
-                      role="listitem"
-                      tabIndex={0}
-                    >
-                      {interest}
-                    </span>
+                      <FontAwesomeIcon icon={tool.icon} className="tool-icon" />
+                      <span className="tool-name">{tool.tooltip}</span>
+                    </div>
                   ))}
                 </div>
               </section>

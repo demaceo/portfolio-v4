@@ -145,42 +145,6 @@
   box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #606060;
 }
 
-.skillset-minimize-btn,
-.skillset-maximize-btn {
-  background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #c0c0c0 100%);
-  border: 1px solid #808080;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  width: 14px;
-  height: 14px;
-  transition: all 0.2s ease;
-  position: relative;
-  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
-}
-
-.skillset-minimize-btn::before {
-  content: "–";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  font-weight: bold;
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
-.skillset-maximize-btn::before {
-  content: "▢";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
 /* Classic Mac Window Title */
 .skillset-modal-window-title {
   font-family: var(--font-system-classic);

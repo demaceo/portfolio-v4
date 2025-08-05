@@ -121,9 +121,7 @@
   z-index: 2;
 }
 
-.resume-close-btn,
-.resume-minimize-btn,
-.resume-maximize-btn {
+.resume-close-btn{
   background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #c0c0c0 100%);
   border: 1px solid #808080;
   border-top-color: #ffffff;
@@ -149,39 +147,12 @@
   line-height: 1;
 }
 
-.resume-minimize-btn::before {
-  content: "–";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  font-weight: bold;
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
-.resume-maximize-btn::before {
-  content: "▢";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
-.resume-close-btn:hover,
-.resume-minimize-btn:hover,
-.resume-maximize-btn:hover {
+.resume-close-btn:hover {
   background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 50%, #b0b0b0 100%);
   box-shadow: inset 1px 1px 0 #f0f0f0, inset -1px -1px 0 #606060;
 }
 
-.resume-close-btn:active,
-.resume-minimize-btn:active,
-.resume-maximize-btn:active {
+.resume-close-btn:active{
   background: linear-gradient(135deg, #b0b0b0 0%, #a0a0a0 50%, #909090 100%);
   box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #606060;
 }
@@ -510,23 +481,21 @@
   text-shadow: 1px 1px 0 #ffffff;
 }
 
-/* ===== MODERN SKILLS & INTERESTS SYSTEM ===== */
+/* ===== MODERN TOOLS SYSTEM ===== */
 
-/* Enhanced Skills and Interests */
-.skills-container,
-.interests-container {
+/* Enhanced Tools Display */
+.tools-container {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-xl);
 }
 
-.skill-item,
-.interest-item {
+.tool-item {
   background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
   color: #000000;
   border: 2px outset #e0e0e0;
-  padding: 4px 8px;
+  padding: 6px 10px;
   font-size: var(--font-size-sm);
   font-weight: normal;
   transition: all 0.2s ease;
@@ -534,20 +503,31 @@
   position: relative;
   font-family: var(--font-system-body);
   text-shadow: 1px 1px 0 #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.skill-item:hover,
-.interest-item:hover {
+.tool-item:hover {
   background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
   color: #000000;
   border: 2px outset #d0d0d0;
   transform: none;
 }
 
-.skill-item:active,
-.interest-item:active {
+.tool-item:active {
   background: linear-gradient(135deg, #c0c0c0 0%, #b0b0b0 50%, #a0a0a0 100%);
   border: 2px inset #c0c0c0;
+}
+
+.tool-icon {
+  font-size: 14px;
+  color: #333333;
+  flex-shrink: 0;
+}
+
+.tool-name {
+  white-space: nowrap;
 }
 
 /* ===== MODERN EDUCATION SYSTEM ===== */

@@ -114,9 +114,7 @@
   z-index: 2;
 }
 
-.projects-modal-close-btn,
-.projects-minimize-btn,
-.projects-maximize-btn {
+.projects-modal-close-btn {
   background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #c0c0c0 100%);
   border: 1px solid #808080;
   border-top-color: #ffffff;
@@ -142,39 +140,12 @@
   line-height: 1;
 }
 
-.projects-modal-minimize-btn::before {
-  content: "–";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  font-weight: bold;
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
-.projects-maximize-btn::before {
-  content: "▢";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--font-size-xs);
-  color: #000000;
-  transform: translate(-50%, -50%);
-  line-height: 1;
-}
-
-.projects-modal-close-btn:hover,
-.projects-minimize-btn:hover,
-.projects-maximize-btn:hover {
+.projects-modal-close-btn:hover {
   background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 50%, #b0b0b0 100%);
   box-shadow: inset 1px 1px 0 #f0f0f0, inset -1px -1px 0 #606060;
 }
 
-.projects-modal-close-btn:active,
-.projects-minimize-btn:active,
-.projects-maximize-btn:active {
+.projects-modal-close-btn:active {
   background: linear-gradient(135deg, #b0b0b0 0%, #a0a0a0 50%, #909090 100%);
   box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #606060;
 }
@@ -689,9 +660,7 @@
     height: 48px; /* Increased for better touch targets */
   }
 
-  .projects-modal-close-btn,
-  .projects-minimize-btn,
-  .projects-maximize-btn {
+  .projects-modal-close-btn{
     width: 16px; /* Larger touch targets */
     height: 16px;
   }

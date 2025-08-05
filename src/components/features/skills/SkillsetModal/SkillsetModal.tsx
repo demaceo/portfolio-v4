@@ -140,8 +140,7 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
               onClick={onClose}
               aria-label="Close Skillset Modal"
             />
-            <div className="skillset-minimize-btn" aria-hidden="true" />
-            <div className="skillset-maximize-btn" aria-hidden="true" />
+         
           </div>
           <span className="skillset-modal-window-title" id="skillset-title">
             Skills & Expertise
