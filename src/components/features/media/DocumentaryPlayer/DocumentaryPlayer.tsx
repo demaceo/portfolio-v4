@@ -23,7 +23,6 @@ interface DocumentaryPlayerProps {
 }
 
 // Utility function to sanitize embed IDs
-const sanitizeEmbedId = (embedId: string): string => {
 // Utility function to sanitize and validate PBS embed IDs
 const sanitizeEmbedId = (embedId: string): string => {
   // Remove non-alphanumeric characters
