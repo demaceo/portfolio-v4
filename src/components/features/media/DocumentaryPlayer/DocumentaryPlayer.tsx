@@ -48,13 +48,15 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   };
 
   const handleEpisodeSelect = (episode: Episode) => {
+    console.log("Episode selected:", episode.title);
     setSelectedEpisode(episode);
     setIsVideoLoaded(false);
     setShowEpisodeList(false);
   };
 
   const toggleEpisodeList = () => {
-    setShowEpisodeList(!showEpisodeList);
+    console.log("Toggle episode list clicked. Current state:", showEpisodeList);
+    setShowEpisodeList((prev) => !prev);
   };
 
   return (
@@ -73,9 +75,14 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
           </div>
           <div className="header-controls">
             <button
-              className="control-button"
-              onClick={toggleEpisodeList}
+              className={`control-button ${showEpisodeList ? "active" : ""}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleEpisodeList();
+              }}
               aria-label="Show episode list"
+              type="button"
             >
               <FontAwesomeIcon icon={faList} />
             </button>
@@ -85,13 +92,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
               aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             >
               <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} />
-            </button>
-            <button
-              className="close-button"
-              onClick={onClose}
-              aria-label="Close documentary player"
-            >
-              <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
         </div>

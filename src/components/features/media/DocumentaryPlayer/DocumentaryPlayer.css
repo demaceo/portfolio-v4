@@ -31,7 +31,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--documentary-overlay);
+  /* background: var(--documentary-overlay); */
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -54,7 +54,7 @@
 
 /* === MAIN CONTAINER === */
 .documentary-player-container {
-  background: var(--documentary-background);
+  /* background: var(--documentary-background); */
   border-radius: 20px;
   box-shadow: var(--documentary-shadow-heavy);
   max-width: 900px;
@@ -63,7 +63,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   animation: documentarySlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid var(--documentary-border);
+  /* border: 1px solid var(--documentary-border); */
   display: flex;
   flex-direction: column;
   transition: var(--documentary-transition);
@@ -113,11 +113,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     var(--documentary-surface) 0%,
     #e8e8ed 100%
-  );
+  ); */
   border-bottom: 1px solid var(--documentary-border);
   flex-shrink: 0;
 }
@@ -129,24 +129,36 @@
 }
 
 .control-button {
-  background: var(--documentary-surface);
-  border: 1px solid var(--documentary-border);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(48, 47, 47, 0.2);
+  border-radius: 8px;
+  color: rgb(70, 69, 69);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: var(--documentary-transition-fast);
-  color: var(--documentary-text-secondary);
+  font-size: 14px;
+  height: 40px;
+  width: 40px;
+  transition: all 0.2s ease;
+  z-index: 20;
+  position: relative;
 }
 
 .control-button:hover {
-  background: var(--documentary-primary);
-  color: white;
-  border-color: var(--documentary-primary);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
+}
+
+.control-button:active {
+  transform: scale(0.95);
+}
+
+.control-button.active {
+  background: var(--documentary-primary);
+  border-color: var(--documentary-primary);
+  color: white;
 }
 
 .documentary-badge {
@@ -589,58 +601,77 @@
 
 /* Episode Selector Styles */
 .episode-selector {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border: 1px solid #444;
+  position: relative;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  min-width: 280px;
-  max-height: 300px;
-  overflow-y: auto;
-  animation: slideDown 0.2s ease-out;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease-out;
+  z-index: 10;
 }
 
-.episode-option {
-  padding: 12px 16px;
-  cursor: pointer;
-  border-bottom: 1px solid #333;
-  transition: all 0.2s ease;
+.episode-selector h3 {
+  color: #f8fafc;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.episode-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
 }
 
-.episode-option:last-child {
-  border-bottom: none;
+.episode-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
 }
 
-.episode-option:hover {
+.episode-item:hover {
   background: rgba(255, 255, 255, 0.1);
-  transform: translateX(4px);
+  border-color: rgba(148, 163, 184, 0.2);
+  transform: translateY(-1px);
 }
 
-.episode-option.selected {
-  background: linear-gradient(135deg, #6b46c1 0%, #9333ea 100%);
-  color: white;
+.episode-item.selected {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.episode-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .episode-title {
-  font-weight: 600;
+  color: #f8fafc;
+  font-weight: 500;
   font-size: 14px;
-  color: inherit;
 }
 
 .episode-duration {
+  color: #94a3b8;
   font-size: 12px;
-  color: #ccc;
-  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.episode-option.selected .episode-duration {
-  color: rgba(255, 255, 255, 0.8);
+.episode-item.selected .episode-title,
+.episode-item.selected .episode-duration {
+  color: white;
 }
 
 @keyframes slideDown {
