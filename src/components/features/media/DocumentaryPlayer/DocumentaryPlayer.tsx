@@ -185,7 +185,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                   }}
                   title={`Tech For Us - ${selectedEpisode.title}`}
                 />
-              </div>
               {isValidEmbedId(selectedEpisode.embedId) ? (
                 <div
                   className="pbs-viral-player-wrapper"
