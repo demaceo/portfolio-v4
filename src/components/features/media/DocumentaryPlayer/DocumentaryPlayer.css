@@ -12,15 +12,15 @@
   --mac-button-light: #ffffff;
   --mac-text: #000000;
   --mac-disabled: #808080;
-  --mac-desktop: linear-gradient(45deg, #c0c0c0 25%, transparent 25%), 
-                 linear-gradient(-45deg, #c0c0c0 25%, transparent 25%), 
-                 linear-gradient(45deg, transparent 75%, #c0c0c0 75%), 
-                 linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
-  
+  --mac-desktop: linear-gradient(45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(-45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #c0c0c0 75%),
+    linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
+
   /* Classic Mac Fonts */
-  --mac-font: 'Geneva', 'Lucida Grande', 'Helvetica', 'Arial', sans-serif;
-  --mac-system-font: 'Chicago', 'Monaco', 'Courier New', monospace;
-  
+  --mac-font: "Geneva", "Lucida Grande", "Helvetica", "Arial", sans-serif;
+  --mac-system-font: "Chicago", "Monaco", "Courier New", monospace;
+
   /* Classic Mac Shadows */
   --mac-inset: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #808080;
   --mac-outset: 1px 1px 0px #ffffff, -1px -1px 0px #808080;
@@ -41,7 +41,6 @@
   padding: 20px;
   font-family: var(--mac-font);
 }
-
 
 /* === MAIN CONTAINER (MAC WINDOW) === */
 .documentary-player-container {
@@ -120,7 +119,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: linear-gradient(to bottom, #e8e8e8 0%, #d0d0d0 50%, #b8b8b8 51%, #c8c8c8 100%);
+  background: linear-gradient(
+    to bottom,
+    #e8e8e8 0%,
+    #d0d0d0 50%,
+    #b8b8b8 51%,
+    #c8c8c8 100%
+  );
   border-bottom: 1px solid var(--mac-border);
   border-top: 1px solid var(--mac-button-light);
   flex-shrink: 0;
@@ -137,7 +142,13 @@
 
 /* Mac-style Control Buttons */
 .control-button {
-  background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 51%, #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #d0d0d0 51%,
+    #e8e8e8 100%
+  );
   border: 1px solid var(--mac-border);
   border-radius: 3px;
   color: var(--mac-text);
@@ -156,16 +167,34 @@
 }
 
 .control-button:hover {
-  background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 50%, #d8d8d8 51%, #f0f0f0 100%);
+  background: linear-gradient(
+    to bottom,
+    #f8f8f8 0%,
+    #e8e8e8 50%,
+    #d8d8d8 51%,
+    #f0f0f0 100%
+  );
 }
 
 .control-button:active {
-  background: linear-gradient(to bottom, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 51%, #c8c8c8 100%);
+  background: linear-gradient(
+    to bottom,
+    #d0d0d0 0%,
+    #c0c0c0 50%,
+    #b0b0b0 51%,
+    #c8c8c8 100%
+  );
   box-shadow: var(--mac-inset);
 }
 
 .control-button.active {
-  background: linear-gradient(to bottom, #0066cc 0%, #004499 50%, #003366 51%, #0055aa 100%);
+  background: linear-gradient(
+    to bottom,
+    #0066cc 0%,
+    #004499 50%,
+    #003366 51%,
+    #0055aa 100%
+  );
   border-color: var(--mac-border);
   color: white;
   box-shadow: var(--mac-deep-inset);
@@ -194,7 +223,13 @@
 
 /* Mac Close Button (styled like classic Mac close box) */
 .close-button {
-  background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 51%, #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #d0d0d0 51%,
+    #e8e8e8 100%
+  );
   border: 1px solid var(--mac-border);
   width: 16px;
   height: 16px;
@@ -213,11 +248,23 @@
 }
 
 .close-button:hover {
-  background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 50%, #d8d8d8 51%, #f0f0f0 100%);
+  background: linear-gradient(
+    to bottom,
+    #f8f8f8 0%,
+    #e8e8e8 50%,
+    #d8d8d8 51%,
+    #f0f0f0 100%
+  );
 }
 
 .close-button:active {
-  background: linear-gradient(to bottom, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 51%, #c8c8c8 100%);
+  background: linear-gradient(
+    to bottom,
+    #d0d0d0 0%,
+    #c0c0c0 50%,
+    #b0b0b0 51%,
+    #c8c8c8 100%
+  );
   box-shadow: var(--mac-inset);
 }
 
@@ -384,16 +431,21 @@
 /* === META INFORMATION (Mac Style) === */
 .documentary-meta {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: left;
+  width: 100%;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-top: 26px;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 8px;
+  width: fit-content;
+  padding: 5px 48px;
   background: var(--mac-button-face);
   border: 1px solid var(--mac-border);
   box-shadow: var(--mac-inset);
@@ -405,9 +457,9 @@
 }
 
 .meta-icon {
-  font-size: 10px;
+  font-size: 20px;
   color: var(--mac-text);
-  width: 12px;
+  width: 18px;
   text-align: center;
 }
 
@@ -459,31 +511,128 @@
 }
 
 .action-button.primary {
-  background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 51%, #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #d0d0d0 51%,
+    #e8e8e8 100%
+  );
   color: var(--mac-text);
 }
 
 .action-button.primary:hover {
-  background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 50%, #d8d8d8 51%, #f0f0f0 100%);
+  background: linear-gradient(
+    to bottom,
+    #f8f8f8 0%,
+    #e8e8e8 50%,
+    #d8d8d8 51%,
+    #f0f0f0 100%
+  );
 }
 
 .action-button.primary:active {
-  background: linear-gradient(to bottom, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 51%, #c8c8c8 100%);
+  background: linear-gradient(
+    to bottom,
+    #d0d0d0 0%,
+    #c0c0c0 50%,
+    #b0b0b0 51%,
+    #c8c8c8 100%
+  );
   box-shadow: var(--mac-inset);
 }
 
 .action-button.secondary {
-  background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 51%, #e8e8e8 100%);
+  background: linear-gradient(
+    to bottom,
+    #f0f0f0 0%,
+    #e0e0e0 50%,
+    #d0d0d0 51%,
+    #e8e8e8 100%
+  );
   color: var(--mac-text);
 }
 
 .action-button.secondary:hover {
-  background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 50%, #d8d8d8 51%, #f0f0f0 100%);
+  background: linear-gradient(
+    to bottom,
+    #f8f8f8 0%,
+    #e8e8e8 50%,
+    #d8d8d8 51%,
+    #f0f0f0 100%
+  );
 }
 
 .action-button.secondary:active {
-  background: linear-gradient(to bottom, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 51%, #c8c8c8 100%);
+  background: linear-gradient(
+    to bottom,
+    #d0d0d0 0%,
+    #c0c0c0 50%,
+    #b0b0b0 51%,
+    #c8c8c8 100%
+  );
   box-shadow: var(--mac-inset);
+}
+
+.action-button.donate {
+  background: linear-gradient(
+    to bottom,
+    #ff6b8a 0%,
+    #ff4567 50%,
+    #e73c52 51%,
+    #ff5a7a 100%
+  );
+  color: #ffffff;
+  border: 1px solid #d63447;
+  position: relative;
+}
+
+.action-button.donate:hover {
+  background: linear-gradient(
+    to bottom,
+    #ff7a99 0%,
+    #ff5576 50%,
+    #f14c61 51%,
+    #ff6989 100%
+  );
+  transform: translateY(-1px);
+}
+
+.action-button.donate:active {
+  background: linear-gradient(
+    to bottom,
+    #e73c52 0%,
+    #d63447 50%,
+    #c62d3c 51%,
+    #e04659 100%
+  );
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+}
+
+.action-button.donate svg {
+  color: #ffffff;
+}
+
+.donate-message {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(
+    to bottom,
+    #f9f9f9 0%,
+    #e9e9e9 50%,
+    #d9d9d9 51%,
+    #f1f1f1 100%
+  );
+  border: 1px solid var(--mac-border);
+  border-radius: 3px;
+  font-size: 9px;
+  font-style: italic;
+  color: var(--mac-text);
+  text-align: center;
+  font-family: var(--mac-font);
+  box-shadow: var(--mac-inset);
+  line-height: 1.2;
 }
 
 /* === RESPONSIVE DESIGN === */
@@ -607,6 +756,12 @@
   .action-button {
     padding: 12px 20px;
     font-size: 14px;
+  }
+
+  .donate-message {
+    font-size: 12px;
+    padding: 10px 14px;
+    margin-top: 10px;
   }
 
   .play-button {

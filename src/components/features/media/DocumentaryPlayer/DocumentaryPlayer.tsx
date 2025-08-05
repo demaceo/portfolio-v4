@@ -12,6 +12,7 @@ import {
   faExpand,
   faCompress,
   faList,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { documentaryEpisodes, type Episode } from "@/data";
 import "./DocumentaryPlayer.css";
@@ -39,6 +40,10 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
 
   const handleExternalLink = () => {
     window.open(selectedEpisode.externalUrl, "_blank");
+  };
+
+  const handleDonate = () => {
+    window.open("https://www.pbs.org/donate", "_blank");
   };
 
   const toggleFullscreen = () => {
@@ -69,7 +74,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         <div className="documentary-player-header">
           <div className="documentary-badge">
             <FontAwesomeIcon icon={faFilm} className="badge-icon" />
-            <span>Tech For Us - PBS Documentary</span>
+            <span>Tech For Us - Documentary</span>
           </div>
           <div className="header-controls">
             <button
@@ -178,7 +183,30 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
               </p>
             </div>
 
-            <div className="documentary-meta">
+            <div className="documentary-actions">
+              <button
+                className="action-button secondary"
+                onClick={handleExternalLink}
+                aria-label="Open documentary on PBS website"
+              >
+                <FontAwesomeIcon icon={faExternalLinkAlt} />
+                View on PBS
+              </button>
+              <div className="donate-message">
+                Defunded but not defeated. Help keep your local PBS station
+                strong.
+              </div>
+              <button
+                className="action-button donate"
+                onClick={handleDonate}
+                aria-label="Donate to PBS"
+                title="Defunded but not defeated. Help keep your local PBS station strong."
+              >
+                <FontAwesomeIcon icon={faHeart} />
+                Donate to PBS
+              </button>
+            </div>
+            {/* <div className="documentary-meta">
               <div className="meta-item">
                 <FontAwesomeIcon icon={faTv} className="meta-icon" />
                 <div className="meta-content">
@@ -200,28 +228,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                   <span className="meta-value">{selectedEpisode.title}</span>
                 </div>
               </div>
-            </div>
-
-            <div className="documentary-actions">
-              {!isVideoLoaded && (
-                <button
-                  className="action-button primary"
-                  onClick={handleLoadVideo}
-                  aria-label="Load and watch documentary"
-                >
-                  <FontAwesomeIcon icon={faPlay} />
-                  Watch Now
-                </button>
-              )}
-              <button
-                className="action-button secondary"
-                onClick={handleExternalLink}
-                aria-label="Open documentary on PBS website"
-              >
-                <FontAwesomeIcon icon={faExternalLinkAlt} />
-                View on PBS
-              </button>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
