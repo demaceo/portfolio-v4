@@ -1,222 +1,269 @@
-/* ===== MODERN MACINTOSH ABOUT ME MODAL - ENHANCED SYSTEM 7 ===== */
+/* ===== ABOUT ME MODAL - RETRO MACINTOSH AESTHETIC ===== */
 
-/* === TYPOGRAPHY SYSTEM === */
+/* === RETRO MAC CSS VARIABLES === */
 :root {
-  /* Enhanced Mac Font Stack - Better readability */
-  --font-system-classic: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  --font-system-body: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  /* Classic Mac Colors */
+  --mac-bg: #c7c7c7;
+  --mac-window-bg: #ffffff;
+  --mac-border: #000000;
+  --mac-highlight: #000080;
+  --mac-button-face: #e0e0e0;
+  --mac-button-shadow: #808080;
+  --mac-button-light: #ffffff;
+  --mac-text: #000000;
+  --mac-disabled: #808080;
+  --mac-desktop: linear-gradient(45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(-45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #c0c0c0 75%),
+    linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
 
-  /* Optimized Font Sizes - Better hierarchy */
-  --font-size-xs: 12px;
-  --font-size-sm: 13px;
-  --font-size-base: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 20px;
-  --font-size-title: 24px;
+  /* Classic Mac Fonts */
+  --mac-font: "Geneva", "Lucida Grande", "Helvetica", "Arial", sans-serif;
+  --mac-system-font: "Chicago", "Monaco", "Courier New", monospace;
 
-  /* Modern Color Palette */
-  --color-primary: #007aff;
-  --color-secondary: #5856d6;
-  --color-success: #34c759;
-  --color-warning: #ff9500;
-  --color-danger: #ff3b30;
-  --color-text: #1d1d1f;
-  --color-text-secondary: #86868b;
-  --color-background: #f2f2f7;
-  --color-surface: #ffffff;
-  --color-border: #d1d1d6;
+  /* Classic Mac Shadows */
+  --mac-inset: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #808080;
+  --mac-outset: 1px 1px 0px #ffffff, -1px -1px 0px #808080;
+  --mac-deep-inset: inset 2px 2px 2px #808080, inset -1px -1px 0px #ffffff;
+
+  /* Classic Mac Font Stack - Authentic but readable */
+  --font-system-classic: "Chicago", "Geneva", "Charcoal", "Monaco", monospace,
+    sans-serif;
+  --font-system-body: "Geneva", "Charcoal", "Helvetica", system-ui, sans-serif;
+
+  /* Readable Font Sizes - Classic Mac inspired */
+  --font-size-xs: 9px;
+  --font-size-sm: 10px;
+  --font-size-base: 11px;
+  --font-size-md: 12px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-title: 12px;
 }
 
-/* Modern Modal Overlay with Enhanced Backdrop */
+/* Modal Overlay with Classic Mac Desktop */
 .about-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  /* backdrop-filter: blur(20px); */
+  width: 100%;
+  height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
-  animation: modalFadeIn 0.3s ease-out;
+  z-index: 1000;
+  font-family: var(--mac-font);
 }
 
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-  to {
-    opacity: 1;
-    backdrop-filter: blur(20px);
-  }
-}
-
-/* Modern Mac Window with Enhanced Design */
+/* === MAIN MODAL CONTAINER (MAC WINDOW) === */
 .about-modal {
-  background: var(--color-surface);
-  border-radius: 16px;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.12),
-    0 6px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  max-width: 720px;
-  margin: 0;
-  padding: 0;
-  width: 90vw;
-  max-height: 600px;
-  height: 85vh;
+  background: var(--mac-window-bg);
+  border: 2px solid var(--mac-border);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  width: 900px;
+  max-width: 90vw;
+  height: 600px;
+  max-height: 90vh;
+  animation: macWindowOpen 0.3s ease-out;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  font-family: var(--font-system-body);
-  font-size: var(--font-size-base);
-  animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--mac-font);
+  position: relative;
 }
 
-@keyframes modalSlideIn {
-  from {
+/* Mac Window Animation */
+@keyframes macWindowOpen {
+  0% {
+    transform: scale(0.1);
     opacity: 0;
-    transform: scale(0.9) translateY(20px);
   }
-  to {
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
     opacity: 1;
-    transform: scale(1) translateY(0);
   }
 }
 
-/* Modern Mac Title Bar */
+/* === MAC WINDOW TITLE BAR === */
 .about-modal-title-bar {
-  background: var(--color-background);
-  padding: 16px 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--color-border);
-  border-radius: 16px 16px 0 0;
-  min-height: 60px;
-  width: 100%;
+  align-items: center;
+  background: linear-gradient(to bottom, #f0f0f0 0%, #e8e8e8 50%, #d8d8d8 100%);
+  padding: 4px 8px;
+  border-bottom: 1px solid #808080;
+  border-top: 1px solid var(--mac-button-light);
+  min-height: 20px;
   user-select: none;
   flex-shrink: 0;
+  position: relative;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px 0 0 #808080,
+    inset 0 -1px 0 #808080;
+  font-family: var(--mac-system-font);
 }
 
-/* Modern Window Controls */
+/* Classic Mac Window Controls */
 .about-modal-window-controls {
   display: flex;
-  gap: 8px;
+  gap: 2px;
   align-items: center;
+  z-index: 2;
 }
 
-/* Modern Close Button */
+/* Classic Mac Close Button */
 .about-modal-close-btn {
-  background: var(--color-danger);
-  border: none;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #c0c0c0 100%);
+  border: 1px solid #808080;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.about-modal-close-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
-}
-
-.about-modal-close-btn:active {
-  transform: scale(0.95);
+  outline: none;
+  position: relative;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
 }
 
 .about-modal-close-btn::before {
   content: "×";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: var(--font-size-xs);
+  font-weight: bold;
+  color: #000000;
+  transform: translate(-50%, -50%);
   line-height: 1;
 }
 
-/* Modern Window Title */
+.about-modal-close-btn:hover {
+  background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 50%, #b0b0b0 100%);
+  box-shadow: inset 1px 1px 0 #f0f0f0, inset -1px -1px 0 #606060;
+}
+
+.about-modal-close-btn:active {
+  background: linear-gradient(135deg, #b0b0b0 0%, #a0a0a0 50%, #909090 100%);
+  box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #606060;
+}
+
+/* Classic Mac Window Title */
 .about-modal-window-title {
   font-family: var(--font-system-classic);
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+  color: #000000;
   text-align: center;
   flex: 1;
-  margin: 0 16px;
+  margin: 0 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.5px;
 }
 
-.about-modal-spacer {
-  width: 24px;
-}
-
-/* Modern Modal Content Area */
+/* Classic Mac Modal Content Area */
 .about-modal-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-surface);
+  background: linear-gradient(
+    135deg,
+    #f8f8f8 0%,
+    #f0f0f0 25%,
+    #e8e8e8 75%,
+    #e0e0e0 100%
+  );
+  border-top: 1px solid #ffffff;
   overflow: hidden;
 }
 
-/* Modern Header Section */
+/* Classic Mac Header Section */
 .about-modal-header {
-  padding: 24px 32px 20px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  padding: 16px 20px 12px;
+  border-bottom: 2px inset #e0e0e0;
+  background: linear-gradient(
+    135deg,
+    #f0f0f0 0%,
+    #e8e8e8 25%,
+    #e0e0e0 75%,
+    #d8d8d8 100%
+  );
   text-align: center;
 }
 
 .about-modal-header h2 {
   font-family: var(--font-system-classic);
-  font-size: var(--font-size-title);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: #000000;
   margin: 0 0 8px 0;
   line-height: 1.2;
+  text-shadow: 1px 1px 0 #ffffff;
+  letter-spacing: 0.5px;
 }
 
 .about-modal-subtitle {
   font-family: var(--font-system-body);
-  font-size: var(--font-size-md);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  color: #000000;
   margin: 0;
-  font-weight: 400;
+  font-weight: normal;
+  line-height: 1.4;
+  text-shadow: 1px 1px 0 #ffffff;
+}
+
+/* Classic Mac Body Content */
+.about-modal-body {
+  flex: 1;
+  padding: 16px 20px;
+  overflow-y: auto;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
+    #f8f8f8;
+  border: 2px inset #e0e0e0;
+  margin: 4px;
   line-height: 1.4;
 }
 
-/* Modern Body Content */
-.about-modal-body {
-  flex: 1;
-  padding: 24px 32px;
-  overflow-y: auto;
-  background: var(--color-surface);
-  line-height: 1.6;
-}
-
-/* Modern Scrollbar */
+/* Classic Mac Scrollbar */
 .about-modal-body::-webkit-scrollbar {
-  width: 8px;
+  width: 16px;
+  background: #e0e0e0;
 }
 
 .about-modal-body::-webkit-scrollbar-track {
-  background: var(--color-background);
+  background: repeating-linear-gradient(
+    45deg,
+    #f0f0f0 0px,
+    #f0f0f0 2px,
+    #e8e8e8 2px,
+    #e8e8e8 4px
+  );
+  border: 1px inset #c0c0c0;
 }
 
 .about-modal-body::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
+  background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #c0c0c0 100%);
+  border: 2px outset #e0e0e0;
+  border-radius: 0;
 }
 
 .about-modal-body::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
+  background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 50%, #b0b0b0 100%);
+}
+
+.about-modal-body::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(135deg, #b0b0b0 0%, #a0a0a0 50%, #909090 100%);
+  border: 2px inset #c0c0c0;
 }
 
 /* Modern Section Styling */
@@ -228,120 +275,117 @@
   margin-bottom: 0;
 }
 
+/* Classic Mac Section Headers */
 .about-modal-section h3 {
-  font-family: var(--font-system-classic);
+  font-family: var(--font-system-title);
   font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0 0 16px 0;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--color-primary);
-  position: relative;
+  font-weight: bold;
+  color: #000000;
+  margin: 0 0 12px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #808080;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .about-modal-section p {
   font-family: var(--font-system-body);
   font-size: var(--font-size-base);
-  line-height: 1.7;
-  color: var(--color-text);
+  line-height: 1.4;
+  color: #000000;
   margin: 0 0 16px 0;
   text-align: left;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .about-modal-section p:last-child {
   margin-bottom: 0;
 }
 
-/* Modern Pills Section */
+/* Classic Mac Pills Section */
 .about-modal-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .about-modal-pill {
-  background: var(--color-background);
-  color: var(--color-text);
-  padding: 8px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+  color: #000000;
+  padding: 6px 12px;
+  border: 2px outset #e0e0e0;
   font-family: var(--font-system-body);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: normal;
   cursor: help;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
+  transition: none;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .about-modal-pill:hover {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
+  color: #000000;
+  border: 2px outset #d0d0d0;
 }
 
 .about-modal-pill:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+  background: linear-gradient(135deg, #c0c0c0 0%, #b0b0b0 50%, #a0a0a0 100%);
+  border: 2px inset #c0c0c0;
 }
 
 /* Clickable pill styles */
 .about-modal-pill.clickable {
   cursor: pointer;
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+  color: #000000;
+  border: 2px outset #f0f0f0;
 }
 
 .about-modal-pill.clickable:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
-  box-shadow: 0 4px 12px rgba(88, 86, 214, 0.3);
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+  border: 2px outset #e0e0e0;
 }
 
 .about-modal-pill.clickable:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(88, 86, 214, 0.3);
+  background: linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 100%);
+  border: 2px inset #d0d0d0;
 }
 
-/* Modern Tooltip */
+/* Classic Mac Tooltip */
 .about-modal-pill-tooltip {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-text);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
+  background: #ffffcc;
+  color: #000000;
+  padding: 8px 12px;
+  border: 2px outset #e0e0e0;
   font-family: var(--font-system-body);
   font-size: var(--font-size-sm);
-  font-weight: 400;
+  font-weight: normal;
   white-space: normal;
   z-index: 1000;
-  max-width: 280px;
+  max-width: 240px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  animation: tooltipFadeIn 0.2s ease-out;
+  box-shadow: var(--shadow-window);
+  text-shadow: none;
 }
 
 .about-modal-pill-tooltip::before {
   content: "";
   position: absolute;
-  top: -4px;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-bottom: 4px solid var(--color-text);
+  border: 4px solid transparent;
+  border-bottom-color: #000000;
 }
 
 .tooltip-link-hint {
-  color: var(--color-primary);
-  font-weight: 600;
+  color: #000080;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .about-modal-pill.active {
@@ -349,14 +393,26 @@
   position: relative;
 }
 
-@keyframes tooltipFadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-4px);
+/* Classic Mac Responsive Design */
+@media (max-width: 768px) {
+  .about-modal-container {
+    width: 90vw;
+    height: 90vh;
+    min-width: 280px;
+    min-height: 400px;
   }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+
+  .about-modal-body {
+    padding: 12px 16px;
+  }
+
+  .about-modal-pills {
+    gap: 6px;
+  }
+
+  .about-modal-pill {
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
   }
 }
 

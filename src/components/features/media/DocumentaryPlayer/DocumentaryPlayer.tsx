@@ -69,9 +69,16 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         <div className="documentary-player-header">
           <div className="documentary-badge">
             <FontAwesomeIcon icon={faFilm} className="badge-icon" />
-            <span>PBS Documentary Series</span>
+            <span>Tech For Us - PBS Documentary</span>
           </div>
           <div className="header-controls">
+            <button
+              className="control-button"
+              onClick={onClose}
+              aria-label="Close documentary player"
+            >
+              x
+            </button>
             <button
               className={`control-button ${showEpisodeList ? "active" : ""}`}
               onClick={(e) => {
@@ -122,7 +129,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
 
         {/* Video Player Section */}
         <div className="documentary-video-section">
-       
           <div className="documentary-iframe-container">
             <div
               className="pbs-viral-player-wrapper"

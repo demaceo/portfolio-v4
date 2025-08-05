@@ -1,156 +1,109 @@
 /* ═══════════════════════════════════════════════════════════════════════════════ */
-/* OLDSCHOOL MACINTOSH PROJECTS MODAL - CLASSIC SYSTEM 7 */
+/* PROJECTS MODAL - RETRO MACINTOSH AESTHETIC */
 /* ═══════════════════════════════════════════════════════════════════════════════ */
 
-/* === TYPOGRAPHY SYSTEM === */
+/* === RETRO MAC CSS VARIABLES === */
 :root {
+  /* Classic Mac Colors */
+  --mac-bg: #c7c7c7;
+  --mac-window-bg: #ffffff;
+  --mac-border: #000000;
+  --mac-highlight: #000080;
+  --mac-button-face: #e0e0e0;
+  --mac-button-shadow: #808080;
+  --mac-button-light: #ffffff;
+  --mac-text: #000000;
+  --mac-disabled: #808080;
+  --mac-desktop: linear-gradient(45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(-45deg, #c0c0c0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #c0c0c0 75%),
+    linear-gradient(-45deg, transparent 75%, #c0c0c0 75%);
+
+  /* Classic Mac Fonts */
+  --mac-font: "Geneva", "Lucida Grande", "Helvetica", "Arial", sans-serif;
+  --mac-system-font: "Chicago", "Monaco", "Courier New", monospace;
+
+  /* Classic Mac Shadows */
+  --mac-inset: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #808080;
+  --mac-outset: 1px 1px 0px #ffffff, -1px -1px 0px #808080;
+  --mac-deep-inset: inset 2px 2px 2px #808080, inset -1px -1px 0px #ffffff;
+
   /* Classic Mac Font Stack - Authentic but readable */
   --font-system-classic: "Chicago", "Geneva", "Charcoal", "Monaco", monospace,
     sans-serif;
   --font-system-body: "Geneva", "Charcoal", "Helvetica", system-ui, sans-serif;
 
-  /* Readable Font Sizes - Classic Mac inspired but modern */
-  --font-size-xs: 11px; /* Minimum readable size */
-  --font-size-sm: 12px; /* Small text */
-  --font-size-base: 13px; /* Body text */
-  --font-size-md: 14px; /* Medium text */
-  --font-size-lg: 16px; /* Large text */
-  --font-size-xl: 18px; /* Extra large */
-  --font-size-title: 20px; /* Titles */
+  /* Readable Font Sizes - Classic Mac inspired */
+  --font-size-xs: 9px;
+  --font-size-sm: 10px;
+  --font-size-base: 11px;
+  --font-size-md: 12px;
+  --font-size-lg: 14px;
+  --font-size-xl: 16px;
+  --font-size-title: 12px;
 }
 
-/* Classic Mac Modal Overlay with System 7 Inspiration */
+/* Modal Overlay with Classic Mac Desktop */
 .projects-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  /* background: radial-gradient(
-      circle at 25% 25%,
-      rgba(199, 199, 199, 0.1) 0%,
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 75% 75%,
-      rgba(136, 136, 136, 0.1) 0%,
-      transparent 40%
-    ),
-    repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.02) 0px,
-      rgba(0, 0, 0, 0.02) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-    #c7c7c7; */
-  z-index: 2999;
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  /* animation: macSystemBoot 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
-  overflow: hidden;
-  padding: 20px;
-  box-sizing: border-box;
+  align-items: center;
+  z-index: 1000;
+  font-family: var(--mac-font);
 }
 
-/* @keyframes macSystemBoot {
-  0% {
-    opacity: 0;
-    background: #000000;
-  }
-  50% {
-    opacity: 0.7;
-    background: #888888;
-  }
-  100% {
-    opacity: 1;
-    background: radial-gradient(
-        circle at 25% 25%,
-        rgba(199, 199, 199, 0.1) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 75% 75%,
-        rgba(136, 136, 136, 0.1) 0%,
-        transparent 40%
-      ),
-      repeating-linear-gradient(
-        45deg,
-        rgba(0, 0, 0, 0.02) 0px,
-        rgba(0, 0, 0, 0.02) 1px,
-        transparent 1px,
-        transparent 3px
-      ),
-      #c7c7c7;
-  }
-} */
-
-/* Classic Mac Window with System 7 Aesthetic */
+/* === MAIN MODAL CONTAINER (MAC WINDOW) === */
 .projects-modal {
-  width: min(90vw, 1100px);
-  height: min(85vh, 750px);
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #f0f0f0 25%,
-    #e8e8e8 75%,
-    #dddddd 100%
-  );
-  border: 2px solid #000000;
-  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080,
-    inset 2px 2px 0 #dfdfdf, inset -2px -2px 0 #404040,
-    4px 4px 8px rgba(0, 0, 0, 0.5), 8px 8px 16px rgba(0, 0, 0, 0.3);
+  background: var(--mac-window-bg);
+  border: 2px solid var(--mac-border);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  width: 900px;
+  max-width: 90vw;
+  height: 700px;
+  max-height: 90vh;
+  animation: macWindowOpen 0.3s ease-out;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  font-family: var(--mac-font);
   position: relative;
-  isolation: isolate;
-  /* animation: macWindowOpen 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
-  max-width: calc(100vw - 40px);
-  max-height: calc(100vh - 40px);
-  font-family: var(--font-system-classic);
-  font-size: var(--font-size-base);
 }
 
-/* @keyframes macWindowOpen {
+/* Mac Window Animation */
+@keyframes macWindowOpen {
   0% {
+    transform: scale(0.1);
     opacity: 0;
-    transform: scale(0.3) translateY(-50px);
-    filter: blur(2px);
   }
   50% {
-    opacity: 0.8;
-    transform: scale(0.8) translateY(-10px);
+    transform: scale(1.05);
   }
   100% {
+    transform: scale(1);
     opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px);
   }
-} */
+}
 
-/* Classic Mac Title Bar with Platinum Appearance */
+/* === MAC WINDOW TITLE BAR === */
 .projects-modal-title-bar {
-  background: linear-gradient(
-    180deg,
-    #f0f0f0 0%,
-    #e8e8e8 15%,
-    #d8d8d8 50%,
-    #cccccc 85%,
-    #c0c0c0 100%
-  );
+  background: linear-gradient(to bottom, #f0f0f0 0%, #e8e8e8 50%, #d8d8d8 100%);
   padding: 4px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #808080;
+  border-top: 1px solid var(--mac-button-light);
   min-height: 20px;
   user-select: none;
   flex-shrink: 0;
   position: relative;
   box-shadow: inset 1px 1px 0 #ffffff, inset -1px 0 0 #808080,
     inset 0 -1px 0 #808080;
+  font-family: var(--mac-system-font);
 }
 
 /* Classic Mac Window Controls */
@@ -455,7 +408,7 @@
   );
   border: 2px inset #d0d0d0;
   transform: translateY(-2px);
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
 }
 
 .projects-modal-card:active {
@@ -468,7 +421,7 @@
   );
   border: 2px inset #b0b0b0;
   transform: translateY(0);
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #606060;
 }
 
 .projects-modal-card:focus {
@@ -516,17 +469,20 @@
   height: 100%;
 }
 
-/* ═══ Enhanced Project Media ═══ */
+/* ═══ Classic Mac Project Media ═══ */
 .project-media {
   position: relative;
   width: 100%;
   height: 200px;
   overflow: hidden;
   background: linear-gradient(
-    145deg,
-    rgba(248, 250, 252, 0.9) 0%,
-    rgba(241, 245, 249, 0.8) 100%
+    135deg,
+    #f8f8f8 0%,
+    #f0f0f0 25%,
+    #e8e8e8 75%,
+    #e0e0e0 100%
   );
+  border: 2px inset #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -550,34 +506,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(250, 252, 254, 0.9) 100%
-  );
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 4px 15px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e8e8e8 100%);
+  border: 2px outset #e0e0e0;
+  transition: all 0.3s ease;
 }
 
 .projects-modal-card:hover .project-icon-container {
-  transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12), 0 6px 20px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 50%, #e0e0e0 100%);
+  border: 2px inset #d0d0d0;
+  transform: translateY(-2px);
 }
 
 .project-icon {
   font-size: 2.25rem;
-  color: #2563eb;
-  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.2));
+  color: #000000;
   transition: all 0.3s ease;
 }
 
 .projects-modal-card:hover .project-icon {
-  color: #1d4ed8;
-  filter: drop-shadow(0 3px 6px rgba(29, 78, 216, 0.3));
+  color: #000000;
 }
 
 .project-overlay {
@@ -588,23 +535,20 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(37, 99, 235, 0.9) 0%,
-    rgba(29, 78, 216, 0.95) 100%
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.8) 100%
   );
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  color: white;
-  font-weight: 700;
-  font-size: 0.95rem;
-  gap: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: var(--font-size-base);
+  gap: 8px;
+  font-family: var(--font-system-classic);
 }
 
 .projects-modal-card:hover .project-overlay {
@@ -612,50 +556,48 @@
 }
 
 .external-link-icon {
-  font-size: 1.75rem;
-  margin-bottom: 6px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  font-size: 1.5rem;
+  margin-bottom: 4px;
 }
 
-/* ═══ Enhanced Project Info ═══ */
+/* ═══ Classic Mac Project Info ═══ */
 .project-info {
-  padding: 24px;
+  padding: 16px 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(252, 253, 254, 0.95) 100%
+    135deg,
+    #f8f8f8 0%,
+    #f0f0f0 25%,
+    #e8e8e8 75%,
+    #e0e0e0 100%
   );
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px inset #e0e0e0;
+  border-top: 2px inset #d0d0d0;
 }
 
 .project-info h3 {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #111827;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  color: #000000;
   margin: 0;
   line-height: 1.3;
-  /* text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
-  letter-spacing: -0.025em;
+  text-shadow: 1px 1px 0 #ffffff;
+  font-family: var(--font-system-classic);
+  letter-spacing: 0.5px;
 }
 
 .project-info p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #4b5563;
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  color: #000000;
   margin: 0;
   flex: 1;
-  /* text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9); */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 0 #ffffff;
+  font-family: var(--font-system-body);
+  font-weight: normal;
 }
 
 /* ═══ Enhanced Responsive Design ═══ */
@@ -675,13 +617,11 @@
     width: calc(100vw - 24px);
     height: calc(100vh - 24px);
     margin: 12px;
-    border-radius: 12px;
   }
 
   .projects-modal-title-bar {
     height: 44px;
     padding: 0 16px;
-    border-radius: 12px 12px 0 0;
   }
 
   .projects-modal-window-title {
@@ -802,7 +742,6 @@
   /* Enhanced small screen accessibility */
   .projects-modal-card {
     min-height: 300px; /* Adequate touch target for small screens */
-    border-radius: 16px; /* Maintain visual appeal */
   }
 
   .projects-modal-card:focus,
@@ -828,7 +767,6 @@
   color: white;
   padding: 8px;
   text-decoration: none;
-  border-radius: 4px;
   z-index: 10000;
   font-weight: 600;
   font-size: 14px;
@@ -966,7 +904,7 @@
     color: #000000;
     background: rgba(0, 0, 0, 0.15);
     border-bottom-color: #000000;
-  } 
+  }
 }
 
 /* ═══ Enhanced Dark Mode Support ═══ */
@@ -1075,12 +1013,11 @@
   }
 
   .project-icon {
-    color: #60a5fa;
-    filter: drop-shadow(0 2px 4px rgba(96, 165, 250, 0.3));
+    color: #000000;
   }
 
   .projects-modal-card:hover .project-icon {
-    color: #93c5fd;
+    color: #000000;
   }
 
   .project-info h3 {
