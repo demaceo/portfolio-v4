@@ -218,12 +218,12 @@ const HomeScreen = () => {
   };
 
   const desktopApps = [
+    { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
+    { name: "Docuseries", icon: faFilm, path: "/documentary" },
     { name: "Mindset", icon: faUser, path: "/mindset" },
     { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
-    { name: "PBS Doc", icon: faFilm, path: "/documentary" },
     // { name: "Resume", icon: faFileAlt, path: "/resume" },
-    { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
 
   return (
