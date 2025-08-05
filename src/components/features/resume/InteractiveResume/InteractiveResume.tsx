@@ -156,11 +156,11 @@ export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
                   LinkedIn
                 </a>
               </nav>
-              <div className="workxp-buttons">
+              {/* <div className="workxp-buttons">
                 <button onClick={handleDownloadPdf} className="download-button">
                   Download PDF
                 </button>
-              </div>
+              </div> */}
             </header>
 
             <main role="main" aria-label="Resume content">

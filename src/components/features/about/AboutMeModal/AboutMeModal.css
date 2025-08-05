@@ -48,7 +48,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,6 +61,8 @@
   border: 2px solid var(--mac-border);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
   width: 900px;
+  margin: 0;
+  padding: 0;
   max-width: 90vw;
   height: 600px;
   max-height: 90vh;
@@ -97,6 +98,7 @@
   border-bottom: 1px solid #808080;
   border-top: 1px solid var(--mac-button-light);
   min-height: 20px;
+  width: 100%;
   user-select: none;
   flex-shrink: 0;
   position: relative;
@@ -416,37 +418,49 @@
   }
 }
 
-/* Modern Footer */
+/* Classic Mac Footer */
 .about-modal-footer {
   flex-shrink: 0;
   width: 100%;
-  background: var(--color-background);
-  border-top: 1px solid var(--color-border);
-  border-radius: 0 0 16px 16px;
+  background: linear-gradient(
+    135deg,
+    #f0f0f0 0%,
+    #e8e8e8 25%,
+    #e0e0e0 75%,
+    #d8d8d8 100%
+  );
+  border-top: 2px inset #e0e0e0;
 }
 
-/* Modern Progress Bar */
+/* Classic Mac Progress Bar */
 .about-modal-progress-bar {
-  height: 4px;
-  background: var(--color-border);
+  height: 2px;
+  background: #808080;
   position: relative;
   overflow: hidden;
 }
 
 .about-modal-progress-fill {
   height: 100%;
-  background: var(--color-primary);
+  background: #000080;
   transition: width 0.3s ease;
   position: relative;
 }
 
-/* Modern Actions Container */
+/* Classic Mac Actions Container */
 .about-modal-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  min-height: 60px;
+  padding: 12px 16px;
+  min-height: 40px;
+  background: linear-gradient(
+    135deg,
+    #f0f0f0 0%,
+    #e8e8e8 25%,
+    #e0e0e0 75%,
+    #d8d8d8 100%
+  );
 }
 
 .about-modal-status {
@@ -454,160 +468,99 @@
   align-items: center;
   font-family: var(--font-system-body);
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  font-weight: 400;
+  color: #000000;
+  font-weight: normal;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
-/* Modern Action Buttons */
+/* Classic Mac Action Buttons */
 .about-modal-buttons {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
 .about-modal-action-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border: 2px outset #e0e0e0;
   font-family: var(--font-system-body);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
-  overflow: hidden;
-  background: var(--color-primary);
-  color: white;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+  color: #000000;
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .about-modal-action-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
+  border: 2px outset #d0d0d0;
 }
 
 .about-modal-action-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+  background: linear-gradient(135deg, #c0c0c0 0%, #b0b0b0 50%, #a0a0a0 100%);
+  border: 2px inset #c0c0c0;
 }
 
-/* Specific Button Variants */
+/* Classic Mac Button Variants */
 .contact-btn {
-  background: var(--color-success);
-  color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e8e8e8 100%);
+  color: #000000;
+  border: 2px outset #f0f0f0;
 }
 
 .contact-btn:hover {
-  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d8d8d8 100%);
+  border: 2px outset #e0e0e0;
 }
 
 .contact-btn:active {
-  box-shadow: 0 2px 6px rgba(52, 199, 89, 0.3);
+  background: linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 50%, #b8b8b8 100%);
+  border: 2px inset #d0d0d0;
 }
 
 .resume-btn {
-  background: var(--color-secondary);
-  color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e8e8e8 100%);
+  color: #000000;
+  border: 2px outset #f0f0f0;
 }
 
 .resume-btn:hover {
-  box-shadow: 0 4px 12px rgba(88, 86, 214, 0.3);
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d8d8d8 100%);
+  border: 2px outset #e0e0e0;
 }
 
 .resume-btn:active {
-  box-shadow: 0 2px 6px rgba(88, 86, 214, 0.3);
+  background: linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 50%, #b8b8b8 100%);
+  border: 2px inset #d0d0d0;
 }
 
-/* Modern Responsive Design */
+/* Classic Mac Responsive Design */
 @media (max-width: 768px) {
   .about-modal {
-    max-width: 95vw;
+    max-width: 90vw;
     height: 90vh;
-    border-radius: 12px;
   }
 
   .about-modal-title-bar {
-    padding: 12px 16px;
-    min-height: 48px;
+    padding: 4px 8px;
+    min-height: 20px;
   }
 
   .about-modal-window-title {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
   }
 
   .about-modal-close-btn {
     width: 14px;
     height: 14px;
-    font-size: 10px;
-  }
-
-  .about-modal-header {
-    padding: 20px 24px 16px;
-  }
-
-  .about-modal-header h2 {
-    font-size: var(--font-size-xl);
-  }
-
-  .about-modal-subtitle {
-    font-size: var(--font-size-base);
-  }
-
-  .about-modal-body {
-    padding: 20px 24px;
-  }
-
-  .about-modal-section {
-    margin-bottom: 28px;
-  }
-
-  .about-modal-section h3 {
-    font-size: var(--font-size-md);
-    margin-bottom: 12px;
-  }
-
-  .about-modal-section p {
-    font-size: var(--font-size-sm);
-    line-height: 1.6;
-  }
-
-  .about-modal-pills {
-    gap: 8px;
-    margin-top: 16px;
-  }
-
-  .about-modal-pill {
-    padding: 6px 12px;
     font-size: var(--font-size-xs);
   }
 
-  .about-modal-actions {
-    padding: 12px 16px;
-    min-height: 52px;
-  }
-
-  .about-modal-buttons {
-    gap: 8px;
-  }
-
-  .about-modal-action-btn {
-    padding: 8px 16px;
-    font-size: var(--font-size-xs);
-  }
-}
-
-@media (max-width: 480px) {
-  .about-modal {
-    max-width: 98vw;
-    height: 95vh;
-    border-radius: 8px;
-  }
-
   .about-modal-header {
-    padding: 16px 20px 12px;
-  }
-
-  .about-modal-body {
-    padding: 16px 20px;
+    padding: 12px 16px 8px;
   }
 
   .about-modal-header h2 {
@@ -615,6 +568,71 @@
   }
 
   .about-modal-subtitle {
+    font-size: var(--font-size-base);
+  }
+
+  .about-modal-body {
+    padding: 12px 16px;
+  }
+
+  .about-modal-section {
+    margin-bottom: 20px;
+  }
+
+  .about-modal-section h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: 8px;
+  }
+
+  .about-modal-section p {
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+  }
+
+  .about-modal-pills {
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .about-modal-pill {
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
+  }
+
+  .about-modal-actions {
+    padding: 8px 12px;
+    min-height: 32px;
+  }
+
+  .about-modal-buttons {
+    gap: 6px;
+  }
+
+  .about-modal-action-btn {
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .about-modal {
+    max-width: 95vw;
+    height: 95vh;
+  }
+
+  .about-modal-header {
+    padding: 10px 12px 6px;
+  }
+
+  .about-modal-body {
+    padding: 10px 12px;
+  }
+
+  .about-modal-header h2 {
+    font-size: var(--font-size-md);
+  }
+
+  .about-modal-subtitle {
     font-size: var(--font-size-sm);
   }
 
@@ -627,21 +645,28 @@
   }
 
   .about-modal-pills {
-    gap: 6px;
+    gap: 4px;
   }
 
   .about-modal-pill {
-    padding: 4px 8px;
-    font-size: 10px;
+    padding: 3px 6px;
+    font-size: 9px;
   }
 
   .about-modal-actions {
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     align-items: stretch;
+    padding: 6px 8px;
   }
 
   .about-modal-buttons {
     justify-content: center;
+    gap: 4px;
+  }
+
+  .about-modal-action-btn {
+    padding: 3px 6px;
+    font-size: 9px;
   }
 }
