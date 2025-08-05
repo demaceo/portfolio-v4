@@ -24,7 +24,15 @@ interface DocumentaryPlayerProps {
 
 // Utility function to sanitize embed IDs
 const sanitizeEmbedId = (embedId: string): string => {
-  return embedId.replace(/[^a-zA-Z0-9]/g, "");
+// Utility function to sanitize and validate PBS embed IDs
+const sanitizeEmbedId = (embedId: string): string => {
+  // Remove non-alphanumeric characters
+  const sanitized = embedId.replace(/[^a-zA-Z0-9]/g, "");
+  // PBS embed IDs are typically 8-12 alphanumeric characters
+  if (/^[a-zA-Z0-9]{8,12}$/.test(sanitized)) {
+    return sanitized;
+  }
+  return "";
 };
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
