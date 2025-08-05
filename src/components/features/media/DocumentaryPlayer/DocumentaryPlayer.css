@@ -8,7 +8,7 @@
   --documentary-secondary: #5856d6;
   --documentary-success: #34c759;
   --documentary-text: #1d1d1f;
-  --documentary-text-secondary: #86868b;
+  --documentary-text-secondary: #414141;
   --documentary-background: #ffffff;
   --documentary-surface: #f2f2f7;
   --documentary-border: #d1d1d6;
@@ -32,7 +32,7 @@
   width: 100vw;
   height: 100vh;
   /* background: var(--documentary-overlay); */
-  backdrop-filter: blur(12px);
+  /* backdrop-filter: blur(12px); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +54,7 @@
 
 /* === MAIN CONTAINER === */
 .documentary-player-container {
-  /* background: var(--documentary-background); */
+  background: var(--documentary-background);
   border-radius: 20px;
   box-shadow: var(--documentary-shadow-heavy);
   max-width: 900px;

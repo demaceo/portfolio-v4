@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
-  faTimes,
   faExternalLinkAlt,
   faFilm,
   faClock,
@@ -124,77 +122,45 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
 
         {/* Video Player Section */}
         <div className="documentary-video-section">
-          {!isVideoLoaded ? (
-            <div className="documentary-preview">
-              <div className="preview-content">
-                <div className="preview-thumbnail">
-                  <Image
-                    src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
-                    alt="Tech For Us - PBS Documentary"
-                    className="thumbnail-image"
-                    width={1440}
-                    height={810}
-                    priority
-                  />
-                  <div className="play-overlay">
-                    <button
-                      className="play-button"
-                      onClick={handleLoadVideo}
-                      aria-label="Load and play documentary"
-                    >
-                      <FontAwesomeIcon icon={faPlay} />
-                      <span>Watch Documentary</span>
-                    </button>
-                  </div>
-                  <div className="duration-badge">
-                    <FontAwesomeIcon icon={faClock} />
-                    <span>{selectedEpisode.duration}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="documentary-iframe-container">
-              <div
-                className="pbs-viral-player-wrapper"
+       
+          <div className="documentary-iframe-container">
+            <div
+              className="pbs-viral-player-wrapper"
+              style={{
+                position: "relative",
+                paddingTop: "calc(56.25% + 43px)",
+              }}
+            >
+              <iframe
+                src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
+                  selectedEpisode.embedId
+                )}/`}
+                allowFullScreen
+                allow="encrypted-media"
                 style={{
-                  position: "relative",
-                  paddingTop: "calc(56.25% + 43px)",
+                  position: "absolute",
+                  top: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: 0,
                 }}
-              >
-                <iframe
-                  src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
-                    selectedEpisode.embedId
-                  )}/`}
-                  allowFullScreen
-                  allow="encrypted-media"
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    width: "100%",
-                    height: "100%",
-                    border: 0,
-                  }}
-                  title={`Tech For Us - ${selectedEpisode.title}`}
-                />
-              </div>
+                title={`Tech For Us - ${selectedEpisode.title}`}
+              />
             </div>
-          )}
+          </div>
         </div>
 
         {/* Content Info - Only show when video is not loaded or not in fullscreen */}
         {(!isVideoLoaded || !isFullscreen) && (
           <div className="documentary-content">
             <div className="documentary-header">
-              <h2 className="documentary-title">
-                Tech For Us: {selectedEpisode.title}
-              </h2>
+              <h2 className="documentary-title">Tech For Us</h2>
               <p className="documentary-subtitle">
                 Episode{" "}
                 {documentaryEpisodes.findIndex(
                   (ep: Episode) => ep.id === selectedEpisode.id
                 ) + 1}{" "}
-                · Technology & Career Development
+                · {selectedEpisode.title}
               </p>
             </div>
 
