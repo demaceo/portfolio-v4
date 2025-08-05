@@ -181,7 +181,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 }}
               >
                 <iframe
-                  src={`https://player.pbs.org/viralplayer/${selectedEpisode.embedId}/`}
+                  src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(selectedEpisode.embedId)}/`}
                   allowFullScreen
                   allow="encrypted-media"
                   style={{
