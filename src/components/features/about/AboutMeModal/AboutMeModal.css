@@ -395,26 +395,265 @@
   position: relative;
 }
 
-/* Classic Mac Responsive Design */
+/* === ENHANCED MOBILE RESPONSIVE DESIGN === */
+
+/* Tablet and smaller desktop breakpoint */
+@media (max-width: 1024px) {
+  .about-modal {
+    width: 95vw;
+    max-width: 800px;
+    height: 85vh;
+    max-height: 700px;
+  }
+
+  .about-modal-header {
+    padding: 14px 18px 10px;
+  }
+
+  .about-modal-body {
+    padding: 14px 18px;
+  }
+}
+
+/* Tablet breakpoint */
 @media (max-width: 768px) {
-  .about-modal-container {
-    width: 90vw;
+  .about-modal {
+    width: 95vw;
     height: 90vh;
-    min-width: 280px;
+    max-height: 85vh;
+    min-height: 500px;
+  }
+
+  .about-modal-title-bar {
+    padding: 6px 12px;
+    min-height: 24px;
+  }
+
+  .about-modal-window-title {
+    font-size: var(--font-size-md);
+    margin: 0 12px;
+  }
+
+  .about-modal-close-btn {
+    width: 16px;
+    height: 16px;
+  }
+
+  .about-modal-close-btn::before {
+    font-size: var(--font-size-sm);
+  }
+
+  .about-modal-header {
+    padding: 16px 20px 12px;
+  }
+
+  .about-modal-header h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: 6px;
+  }
+
+  .about-modal-subtitle {
+    font-size: var(--font-size-md);
+  }
+
+  .about-modal-body {
+    padding: 16px 20px;
+    gap: 20px;
+  }
+
+  .about-modal-section {
+    margin-bottom: 24px;
+  }
+
+  .about-modal-section h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: 10px;
+  }
+
+  .about-modal-section p {
+    font-size: var(--font-size-md);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .about-modal-pills {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .about-modal-pill {
+    padding: 6px 10px;
+    font-size: var(--font-size-sm);
+  }
+
+  .about-modal-actions {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .about-modal-action-btn {
+    padding: 6px 12px;
+    font-size: var(--font-size-sm);
+    min-height: 32px;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 480px) {
+  .about-modal {
+    width: 98vw;
+    height: 95vh;
+    max-height: 95vh;
     min-height: 400px;
+    margin: 1vh auto;
+  }
+
+  .about-modal-title-bar {
+    padding: 4px 8px;
+    min-height: 28px;
+  }
+
+  .about-modal-window-title {
+    font-size: var(--font-size-sm);
+    margin: 0 8px;
+  }
+
+  .about-modal-close-btn {
+    width: 18px;
+    height: 18px;
+  }
+
+  .about-modal-header {
+    padding: 12px 16px 8px;
+    text-align: center;
+  }
+
+  .about-modal-header h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .about-modal-subtitle {
+    font-size: var(--font-size-sm);
+    line-height: 1.3;
   }
 
   .about-modal-body {
     padding: 12px 16px;
+    gap: 16px;
+  }
+
+  .about-modal-section {
+    margin-bottom: 20px;
+  }
+
+  .about-modal-section h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .about-modal-section p {
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    text-align: left;
   }
 
   .about-modal-pills {
     gap: 6px;
+    margin-top: 10px;
+    justify-content: flex-start;
   }
 
   .about-modal-pill {
     padding: 4px 8px;
-    font-size: var(--font-size-xs);
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .about-modal-actions {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+    align-items: stretch;
+  }
+
+  .about-modal-buttons {
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .about-modal-action-btn {
+    padding: 8px 12px;
+    font-size: var(--font-size-sm);
+    min-height: 36px;
+    flex: 1;
+    min-width: 100px;
+    max-width: 150px;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 360px) {
+  .about-modal {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .about-modal-title-bar {
+    padding: 3px 6px;
+    min-height: 26px;
+  }
+
+  .about-modal-header {
+    padding: 10px 12px 6px;
+  }
+
+  .about-modal-body {
+    padding: 10px 12px;
+  }
+
+  .about-modal-section {
+    margin-bottom: 16px;
+  }
+
+  .about-modal-section h3 {
+    font-size: var(--font-size-base);
+    margin-bottom: 6px;
+  }
+
+  .about-modal-section p {
+    font-size: 10px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .about-modal-pills {
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .about-modal-pill {
+    padding: 3px 6px;
+    font-size: 9px;
+  }
+
+  .about-modal-actions {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .about-modal-action-btn {
+    padding: 6px 10px;
+    font-size: 10px;
+    min-height: 32px;
   }
 }
 
@@ -614,59 +853,90 @@
   }
 }
 
-@media (max-width: 480px) {
-  .about-modal {
-    max-width: 95vw;
-    height: 95vh;
-  }
+/* === MOBILE ENHANCEMENTS === */
 
-  .about-modal-header {
-    padding: 10px 12px 6px;
-  }
-
-  .about-modal-body {
-    padding: 10px 12px;
-  }
-
-  .about-modal-header h2 {
-    font-size: var(--font-size-md);
-  }
-
-  .about-modal-subtitle {
-    font-size: var(--font-size-sm);
-  }
-
-  .about-modal-section h3 {
-    font-size: var(--font-size-base);
-  }
-
-  .about-modal-section p {
-    font-size: var(--font-size-xs);
-  }
-
-  .about-modal-pills {
-    gap: 4px;
+/* Improved touch targets for mobile */
+@media (max-width: 768px) and (hover: none) {
+  .about-modal-pill,
+  .about-modal-action-btn,
+  .about-modal-close-btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .about-modal-pill {
-    padding: 3px 6px;
-    font-size: 9px;
+    min-height: 36px;
+    min-width: auto;
+  }
+}
+
+/* Smooth scrolling and better overflow handling */
+@media (max-width: 768px) {
+  .about-modal-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+  }
+
+  /* Improved scrollbar for mobile */
+  .about-modal-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .about-modal-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+
+  .about-modal-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+
+  .about-modal-body::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Prevent text selection on mobile for better UX */
+@media (max-width: 768px) {
+  .about-modal-title-bar,
+  .about-modal-window-title,
+  .about-modal-close-btn,
+  .about-modal-pill,
+  .about-modal-action-btn {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .about-modal {
+    height: 95vh;
+    max-height: 95vh;
+  }
+
+  .about-modal-header {
+    padding: 8px 16px 6px;
+  }
+
+  .about-modal-body {
+    padding: 10px 16px;
+  }
+
+  .about-modal-section {
+    margin-bottom: 16px;
   }
 
   .about-modal-actions {
-    flex-direction: column;
-    gap: 6px;
-    align-items: stretch;
-    padding: 6px 8px;
-  }
-
-  .about-modal-buttons {
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .about-modal-action-btn {
-    padding: 3px 6px;
-    font-size: 9px;
+    padding: 8px 12px;
   }
 }

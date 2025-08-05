@@ -253,7 +253,7 @@
 
 /* Mac Video Frame */
 .documentary-iframe-container {
-  width: 100%;
+  /* width: 100%; */
   background: var(--mac-bg);
   border: 2px solid var(--mac-border);
   box-shadow: var(--mac-deep-inset);
