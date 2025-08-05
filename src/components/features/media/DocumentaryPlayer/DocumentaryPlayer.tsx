@@ -23,15 +23,8 @@ interface DocumentaryPlayerProps {
 }
 
 // Utility function to sanitize embed IDs
-// Utility function to sanitize and validate PBS embed IDs
 const sanitizeEmbedId = (embedId: string): string => {
-  // Remove non-alphanumeric characters
-  const sanitized = embedId.replace(/[^a-zA-Z0-9]/g, "");
-  // PBS embed IDs are typically 8-12 alphanumeric characters
-  if (/^[a-zA-Z0-9]{8,12}$/.test(sanitized)) {
-    return sanitized;
-  }
-  return "";
+  return embedId.replace(/[^a-zA-Z0-9]/g, "");
 };
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
@@ -184,35 +177,8 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                   }}
                   title={`Tech For Us - ${selectedEpisode.title}`}
                 />
-              {isValidEmbedId(selectedEpisode.embedId) ? (
-                <div
-                  className="pbs-viral-player-wrapper"
-                  style={{
-                    position: "relative",
-                    paddingTop: "calc(56.25% + 43px)",
-                  }}
-                >
-                  <iframe
-                    src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
-                      selectedEpisode.embedId
-                    )}/`}
-                    allowFullScreen
-                    allow="encrypted-media"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      width: "100%",
-                      height: "100%",
-                      border: 0,
-                    }}
-                    title={`Tech For Us - ${selectedEpisode.title}`}
-                  />
-                </div>
-              ) : (
-                <div className="documentary-iframe-error">
-                  <p>Invalid video identifier. Unable to load video.</p>
-                </div>
-              )}
+              </div>
+            </div>
           )}
         </div>
 
