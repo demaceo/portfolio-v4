@@ -636,7 +636,7 @@
 }
 
 /* === RESPONSIVE DESIGN === */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .documentary-player-overlay {
     padding: 16px;
     align-items: flex-start;
@@ -769,7 +769,7 @@
     font-size: 13px;
     gap: 8px;
   }
-}
+} */
 
 /* Episode Selector Styles - Mac Dialog Box */
 .episode-selector {

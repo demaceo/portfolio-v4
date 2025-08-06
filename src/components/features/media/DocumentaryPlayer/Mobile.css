@@ -1,0 +1,433 @@
+/* === DOCUMENTARY PLAYER - APPLE DESIGN SYSTEM === */
+
+:root {
+  /* Apple Design System Colors */
+  --apple-bg-primary: rgba(255, 255, 255, 0.92);
+  --apple-bg-secondary: rgba(242, 242, 247, 0.95);
+  --apple-bg-tertiary: rgba(255, 255, 255, 0.7);
+  --apple-blur: blur(20px);
+  --apple-border: rgba(0, 0, 0, 0.08);
+  --apple-shadow-light: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --apple-shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --apple-accent: #007aff;
+  --apple-accent-hover: #0056cc;
+  --apple-red: #ff3b30;
+  --apple-red-hover: #d70015;
+  --apple-text-primary: #1d1d1f;
+  --apple-text-secondary: #86868b;
+  --apple-text-tertiary: #a1a1a6;
+
+  /* Apple Typography */
+  --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+  --apple-font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+}
+
+.documentary-player-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #f2f2f7 0%, #ffffff 100%);
+  z-index: 2000;
+  padding: 0;
+  font-family: var(--apple-font);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.documentary-player-container {
+  width: 100vw;
+  height: 100vh;
+  background: var(--apple-bg-primary);
+  backdrop-filter: var(--apple-blur);
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.documentary-player-header {
+  width: 100%;
+  padding: env(safe-area-inset-top) 16px 8px 16px;
+  background: var(--apple-bg-primary);
+  border-bottom: 0.5px solid var(--apple-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  position: relative;
+  z-index: 10;
+}
+
+.documentary-badge {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--apple-text-primary);
+  letter-spacing: -0.24px;
+  display: flex;
+  align-items: center;
+  font-family: var(--apple-font);
+  gap: 6px;
+  flex: 1;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-controls .control-button {
+  background: var(--apple-bg-secondary);
+  color: var(--apple-accent);
+  border: none;
+  border-radius: 18px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: var(--apple-shadow-light);
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.header-controls .control-button:active {
+  background: var(--apple-border);
+  transform: scale(0.96);
+}
+
+.documentary-content {
+  flex: 1;
+  padding: 8px 16px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.documentary-header {
+  margin-top: 0;
+}
+
+.documentary-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+  letter-spacing: -0.45px;
+  line-height: 1.18;
+  margin-bottom: 2px;
+}
+
+.documentary-subtitle {
+  font-size: 15px;
+  color: var(--apple-text-secondary);
+  font-weight: 400;
+  letter-spacing: -0.24px;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.documentary-description {
+  font-size: 15px;
+  color: var(--apple-text-primary);
+  line-height: 1;
+  letter-spacing: -0.24px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.documentary-iframe-container {
+  /* width: 100%; */
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--apple-shadow-medium);
+  background: var(--apple-bg-tertiary);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pbs-viral-player-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.pbs-viral-player-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+  border-radius: 10px;
+}
+
+.documentary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.action-button {
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  /* max-width: 40%; */
+  font-weight: 600;
+  letter-spacing: -0.24px;
+  cursor: pointer;
+  border: none;
+  background: var(--apple-accent);
+  color: #ffffff;
+  box-shadow: var(--apple-shadow-light);
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-button.primary {
+  background: var(--apple-accent);
+}
+
+.action-button.secondary {
+  background: var(--apple-bg-secondary);
+  color: var(--apple-accent);
+  border: 0.5px solid var(--apple-border);
+}
+
+.action-button.donate {
+  background: var(--apple-red);
+  color: #ffffff;
+}
+
+.action-button:active {
+  transform: scale(0.98);
+  box-shadow: var(--apple-shadow-light);
+}
+
+.action-button.secondary:active {
+  background: var(--apple-border);
+}
+
+.action-button.donate:active {
+  background: var(--apple-red-hover);
+}
+
+.action-button svg {
+  font-size: 16px;
+}
+
+.donate-message {
+  margin-top: 4px;
+  padding: 8px 12px;
+  background: var(--apple-bg-secondary);
+  border-radius: 8px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--apple-text-secondary);
+  text-align: center;
+  font-family: var(--apple-font);
+  line-height: 1.38;
+  letter-spacing: -0.08px;
+  border: 0.5px solid var(--apple-border);
+}
+
+/* Episode Selector */
+.episode-selector {
+  background: var(--apple-bg-secondary);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 0.5px solid var(--apple-border);
+}
+
+.episode-selector h3 {
+  font-size: 17px;
+  color: var(--apple-text-primary);
+  margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: -0.41px;
+}
+
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.episode-item {
+  background: var(--apple-bg-primary);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--apple-text-primary);
+  border: 0.5px solid var(--apple-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.episode-item.selected {
+  background: var(--apple-accent);
+  color: #ffffff;
+  border-color: var(--apple-accent);
+  transform: scale(1.02);
+}
+
+.episode-item:active {
+  transform: scale(0.98);
+}
+
+.episode-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.episode-title {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.24px;
+  line-height: 1.33;
+}
+
+.episode-duration {
+  font-size: 13px;
+  color: var(--apple-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  letter-spacing: -0.08px;
+}
+
+/* Apple-style Scrollbar */
+.documentary-content::-webkit-scrollbar {
+  width: 3px;
+  background: transparent;
+}
+
+.documentary-content::-webkit-scrollbar-thumb {
+  background: var(--apple-text-tertiary);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.documentary-content::-webkit-scrollbar-thumb:hover {
+  background: var(--apple-text-secondary);
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 428px) {
+  .documentary-player-header {
+    padding: env(safe-area-inset-top) 12px 0 12px;
+    min-height: 50px;
+  }
+
+  .documentary-content {
+    padding: 0 12px 12px 12px;
+    gap: 20px;
+  }
+
+  .documentary-title {
+    margin-top: 15px;
+    font-size: 14px;
+    letter-spacing: -0.45px;
+  }
+
+  .documentary-subtitle {
+    font-size: 15px;
+    letter-spacing: -0.24px;
+  }
+
+  .documentary-description {
+    font-size: 15px;
+    letter-spacing: -0.24px;
+  }
+
+  .documentary-iframe-container {
+    border-radius: 10px;
+  }
+
+  .action-button {
+    padding: 15px 15px;
+    font-size: 14px;
+    letter-spacing: -0.24px;
+  }
+
+  .donate-message {
+    font-size: 10px;
+    padding: 10px 10px;
+    letter-spacing: -0.08px;
+  }
+
+  .episode-selector {
+    padding: 12px;
+  }
+
+  .episode-selector h3 {
+    font-size: 17px;
+    letter-spacing: -0.41px;
+  }
+
+  .episode-item {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .episode-title {
+    font-size: 15px;
+    letter-spacing: -0.24px;
+  }
+
+  .episode-duration {
+    font-size: 13px;
+    letter-spacing: -0.08px;
+  }
+}
+
+@media (max-width: 375px) {
+  .documentary-player-header {
+    padding: env(safe-area-inset-top) 8px 0 8px;
+  }
+
+  .documentary-content {
+    padding: 0 8px 8px 8px;
+  }
+
+  .header-controls .control-button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}

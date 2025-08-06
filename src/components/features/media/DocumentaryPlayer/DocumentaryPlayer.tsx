@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlay,
+  // faPlay,
   faExternalLinkAlt,
   faFilm,
   faClock,
-  faTv,
-  faAward,
+  // faTv,
+  // faAward,
   faExpand,
   faCompress,
   faList,
@@ -27,16 +27,22 @@ const sanitizeEmbedId = (embedId: string): string => {
 };
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
+  // Dynamically import mobile or desktop CSS based on screen size
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth <= 769) {
+      // @ts-expect-error importing CSS dynamically
+      import("./Mobile.css");
+    } else {
+      // @ts-expect-error importing CSS dynamically
+      import("./DocumentaryPlayer.css");
+    }
+  }, []);
+
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>(
     documentaryEpisodes[0]
   );
   const [showEpisodeList, setShowEpisodeList] = useState(false);
-
-  const handleLoadVideo = () => {
-    setIsVideoLoaded(true);
-  };
 
   const handleExternalLink = () => {
     window.open(selectedEpisode.externalUrl, "_blank");
@@ -44,10 +50,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
 
   const handleDonate = () => {
     window.open("https://www.pbs.org/donate", "_blank");
-  };
-
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
   };
 
   const handleEpisodeSelect = (episode: Episode) => {
@@ -65,16 +67,14 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   return (
     <div className="documentary-player-overlay" onClick={onClose}>
       <div
-        className={`documentary-player-container ${
-          isFullscreen ? "fullscreen" : ""
-        }`}
+        className={`documentary-player-container`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="documentary-player-header">
           <div className="documentary-badge">
-            <FontAwesomeIcon icon={faFilm} className="badge-icon" />
-            <span>Tech For Us - Documentary</span>
+            {/* <FontAwesomeIcon icon={faFilm} className="badge-icon" /> */}
+            <span>Media</span>
           </div>
           <div className="header-controls">
             <button
@@ -95,13 +95,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
               type="button"
             >
               <FontAwesomeIcon icon={faList} />
-            </button>
-            <button
-              className="control-button"
-              onClick={toggleFullscreen}
-              aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-            >
-              <FontAwesomeIcon icon={isFullscreen ? faCompress : faExpand} />
             </button>
           </div>
         </div>
@@ -162,7 +155,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         </div>
 
         {/* Content Info - Only show when video is not loaded or not in fullscreen */}
-        {(!isVideoLoaded || !isFullscreen) && (
+        {(!isVideoLoaded) && (
           <div className="documentary-content">
             <div className="documentary-header">
               <h2 className="documentary-title">Tech For Us</h2>
@@ -206,29 +199,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 Donate to PBS
               </button>
             </div>
-            {/* <div className="documentary-meta">
-              <div className="meta-item">
-                <FontAwesomeIcon icon={faTv} className="meta-icon" />
-                <div className="meta-content">
-                  <span className="meta-label">Network</span>
-                  <span className="meta-value">PBS</span>
-                </div>
-              </div>
-              <div className="meta-item">
-                <FontAwesomeIcon icon={faClock} className="meta-icon" />
-                <div className="meta-content">
-                  <span className="meta-label">Duration</span>
-                  <span className="meta-value">{selectedEpisode.duration}</span>
-                </div>
-              </div>
-              <div className="meta-item">
-                <FontAwesomeIcon icon={faAward} className="meta-icon" />
-                <div className="meta-content">
-                  <span className="meta-label">Episode</span>
-                  <span className="meta-value">{selectedEpisode.title}</span>
-                </div>
-              </div>
-            </div> */}
+        
           </div>
         )}
       </div>
