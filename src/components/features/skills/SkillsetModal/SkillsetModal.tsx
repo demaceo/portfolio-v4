@@ -143,7 +143,7 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
          
           </div>
           <span className="skillset-modal-window-title" id="skillset-title">
-            Skills & Expertise
+            Skillset
           </span>
           <div className="skillset-modal-spacer" />
         </div>

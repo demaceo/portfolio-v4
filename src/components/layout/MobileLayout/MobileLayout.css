@@ -435,11 +435,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* background: radial-gradient(
-    circle at center,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  ); */
   backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
@@ -461,21 +456,14 @@
 }
 
 .modal-content {
-  /* background: linear-gradient(
-    145deg,
-    rgba(10, 10, 10, 0.95) 0%,
-    rgba(26, 26, 46, 0.9) 100%
-  ); */
-  /* backdrop-filter: blur(40px); */
-  /* border: 1px solid rgba(0, 245, 255, 0.3); */
   border-radius: 30px;
   width: 90vw;
   max-width: 600px;
   max-height: 95vh;
   overflow-y: auto;
   overflow-x: hidden;
-  /* box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(0, 245, 255, 0.2); */
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(0, 247, 255, 0);
   animation: modalSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   -webkit-overflow-scrolling: touch;
@@ -566,8 +554,36 @@
 .modal-content .projects-modal-container,
 .modal-content .about-modal-container,
 .modal-content .resume-modal-container,
-.modal-content .documentary-player-container,
-.modal-content .skillset-modal,
+.modal-content .documentary-player-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  position: static !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+/* Special handling for SkillsetModal to preserve its mobile styles */
+.modal-content .skillset-modal {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  position: static !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+  max-width: none !important;
+  /* border-radius: 0 !important; */
+}
+
+/* Other modals */
 .modal-content .projects-modal,
 .modal-content .about-modal,
 .modal-content .resume-modal,
@@ -598,6 +614,15 @@
   max-height: none !important;
   height: auto !important;
   -webkit-overflow-scrolling: touch !important;
+}
+
+/* Preserve SkillsetModal service card heights */
+.modal-content .service-card,
+.modal-content .service-card-content {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 /* Force all child elements to be visible and scrollable */

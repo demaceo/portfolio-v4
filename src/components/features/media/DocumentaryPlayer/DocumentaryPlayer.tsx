@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   // faPlay,
   faExternalLinkAlt,
-  faFilm,
+  // faFilm,
   faClock,
   // faTv,
   // faAward,
-  faExpand,
-  faCompress,
+  // faExpand,
+  // faCompress,
   faList,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,15 +28,13 @@ const sanitizeEmbedId = (embedId: string): string => {
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   // Dynamically import mobile or desktop CSS based on screen size
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth <= 769) {
-      // @ts-expect-error importing CSS dynamically
-      import("./Mobile.css");
-    } else {
-      // @ts-expect-error importing CSS dynamically
-      import("./DocumentaryPlayer.css");
-    }
-  }, []);
+  // useEffect(() => {
+    // if (typeof window !== "undefined" && window.innerWidth <= 769) {
+      // import("./Mobile.css");
+    // } else {
+      // import("./DocumentaryPlayer.css");
+    // }
+  // }, []);
 
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>(
@@ -77,13 +75,13 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
             <span>Media</span>
           </div>
           <div className="header-controls">
-            <button
+            {/* <button
               className="control-button"
               onClick={onClose}
               aria-label="Close documentary player"
             >
-              x
-            </button>
+              
+            </button> */}
             <button
               className={`control-button ${showEpisodeList ? "active" : ""}`}
               onClick={(e) => {
