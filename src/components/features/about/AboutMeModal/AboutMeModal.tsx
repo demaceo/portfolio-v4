@@ -32,20 +32,24 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
   // Track scroll progress
   React.useEffect(() => {
+    const bodyElement = bodyRef.current;
+    if (!bodyElement) return;
+
     const handleScroll = () => {
-      if (bodyRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = bodyRef.current;
-        const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
-        setScrollProgress(Math.min(100, Math.max(0, progress)));
-      }
+      const { scrollTop, scrollHeight, clientHeight } = bodyElement;
+      const maxScroll = scrollHeight - clientHeight;
+      // Prevent division by zero
+      const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 100;
+      setScrollProgress(Math.min(100, Math.max(0, progress)));
     };
 
-    const bodyElement = bodyRef.current;
-    if (bodyElement) {
-      bodyElement.addEventListener("scroll", handleScroll);
-      return () => bodyElement.removeEventListener("scroll", handleScroll);
-    }
-  }, []);
+    bodyElement.addEventListener("scroll", handleScroll);
+    // Initial calculation in case already scrolled
+    handleScroll();
+    return () => {
+      bodyElement.removeEventListener("scroll", handleScroll);
+    };
+  }, [bodyRef]);
 
   const handlePillClick = (pill: AboutMePill) => {
     // Toggle tooltip display for all pills
@@ -179,7 +183,11 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
           <span className="about-modal-window-title">About</span>
         </div>
 
-        <div className="about-modal-content" onClick={handleModalClick}>
+        <div
+          className="about-modal-content"
+          ref={bodyRef}
+          onClick={handleModalClick}
+        >
           <div className="about-modal-header">
             <h2>Hello, I&apos;m Demaceo Vincent</h2>
             <p className="about-modal-subtitle">
@@ -187,7 +195,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
             </p>
           </div>
 
-          <div className="about-modal-body" ref={bodyRef}>
+          <div className="about-modal-body">
             <div className="about-modal-section">
               <h3>Who I Am</h3>
               <p>
@@ -266,7 +274,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
           </div>
         </div>
 
-        <div className="about-modal-footer">
+        {/* <div className="about-modal-footer">
           <div className="about-modal-progress-bar">
             <div
               className="about-modal-progress-fill"
@@ -294,7 +302,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
