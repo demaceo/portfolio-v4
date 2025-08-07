@@ -1,6 +1,7 @@
 /* Mobile iPhone Styles */
 .iphone-container {
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
   width: 100vw;
   background-image: url("/images/palmtreeleaves-7.jpg");
   background-size: cover;
@@ -9,15 +10,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 0;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .iphone-screen {
   width: 90%;
   max-width: 590px;
-  height: 85%;
-  max-height: 1100px;
+  height: 95%;
+  max-height: calc(100vh - 20px);
+  max-height: calc(100dvh - 20px);
   background: #62dcf537;
   border: 2px solid #3b3a3a;
   border-radius: 15px;
@@ -713,5 +716,41 @@
   .modal-content {
     max-height: 90vh;
     width: 85vw;
+  }
+}
+
+/* Additional responsive improvements for iphone-container */
+@media (max-height: 600px) {
+  .iphone-screen {
+    height: 98%;
+    max-height: calc(100vh - 10px);
+    max-height: calc(100dvh - 10px);
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .iphone-container {
+    padding: 0;
+  }
+
+  .iphone-screen {
+    height: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    width: 95%;
+  }
+}
+
+/* Very small screens */
+@media (max-height: 400px) {
+  .iphone-screen {
+    height: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    width: 100%;
+  }
+
+  .iphone-container {
+    padding: 0;
   }
 }
