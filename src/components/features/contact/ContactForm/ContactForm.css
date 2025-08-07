@@ -1,280 +1,677 @@
+/* ===== CONTACT FORM - APPLE LIQUID GLASS DESIGN ===== */
+
+/* Apple Design System Variables */
+:root {
+  /* Apple Glass Morphism Colors */
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-bg-dark: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: rgba(31, 38, 135, 0.37);
+  --backdrop-blur: blur(40px);
+  --backdrop-saturate: saturate(180%);
+
+  /* Apple Color Palette */
+  --ios-blue: #007aff;
+  --ios-blue-light: rgba(0, 122, 255, 0.1);
+  --ios-blue-dark: rgba(0, 122, 255, 0.8);
+  --ios-green: #30d158;
+  --ios-red: #ff3b30;
+  --ios-orange: #ff9500;
+  --ios-purple: #af52de;
+  --ios-text-primary: #1d1d1f;
+  --ios-text-secondary: #86868b;
+  --ios-text-tertiary: #c7c7cc;
+  --ios-surface: rgba(255, 255, 255, 0.8);
+  --ios-surface-elevated: rgba(255, 255, 255, 0.95);
+  --ios-surface-secondary: rgba(242, 242, 247, 0.8);
+
+  /* Typography Scale - SF Pro Inspired */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 17px;
+  --text-xl: 19px;
+  --text-2xl: 22px;
+  --text-3xl: 28px;
+  --text-4xl: 34px;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 30px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.16);
+  --shadow-2xl: 0 25px 80px rgba(0, 0, 0, 0.25);
+}
+
 /* Modal Overlay */
 .contact-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  /* background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.6) 100%); */
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
-  padding: 20px;
-  box-sizing: border-box;
+  justify-content: center;
+  z-index: 2000;
+  padding: var(--space-6);
+  animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Form Container */
 .contact-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Geneva", "Chicago", monospace, sans-serif;
-  color: #3b3a3a;
   width: 100%;
-  max-width: 500px;
-  animation: modalFadeIn 0.3s ease-out;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.email-form-wrapper {
-  position: relative;
-  background: #ffffff;
-  border: 2px solid #3b3a3a;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-  padding: 0;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 4px;
+  max-width: 480px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-2xl);
   overflow: hidden;
+  animation: modalSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  max-height: 95%;
 }
 
+/* Title Bar */
 .contact-title-bar {
-  height: 20px;
-  background: #3b3a3a;
-  color: #ffffff;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  position: relative;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 var(--space-6);
+  background: var(--ios-surface-elevated);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  position: sticky;
+    margin-bottom: 15px;
+
+  top: 0;
+  z-index: 100;
 }
 
 .contact-window-controls {
-  position: absolute;
-  left: 5px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .contact-close-btn {
-  width: 10px;
-  height: 10px;
-  background: #ffffff;
-  border: 1px solid #3b3a3a;
-  cursor: pointer;
-  padding: 0;
-  font-size: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ios-surface);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--text-lg);
+  color: var(--ios-text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  position: relative;
+}
+
+.contact-close-btn::before {
+  content: '×';
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.contact-close-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ios-red);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.contact-close-btn:hover::after {
+  opacity: 0.1;
 }
 
 .contact-close-btn:hover {
-  background: #e0e0e0;
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-close-btn:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
 }
 
 .contact-window-title {
-  flex: 1;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--ios-text-primary);
   text-align: center;
-  font-size: 11px;
-  font-weight: normal;
+  flex: 1;
+  letter-spacing: -0.02em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
+/* Form Wrapper */
+.email-form-wrapper {
+  padding: var(--space-8);
+}
+
+/* Form Styling */
 .email-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 20px;
-}
-
-.email-form h3 {
-  font-size: 16px;
-  margin: 0 0 15px 0;
-  color: #3b3a3a;
-  text-align: center;
-  font-weight: bold;
+  gap: var(--space-6);
+  /* margin-bottom: var(--space-8); */
 }
 
 .email-form label {
-  font-weight: bold;
-  color: #3b3a3a;
-  font-size: 11px;
-  margin-bottom: 5px;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--ios-text-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+  display: block;
 }
 
 .email-form input,
 .email-form textarea {
   width: 100%;
-  border: 1px solid #3b3a3a;
-  padding: 8px;
-  background-color: #ffffff;
-  color: #3b3a3a;
-  font-size: 12px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--ios-surface);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
   font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--ios-text-primary);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-sm);
+  outline: none;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.email-form input::placeholder,
+.email-form textarea::placeholder {
+  color: var(--ios-text-secondary);
+  opacity: 1;
 }
 
 .email-form input:focus,
 .email-form textarea:focus {
-  border-color: #3b3a3a;
-  outline: 1px solid #3b3a3a;
-  box-shadow: inset 1px 1px 2px rgba(59, 58, 58, 0.2);
+  border-color: var(--ios-blue);
+  box-shadow: 0 0 0 3px var(--ios-blue-light), var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.email-form input:hover,
+.email-form textarea:hover {
+  border-color: var(--ios-text-secondary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .email-form textarea {
+  min-height: 120px;
   resize: vertical;
-  min-height: 80px;
+  font-family: inherit;
+  line-height: 1.5;
 }
 
+/* Submit Button */
 #submit-button {
-  background: #e0e0e0;
-  color: #3b3a3a;
-  font-weight: bold;
-  border: 1px solid #3b3a3a;
-  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-purple) 100%);
+  color: white;
+  border: none;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-  align-self: flex-end;
-  font-size: 11px;
-  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-md);
+  letter-spacing: -0.01em;
+  min-height: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+#submit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+#submit-button:hover::before {
+  left: 100%;
 }
 
 #submit-button:hover {
-  background: #d0d0d0;
-  transform: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
 }
 
 #submit-button:active {
-  background: #c0c0c0;
-  box-shadow: inset 1px 1px 2px rgba(59, 58, 58, 0.3);
+  transform: translateY(0);
+  transition: transform 0.1s ease;
 }
 
 #submit-button:disabled {
-  background: #f0f0f0;
-  color: #999999;
+  opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
+#submit-button:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-md);
+}
+
+/* Status Message */
 #form-sent-status {
-  margin-top: 1rem;
   text-align: center;
-  font-weight: bold;
-  color: #3b3a3a;
-  font-size: 11px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ios-green);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--ios-surface);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+  margin-bottom: var(--space-6);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+#form-sent-status:not(:empty) {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Alternative Contact Methods */
 .alternative-contact-methods {
-  padding: 15px;
-  border-top: 1px solid #e0e0e0;
-  background: #f8f8f8;
+  margin-top: var(--space-8);
 }
 
 .contact-divider {
-  text-align: center;
-  margin-bottom: 15px;
-  position: relative;
+  display: flex;
+  align-items: center;
+  margin: var(--space-6) 0;
+  gap: var(--space-4);
 }
 
-.contact-divider::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
+.contact-divider::before,
+.contact-divider::after {
+  content: '';
+  flex: 1;
   height: 1px;
-  background: #d0d0d0;
-  z-index: 1;
+  background: linear-gradient(90deg, transparent, var(--ios-text-tertiary), transparent);
 }
 
 .contact-divider span {
-  background: #f8f8f8;
-  padding: 0 10px;
-  font-size: 11px;
-  color: #666;
-  position: relative;
-  z-index: 2;
+  font-size: var(--text-sm);
+  color: var(--ios-text-secondary);
+  font-weight: 500;
+  padding: 0 var(--space-4);
+  background: var(--ios-surface);
+  border-radius: var(--radius-lg);
+  letter-spacing: -0.01em;
 }
 
+/* Alternative Buttons */
 .alternative-buttons {
   display: flex;
-  gap: 10px;
   flex-direction: column;
+  gap: var(--space-4);
 }
 
 .alternative-contact-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 15px;
-  border: 1px solid #3b3a3a;
-  background: #ffffff;
-  color: #3b3a3a;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: 600;
   text-decoration: none;
-  font-size: 11px;
-  font-family: inherit;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  letter-spacing: -0.01em;
+  min-height: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+.alternative-contact-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--ios-blue-light) 0%, rgba(175, 82, 222, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.alternative-contact-btn:hover::before {
+  opacity: 1;
 }
 
 .alternative-contact-btn:hover {
-  background: #3b3a3a;
-  color: #ffffff;
-  box-shadow: 1px 1px 0px #000000;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
-.alternative-contact-btn i {
-  font-size: 12px;
+.alternative-contact-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+/* LinkedIn Button */
+.linkedin-btn {
+  background: var(--ios-surface);
+  color: #0077b5;
+  border: 1px solid rgba(0, 119, 181, 0.2);
 }
 
 .linkedin-btn:hover {
-  background: #0077b5;
   border-color: #0077b5;
+  color: #0077b5;
+}
+
+/* Calendly Button */
+.calendly-btn {
+  background: linear-gradient(135deg, var(--ios-orange) 0%, #ff6b35 100%);
+  color: white;
+  border: 1px solid var(--ios-orange);
 }
 
 .calendly-btn:hover {
-  background: #006bff;
-  border-color: #006bff;
+  box-shadow: 0 8px 32px rgba(255, 149, 0, 0.3), var(--shadow-lg);
 }
 
-/* Responsive */
-@media (max-width: 500px) {
+/* Icons */
+.alternative-contact-btn i {
+  font-size: var(--text-lg);
+}
+
+/* Animations */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .contact-modal-overlay {
-    padding: 10px;
+    padding: var(--space-4);
   }
 
   .contact-form-container {
     max-width: 100%;
+    border-radius: var(--radius-2xl);
   }
 
-  .email-form-wrapper {
-    max-width: 100%;
-  }
-
-  .email-form {
-    padding: 15px;
+  .contact-title-bar {
+    height: 56px;
+    padding: 0 var(--space-5);
   }
 
   .contact-window-title {
-    font-size: 10px;
+    font-size: var(--text-lg);
   }
 
-  .alternative-buttons {
-    gap: 8px;
+  .contact-close-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .contact-close-btn::before {
+    font-size: 20px;
+  }
+
+  .email-form-wrapper {
+    padding: var(--space-6);
+  }
+
+  .email-form {
+    gap: var(--space-5);
+  }
+
+  .email-form input,
+  .email-form textarea {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .email-form textarea {
+    min-height: 100px;
+  }
+
+  #submit-button {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-sm);
+    min-height: 48px;
   }
 
   .alternative-contact-btn {
-    padding: 8px 12px;
-    font-size: 10px;
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-modal-overlay {
+    padding: var(--space-3);
+    width: 100%;
+    height: 100%;
+  }
+
+  .contact-form-container {
+    border-radius: var(--radius-xl);
+    width: 100%;
+  }
+
+  .contact-title-bar {
+    height: 52px;
+    padding: 0 var(--space-4);
+  }
+
+  .contact-window-title {
+    font-size: var(--text-base);
+  }
+
+  .contact-close-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .contact-close-btn::before {
+    font-size: 18px;
+  }
+
+  .email-form-wrapper {
+    padding: var(--space-5);
+  }
+
+  .email-form {
+    gap: var(--space-4);
+  }
+
+  .email-form label {
+    font-size: var(--text-sm);
+  }
+
+  .email-form input,
+  .email-form textarea {
+    padding: var(--space-3);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-lg);
+  }
+
+  .email-form textarea {
+    min-height: 80px;
+  }
+
+  #submit-button {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+    min-height: 44px;
+    border-radius: var(--radius-lg);
+  }
+
+  .alternative-contact-btn {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    min-height: 44px;
+    border-radius: var(--radius-lg);
+  }
+
+  .contact-divider span {
+    font-size: var(--text-xs);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus States for Accessibility */
+.contact-close-btn:focus-visible,
+.email-form input:focus-visible,
+.email-form textarea:focus-visible,
+#submit-button:focus-visible,
+.alternative-contact-btn:focus-visible {
+  outline: 2px solid var(--ios-blue);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .email-form input,
+  .email-form textarea,
+  #submit-button,
+  .alternative-contact-btn {
+    border-width: 2px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(28, 28, 30, 0.8);
+    --glass-bg-dark: rgba(0, 0, 0, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --ios-text-primary: #f2f2f7;
+    --ios-text-secondary: #8e8e93;
+    --ios-text-tertiary: #48484a;
+    --ios-surface: rgba(44, 44, 46, 0.8);
+    --ios-surface-elevated: rgba(58, 58, 60, 0.9);
+    --ios-surface-secondary: rgba(28, 28, 30, 0.8);
+  }
+}
+
+/* Touch-specific optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+  .contact-close-btn,
+  #submit-button,
+  .alternative-contact-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .email-form input,
+  .email-form textarea {
+    min-height: 44px;
   }
 }

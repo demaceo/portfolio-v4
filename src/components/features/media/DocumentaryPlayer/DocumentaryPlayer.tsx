@@ -1,16 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  // faPlay,
   faExternalLinkAlt,
-  // faFilm,
+  faFilm,
   faClock,
-  // faTv,
-  // faAward,
-  // faExpand,
-  // faCompress,
+
   faList,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
@@ -27,14 +23,6 @@ const sanitizeEmbedId = (embedId: string): string => {
 };
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
-  // Dynamically import mobile or desktop CSS based on screen size
-  // useEffect(() => {
-    // if (typeof window !== "undefined" && window.innerWidth <= 769) {
-      // import("./Mobile.css");
-    // } else {
-      // import("./DocumentaryPlayer.css");
-    // }
-  // }, []);
 
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>(
@@ -71,7 +59,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         {/* Header */}
         <div className="documentary-player-header">
           <div className="documentary-badge">
-            {/* <FontAwesomeIcon icon={faFilm} className="badge-icon" /> */}
+            <FontAwesomeIcon icon={faFilm} className="badge-icon" />
             <span>Media</span>
           </div>
           <div className="header-controls">

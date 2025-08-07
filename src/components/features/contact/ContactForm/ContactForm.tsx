@@ -100,11 +100,10 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                 aria-label="Close Contact Form"
               ></button>
             </div>
-            <span className="contact-window-title">Contact Me</span>
+            <span className="contact-window-title">Contact</span>
           </div>
 
           <form className="email-form" onSubmit={sendEmail}>
-            <label htmlFor="from_name">Name</label>
             <input
               ref={nameInputRef}
               type="text"
@@ -114,7 +113,6 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
               required
             />
 
-            <label htmlFor="reply_to">Email</label>
             <input
               type="email"
               name="reply_to"
@@ -123,7 +121,6 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
               required
             />
 
-            <label htmlFor="message">Message</label>
             <textarea
               name="message"
               id="message"
