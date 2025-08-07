@@ -180,7 +180,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
               aria-label="Close About Modal"
             />
           </div>
-          <span className="about-modal-window-title">About</span>
+          {/* <span className="about-modal-window-title">About</span> */}
         </div>
 
         <div

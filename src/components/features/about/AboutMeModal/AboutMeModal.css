@@ -134,9 +134,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 24px;
     padding: 0 var(--space-6);
-    background: var(--ios-surface-elevated);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
     border-bottom: 1px solid rgba(0, 0, 0, 0.04);
@@ -144,6 +143,7 @@
     top: 0;
     z-index: 100;
     flex-shrink: 0;
+    width: 100%;
     border-top-left-radius: var(--radius-3xl);
     border-top-right-radius: var(--radius-3xl);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
