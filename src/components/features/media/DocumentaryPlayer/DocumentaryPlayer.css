@@ -72,9 +72,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg,
-      rgba(0, 0, 0, 0.6) 0%,
-      rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   display: flex;
@@ -83,7 +85,8 @@
   z-index: 2000;
   padding: var(--space-6);
   animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Player Container */
@@ -165,7 +168,7 @@
 }
 
 .control-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -248,13 +251,17 @@
 }
 
 .episode-item::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--ios-blue-light) 0%, rgba(175, 82, 222, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--ios-blue-light) 0%,
+    rgba(175, 82, 222, 0.1) 100%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -276,7 +283,11 @@
 }
 
 .episode-item.selected {
-  background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-purple) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--ios-blue) 0%,
+    var(--ios-purple) 100%
+  );
   border-color: var(--ios-blue);
   box-shadow: var(--shadow-lg);
   transform: scale(1.02);
@@ -353,47 +364,62 @@
 /* Content Section */
 .documentary-content {
   flex: 1;
-  padding: var(--space-8);
+  padding: var(--space-6);
   background: transparent;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   overscroll-behavior: contain;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
 .documentary-content::-webkit-scrollbar {
-  width: 4px;
+  width: 8px;
 }
 
 .documentary-content::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 .documentary-content::-webkit-scrollbar-thumb {
-  background: rgba(0, 122, 255, 0.3);
-  border-radius: 2px;
+  background: rgba(0, 122, 255, 0.4);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.documentary-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 122, 255, 0.6);
 }
 
 .documentary-header {
-  margin-bottom: var(--space-8);
+  margin-bottom: 0;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .documentary-title {
-  font-size: var(--text-4xl);
+  font-size: var(--text-3xl);
   font-weight: 800;
   color: var(--ios-text-primary);
-  margin: 0 0 var(--space-3) 0;
+  margin: 0 0 var(--space-2) 0;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  background: linear-gradient(135deg, var(--ios-text-primary) 0%, var(--ios-blue) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--ios-text-primary) 0%,
+    var(--ios-blue) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .documentary-subtitle {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--ios-text-secondary);
   margin: 0;
@@ -401,58 +427,68 @@
 }
 
 .documentary-description {
-  margin-bottom: var(--space-8);
-  text-align: center;
+  margin-bottom: 0;
+  text-align: left;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .documentary-description p {
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: 1.6;
   color: var(--ios-text-primary);
   margin: 0;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: none;
 }
 
 /* Actions Section */
 .documentary-actions {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+  flex-direction: row;
+  gap: var(--space-3);
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-border);
 }
 
 .action-button {
-  width: 100%;
-  max-width: 320px;
-  padding: var(--space-4) var(--space-6);
-  border-radius: var(--radius-xl);
-  font-size: var(--text-base);
+  width: auto;
+  max-width: 200px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   border: none;
   letter-spacing: -0.01em;
   position: relative;
   overflow: hidden;
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  min-height: 52px;
+  min-height: 44px;
 }
 
 .action-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -495,18 +531,20 @@
 }
 
 .donate-message {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--ios-text-secondary);
   text-align: center;
-  max-width: 400px;
-  line-height: 1.5;
-  margin: var(--space-4) 0;
-  padding: var(--space-4);
+  max-width: 100%;
+  line-height: 1.4;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
   background: var(--ios-surface);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+  flex-basis: 100%;
+  order: -1;
 }
 
 /* Animations */
@@ -603,31 +641,40 @@
   }
 
   .documentary-content {
-    padding: var(--space-6);
+    padding: var(--space-4);
+    max-height: 300px;
+    gap: var(--space-4);
   }
 
   .documentary-title {
-    font-size: var(--text-3xl);
+    font-size: var(--text-2xl);
   }
 
   .documentary-subtitle {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
   }
 
   .documentary-description p {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+  }
+
+  .documentary-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
   }
 
   .action-button {
     max-width: 100%;
-    padding: var(--space-3) var(--space-5);
-    font-size: var(--text-sm);
-    min-height: 48px;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+    min-height: 40px;
   }
 
   .donate-message {
-    font-size: var(--text-xs);
-    padding: var(--space-3);
+    font-size: 10px;
+    padding: var(--space-2);
+    order: 0;
   }
 }
 
@@ -781,7 +828,11 @@
   }
 
   .documentary-title {
-    background: linear-gradient(135deg, var(--ios-text-primary) 0%, var(--ios-blue) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--ios-text-primary) 0%,
+      var(--ios-blue) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -790,7 +841,6 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-
   .control-button,
   .episode-item,
   .action-button {

@@ -9,13 +9,15 @@ import {
   faEnvelope,
   faCog,
   faFilm,
+  faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
+import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import ContactForm from "@/features/contact/ContactForm/ContactForm";
 import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
 import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
 import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
 import { DocumentaryPlayer } from "@/features/media";
-import { ASSET_PATHS } from "@/lib/constants/paths";
+import { ASSET_PATHS, EXTERNAL_LINKS } from "@/lib/constants/paths";
 import Image from "next/image";
 import "./MobileLayout.css";
 
@@ -77,10 +79,10 @@ const MobileLayout = () => {
   };
 
   const mobileApps = [
-    // { name: "Mindset", icon: faUser, path: "/mindset" },
-    // { name: "Skillset", icon: faCog, path: "/skillset" },
+    { name: "Mindset", icon: faUser, path: "/mindset" },
+    { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
-    { name: "PBS Doc", icon: faFilm, path: "/documentary" },
+    { name: "Docuseries", icon: faFilm, path: "/documentary" },
     // { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
 
@@ -151,30 +153,30 @@ const MobileLayout = () => {
           <button
             className="dock-app"
             type="button"
-            onClick={() => handleAppClick("/mindset")}
+            onClick={() => handleAppClick(EXTERNAL_LINKS.LINKEDIN)}
             tabIndex={0}
-            aria-label="About Me"
+            aria-label="LinkedIn"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                handleAppClick("/mindset");
+                handleAppClick(EXTERNAL_LINKS.LINKEDIN);
               }
             }}
           >
-            <FontAwesomeIcon icon={faUser} />
+            <FontAwesomeIcon icon={faLinkedin} />
           </button>
           <button
             className="dock-app"
             type="button"
-            onClick={() => handleAppClick("/skillset")}
+            onClick={() => handleAppClick(EXTERNAL_LINKS.CALENDLY)}
             tabIndex={0}
-            aria-label="Services"
+            aria-label="Schedule Meeting"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                handleAppClick("/skillset");
+                handleAppClick(EXTERNAL_LINKS.CALENDLY);
               }
             }}
           >
-            <FontAwesomeIcon icon={faCog} />
+            <FontAwesomeIcon icon={faCalendarDays} />
           </button>
           <button
             className="dock-app"
