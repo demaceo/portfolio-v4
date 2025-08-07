@@ -1,3 +1,341 @@
+/* Principles List Styling */
+.principles-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.principle-item {
+  background: var(--ios-surface);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: 1px solid var(--glass-border);
+  transition: box-shadow 0.3s, transform 0.3s;
+  position: relative;
+  min-height: 160px;
+  overflow: hidden;
+}
+
+.principle-item:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-6px) scale(1.03);
+  border-color: var(--ios-orange);
+}
+
+.principle-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.principle-header h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ios-orange);
+  margin: 0 0 var(--space-1) 0;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--ios-orange) 0%, var(--ios-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.principle-description {
+  font-size: var(--text-base);
+  color: var(--ios-text-secondary);
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .principles-list {
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .principle-item {
+    padding: var(--space-3) var(--space-2);
+    min-height: 120px;
+  }
+
+  .principle-header h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+  }
+
+  .principle-description {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .principles-list {
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+
+  .principle-item {
+    padding: 10px 4px;
+    min-height: 80px;
+  }
+
+  .principle-header h3 {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .principle-description {
+    font-size: 11px;
+  }
+}
+
+/* Tools Category Styling */
+.tool-category {
+  background: var(--ios-surface-secondary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6) var(--space-4);
+  margin-bottom: var(--space-8);
+  transition: box-shadow 0.3s, background 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.tool-category h3 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--ios-orange);
+  margin: 0 0 var(--space-3) 0;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--ios-orange) 0%, var(--ios-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.tool-item {
+  background: var(--ios-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: box-shadow 0.3s, transform 0.3s;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  position: relative;
+  min-height: 100px;
+}
+
+.tool-item:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px) scale(1.04);
+  border-color: var(--ios-orange);
+}
+
+.tool-item span {
+  font-size: var(--text-sm);
+  color: var(--ios-text-secondary);
+  font-weight: 500;
+  text-align: center;
+  margin-top: var(--space-1);
+  letter-spacing: -0.01em;
+}
+
+.tool-item .fa-icon {
+  font-size: var(--text-xl);
+  color: var(--ios-orange);
+  margin-bottom: var(--space-1);
+  transition: color 0.3s;
+}
+
+.tool-item:hover .fa-icon {
+  color: var(--ios-purple);
+}
+
+@media (max-width: 768px) {
+  .tool-category {
+    padding: var(--space-4) var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .tool-category h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .tools-grid {
+    gap: var(--space-2);
+  }
+
+  .tool-item {
+    padding: var(--space-2) var(--space-1);
+    min-height: 80px;
+  }
+
+  .tool-item span {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .tool-category {
+    padding: var(--space-2) 4px;
+    gap: 4px;
+    margin-bottom: var(--space-4);
+  }
+
+  .tool-category h3 {
+    font-size: var(--text-base);
+    margin-bottom: 4px;
+  }
+
+  .tools-grid {
+    gap: 4px;
+  }
+
+  .tool-item {
+    padding: 8px 2px;
+    min-height: 60px;
+  }
+
+  .tool-item span {
+    font-size: 10px;
+  }
+}
+
+/* Skillset Modal Tabs */
+.skillset-modal-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--ios-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2) var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.skillset-tab {
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: none;
+  background: transparent;
+  color: var(--ios-text-secondary);
+  letter-spacing: -0.01em;
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.skillset-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--ios-orange-light, rgba(255, 149, 0, 0.1)) 0%, rgba(175, 82, 222, 0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+}
+
+.skillset-tab:hover::before {
+  opacity: 1;
+}
+
+.skillset-tab:hover {
+  color: var(--ios-orange);
+  transform: scale(1.04);
+}
+
+.skillset-tab:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.skillset-tab.active {
+  background: linear-gradient(135deg, var(--ios-orange) 0%, var(--ios-purple) 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+  transform: scale(1.06);
+}
+
+.skillset-tab.active::before {
+  opacity: 0;
+}
+
+@media (max-width: 768px) {
+  .skillset-modal-tabs {
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .skillset-tab {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skillset-modal-tabs {
+    gap: 2px;
+    padding: 2px 6px;
+    margin-bottom: var(--space-2);
+  }
+
+  .skillset-tab {
+    padding: 6px 10px;
+    font-size: var(--text-xs);
+    min-width: 70px;
+  }
+}
+
 /* ===== SKILLSET MODAL - APPLE LIQUID GLASS DESIGN ===== */
 
 /* Apple Design System Variables */
