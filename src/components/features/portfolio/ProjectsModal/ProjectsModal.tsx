@@ -74,13 +74,6 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
       <div
         className="projects-modal"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute",
-          left: position.x,
-          top: position.y,
-          zIndex: 3000,
-        }}
- 
         tabIndex={-1}
         role="document"
       >

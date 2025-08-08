@@ -6,37 +6,25 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  /* max-height: 380px; */
   overflow-y: auto;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
 }
 
-/* Enhanced scrollbar for all dropdowns */
-.menu-dropdown-projects::-webkit-scrollbar,
-.menu-dropdown-services::-webkit-scrollbar {
+/* Enhanced scrollbar for dropdowns */
+.menu-dropdown-projects::-webkit-scrollbar {
   width: 6px;
 }
 
-.menu-dropdown-projects::-webkit-scrollbar-track,
-.menu-dropdown-services::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 3px;
-}
-
-.menu-dropdown-projects::-webkit-scrollbar-thumb,
-.menu-dropdown-services::-webkit-scrollbar-thumb {
+.menu-dropdown-projects::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
   border-radius: 3px;
-  transition: background 0.2s ease;
 }
 
-.menu-dropdown-projects::-webkit-scrollbar-thumb:hover,
-.menu-dropdown-services::-webkit-scrollbar-thumb:hover {
+.menu-dropdown-projects::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
 }
 
@@ -141,31 +129,9 @@
   border: 2px solid transparent;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
-  overflow: hidden;
 }
 
-.menu-dropdown-project-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.02) 0%,
-    rgba(29, 78, 216, 0.02) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.menu-dropdown-project-item:last-child {
-  border-bottom: 2px solid transparent;
-}
-
-.menu-dropdown-project-item:hover,
-.menu-dropdown-project-item:focus {
+.menu-dropdown-project-item:hover {
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.9) 0%,
@@ -174,39 +140,9 @@
   border-color: rgba(59, 130, 246, 0.3);
   box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15),
     0 4px 12px rgba(0, 0, 0, 0.08);
-  outline: none;
-  transform: translateY(-2px);
-}
-
-.menu-dropdown-project-item:hover::before {
-  opacity: 1;
-}
-
-.menu-dropdown-project-item:hover .menu-dropdown-project-img {
-  transform: scale(1.08) rotate(1deg);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.menu-dropdown-project-item:hover .menu-dropdown-project-img::before {
-  opacity: 1;
-}
-
-.menu-dropdown-project-item:hover .menu-dropdown-project-title {
-  color: #1e40af;
-}
-
-.menu-dropdown-project-item:hover .menu-dropdown-project-desc {
-  color: #475569;
-}
-
-.menu-dropdown-project-item:active {
-  transform: translateY(-1px);
 }
 
 /* --- TECH STACK DROPDOWN - PILL STYLE DESIGN --- */
-
-/* Main Container - Simplified Clean Design */
 .menu-dropdown-tech-categories {
   margin: 16px 0 0 0;
   width: 100%;
@@ -217,8 +153,6 @@
   gap: 8px;
   max-width: 320px;
   background: transparent;
-  border: none;
-  box-shadow: none;
 }
 
 .menu-dropdown-tech-categories::before {
@@ -243,18 +177,12 @@
   padding: 8px 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-}
-
-.tech-category-item:last-child {
-  margin-bottom: 0;
 }
 
 .tech-category-item:hover {
   background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
   border-color: rgba(14, 116, 144, 0.3);
   box-shadow: 0 4px 12px rgba(14, 116, 144, 0.15);
-  transform: translateY(-1px);
 }
 
 /* Main Category Display - Simplified */
@@ -325,8 +253,7 @@
   backdrop-filter: blur(16px);
   border: 1px solid rgba(229, 231, 235, 0.8);
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.06);
   padding: 16px;
   z-index: 1050;
   animation: slideInFromLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -343,43 +270,6 @@
     transform: translateX(0) scale(1);
   }
 }
-
-/* Tools Submenu - Enhanced Glass Design */
-/* .tech-tools-submenu {
-  position: absolute;
-  left: calc(100% + 12px);
-  top: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(248, 250, 252, 0.95) 100%
-  );
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  border-radius: 16px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08), 0 12px 25px rgba(0, 0, 0, 0.06),
-    0 6px 12px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  padding: 20px;
-  min-width: 320px;
-  max-width: 380px;
-  z-index: 1030;
-  animation: slideInSubmenu 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  max-height: 60vh;
-  overflow-y: scroll;
-}
-
-@keyframes slideInSubmenu {
-  from {
-    opacity: 0;
-    transform: translateX(-15px) scale(0.92);
-    filter: blur(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0px);
-  }
-} */
 
 .tech-tools-submenu::before {
   content: "";
@@ -440,7 +330,6 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(4px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .tech-tool-item::before {
@@ -1044,8 +933,7 @@
 .menu-left {
   display: flex;
   gap: 1px;
-    vertical-align: bottom;
-
+  vertical-align: bottom;
 }
 
 .my-logo {
@@ -1061,7 +949,7 @@
   position: relative;
   display: inline-block;
   min-width: 90px;
-    vertical-align: bottom;
+  vertical-align: bottom;
 
   vertical-align: top;
   margin-right: 16px;
@@ -1252,17 +1140,6 @@
   }
 }
 
-@keyframes fadeInMacTooltip {
-  from {
-    opacity: 0;
-    transform: translateY(-50%) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-}
-
 /* Clickable pill styles for interactive elements like "& more..." */
 .pill-tag-clickable {
   cursor: pointer;
@@ -1301,7 +1178,7 @@
 
 /* Add subtle indicator for clickable pills */
 .pill-tag-clickable .pill-tag-label::after {
-  content: "👆";
+  content: "";
   opacity: 0;
   margin-left: 6px;
   font-size: 12px;

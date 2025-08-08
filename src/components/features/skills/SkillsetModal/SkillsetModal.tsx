@@ -5,7 +5,7 @@ import Image from "next/image";
 import services from "@/data/services";
 import principlesData from "@/data/principles";
 import "./SkillsetModal.css";
-import tools from "@/data/toolbelt"
+import tools from "@/data/toolbelt";
 
 interface SkillsetModalProps {
   onClose: () => void;
@@ -13,17 +13,9 @@ interface SkillsetModalProps {
 
 const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
   // Drag state
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState<
     "services" | "tools" | "principles"
   >("services");
-
-  // Center the modal on mount
-  React.useEffect(() => {
-    const centerX = window.innerWidth / 2 - 500; // modal width / 2
-    const centerY = window.innerHeight / 2 - 350; // modal height / 2
-    setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
-  }, []);
 
   // Handle keyboard navigation
   React.useEffect(() => {
@@ -57,26 +49,16 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
       <div
         className="skillset-modal"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute",
-          left: position.x,
-          top: position.y,
-          zIndex: 3000,
-        }}
         tabIndex={-1}
         role="document"
       >
-        <div
-          className="skillset-modal-title-bar"
-          style={{ cursor: "grab" }}
-        >
+        <div className="skillset-modal-title-bar" style={{ cursor: "grab" }}>
           <div className="skillset-modal-window-controls">
             <button
               className="skillset-modal-close-btn"
               onClick={onClose}
               aria-label="Close Skillset Modal"
             />
-         
           </div>
           <span className="skillset-modal-window-title" id="skillset-title">
             Skillset

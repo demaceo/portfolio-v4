@@ -847,7 +847,7 @@
   border: 1px solid var(--glass-border);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  flex-basis: 100%;
+  flex-basis: 90%;
   order: -1;
 }
 

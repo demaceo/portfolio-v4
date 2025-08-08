@@ -783,6 +783,10 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .about-modal-section p,
+  .about-modal-section h3 {
+    color: rgb(184, 182, 182) !important;
+  }
 
   .about-modal-title-bar {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -825,21 +829,21 @@
 
 /* Classic Mac Section Headers */
 .about-modal-section h3 {
-  font-family: var(--font-system-title);
-  font-size: var(--font-size-lg);
+  /* font-family: var(--font-system-title); */
+  /* font-size: var(--font-size-lg); */
   font-weight: bold;
-  color: #000000;
-  margin: 0 0 12px 0;
+  /* color: #000000; */
+  /* margin: 0 0 12px 0; */
   padding-bottom: 4px;
   border-bottom: 1px solid #808080;
 }
 
 .about-modal-section p {
-  font-family: var(--font-system-body);
+  /* font-family: var(--font-system-body);
   font-size: var(--font-size-base);
   line-height: 1.4;
   color: #000000;
-  margin: 0 0 16px 0;
+  margin: 0 0 16px 0; */
   text-align: left;
 }
 
@@ -848,7 +852,7 @@
 }
 
 /* Classic Mac Pills Section */
-.about-modal-pills {
+/* .about-modal-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -876,10 +880,10 @@
 .about-modal-pill:active {
   background: linear-gradient(135deg, #c0c0c0 0%, #b0b0b0 50%, #a0a0a0 100%);
   border: 2px inset #c0c0c0;
-}
+} */
 
 /* Clickable pill styles */
-.about-modal-pill.clickable {
+/* .about-modal-pill.clickable {
   cursor: pointer;
   background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
   color: #000000;
@@ -894,10 +898,10 @@
 .about-modal-pill.clickable:active {
   background: linear-gradient(135deg, #d0d0d0 0%, #c0c0c0 50%, #b0b0b0 100%);
   border: 2px inset #d0d0d0;
-}
+} */
 
 /* Classic Mac Tooltip */
-.about-modal-pill-tooltip {
+/* .about-modal-pill-tooltip {
   position: absolute;
   top: calc(100% + 6px);
   left: 50%;
@@ -935,7 +939,7 @@
 .about-modal-pill.active {
   z-index: 100;
   position: relative;
-}
+} */
 
 /* === ENHANCED MOBILE RESPONSIVE DESIGN === */
 

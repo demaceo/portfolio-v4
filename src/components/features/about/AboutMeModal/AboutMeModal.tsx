@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { aboutMePills, AboutMePill } from "@/data/aboutMePills";
 import "./AboutMeModal.css";
 
@@ -14,40 +14,30 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
   onOpenResume,
 }) => {
   // Drag state
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const bodyRef = useRef<HTMLDivElement>(null);
+  // const [scrollProgress, setScrollProgress] = useState(0);
+  // const bodyRef = useRef<HTMLDivElement>(null);
 
   // Tooltip state
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-  // Center the modal on mount
-  React.useEffect(() => {
-    const centerX = window.innerWidth / 2 - 450; // modal width / 2
-    const centerY = window.innerHeight / 2 - 300; // modal height / 2
-    setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
-  }, []);
-
   // Track scroll progress
-  React.useEffect(() => {
-    const bodyElement = bodyRef.current;
-    if (!bodyElement) return;
+  // React.useEffect(() => {
+  //   const bodyElement = bodyRef.current;
+  //   if (!bodyElement) return;
 
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = bodyElement;
-      const maxScroll = scrollHeight - clientHeight;
-      // Prevent division by zero
-      const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 100;
-      setScrollProgress(Math.min(100, Math.max(0, progress)));
-    };
+  //   const handleScroll = () => {
+  //     const { scrollTop, scrollHeight, clientHeight } = bodyElement;
+  //     const maxScroll = scrollHeight - clientHeight;
+  //     const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 100;
+  //     setScrollProgress(Math.min(100, Math.max(0, progress)));
+  //   };
 
-    bodyElement.addEventListener("scroll", handleScroll);
-    // Initial calculation in case already scrolled
-    handleScroll();
-    return () => {
-      bodyElement.removeEventListener("scroll", handleScroll);
-    };
-  }, [bodyRef]);
+  //   bodyElement.addEventListener("scroll", handleScroll);
+  //   handleScroll();
+  //   return () => {
+  //     bodyElement.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [bodyRef]);
 
   const handlePillClick = (pill: AboutMePill) => {
     // Toggle tooltip display for all pills
@@ -59,7 +49,6 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
     // Handle link navigation for clickable pills
     if (pill.link) {
-      console.log("Modal pill clicked:", pill.label, pill.link);
       // Small delay to show tooltip before opening link
       setTimeout(() => {
         window.open(pill.link, "_blank", "noopener,noreferrer");
@@ -68,19 +57,19 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
   };
 
   // Action button handlers
-  const handleContactMe = () => {
-    onClose();
-    if (onOpenContact) {
-      onOpenContact();
-    }
-  };
+  // const handleContactMe = () => {
+  //   onClose();
+  //   if (onOpenContact) {
+  //     onOpenContact();
+  //   }
+  // };
 
-  const handleViewResume = () => {
-    onClose();
-    if (onOpenResume) {
-      onOpenResume();
-    }
-  };
+  // const handleViewResume = () => {
+  //   onClose();
+  //   if (onOpenResume) {
+  //     onOpenResume();
+  //   }
+  // };
 
   // Close tooltip when clicking outside of pills
   const handleModalClick = (e: React.MouseEvent) => {
@@ -92,17 +81,8 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
   return (
     <div className="about-modal-overlay" onClick={onClose}>
-      <div
-        className="about-modal"
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          position: "absolute",
-          left: position.x,
-          top: position.y,
-          zIndex: 3000,
-        }}
-      >
-        <div className="about-modal-title-bar" style={{ cursor: "grab" }}>
+      <div className="about-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="about-modal-title-bar">
           <div className="about-modal-window-controls">
             <button
               className="about-modal-close-btn"
@@ -116,7 +96,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
         <div
           className="about-modal-content"
-          ref={bodyRef}
+          // ref={bodyRef}
           onClick={handleModalClick}
         >
           <div className="about-modal-header">
