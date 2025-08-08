@@ -783,6 +783,10 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .about-modal-section p,
+  .about-modal-section h3 {
+    color: rgb(184, 182, 182) !important;
+  }
 
   .about-modal-title-bar {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
