@@ -1178,7 +1178,7 @@
 
 /* Add subtle indicator for clickable pills */
 .pill-tag-clickable .pill-tag-label::after {
-  content: "👆";
+  content: "";
   opacity: 0;
   margin-left: 6px;
   font-size: 12px;
