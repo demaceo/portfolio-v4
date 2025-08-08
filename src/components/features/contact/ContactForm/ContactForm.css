@@ -81,7 +81,8 @@
   z-index: 2000;
   padding: var(--space-6);
   animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Form Container */
@@ -106,14 +107,10 @@
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  padding: 0 var(--space-6);
-  background: var(--ios-surface-elevated);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  width: 100%;
+  /* padding: 0 var(--space-6); */
   position: sticky;
-    margin-bottom: 15px;
-
+  margin-bottom: 15px;
   top: 0;
   z-index: 100;
 }
@@ -128,7 +125,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--ios-surface);
+  /* background: var(--ios-surface); */
   border: none;
   display: flex;
   align-items: center;
@@ -144,14 +141,15 @@
 }
 
 .contact-close-btn::before {
-  content: '×';
+  /* content: "×"; */
   font-size: 24px;
   font-weight: 300;
+  
   line-height: 1;
 }
 
 .contact-close-btn::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -261,7 +259,11 @@
 
 /* Submit Button */
 #submit-button {
-  background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-purple) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--ios-blue) 0%,
+    var(--ios-purple) 100%
+  );
   color: white;
   border: none;
   padding: var(--space-4) var(--space-8);
@@ -278,13 +280,18 @@
 }
 
 #submit-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -350,10 +357,15 @@
 
 .contact-divider::before,
 .contact-divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ios-text-tertiary), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ios-text-tertiary),
+    transparent
+  );
 }
 
 .contact-divider span {
@@ -396,13 +408,17 @@
 }
 
 .alternative-contact-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--ios-blue-light) 0%, rgba(175, 82, 222, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--ios-blue-light) 0%,
+    rgba(175, 82, 222, 0.1) 100%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -662,7 +678,6 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-
   .contact-close-btn,
   #submit-button,
   .alternative-contact-btn {

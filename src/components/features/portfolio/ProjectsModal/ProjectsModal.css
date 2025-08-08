@@ -5,54 +5,92 @@
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  padding: 0 var(--space-8);
-  background: var(--ios-surface-elevated);
+  padding: 0 var(--space-6);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  position: sticky;
-  top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
   z-index: 101;
   flex-shrink: 0;
   border-top-left-radius: var(--radius-3xl);
   border-top-right-radius: var(--radius-3xl);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .projects-modal-window-controls {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 .projects-modal-close-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--ios-surface);
+  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-base);
-  color: var(--ios-text-primary);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-sm);
-  margin-right: var(--space-2);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-modal-close-btn::after {
+  content: "×";
+  position: absolute;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.projects-modal-close-btn:hover::after {
+  opacity: 1;
+}
+
+.projects-modal-close-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.projects-modal-close-btn:hover::before {
+  opacity: 1;
 }
 
 .projects-modal-close-btn:hover {
-  background: var(--ios-blue-light);
-  color: var(--ios-blue);
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
+}
+
+.projects-modal-close-btn:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
 }
 
 .projects-modal-window-title {
   font-size: var(--text-2xl);
-  font-weight: 800;
-  color: var(--ios-text-primary);
-  margin: 0 auto;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   background: linear-gradient(
     135deg,
     var(--ios-blue) 0%,
@@ -61,14 +99,22 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: var(--ios-text-primary);
   text-align: center;
-  flex: 1;
+  line-height: 1.2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .projects-modal-spacer {
   width: 32px;
   height: 32px;
-  visibility: hidden;
+  flex-shrink: 0;
 }
 
 .projects-modal-tabs {
@@ -164,6 +210,20 @@
     font-size: var(--text-xl);
   }
 
+  .projects-modal-close-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .projects-modal-close-btn::after {
+    font-size: 16px;
+  }
+
+  .projects-modal-spacer {
+    width: 28px;
+    height: 28px;
+  }
+
   .projects-modal-tabs {
     margin: var(--space-2) 0 var(--space-1) 0;
     padding: var(--space-1);
@@ -173,6 +233,31 @@
     min-width: 100px;
     font-size: var(--text-xs);
     padding: var(--space-2) var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-modal-title-bar {
+    height: 48px;
+    padding: 0 var(--space-3);
+  }
+
+  .projects-modal-window-title {
+    font-size: var(--text-lg);
+  }
+
+  .projects-modal-close-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .projects-modal-close-btn::after {
+    font-size: 14px;
+  }
+
+  .projects-modal-spacer {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -1314,6 +1399,7 @@
 }
 
 /* Focus States for Accessibility */
+.projects-modal-close-btn:focus-visible,
 .control-button:focus-visible,
 .filter-tab:focus-visible,
 .project-card:focus-visible,
@@ -1362,6 +1448,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  .projects-modal-title-bar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,9 +33,7 @@ const iconMap: Record<string, IconDefinition> = {
 const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
   // Drag state
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
-  const dragOffset = useRef({ x: 0, y: 0 });
 
   // Center the modal on mount
   React.useEffect(() => {
@@ -60,57 +58,6 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
   const activeProjects = projectsData.filter((p) => !p.archived);
   const archivedProjects = projectsData.filter((p) => p.archived);
 
-  // Mouse events for drag
-  const handleDragStart = (e: React.MouseEvent) => {
-    setDragging(true);
-    const modal = e.currentTarget.closest(".projects-modal") as HTMLElement;
-    const rect = modal.getBoundingClientRect();
-    dragOffset.current = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    };
-    document.body.style.userSelect = "none";
-  };
-
-  const handleDrag = (e: React.MouseEvent) => {
-    if (!dragging) return;
-    setPosition({
-      x: e.clientX - dragOffset.current.x,
-      y: e.clientY - dragOffset.current.y,
-    });
-  };
-
-  const handleDragEnd = () => {
-    setDragging(false);
-    document.body.style.userSelect = "";
-  };
-
-  // Touch events for drag (mobile support)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setDragging(true);
-    const modal = e.currentTarget.closest(".projects-modal") as HTMLElement;
-    const rect = modal.getBoundingClientRect();
-    const touch = e.touches[0];
-    dragOffset.current = {
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top,
-    };
-    document.body.style.userSelect = "none";
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    setPosition({
-      x: touch.clientX - dragOffset.current.x,
-      y: touch.clientY - dragOffset.current.y,
-    });
-  };
-
-  const handleTouchEnd = () => {
-    setDragging(false);
-    document.body.style.userSelect = "";
-  };
 
   const handleProjectClick = (link: string) => {
     window.open(link, "_blank", "noopener,noreferrer");
@@ -120,7 +67,6 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
     <div
       className="projects-modal-overlay"
       onClick={onClose}
-      style={{ cursor: dragging ? "grabbing" : undefined }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="projects-title"
@@ -133,22 +79,14 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
           left: position.x,
           top: position.y,
           zIndex: 3000,
-          cursor: dragging ? "grabbing" : "default",
-          transition: dragging ? "none" : "box-shadow 0.2s",
         }}
-        onMouseMove={handleDrag}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+ 
         tabIndex={-1}
         role="document"
       >
         <div
           className="projects-modal-title-bar"
           style={{ cursor: "grab" }}
-          onMouseDown={handleDragStart}
-          onTouchStart={handleTouchStart}
         >
           <div className="projects-modal-window-controls">
             <button

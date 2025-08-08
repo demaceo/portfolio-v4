@@ -6,7 +6,7 @@ import {
   faExternalLinkAlt,
   faFilm,
   faClock,
-
+  faTimes,
   faList,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +23,6 @@ const sanitizeEmbedId = (embedId: string): string => {
 };
 
 const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
-
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [selectedEpisode, setSelectedEpisode] = useState<Episode>(
     documentaryEpisodes[0]
@@ -58,31 +57,29 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
       >
         {/* Header */}
         <div className="documentary-player-header">
+          <button
+            className="control-button"
+            onClick={onClose}
+            aria-label="Close documentary player"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
           <div className="documentary-badge">
             <FontAwesomeIcon icon={faFilm} className="badge-icon" />
             <span>Media</span>
           </div>
-          <div className="header-controls">
-            {/* <button
-              className="control-button"
-              onClick={onClose}
-              aria-label="Close documentary player"
-            >
-              
-            </button> */}
-            <button
-              className={`control-button ${showEpisodeList ? "active" : ""}`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleEpisodeList();
-              }}
-              aria-label="Show episode list"
-              type="button"
-            >
-              <FontAwesomeIcon icon={faList} />
-            </button>
-          </div>
+          <button
+            className={`control-button ${showEpisodeList ? "active" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleEpisodeList();
+            }}
+            aria-label="Show episode list"
+            type="button"
+          >
+            <FontAwesomeIcon icon={faList} />
+          </button>
         </div>
 
         {/* Episode Selector */}
@@ -141,7 +138,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
         </div>
 
         {/* Content Info - Only show when video is not loaded or not in fullscreen */}
-        {(!isVideoLoaded) && (
+        {!isVideoLoaded && (
           <div className="documentary-content">
             <div className="documentary-header">
               <h2 className="documentary-title">Tech For Us</h2>
@@ -185,7 +182,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 Donate to PBS
               </button>
             </div>
-        
           </div>
         )}
       </div>

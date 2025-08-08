@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -14,11 +14,9 @@ interface SkillsetModalProps {
 const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
   // Drag state
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "services" | "tools" | "principles"
   >("services");
-  const dragOffset = useRef({ x: 0, y: 0 });
 
   // Center the modal on mount
   React.useEffect(() => {
@@ -48,63 +46,10 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
     return acc;
   }, {} as Record<string, typeof tools>);
 
-  // Mouse events for drag
-  const handleDragStart = (e: React.MouseEvent) => {
-    setDragging(true);
-    const modal = e.currentTarget.closest(".skillset-modal") as HTMLElement;
-    const rect = modal.getBoundingClientRect();
-    dragOffset.current = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    };
-    document.body.style.userSelect = "none";
-  };
-
-  const handleDrag = (e: React.MouseEvent) => {
-    if (!dragging) return;
-    setPosition({
-      x: e.clientX - dragOffset.current.x,
-      y: e.clientY - dragOffset.current.y,
-    });
-  };
-
-  const handleDragEnd = () => {
-    setDragging(false);
-    document.body.style.userSelect = "";
-  };
-
-  // Touch events for drag (mobile support)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setDragging(true);
-    const modal = e.currentTarget.closest(".skillset-modal") as HTMLElement;
-    const rect = modal.getBoundingClientRect();
-    const touch = e.touches[0];
-    dragOffset.current = {
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top,
-    };
-    document.body.style.userSelect = "none";
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    setPosition({
-      x: touch.clientX - dragOffset.current.x,
-      y: touch.clientY - dragOffset.current.y,
-    });
-  };
-
-  const handleTouchEnd = () => {
-    setDragging(false);
-    document.body.style.userSelect = "";
-  };
-
   return (
     <div
       className="skillset-modal-overlay"
       onClick={onClose}
-      style={{ cursor: dragging ? "grabbing" : undefined }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="skillset-title"
@@ -117,22 +62,13 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
           left: position.x,
           top: position.y,
           zIndex: 3000,
-          cursor: dragging ? "grabbing" : "default",
-          transition: dragging ? "none" : "box-shadow 0.2s",
         }}
-        onMouseMove={handleDrag}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
         tabIndex={-1}
         role="document"
       >
         <div
           className="skillset-modal-title-bar"
           style={{ cursor: "grab" }}
-          onMouseDown={handleDragStart}
-          onTouchStart={handleTouchStart}
         >
           <div className="skillset-modal-window-controls">
             <button
