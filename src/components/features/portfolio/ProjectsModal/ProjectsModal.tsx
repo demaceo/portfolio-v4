@@ -114,7 +114,7 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
               aria-controls="current-panel"
               aria-selected={activeTab === "current"}
             >
-              Current Projects ({activeProjects.length})
+              Recent ({activeProjects.length})
             </button>
             {archivedProjects.length > 0 && (
               <button
@@ -145,7 +145,7 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
                   id="current-panel"
                   aria-labelledby="current-tab"
                 >
-                  <h2>Current Projects</h2>
+                  <h2>Recent Projects</h2>
                   <div
                     className="projects-grid"
                     role="group"
