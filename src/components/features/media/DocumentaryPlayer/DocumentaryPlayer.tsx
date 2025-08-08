@@ -6,7 +6,6 @@ import {
   faExternalLinkAlt,
   faFilm,
   faClock,
-  faTimes,
   faList,
   faHeart,
   faChevronDown,
@@ -43,14 +42,12 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
   };
 
   const handleEpisodeSelect = (episode: Episode) => {
-    console.log("Episode selected:", episode.title);
     setSelectedEpisode(episode);
     setIsVideoLoaded(false);
     setShowEpisodeList(false);
   };
 
   const toggleEpisodeList = () => {
-    console.log("Toggle episode list clicked. Current state:", showEpisodeList);
     setShowEpisodeList((prev) => !prev);
     // Close info dropdown when episode list is opened
     if (!showEpisodeList) {

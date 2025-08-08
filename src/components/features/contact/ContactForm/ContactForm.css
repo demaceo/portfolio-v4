@@ -70,9 +70,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* background: linear-gradient(135deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(0, 0, 0, 0.6) 100%); */
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   display: flex;
@@ -144,7 +141,6 @@
   /* content: "×"; */
   font-size: 24px;
   font-weight: 300;
-  
   line-height: 1;
 }
 
