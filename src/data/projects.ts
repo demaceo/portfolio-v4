@@ -46,7 +46,7 @@ const projectData: Project[] = [
     image: "",
     description:
       "A pet adoption platform that connects users with rescue shelters across the U.S., integrating the Petfinder API for real-time listings.",
-    link: "https://demaceo.github.io/adoptdontshop/",
+    link: "https://github.com/demaceo/adoptdontshop",
     icon: "fa fa-paw icon",
     archived: true,
   },
@@ -87,7 +87,7 @@ const projectData: Project[] = [
     image: "https://media.giphy.com/media/yHlPATYrKHmIBcgHpM/giphy.gif",
     description:
       "A simple and elegant site to search, share and store your recipes. This site presents the user with the ability to 'log-in' and search the site for recipes.",
-    link: "https://demaceo.github.io/whats-cookin/",
+    link: "https://github.com/demaceo/whats-cookin",
     icon: "fas fa-cookie-bite icon",
     archived: true,
   },
