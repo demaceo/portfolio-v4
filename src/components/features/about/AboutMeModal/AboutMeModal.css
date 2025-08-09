@@ -1485,6 +1485,11 @@
     padding: 8px 16px 6px;
   }
 
+  .about-modal-close-btn {
+    width: 24px;
+    height: 24px;
+  }
+
   .about-modal-body {
     padding: 10px 16px;
   }
