@@ -30,12 +30,7 @@ import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
 // Defer heavy modals with dynamic imports
 
 const LoadingModal = () => {
-  return (
-    <></>
-    // <div className="modal-loading">
-    //   <span>Loading…</span>
-    // </div>
-  );
+  return <></>;
 };
 const ContactForm = dynamic(
   () => import("@/features/contact/ContactForm/ContactForm"),
