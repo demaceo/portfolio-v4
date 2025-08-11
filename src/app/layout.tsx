@@ -3,6 +3,7 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://demaceovincent.com"),
   title: "Demaceo Vincent's portfolio",
   description:
     "Welcome to my portfolio website showcasing my projects and skills.",
