@@ -28,65 +28,50 @@ import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
 // Defer heavy modals with dynamic imports
+
+const LoadingModal = () => {
+  return (
+    <></>
+    // <div className="modal-loading">
+    //   <span>Loading…</span>
+    // </div>
+  );
+};
 const ContactForm = dynamic(
   () => import("@/features/contact/ContactForm/ContactForm"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const InteractiveResume = dynamic(
   () => import("@/features/resume/InteractiveResume/InteractiveResume"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const AboutMeModal = dynamic(
   () => import("@/features/about/AboutMeModal/AboutMeModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const SkillsetModal = dynamic(
   () => import("@/features/skills/SkillsetModal/SkillsetModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const ProjectsModal = dynamic(
   () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const DocumentaryPlayer = dynamic(
   () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
   {
     ssr: false,
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 

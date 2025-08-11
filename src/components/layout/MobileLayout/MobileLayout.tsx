@@ -13,60 +13,50 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import dynamic from "next/dynamic";
+import { ASSET_PATHS, EXTERNAL_LINKS } from "@/lib/constants/paths";
+import Image from "next/image";
+import "./MobileLayout.css";
+
+const LoadingModal = () => {
+  return (
+    <></>
+  );
+};
+
 const ContactForm = dynamic(
   () => import("@/features/contact/ContactForm/ContactForm"),
   {
     loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
+     <LoadingModal/>
     ),
   }
 );
 const AboutMeModal = dynamic(
   () => import("@/features/about/AboutMeModal/AboutMeModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const SkillsetModal = dynamic(
   () => import("@/features/skills/SkillsetModal/SkillsetModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const ProjectsModal = dynamic(
   () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
   {
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const DocumentaryPlayer = dynamic(
   () => import("@/features/media").then((m) => m.DocumentaryPlayer),
   {
     ssr: false,
-    loading: () => (
-      <div role="status" aria-live="polite" className="modal-loading">
-        Loading…
-      </div>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
-import { ASSET_PATHS, EXTERNAL_LINKS } from "@/lib/constants/paths";
-import Image from "next/image";
-import "./MobileLayout.css";
+
 
 const MobileLayout = () => {
   const router = useRouter();
