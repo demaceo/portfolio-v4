@@ -83,7 +83,12 @@
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  padding: var(--space-6);
+  padding: max(
+    var(--space-6),
+    env(safe-area-inset-top) env(safe-area-inset-right)
+      env(safe-area-inset-bottom) env(safe-area-inset-left)
+  );
+  background-color: rgba(0, 0, 0, 0.7);
   animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Helvetica Neue", Arial, sans-serif;
@@ -95,8 +100,8 @@
   max-width: 1000px;
   max-height: 90vh;
   background: var(--glass-bg);
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-3xl);
   box-shadow: var(--shadow-2xl);
@@ -115,8 +120,8 @@
   height: 64px;
   padding: 0 var(--space-6);
 
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
@@ -348,8 +353,8 @@
 /* Episode Selector */
 .episode-selector {
   background: var(--ios-surface-secondary);
-  backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   padding: var(--space-6);
   animation: episodeSelectorSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -477,8 +482,8 @@
 /* Info Dropdown */
 .info-dropdown {
   background: var(--ios-surface-secondary);
-  backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   animation: infoDropdownSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0;
@@ -538,6 +543,35 @@
   border-radius: 0;
 }
 
+/* New: Video skeleton overlay to smooth initial load */
+.pbs-viral-player-wrapper {
+  position: relative;
+}
+.video-skeleton {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.08)
+  );
+}
+.video-spinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  animation: modal-loading-spin 1s linear infinite;
+}
+@keyframes modal-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Content Section */
 .documentary-content {
   flex: 1;
@@ -547,9 +581,9 @@
     rgba(255, 255, 255, 0.02) 0%,
     rgba(255, 255, 255, 0.08) 100%
   );
-  backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border-top: 1px solid var(--glass-border);
+  backdrop-filter: var(--backdrop-blur);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -720,8 +754,8 @@
   );
   border-radius: var(--radius-lg);
   border: 1px solid var(--glass-border);
-  backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
 }
 
 .detail-item {
@@ -845,8 +879,8 @@
   background: var(--ios-surface);
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
-  backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur);
   flex-basis: 90%;
   order: -1;
 }
@@ -924,12 +958,28 @@
 @media (max-width: 768px) {
   .documentary-player-overlay {
     padding: var(--space-4);
+    /* Lower blur strength for mobile to reduce GPU cost */
+    --backdrop-blur: blur(24px);
   }
 
   .documentary-player-container {
     max-width: 100%;
     max-height: 95vh;
     border-radius: var(--radius-2xl);
+    /* Reduce heavy long-range shadows on mobile */
+    box-shadow: var(--shadow-lg);
+    /* Slightly lower blur strength to cut GPU cost */
+    --backdrop-blur: blur(24px);
+  }
+
+  /* Apply lower blur to other glass sections on mobile */
+  .documentary-player-header,
+  .episode-selector,
+  .info-dropdown,
+  .documentary-content,
+  .action-button,
+  .episode-item {
+    --backdrop-blur: blur(24px);
   }
 
   .documentary-player-header {
@@ -1278,6 +1328,22 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Also dial down heavy shadows and backdrop work */
+  .documentary-player-container,
+  .documentary-badge,
+  .action-button,
+  .control-button,
+  .episode-item {
+    box-shadow: var(--shadow-md) !important;
+  }
+  .documentary-player-overlay,
+  .documentary-player-header,
+  .episode-selector,
+  .info-dropdown,
+  .documentary-content {
+    --backdrop-blur: blur(16px);
+  }
 }
 
 /* Focus States for Accessibility */
@@ -1292,9 +1358,19 @@
 @media (prefers-contrast: high) {
   :root {
     --glass-border: rgba(255, 255, 255, 0.4);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    /* Reduce shadow spread at high-contrast to avoid halos */
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.18);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.26);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.32);
+  }
+
+  /* Reduce backdrop blur for readability in high-contrast */
+  .documentary-player-overlay,
+  .documentary-player-header,
+  .episode-selector,
+  .info-dropdown,
+  .documentary-content {
+    --backdrop-blur: blur(18px);
   }
 
   .control-button,

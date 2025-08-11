@@ -18,17 +18,53 @@ import Image from "next/image";
 import "./MobileLayout.css";
 
 const LoadingModal = () => {
-  return (
-    <></>
-  );
+  return <></>;
+};
+
+// Idle and intent-based preloading
+type RequestIdleCallback = (cb: () => void) => number | undefined;
+const idle: RequestIdleCallback = (cb) => {
+  if (typeof window === "undefined") return undefined;
+  const w = window as unknown as {
+    requestIdleCallback?: (cb: () => void) => number;
+  };
+  if (typeof w.requestIdleCallback === "function")
+    return w.requestIdleCallback(cb);
+  return window.setTimeout(cb, 1);
+};
+
+const preload = {
+  contact: () => import("@/features/contact/ContactForm/ContactForm"),
+  about: () => import("@/features/about/AboutMeModal/AboutMeModal"),
+  skillset: () => import("@/features/skills/SkillsetModal/SkillsetModal"),
+  projects: () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+  documentary: () =>
+    import("@/features/media").then((m) => m.DocumentaryPlayer),
+};
+
+// On-intent network warmup for PBS iframe origin
+const ensurePBSPreconnect = () => {
+  if (typeof document === "undefined") return;
+  const href = "https://player.pbs.org";
+  if (!document.querySelector(`link[rel="preconnect"][href="${href}"]`)) {
+    const l = document.createElement("link");
+    l.rel = "preconnect";
+    l.href = href;
+    l.crossOrigin = "anonymous";
+    document.head.appendChild(l);
+  }
+  if (!document.querySelector(`link[rel="dns-prefetch"][href="${href}"]`)) {
+    const d = document.createElement("link");
+    d.rel = "dns-prefetch";
+    d.href = href;
+    document.head.appendChild(d);
+  }
 };
 
 const ContactForm = dynamic(
   () => import("@/features/contact/ContactForm/ContactForm"),
   {
-    loading: () => (
-     <LoadingModal/>
-    ),
+    loading: () => <LoadingModal />,
   }
 );
 const AboutMeModal = dynamic(
@@ -57,7 +93,6 @@ const DocumentaryPlayer = dynamic(
   }
 );
 
-
 const MobileLayout = () => {
   const router = useRouter();
   const [currentTime] = useState(new Date());
@@ -68,6 +103,12 @@ const MobileLayout = () => {
   const [showProjects, setShowProjects] = useState(false);
   const [showDocumentary, setShowDocumentary] = useState(false);
   const [showContactNotification, setShowContactNotification] = useState(true);
+
+  // Warm common modals after initial render
+  React.useEffect(() => {
+    idle(() => preload.about());
+    idle(() => preload.contact());
+  }, []);
 
   interface FormatTimeOptions {
     hour: "2-digit";
@@ -101,6 +142,7 @@ const MobileLayout = () => {
     } else if (path === "/projects") {
       setShowProjects(true);
     } else if (path === "/documentary") {
+      ensurePBSPreconnect();
       setShowDocumentary(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
@@ -164,6 +206,24 @@ const MobileLayout = () => {
                 className="app-icon"
                 type="button"
                 onClick={() => handleAppClick(app.path)}
+                onMouseEnter={() => {
+                  if (app.path === "/mindset") preload.about();
+                  if (app.path === "/skillset") preload.skillset();
+                  if (app.path === "/projects") preload.projects();
+                  if (app.path === "/documentary") {
+                    ensurePBSPreconnect();
+                    preload.documentary();
+                  }
+                }}
+                onTouchStart={() => {
+                  if (app.path === "/mindset") preload.about();
+                  if (app.path === "/skillset") preload.skillset();
+                  if (app.path === "/projects") preload.projects();
+                  if (app.path === "/documentary") {
+                    ensurePBSPreconnect();
+                    preload.documentary();
+                  }
+                }}
                 tabIndex={0}
                 aria-label={app.name}
                 onKeyDown={(e) => {
@@ -218,6 +278,8 @@ const MobileLayout = () => {
           <button
             className="dock-app"
             type="button"
+            onMouseEnter={() => preload.contact()}
+            onTouchStart={() => preload.contact()}
             onClick={() => handleAppClick("/contact")}
             tabIndex={0}
             aria-label="Contact"

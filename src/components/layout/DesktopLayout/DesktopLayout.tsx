@@ -70,6 +70,47 @@ const DocumentaryPlayer = dynamic(
   }
 );
 
+// Idle and intent-based preloading to improve INP on first open
+type RequestIdleCallback = (cb: () => void) => number | undefined;
+const idle: RequestIdleCallback = (cb) => {
+  if (typeof window === "undefined") return undefined;
+  const w = window as unknown as {
+    requestIdleCallback?: (cb: () => void) => number;
+  };
+  if (typeof w.requestIdleCallback === "function")
+    return w.requestIdleCallback(cb);
+  return window.setTimeout(cb, 1);
+};
+
+const preload = {
+  contact: () => import("@/features/contact/ContactForm/ContactForm"),
+  about: () => import("@/features/about/AboutMeModal/AboutMeModal"),
+  skillset: () => import("@/features/skills/SkillsetModal/SkillsetModal"),
+  projects: () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+  documentary: () =>
+    import("@/components/features/media").then((m) => m.DocumentaryPlayer),
+  resume: () => import("@/features/resume/InteractiveResume/InteractiveResume"),
+};
+
+// On-intent network warmup for PBS iframe origin
+const ensurePBSPreconnect = () => {
+  if (typeof document === "undefined") return;
+  const href = "https://player.pbs.org";
+  if (!document.querySelector(`link[rel="preconnect"][href="${href}"]`)) {
+    const l = document.createElement("link");
+    l.rel = "preconnect";
+    l.href = href;
+    l.crossOrigin = "anonymous";
+    document.head.appendChild(l);
+  }
+  if (!document.querySelector(`link[rel="dns-prefetch"][href="${href}"]`)) {
+    const d = document.createElement("link");
+    d.rel = "dns-prefetch";
+    d.href = href;
+    document.head.appendChild(d);
+  }
+};
+
 // Minute-based clock component to avoid re-rendering the entire desktop each second
 const TimeDisplay: React.FC = () => {
   const [now, setNow] = useState(new Date());
@@ -135,6 +176,16 @@ const HomeScreen = () => {
     title: string;
     description: string;
   } | null>(null);
+
+  // Warm up the most likely modals after initial render without impacting LCP
+  useEffect(() => {
+    idle(() => {
+      preload.about();
+    });
+    idle(() => {
+      preload.contact();
+    });
+  }, []);
 
   const iconMap: Record<string, IconDefinition> = {
     // "fas fa-briefcase icon": faBriefcase,
@@ -246,6 +297,7 @@ const HomeScreen = () => {
     } else if (path === "/projects") {
       setShowProjects(true);
     } else if (path === "/documentary") {
+      ensurePBSPreconnect();
       setShowDocumentary(true);
     } else if (path.startsWith("http")) {
       // External URL - open in new tab
@@ -253,6 +305,18 @@ const HomeScreen = () => {
     } else {
       // Internal navigation
       router.push(path);
+    }
+  };
+
+  // Preload the corresponding dynamic chunk when the user shows intent
+  const maybePreloadByPath = (path: string) => {
+    if (path === "/contact") return preload.contact();
+    if (path === "/mindset") return preload.about();
+    if (path === "/skillset") return preload.skillset();
+    if (path === "/projects") return preload.projects();
+    if (path === "/documentary") {
+      ensurePBSPreconnect();
+      return preload.documentary();
     }
   };
 
@@ -304,6 +368,13 @@ const HomeScreen = () => {
                     openDropdown === item.key ? " menu-item-active" : ""
                   }`}
                   tabIndex={0}
+                  onMouseEnter={() => {
+                    if (item.key === "about") preload.about();
+                    if (item.key === "projects") preload.projects();
+                    if (item.key === "contact") preload.contact();
+                    if (item.key === "tech" || item.key === "services")
+                      preload.skillset();
+                  }}
                   onClick={() =>
                     setOpenDropdown(openDropdown === item.key ? null : item.key)
                   }
@@ -576,6 +647,8 @@ const HomeScreen = () => {
                 className="desktop-icon"
                 type="button"
                 onClick={() => handleAppClick(app.path, app.isToggle)}
+                onMouseEnter={() => maybePreloadByPath(app.path)}
+                onTouchStart={() => maybePreloadByPath(app.path)}
                 tabIndex={0}
                 aria-label={app.name}
                 onKeyDown={(e) => {
@@ -620,7 +693,10 @@ const HomeScreen = () => {
                   <button onClick={() => handleAppClick("/skillset")}>
                     Service Spectrum
                   </button>
-                  <button onClick={() => handleAppClick("/contact")}>
+                  <button
+                    onMouseEnter={() => preload.contact()}
+                    onClick={() => handleAppClick("/contact")}
+                  >
                     Contact
                   </button>
                 </div>

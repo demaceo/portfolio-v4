@@ -79,6 +79,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
             className="control-button"
             onClick={onClose}
             aria-label="Close documentary player"
+            type="button"
           />
           <div className="documentary-badge">
             <FontAwesomeIcon icon={faFilm} className="badge-icon" />
@@ -183,9 +184,7 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                       <div className="episode-details">
                         <div className="detail-item">
                           <span className="detail-label">Production:</span>
-                          <span className="detail-value">
-                            Roadtrip Nation
-                          </span>
+                          <span className="detail-value">Roadtrip Nation</span>
                         </div>
                         <div className="detail-item">
                           <span className="detail-label">Series:</span>
@@ -248,12 +247,18 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 paddingTop: "calc(56.25% + 43px)",
               }}
             >
+              {!isVideoLoaded && (
+                <div className="video-skeleton" aria-hidden="true">
+                  <div className="video-spinner" />
+                </div>
+              )}
               <iframe
                 src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
                   selectedEpisode.embedId
                 )}/`}
                 allowFullScreen
                 allow="encrypted-media"
+                onLoad={() => setIsVideoLoaded(true)}
                 style={{
                   position: "absolute",
                   top: 0,
@@ -266,8 +271,6 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
             </div>
           </div>
         </div>
-
-    
       </div>
     </div>
   );
