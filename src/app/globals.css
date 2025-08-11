@@ -1,11 +1,4 @@
 @import "tailwindcss";
-
-html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* Font definitions */
 :root {
   --font-primary: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -22,6 +15,20 @@ html {
   --shadowed-title-text-transform: uppercase;
   --shadowed-title-text-shadow: 0px 10px rgba(0, 0, 0, 0.15);
   --shadowed-title-text-align: center;
+}
+
+/* Strict CSS reset for html and body */
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  border: none !important;
+  outline: none !important;
+  width: 100vw;
+  min-height: 100vh;
+  height: 100vh;
+  background: none;
 }
 
 /* Shadowed title styling as a reusable class using CSS variables */
