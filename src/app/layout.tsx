@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Demaceo Vincent's portfolio",
@@ -22,13 +23,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Demaceo Vincent's portfolio",
-    description:
-      "Welcome to my portfolio website showcasing my projects and skills.",
-    images: ["/logos/PORTFOLIO_LOGO.png"],
-  },
 };
 
 export default function RootLayout({
@@ -38,7 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
