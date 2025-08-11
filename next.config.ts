@@ -1,6 +1,6 @@
 
-const LONG_CACHE = "public, max-age=31536000, immutable";
 import type { NextConfig } from "next";
+const LONG_CACHE = "public, max-age=31536000, immutable";
 
 const nextConfig: NextConfig = {
   async headers() {
@@ -103,14 +103,14 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: LONG_CACHE,
           },
         ],
       },
       {
         source: "/(icons|images|logos)/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Cache-Control", value: LONG_CACHE },
         ],
       },
     ];
