@@ -32,6 +32,37 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload background images used for full-screen wallpapers */}
+        <link rel="preload" as="image" href="/images/palmtreeleaves-5.jpg" />
+        <link rel="preload" as="image" href="/images/palmtreeleaves-7.jpg" />
+        {/* Preconnect to remote asset origins */}
+        <link
+          rel="preconnect"
+          href="https://user-images.githubusercontent.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://media.giphy.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://media2.giphy.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://media3.giphy.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://image.pbs.org"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         {children}
         <SpeedInsights />
