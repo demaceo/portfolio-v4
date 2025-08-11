@@ -12,11 +12,58 @@ import {
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import ContactForm from "@/features/contact/ContactForm/ContactForm";
-import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
-import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
-import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
-import { DocumentaryPlayer } from "@/features/media";
+import dynamic from "next/dynamic";
+const ContactForm = dynamic(
+  () => import("@/features/contact/ContactForm/ContactForm"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const AboutMeModal = dynamic(
+  () => import("@/features/about/AboutMeModal/AboutMeModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const SkillsetModal = dynamic(
+  () => import("@/features/skills/SkillsetModal/SkillsetModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const ProjectsModal = dynamic(
+  () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const DocumentaryPlayer = dynamic(
+  () => import("@/features/media").then((m) => m.DocumentaryPlayer),
+  {
+    ssr: false,
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
 import { ASSET_PATHS, EXTERNAL_LINKS } from "@/lib/constants/paths";
 import Image from "next/image";
 import "./MobileLayout.css";

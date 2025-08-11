@@ -17,8 +17,7 @@ import {
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { aboutMePills } from "@/data/aboutMePills";
-import ContactForm from "@/features/contact/ContactForm/ContactForm";
-import InteractiveResume from "@/features/resume/InteractiveResume/InteractiveResume";
+import dynamic from "next/dynamic";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
@@ -28,14 +27,110 @@ import "./DesktopLayout.css";
 import "./DesktopLayout.menu.css";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
-import { DocumentaryPlayer } from "@/components/features/media";
-import AboutMeModal from "@/features/about/AboutMeModal/AboutMeModal";
-import SkillsetModal from "@/features/skills/SkillsetModal/SkillsetModal";
-import ProjectsModal from "@/features/portfolio/ProjectsModal/ProjectsModal";
+// Defer heavy modals with dynamic imports
+const ContactForm = dynamic(
+  () => import("@/features/contact/ContactForm/ContactForm"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const InteractiveResume = dynamic(
+  () => import("@/features/resume/InteractiveResume/InteractiveResume"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const AboutMeModal = dynamic(
+  () => import("@/features/about/AboutMeModal/AboutMeModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const SkillsetModal = dynamic(
+  () => import("@/features/skills/SkillsetModal/SkillsetModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const ProjectsModal = dynamic(
+  () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+  {
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+const DocumentaryPlayer = dynamic(
+  () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
+  {
+    ssr: false,
+    loading: () => (
+      <div role="status" aria-live="polite" className="modal-loading">
+        Loading…
+      </div>
+    ),
+  }
+);
+
+// Minute-based clock component to avoid re-rendering the entire desktop each second
+const TimeDisplay: React.FC = () => {
+  const [now, setNow] = useState(new Date());
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const instant = new Date();
+    const msUntilNextMinute =
+      60000 - (instant.getSeconds() * 1000 + instant.getMilliseconds());
+    const timeoutId = setTimeout(() => {
+      setNow(new Date());
+      intervalRef.current = setInterval(() => setNow(new Date()), 60000);
+    }, msUntilNextMinute);
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  const time = now.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const date = now.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+
+  return (
+    <>
+      <span className="time">{time}</span>
+      <span className="date">{date}</span>
+    </>
+  );
+};
 
 const HomeScreen = () => {
   const router = useRouter();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  // State for various modals/windows
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
@@ -86,20 +181,17 @@ const HomeScreen = () => {
     { key: "Documentation", name: "Documentation & Testing" },
   ];
 
-  // Helper function to group tools by category
-  const getGroupedTools = () => {
+  // Memoized grouping of tools by category to avoid recomputation on hover
+  const groupedTools = React.useMemo(() => {
     return tools.reduce((acc, tool) => {
-      if (!acc[tool.category]) {
-        acc[tool.category] = [];
-      }
+      if (!acc[tool.category]) acc[tool.category] = [];
       acc[tool.category].push(tool);
       return acc;
     }, {} as Record<string, typeof tools>);
-  };
+  }, []);
 
   // Helper function to render category item
   const renderCategoryItem = (category: { key: string; name: string }) => {
-    const groupedTools = getGroupedTools();
     const categoryTools = groupedTools[category.key] || [];
 
     if (categoryTools.length === 0) return null;
@@ -154,36 +246,7 @@ const HomeScreen = () => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [openDropdown]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  interface FormatTimeOptions {
-    hour: "2-digit";
-    minute: "2-digit";
-    hour12: boolean;
-  }
-
-  const formatTime = (date: Date): string => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    } as FormatTimeOptions);
-  };
-
-  const formatDate = (date: Date): string => {
-    return date.toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    });
-  };
+  // Time display handled by a minute-based component (see TimeDisplay above)
 
   interface HandleAppClickProps {
     path: string;
@@ -522,8 +585,7 @@ const HomeScreen = () => {
             ))}
           </div>
           <div className="menu-right">
-            <span className="time">{formatTime(currentTime)}</span>
-            <span className="date">{formatDate(currentTime)}</span>
+            <TimeDisplay />
           </div>
         </div>
         <div className="desktop">
