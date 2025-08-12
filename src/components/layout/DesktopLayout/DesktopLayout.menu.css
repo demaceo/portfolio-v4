@@ -1185,3 +1185,137 @@
     padding: 14px;
   }
 }
+
+/* --- Accessibility, Motion, and Touch Improvements (Additive) --- */
+
+/* 1) Respect reduced motion: disable non-essential animations/transforms */
+@media (prefers-reduced-motion: reduce) {
+  .tech-tools-submenu,
+  .pill-tag-mac .pill-tooltip-mac[data-show] {
+    animation: none !important;
+  }
+
+  .menu-dropdown-project-img,
+  .menu-dropdown-project-link,
+  .menu-dropdown-project-item,
+  .menu-dropdown-service-item,
+  .tech-tool-item,
+  .tech-view-all-btn,
+  .pill-tag-clickable,
+  .menu-item {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    transform: none !important;
+  }
+}
+
+/* 2) Keyboard accessibility: clear focus rings without layout shift */
+:where(
+    .menu-item,
+    .menu-dropdown-project-link,
+    .menu-dropdown-project-item,
+    .menu-dropdown-service-item,
+    .contact-trigger-btn,
+    .tech-tool-item,
+    .tech-view-all-btn,
+    .menu-dropdown-pill-item,
+    .pill-tag-clickable
+  ) {
+  outline: none;
+}
+
+:where(
+    .menu-item,
+    .menu-dropdown-project-link,
+    .menu-dropdown-project-item,
+    .menu-dropdown-service-item,
+    .contact-trigger-btn,
+    .tech-tool-item,
+    .tech-view-all-btn,
+    .menu-dropdown-pill-item,
+    .pill-tag-clickable
+  ):focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 0 0 1.5px #2563eb inset;
+  border-radius: 8px;
+}
+
+/* 3) Touch-friendly targets on coarse pointers */
+@media (pointer: coarse) {
+  :where(
+      .menu-dropdown-project-item,
+      .menu-dropdown-service-item,
+      .menu-dropdown-pill-item
+    ) {
+    min-height: 44px;
+  }
+
+  :where(
+      .menu-dropdown-project-item,
+      .menu-dropdown-service-item,
+      .menu-dropdown-pill-item
+    ) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  /* Avoid hover-only motion on touch devices */
+  .menu-dropdown-project-item:hover,
+  .menu-dropdown-service-item:hover,
+  .tech-tool-item:hover,
+  .pill-tag-clickable:hover {
+    transform: none;
+  }
+}
+
+/* 4) Lighter visual effects on small screens for performance */
+@media (max-width: 768px) {
+  .menu-dropdown {
+    backdrop-filter: blur(6px) saturate(110%);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .menu-dropdown-project-item,
+  .menu-dropdown-service-item,
+  .tech-tool-item {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* 5) High contrast/forced-colors friendly fallbacks */
+@media (prefers-contrast: more), (forced-colors: active) {
+  .menu-dropdown,
+  .menu-dropdown-projects,
+  .menu-dropdown-project-item,
+  .menu-dropdown-service-item,
+  .tech-tools-submenu,
+  .menu-dropdown-pill-item,
+  .contact-trigger-btn,
+  .tech-view-all-btn {
+    background: Canvas !important;
+    color: CanvasText !important;
+    border-color: ButtonBorder !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  :where(
+      .menu-item,
+      .menu-dropdown-project-item,
+      .menu-dropdown-service-item,
+      .tech-tool-item,
+      .menu-dropdown-pill-item,
+      .contact-trigger-btn,
+      .tech-view-all-btn
+    ):focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+    box-shadow: none !important;
+  }
+}
+
+/* 6) Scrollbar polish (Firefox + WebKit) */
+.menu-dropdown-projects,
+.tech-tools-submenu {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #94a3b8 rgba(243, 244, 246, 0.5);
+}

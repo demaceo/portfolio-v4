@@ -247,11 +247,11 @@ const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
                 paddingTop: "calc(56.25% + 43px)",
               }}
             >
-              {!isVideoLoaded && (
+              {/* {!isVideoLoaded && (
                 <div className="video-skeleton" aria-hidden="true">
                   <div className="video-spinner" />
                 </div>
-              )}
+              )} */}
               <iframe
                 src={`https://player.pbs.org/viralplayer/${sanitizeEmbedId(
                   selectedEpisode.embedId

@@ -84,7 +84,6 @@
   justify-content: center;
   z-index: 2000;
   padding: var(--space-6);
-
   background-color: rgba(0, 0, 0, 0.7);
   animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
@@ -541,7 +540,7 @@
 }
 
 /* New: Video skeleton overlay to smooth initial load */
-.pbs-viral-player-wrapper {
+/* .pbs-viral-player-wrapper {
   position: relative;
 }
 .video-skeleton {
@@ -567,7 +566,7 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
 /* Content Section */
 .documentary-content {
