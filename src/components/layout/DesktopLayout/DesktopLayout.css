@@ -98,6 +98,7 @@
 .desktop-icon {
   display: flex;
   flex-direction: column;
+  border: none !important;
   align-items: center;
   cursor: pointer;
   padding: 10px;
