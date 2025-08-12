@@ -91,18 +91,20 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
         className="contact-form-container"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="email-form-wrapper">
-          <div className="contact-title-bar">
-            <div className="contact-window-controls">
-              <button
-                className="contact-close-btn"
-                onClick={onClose}
-                aria-label="Close Contact Form"
-              ></button>
-            </div>
-            <span className="contact-window-title">Contact</span>
+        <div className="contact-modal-title-bar">
+          <div className="contact-modal-window-controls">
+            <button
+              className="contact-modal-close-btn"
+              onClick={onClose}
+              aria-label="Close contact Modal"
+            />
           </div>
-
+          <span className="contact-modal-window-title" id="contact-title">
+            Contact
+          </span>
+          <div className="contact-modal-spacer" />
+        </div>
+        <div className="email-form-wrapper">
           <form className="email-form" onSubmit={sendEmail}>
             <input
               ref={nameInputRef}

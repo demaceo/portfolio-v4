@@ -32,15 +32,7 @@ const iconMap: Record<string, IconDefinition> = {
 
 const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
   // Drag state
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
-
-  // Center the modal on mount
-  React.useEffect(() => {
-    const centerX = window.innerWidth / 2 - 500; // modal width / 2
-    const centerY = window.innerHeight / 2 - 350; // modal height / 2
-    setPosition({ x: Math.max(centerX, 0), y: Math.max(centerY, 0) });
-  }, []);
 
   // Handle keyboard navigation
   React.useEffect(() => {
@@ -79,7 +71,6 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
       >
         <div
           className="projects-modal-title-bar"
-          style={{ cursor: "grab" }}
         >
           <div className="projects-modal-window-controls">
             <button

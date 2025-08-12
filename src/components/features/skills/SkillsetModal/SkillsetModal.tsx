@@ -52,7 +52,7 @@ const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
         tabIndex={-1}
         role="document"
       >
-        <div className="skillset-modal-title-bar" style={{ cursor: "grab" }}>
+        <div className="skillset-modal-title-bar">
           <div className="skillset-modal-window-controls">
             <button
               className="skillset-modal-close-btn"

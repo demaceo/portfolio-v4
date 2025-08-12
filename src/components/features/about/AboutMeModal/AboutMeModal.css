@@ -132,23 +132,6 @@
 }
 
 /* Title Bar */
-.about-modal-title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 44px;
-  padding: 0 var(--space-6);
-  position: relative;
-  z-index: 100;
-  flex-shrink: 0;
-  width: 100%;
-  border-top-left-radius: var(--radius-3xl);
-  border-top-right-radius: var(--radius-3xl);
-  transition: background 0.3s, box-shadow 0.3s;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
 .about-modal-window-controls {
   display: flex;
   align-items: center;
@@ -223,7 +206,7 @@
   letter-spacing: -0.02em;
   background: linear-gradient(
     135deg,
-    var(--ios-blue) 0%,
+    var(--ios-orange) 0%,
     var(--ios-purple) 100%
   );
   -webkit-background-clip: text;
@@ -239,7 +222,6 @@
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
-  pointer-events: none;
 }
 
 .about-modal-spacer {

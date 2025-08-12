@@ -13,31 +13,10 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
   onOpenContact,
   onOpenResume,
 }) => {
-  // Drag state
-  // const [scrollProgress, setScrollProgress] = useState(0);
-  // const bodyRef = useRef<HTMLDivElement>(null);
 
-  // Tooltip state
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-  // Track scroll progress
-  // React.useEffect(() => {
-  //   const bodyElement = bodyRef.current;
-  //   if (!bodyElement) return;
 
-  //   const handleScroll = () => {
-  //     const { scrollTop, scrollHeight, clientHeight } = bodyElement;
-  //     const maxScroll = scrollHeight - clientHeight;
-  //     const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 100;
-  //     setScrollProgress(Math.min(100, Math.max(0, progress)));
-  //   };
-
-  //   bodyElement.addEventListener("scroll", handleScroll);
-  //   handleScroll();
-  //   return () => {
-  //     bodyElement.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [bodyRef]);
 
   const handlePillClick = (pill: AboutMePill) => {
     // Toggle tooltip display for all pills
@@ -54,22 +33,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
         window.open(pill.link, "_blank", "noopener,noreferrer");
       }, 300);
     }
-  };
-
-  // Action button handlers
-  // const handleContactMe = () => {
-  //   onClose();
-  //   if (onOpenContact) {
-  //     onOpenContact();
-  //   }
-  // };
-
-  // const handleViewResume = () => {
-  //   onClose();
-  //   if (onOpenResume) {
-  //     onOpenResume();
-  //   }
-  // };
+  }
 
   // Close tooltip when clicking outside of pills
   const handleModalClick = (e: React.MouseEvent) => {
@@ -87,10 +51,12 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
             <button
               className="about-modal-close-btn"
               onClick={onClose}
-              aria-label="Close About Modal"
+              aria-label="Close about Modal"
             />
           </div>
-          {/* <span className="about-modal-window-title">About</span> */}
+          <span className="about-modal-window-title" id="about-title">
+            About
+          </span>
           <div className="about-modal-spacer" />
         </div>
 
