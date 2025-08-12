@@ -221,10 +221,7 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
                             <p id={`project-desc-${project.id}`}>
                               {project.description}
                             </p>
-                            <span className="sr-only">
-                              Press Enter or Space to open {project.name} in a
-                              new tab
-                            </span>
+                          
                           </div>
                         </div>
                       </motion.div>
