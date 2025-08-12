@@ -882,24 +882,22 @@
 
 /* --- Services Dropdown - Enhanced --- */
 .menu-dropdown-services {
-  margin: 16px 0 0 0;
-  padding: 20px 18px;
+  margin: 12px 0 0 0;
+  padding: 12px 10px;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-height: 480px;
-  min-width: 380px;
-  max-width: 480px;
+  gap: 8px;
+  max-height: 420px;
+  min-width: 320px;
+  max-width: 380px;
   overflow-y: auto;
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(229, 231, 235, 0.8);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.04);
-  backdrop-filter: blur(14px);
+  border-radius: 12px;
+  border: 1px solid rgba(229, 231, 235, 0.7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(10px);
   position: relative;
-  min-width: 400px;
-  max-width: 450px;
 }
 
 .menu-dropdown-services::before {
@@ -916,16 +914,16 @@
 .menu-dropdown-service-item {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
-  border-radius: 14px;
-  padding: 18px 16px;
+  gap: 12px;
+  border-radius: 8px;
+  padding: 10px 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: 1px solid transparent;
   position: relative;
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
   overflow: visible;
-  min-height: 88px;
+  min-height: 56px;
   box-sizing: border-box;
 }
 
