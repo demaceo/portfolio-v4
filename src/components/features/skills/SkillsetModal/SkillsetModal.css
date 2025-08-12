@@ -98,7 +98,7 @@
 
 .skillset-modal {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   max-height: 90vh;
   background: var(--glass-bg);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
@@ -156,42 +156,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Header */
-/* .skillset-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  padding: 0 var(--space-8);
-  background: var(--ios-surface-elevated);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-shrink: 0;
-} */
-
-/* .skillset-title {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  color: var(--ios-text-primary);
-  margin: 0;
-  letter-spacing: -0.03em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-} */
 
 .skillset-header-controls {
   display: flex;
