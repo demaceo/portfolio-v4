@@ -900,15 +900,15 @@
 
 /* Menu Bar Root */
 .menu-bar {
-  width: 100%;
+  max-width: 100%;
   background: #f3f4f6;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   /* height: 35px; */
-  padding: 0;
+  /* padding: 0; */
   padding: 5px 10px;
-  font-size: 12px;
+  /* font-size: 12px; */
   box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.06);
   border-bottom: 1.5px solid #d1d5db;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Arial,
@@ -917,15 +917,6 @@
   vertical-align: bottom;
   z-index: 1000;
 }
-
-/* .menu-bar {
-  height: 28px;
-  padding: 5px 10px;
-  font-size: 12px;
-  vertical-align: bottom;
-  position: relative;
-  z-index: 1000;
-} */
 
 .menu-left {
   display: flex;
