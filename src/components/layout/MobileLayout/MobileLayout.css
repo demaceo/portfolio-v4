@@ -312,11 +312,8 @@
   position: relative;
   margin: 0 15px 20px 15px;
   border-radius: 30px;
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.25),
-    0 6px 20px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 6px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   overflow: visible;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: dockSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
@@ -382,11 +379,8 @@
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   color: #ffffff;
-  box-shadow: 
-    0 6px 24px rgba(0, 0, 0, 0.2),
-    0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2), 0 3px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25),
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   outline: none;
   border: none;
@@ -400,31 +394,22 @@
 .dock-app:nth-child(1) {
   /* LinkedIn */
   background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
-  box-shadow: 
-    0 6px 24px rgba(0, 119, 181, 0.3),
-    0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px rgba(0, 119, 181, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .dock-app:nth-child(2) {
   /* Calendar/Calendly */
   background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  box-shadow: 
-    0 6px 24px rgba(255, 107, 53, 0.3),
-    0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px rgba(255, 107, 53, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .dock-app:nth-child(3) {
   /* Contact */
   background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  box-shadow: 
-    0 6px 24px rgba(67, 233, 123, 0.3),
-    0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px rgba(67, 233, 123, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .dock-app::before {
@@ -468,22 +453,16 @@
 .dock-app:active {
   transform: scale(0.88);
   transition: transform 0.1s ease-out;
-  box-shadow: 
-    0 3px 12px rgba(0, 0, 0, 0.25),
-    0 1px 6px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25), 0 1px 6px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15),
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
   filter: brightness(0.95) saturate(1.2);
 }
 
 .dock-app:hover {
   transform: translateY(-4px) scale(1.08);
-  box-shadow: 
-    0 12px 36px rgba(0, 0, 0, 0.25),
-    0 6px 20px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25), 0 6px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3),
     inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   filter: brightness(1.1) saturate(1.2);
 }
@@ -515,9 +494,7 @@
   align-items: center;
   justify-content: center;
   border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 
-    0 4px 12px rgba(255, 59, 48, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.2),
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   z-index: 20;
   animation: mobilepulse 2s infinite;
@@ -527,40 +504,26 @@
 
 .dock-app:hover .notification-badge {
   transform: scale(1.1);
-  box-shadow: 
-    0 6px 16px rgba(255, 59, 48, 0.5),
-    0 3px 8px rgba(0, 0, 0, 0.25),
+  box-shadow: 0 6px 16px rgba(255, 59, 48, 0.5), 0 3px 8px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 @keyframes mobilepulse {
   0% {
-    box-shadow: 
-      0 4px 12px rgba(255, 59, 48, 0.4),
-      0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 0 0 0 rgba(255, 59, 48, 0.7);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 0 rgba(255, 59, 48, 0.7);
   }
   50% {
-    box-shadow: 
-      0 4px 12px rgba(255, 59, 48, 0.4),
-      0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 0 0 8px rgba(255, 59, 48, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 8px rgba(255, 59, 48, 0.3);
   }
   70% {
-    box-shadow: 
-      0 4px 12px rgba(255, 59, 48, 0.4),
-      0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 0 0 16px rgba(255, 59, 48, 0.1);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 16px rgba(255, 59, 48, 0.1);
   }
   100% {
-    box-shadow: 
-      0 4px 12px rgba(255, 59, 48, 0.4),
-      0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 0 0 0 rgba(255, 59, 48, 0);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 0 rgba(255, 59, 48, 0);
   }
 }
 
@@ -861,22 +824,22 @@
     margin: 0 12px 16px 12px;
     border-radius: 26px;
   }
-  
+
   .dock-app {
     width: 58px;
     height: 58px;
     font-size: 24px;
     border-radius: 14px;
   }
-  
+
   .dock-app::before {
     border-radius: 14px;
   }
-  
+
   .dock-app::after {
     border-radius: 13px;
   }
-  
+
   .dock-app .notification-badge {
     width: 22px;
     height: 22px;
@@ -893,18 +856,18 @@
     padding: 14px 18px;
     margin: 0 10px 14px 10px;
   }
-  
+
   .dock-app {
     width: 54px;
     height: 54px;
     font-size: 22px;
     border-radius: 13px;
   }
-  
+
   .dock-app::before {
     border-radius: 13px;
   }
-  
+
   .dock-app::after {
     border-radius: 12px;
   }
@@ -916,7 +879,7 @@
     padding: 12px 20px;
     margin: 0 10px 10px 10px;
   }
-  
+
   .dock-app {
     width: 52px;
     height: 52px;
