@@ -84,6 +84,18 @@ const MobileLayout = () => {
             handleAppClick={handleAppClick}
             preloadHandlers={preloadHandlers}
           />
+          <MobileModals
+            showContactForm={showContactForm}
+            setShowContactForm={setShowContactForm}
+            showAboutMe={showAboutMe}
+            setShowAboutMe={setShowAboutMe}
+            showSkillset={showSkillset}
+            setShowSkillset={setShowSkillset}
+            showProjects={showProjects}
+            setShowProjects={setShowProjects}
+            showDocumentary={showDocumentary}
+            setShowDocumentary={setShowDocumentary}
+          />
           <PageIndicators />
         </div>
         <MobileDock
@@ -92,18 +104,6 @@ const MobileLayout = () => {
           linkedinUrl={EXTERNAL_LINKS.LINKEDIN}
           calendlyUrl={EXTERNAL_LINKS.CALENDLY}
           onContactPreload={handleContactPreload}
-        />
-        <MobileModals
-          showContactForm={showContactForm}
-          setShowContactForm={setShowContactForm}
-          showAboutMe={showAboutMe}
-          setShowAboutMe={setShowAboutMe}
-          showSkillset={showSkillset}
-          setShowSkillset={setShowSkillset}
-          showProjects={showProjects}
-          setShowProjects={setShowProjects}
-          showDocumentary={showDocumentary}
-          setShowDocumentary={setShowDocumentary}
         />
       </div>
     </div>

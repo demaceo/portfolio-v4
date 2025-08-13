@@ -31,9 +31,17 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 2px 2px 0px #3b3a3a;
+  padding-bottom: 110px; /* Prevent dock overlap with content */
 }
 
-/* Remove the old gradientShift animation since it's no longer used */
+.mobile-app-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  margin: 10px 0;
+
+}
 
 .status-bar {
   height: 44px;
@@ -309,9 +317,12 @@
   align-items: center;
   gap: 24px;
   padding: 18px 24px;
-  position: relative;
-  margin: 0 15px 20px 15px;
-  border-radius: 30px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  border-radius: 30px 30px 30px 30px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 6px 20px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   overflow: visible;
