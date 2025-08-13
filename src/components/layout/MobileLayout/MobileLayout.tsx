@@ -14,7 +14,7 @@ import {
   StatusBar,
   MobileWelcomeWindow,
   HomeApps,
-  PageIndicators,
+  // PageIndicators,
   MobileDock,
   MobileModals,
 } from "./components";

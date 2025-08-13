@@ -391,7 +391,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                     </ul>
                   </div>
                 )}
-                {item.key === "tech" && (
+                {/* {item.key === "tech" && (
                   <div>
                     <div className="menu-dropdown-tech-categories">
                       {techStackCategories.map((category) =>
@@ -411,7 +411,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 {item.key === "contact" && (
                   <div className="menu-dropdown-contact-info">
                     <div className="contact-info-text">
