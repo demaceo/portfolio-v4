@@ -1341,7 +1341,7 @@
   background: rgba(255, 255, 255, 0.8);
   color: #0f172a;
   box-shadow: 0 2px 8px rgba(14, 116, 144, 0.1);
-  backdrop-filter: blur(4px);
+  /* backdrop-filter: blur(4px); */
 }
 
 .pill-tag-arrow {
