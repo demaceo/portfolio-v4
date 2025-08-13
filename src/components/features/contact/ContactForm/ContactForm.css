@@ -98,6 +98,71 @@
   max-height: 95%;
 }
 
+/* Enhanced Title Bar */
+.contact-modal-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  width: 100%;
+  padding: 0 var(--space-6);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-top-left-radius: var(--radius-3xl);
+  border-top-right-radius: var(--radius-3xl);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 100;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .contact-modal-title-bar:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 250, 252, 0.9) 100%
+  );
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+} */
+
+.contact-modal-title-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--ios-orange) 0%,
+    var(--ios-purple) 50%,
+    var(--ios-blue) 100%
+  );
+  border-top-left-radius: var(--radius-3xl);
+  border-top-right-radius: var(--radius-3xl);
+}
+
+.contact-modal-title-bar::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
 .contact-modal-window-controls {
   display: flex;
   align-items: center;
@@ -124,7 +189,7 @@
 }
 
 .contact-modal-close-btn::after {
-  content: "×";
+  content: "";
   position: absolute;
   color: white;
   font-size: 18px;
@@ -173,7 +238,8 @@
   background: linear-gradient(
     135deg,
     var(--ios-orange) 0%,
-    var(--ios-purple) 100%
+    var(--ios-purple) 50%,
+    var(--ios-blue) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -188,6 +254,8 @@
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0 1px 2px rgba(255, 149, 0, 0.2));
 }
 
 .contact-modal-spacer {
@@ -597,22 +665,29 @@
     border-radius: var(--radius-2xl);
   }
 
-  .contact-title-bar {
+  .contact-modal-title-bar {
     height: 56px;
     padding: 0 var(--space-5);
+    border-top-left-radius: var(--radius-2xl);
+    border-top-right-radius: var(--radius-2xl);
   }
 
-  .contact-window-title {
+  .contact-modal-window-title {
     font-size: var(--text-lg);
   }
 
-  .contact-close-btn {
-    width: 36px;
-    height: 36px;
+  .contact-modal-close-btn {
+    width: 28px;
+    height: 28px;
   }
 
-  .contact-close-btn::before {
-    font-size: 20px;
+  .contact-modal-close-btn::after {
+    font-size: 16px;
+  }
+
+  .contact-modal-spacer {
+    width: 28px;
+    height: 28px;
   }
 
   .email-form-wrapper {
@@ -658,22 +733,29 @@
     width: 100%;
   }
 
-  .contact-title-bar {
+  .contact-modal-title-bar {
     height: 52px;
     padding: 0 var(--space-4);
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
   }
 
-  .contact-window-title {
+  .contact-modal-window-title {
     font-size: var(--text-base);
   }
 
-  .contact-close-btn {
-    width: 32px;
-    height: 32px;
+  .contact-modal-close-btn {
+    width: 24px;
+    height: 24px;
   }
 
-  .contact-close-btn::before {
-    font-size: 18px;
+  .contact-modal-close-btn::after {
+    font-size: 14px;
+  }
+
+  .contact-modal-spacer {
+    width: 24px;
+    height: 24px;
   }
 
   .email-form-wrapper {

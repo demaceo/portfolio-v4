@@ -98,7 +98,7 @@
 
 .skillset-modal {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   max-height: 90vh;
   background: var(--glass-bg);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
@@ -156,42 +156,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Header */
-/* .skillset-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-  padding: 0 var(--space-8);
-  background: var(--ios-surface-elevated);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-shrink: 0;
-} */
-
-/* .skillset-title {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  color: var(--ios-text-primary);
-  margin: 0;
-  letter-spacing: -0.03em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-} */
 
 .skillset-header-controls {
   display: flex;
@@ -1511,7 +1475,7 @@
 
 /* Skillset Modal Tabs */
 .skillset-modal-tabs {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
   gap: var(--space-2);
@@ -1526,7 +1490,19 @@
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   border: 1px solid var(--glass-border);
-  overflow-x: auto;
+  overflow-x: auto; */
+  display: flex;
+  gap: var(--space-2);
+  background: var(--ios-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-1);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: var(--space-4) 0 var(--space-2) 0;
   -webkit-overflow-scrolling: touch;
 }
 
