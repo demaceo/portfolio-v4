@@ -96,8 +96,8 @@ const MobileLayout = () => {
             showDocumentary={showDocumentary}
             setShowDocumentary={setShowDocumentary}
           />
-          <PageIndicators />
         </div>
+        <PageIndicators />
         <MobileDock
           handleAppClick={handleAppClick}
           showContactNotification={showContactNotification}
