@@ -308,9 +308,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             <div className="menu-dropdown-service-title">
                               {service.title}
                             </div>
-                            <div className="menu-dropdown-service-desc">
+                            {/* <div className="menu-dropdown-service-desc">
                               {service.description}
-                            </div>
+                            </div> */}
                           </div>
                         </li>
                       ))}
