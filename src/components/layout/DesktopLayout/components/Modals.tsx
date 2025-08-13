@@ -4,6 +4,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
+import { SelectedProject, SelectedService } from "@/hooks";
 
 const LoadingModal = () => {
   return <></>;
@@ -45,26 +46,12 @@ const ProjectsModal = dynamic(
 );
 
 const DocumentaryPlayer = dynamic(
-  () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
+  () => import("@/features/media").then((m) => m.DocumentaryPlayer),
   {
     ssr: false,
     loading: () => <LoadingModal />,
   }
 );
-
-interface SelectedProject {
-  id: number;
-  name: string;
-  description: string;
-  image?: string;
-  link: string;
-}
-
-interface SelectedService {
-  icon: string;
-  title: string;
-  description: string;
-}
 
 interface ModalsProps {
   showContactForm: boolean;

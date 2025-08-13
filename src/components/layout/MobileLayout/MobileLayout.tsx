@@ -71,20 +71,17 @@ const MobileLayout = () => {
   ];
 
   return (
-    <div className="mobile-layout">
-      <StatusBar currentTime={currentTime} />
-
-      <div className="mobile-screen">
+    <div className="iphone-container">
+      <div className="iphone-screen">
+        <StatusBar currentTime={currentTime} />
         <div className="mobile-app-container">
           <HomeApps
             apps={mobileApps}
             handleAppClick={handleAppClick}
             preloadHandlers={preloadHandlers}
           />
-
           <PageIndicators />
         </div>
-
         <MobileDock
           handleAppClick={handleAppClick}
           showContactNotification={showContactNotification}
@@ -92,25 +89,23 @@ const MobileLayout = () => {
           calendlyUrl={EXTERNAL_LINKS.CALENDLY}
           onContactPreload={handleContactPreload}
         />
+        <MobileModals
+          showContactForm={showContactForm}
+          setShowContactForm={setShowContactForm}
+          showAboutMe={showAboutMe}
+          setShowAboutMe={setShowAboutMe}
+          showSkillset={showSkillset}
+          setShowSkillset={setShowSkillset}
+          showProjects={showProjects}
+          setShowProjects={setShowProjects}
+          showDocumentary={showDocumentary}
+          setShowDocumentary={setShowDocumentary}
+        />
+        <MobileWelcomeWindow
+          showWelcomeWindow={showWelcomeWindow}
+          handleWelcomeWindowClose={() => setShowWelcomeWindow(false)}
+        />
       </div>
-
-      <MobileModals
-        showContactForm={showContactForm}
-        setShowContactForm={setShowContactForm}
-        showAboutMe={showAboutMe}
-        setShowAboutMe={setShowAboutMe}
-        showSkillset={showSkillset}
-        setShowSkillset={setShowSkillset}
-        showProjects={showProjects}
-        setShowProjects={setShowProjects}
-        showDocumentary={showDocumentary}
-        setShowDocumentary={setShowDocumentary}
-      />
-
-      <MobileWelcomeWindow
-        showWelcomeWindow={showWelcomeWindow}
-        handleWelcomeWindowClose={() => setShowWelcomeWindow(false)}
-      />
     </div>
   );
 };

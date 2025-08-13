@@ -18,7 +18,7 @@ export const preloadModules = {
     skillset: () => import("@/features/skills/SkillsetModal/SkillsetModal"),
     projects: () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
     documentary: () =>
-        import("@/components/features/media").then((m) => m.DocumentaryPlayer),
+        import("@/features/media").then((m) => m.DocumentaryPlayer),
     resume: () => import("@/features/resume/InteractiveResume/InteractiveResume"),
 };
 
