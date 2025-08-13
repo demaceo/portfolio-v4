@@ -1,7 +1,7 @@
 /* --- Projects Dropdown --- */
 .menu-dropdown-projects {
   margin-top: 8px;
-  width: 520px;
+  width: 500px;
   max-width: 90vw;
   max-height: 480px;
   overflow-y: auto;
@@ -887,18 +887,18 @@
 
 /* --- Services Dropdown - Enhanced --- */
 .menu-dropdown-services {
-  margin: 12px 0 0 0;
-  padding: 12px 10px;
+  margin: 16px 0 0 0;
+  padding: 16px 14px;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 420px;
+  gap: 16px;
+  max-height: 440px;
   min-width: 320px;
-  max-width: 380px;
+  max-width: 400px;
   overflow-y: auto;
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid rgba(229, 231, 235, 0.7);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(10px);
@@ -919,18 +919,20 @@
 .menu-dropdown-service-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  border-radius: 8px;
-  padding: 18px 12px;
-  margin: 10px 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 16px;
+  border-radius: 10px;
+  padding: 20px 16px;
+  margin: 0;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: 1px solid transparent;
   position: relative;
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
   overflow: visible;
-  min-height: 56px;
+  min-height: 64px;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .menu-dropdown-service-item::before {
@@ -1000,21 +1002,20 @@
 
 .menu-dropdown-service-title {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 17px;
   color: #1f2937;
-  margin-bottom: 0;
+  margin-bottom: 2px;
   white-space: normal;
   word-break: break-word;
-  line-height: 1.4;
+  line-height: 1.5;
   max-width: 100%;
 }
 
 .menu-dropdown-service-desc {
-  font-size: 13px;
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
   margin-bottom: 0;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: normal;
   word-break: break-word;
   max-width: 100%;
