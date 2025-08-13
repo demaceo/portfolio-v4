@@ -31,16 +31,15 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 2px 2px 0px #3b3a3a;
-  padding-bottom: 110px; /* Prevent dock overlap with content */
+  /* padding-bottom: 110px;  */
+  /* Prevent dock overlap with content */
 }
 
-.mobile-app-container{
+.mobile-app-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  margin: 10px 0;
-
+  height: 80%;
+  padding: 10px 0;
 }
 
 .status-bar {
