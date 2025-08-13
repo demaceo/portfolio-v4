@@ -23,11 +23,11 @@ const WelcomeWindow: React.FC<WelcomeWindowProps> = ({
     <div className="welcome-window">
       <div className="window-title-bar">
         <div className="window-controls">
-          <button
+          {/* <button
             className="close-btn"
             onClick={handleWelcomeWindowClose}
             aria-label="Close welcome window"
-          ></button>
+          ></button> */}
         </div>
         <span className="window-title">Welcome to My Portfolio</span>
       </div>
