@@ -75,6 +75,10 @@ const MobileLayout = () => {
       <div className="iphone-screen">
         <StatusBar currentTime={currentTime} />
         <div className="mobile-app-container">
+          <MobileWelcomeWindow
+            showWelcomeWindow={showWelcomeWindow}
+            handleWelcomeWindowClose={() => setShowWelcomeWindow(false)}
+          />
           <HomeApps
             apps={mobileApps}
             handleAppClick={handleAppClick}
@@ -100,10 +104,6 @@ const MobileLayout = () => {
           setShowProjects={setShowProjects}
           showDocumentary={showDocumentary}
           setShowDocumentary={setShowDocumentary}
-        />
-        <MobileWelcomeWindow
-          showWelcomeWindow={showWelcomeWindow}
-          handleWelcomeWindowClose={() => setShowWelcomeWindow(false)}
         />
       </div>
     </div>
