@@ -716,12 +716,6 @@
     padding: 12px 10px;
   }
 
-  .menu-dropdown-services {
-    min-width: 350px;
-    max-width: 380px;
-    gap: 10px;
-  }
-
   .menu-dropdown-service-item {
     padding: 14px 12px;
     gap: 12px;
@@ -887,15 +881,15 @@
 
 /* --- Services Dropdown - Enhanced --- */
 .menu-dropdown-services {
-  margin: 16px 0 0 0;
+  margin: 16px 0;
   padding: 16px 14px;
+  max-width: 380px;
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-height: 440px;
   min-width: 320px;
-  max-width: 400px;
   overflow-y: auto;
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
   border-radius: 14px;
@@ -1001,8 +995,8 @@
 }
 
 .menu-dropdown-service-title {
-  font-weight: 700;
-  font-size: 17px;
+  font-weight: 500;
+  font-size: 12px;
   color: #1f2937;
   margin-bottom: 2px;
   white-space: normal;
