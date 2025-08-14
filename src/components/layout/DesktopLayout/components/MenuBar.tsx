@@ -46,12 +46,12 @@ interface MenuBarProps {
 const MenuBar: React.FC<MenuBarProps> = ({
   openDropdown,
   setOpenDropdown,
-  hoveredTechCategory,
-  setHoveredTechCategory,
+  // hoveredTechCategory,
+  // setHoveredTechCategory,
   setShowAboutMe,
   setSelectedService,
   setSelectedProject,
-  setShowSkillset,
+  // setShowSkillset,
   setShowContactForm,
   preload,
   TimeDisplay,
@@ -68,67 +68,67 @@ const MenuBar: React.FC<MenuBarProps> = ({
   };
 
   // Define category order and display names for tech stack
-  const techStackCategories = [
-    { key: "Frontend", name: "Frontend Development" },
-    { key: "Backend", name: "Backend Development" },
-    { key: "DevOps", name: "DevOps & Version Control" },
-    { key: "Cloud", name: "Cloud & Infrastructure" },
-    { key: "Design", name: "Design Tools" },
-    { key: "Package Management", name: "Package Management" },
-    { key: "Collaboration", name: "Collaboration" },
-    { key: "Project Management", name: "Project Management" },
-    { key: "Documentation", name: "Documentation & Testing" },
-  ];
+  // const techStackCategories = [
+  //   { key: "Frontend", name: "Frontend Development" },
+  //   { key: "Backend", name: "Backend Development" },
+  //   { key: "DevOps", name: "DevOps & Version Control" },
+  //   { key: "Cloud", name: "Cloud & Infrastructure" },
+  //   { key: "Design", name: "Design Tools" },
+  //   { key: "Package Management", name: "Package Management" },
+  //   { key: "Collaboration", name: "Collaboration" },
+  //   { key: "Project Management", name: "Project Management" },
+  //   { key: "Documentation", name: "Documentation & Testing" },
+  // ];
 
   // Memoized grouping of tools by category
-  const groupedTools = React.useMemo(() => {
-    return tools.reduce((acc, tool) => {
-      if (!acc[tool.category]) acc[tool.category] = [];
-      acc[tool.category].push(tool);
-      return acc;
-    }, {} as Record<string, typeof tools>);
-  }, []);
+  // const groupedTools = React.useMemo(() => {
+  //   return tools.reduce((acc, tool) => {
+  //     if (!acc[tool.category]) acc[tool.category] = [];
+  //     acc[tool.category].push(tool);
+  //     return acc;
+  //   }, {} as Record<string, typeof tools>);
+  // }, []);
 
   // Helper function to render category item
-  const renderCategoryItem = (category: { key: string; name: string }) => {
-    const categoryTools = groupedTools[category.key] || [];
+  // const renderCategoryItem = (category: { key: string; name: string }) => {
+  //   const categoryTools = groupedTools[category.key] || [];
 
-    if (categoryTools.length === 0) return null;
+  //   if (categoryTools.length === 0) return null;
 
-    return (
-      <div
-        key={category.key}
-        className="tech-category-item"
-        onMouseEnter={() => setHoveredTechCategory(category.key)}
-        onMouseLeave={() => setHoveredTechCategory(null)}
-      >
-        <div className="tech-category-main">
-          <span className="tech-category-name">{category.name}</span>
-          <span className="tech-category-count">({categoryTools.length})</span>
-        </div>
+  //   return (
+  //     <div
+  //       key={category.key}
+  //       className="tech-category-item"
+  //       onMouseEnter={() => setHoveredTechCategory(category.key)}
+  //       onMouseLeave={() => setHoveredTechCategory(null)}
+  //     >
+  //       <div className="tech-category-main">
+  //         <span className="tech-category-name">{category.name}</span>
+  //         <span className="tech-category-count">({categoryTools.length})</span>
+  //       </div>
 
-        {hoveredTechCategory === category.key && (
-          <div className="tech-tools-submenu">
-            <div className="tech-tools-grid">
-              {categoryTools.map((tool, index) => (
-                <div
-                  key={`${category.key}-${index}`}
-                  className="tech-tool-item"
-                  title={tool.tooltip}
-                >
-                  <FontAwesomeIcon
-                    icon={tool.icon}
-                    className="tech-tool-icon"
-                  />
-                  <span className="tech-tool-name">{tool.tooltip}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+  //       {hoveredTechCategory === category.key && (
+  //         <div className="tech-tools-submenu">
+  //           <div className="tech-tools-grid">
+  //             {categoryTools.map((tool, index) => (
+  //               <div
+  //                 key={`${category.key}-${index}`}
+  //                 className="tech-tool-item"
+  //                 title={tool.tooltip}
+  //               >
+  //                 <FontAwesomeIcon
+  //                   icon={tool.icon}
+  //                   className="tech-tool-icon"
+  //                 />
+  //                 <span className="tech-tool-name">{tool.tooltip}</span>
+  //               </div>
+  //             ))}
+  //           </div>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -158,7 +158,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
         {[
           { label: "About", key: "about" },
           { label: "Services", key: "services" },
-          { label: "Tech Stack", key: "tech" },
+          // { label: "Tech Stack", key: "tech" },
           { label: "Projects", key: "projects" },
           { label: "Contact", key: "contact" },
         ].map((item, idx, arr) => (
