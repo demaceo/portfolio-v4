@@ -3,10 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { EXTERNAL_LINKS } from "@/lib/constants/paths";
 import "./ContactForm.css";
-
-interface ContactFormProps {
-  onClose: () => void;
-}
+import { ModalProps } from "@/lib/types";
 
 // Declare Calendly for TypeScript
 declare global {
@@ -17,7 +14,7 @@ declare global {
   }
 }
 
-const ContactForm = ({ onClose }: ContactFormProps) => {
+const ContactForm = ({ onClose }: ModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stateMessage, setStateMessage] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);

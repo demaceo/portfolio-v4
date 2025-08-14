@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { aboutMePills, AboutMePill } from "@/data/aboutMePills";
+import { aboutMePills } from "@/data/aboutMePills";
+import { AboutMePill } from "@/lib/types";
 import "./AboutMeModal.css";
 
 interface AboutMeModalProps {
