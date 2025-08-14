@@ -1,13 +1,9 @@
 "use client";
 
 import React from "react";
-import { type Episode } from "@/data";
+import { VideoPlayerProps } from "@/lib/types";
 import { sanitizeEmbedId } from "../utils";
 
-interface VideoPlayerProps {
-  selectedEpisode: Episode;
-  onVideoLoad: () => void;
-}
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   selectedEpisode,

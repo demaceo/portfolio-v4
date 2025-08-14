@@ -6,12 +6,9 @@ import services from "@/data/services";
 import principlesData from "@/data/principles";
 import "./SkillsetModal.css";
 import tools from "@/data/toolbelt";
+import { ModalProps } from "@/lib/types";
 
-interface SkillsetModalProps {
-  onClose: () => void;
-}
-
-const SkillsetModal: React.FC<SkillsetModalProps> = ({ onClose }) => {
+const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
   // Drag state
   const [activeTab, setActiveTab] = useState<
     "services" | "tools" | "principles"

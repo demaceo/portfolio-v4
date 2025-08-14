@@ -1,8 +1,10 @@
 'use client';
 
 import { useMemo } from 'react';
-import { type Episode, documentaryEpisodes } from '@/data';
-import { getEpisodeContent, getEpisodeNumber, type EpisodeContent } from '../utils';
+import { documentaryEpisodes } from '@/data';
+import { getEpisodeContent, getEpisodeNumber } from '../utils';
+
+import { EpisodeContent, Episode } from '@/lib/types';
 
 export function useEpisodeContent(selectedEpisode: Episode) {
     const episodeContent = useMemo((): EpisodeContent => {

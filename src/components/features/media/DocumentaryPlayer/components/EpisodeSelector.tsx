@@ -3,12 +3,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { type Episode, documentaryEpisodes } from "@/data";
-
-interface EpisodeSelectorProps {
-  selectedEpisode: Episode;
-  onEpisodeSelect: (episode: Episode) => void;
-}
+import {  documentaryEpisodes } from "@/data";
+import { Episode, EpisodeSelectorProps } from "@/lib/types";
 
 const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({
   selectedEpisode,

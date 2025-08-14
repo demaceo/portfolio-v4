@@ -4,7 +4,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
 import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
-import { SelectedProject, SelectedService } from "@/hooks";
+import { SelectedProject, SelectedService } from "@/lib/types";
 
 const LoadingModal = () => {
   return <></>;

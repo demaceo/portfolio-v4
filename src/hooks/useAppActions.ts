@@ -2,12 +2,10 @@
 
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ModalActions } from './useModalState';
+import { UseAppActionsProps  } from '@/lib/types';
 import { preloadByPath, ensurePBSPreconnect } from '@/lib/utils/preload';
 
-export interface UseAppActionsProps {
-    modalActions: ModalActions;
-}
+
 
 export function useAppActions({ modalActions }: UseAppActionsProps) {
     const router = useRouter();

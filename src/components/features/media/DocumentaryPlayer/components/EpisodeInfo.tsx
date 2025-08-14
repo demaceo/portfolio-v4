@@ -3,19 +3,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import { type Episode } from "@/data";
-import { type EpisodeContent } from "../utils";
+import { EpisodeInfoProps } from "@/lib/types";
 import DocumentaryActions from "./DocumentaryActions";
 
-interface EpisodeInfoProps {
-  selectedEpisode: Episode;
-  episodeTitle: string;
-  episodeContent: EpisodeContent;
-  isContentExpanded: boolean;
-  onToggleContentExpansion: () => void;
-  onExternalLink: (url: string) => void;
-  onDonate: () => void;
-}
+
 
 const EpisodeInfo: React.FC<EpisodeInfoProps> = ({
   selectedEpisode,

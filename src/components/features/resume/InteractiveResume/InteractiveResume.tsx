@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./InteractiveResume.css";
+import { ModalProps } from "@/lib/types";
 
 function ExperienceCard({
   exp,
@@ -38,11 +39,8 @@ function ExperienceCard({
   );
 }
 
-interface InteractiveResumeProps {
-  onClose: () => void;
-}
 
-export default function InteractiveResume({ onClose }: InteractiveResumeProps) {
+export default function InteractiveResume({ onClose }: ModalProps) {
   const resumeRef = useRef<HTMLDivElement>(null);
 
   // Handle keyboard navigation

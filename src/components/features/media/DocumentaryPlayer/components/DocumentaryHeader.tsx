@@ -7,14 +7,7 @@ import {
   faInfoCircle,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-
-interface DocumentaryHeaderProps {
-  onClose: () => void;
-  onToggleInfo: (e: React.MouseEvent) => void;
-  onToggleEpisodeList: (e: React.MouseEvent) => void;
-  showInfoDropdown: boolean;
-  showEpisodeList: boolean;
-}
+import {DocumentaryHeaderProps} from "@/lib/types";
 
 const DocumentaryHeader: React.FC<DocumentaryHeaderProps> = ({
   onClose,

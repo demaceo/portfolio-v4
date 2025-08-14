@@ -1,10 +1,5 @@
-export interface Episode {
-    id: string;
-    title: string;
-    duration: string;
-    embedId: string;
-    externalUrl: string;
-}
+import { Episode } from '@/lib/types';
+
 
 export const documentaryEpisodes: Episode[] = [
     {

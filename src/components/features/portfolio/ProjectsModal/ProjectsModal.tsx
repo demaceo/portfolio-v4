@@ -15,10 +15,9 @@ import {
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { projectsData } from "@/data/projects";
 import "./ProjectsModal.css";
+import { ModalProps } from "@/lib/types";
 
-interface ProjectsModalProps {
-  onClose: () => void;
-}
+
 
 const iconMap: Record<string, IconDefinition> = {
   "fas fa-briefcase icon": faBriefcase,
@@ -30,7 +29,7 @@ const iconMap: Record<string, IconDefinition> = {
   "fas fa-film icon": faFilm,
 };
 
-const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
+const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
   // Drag state
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
 
@@ -81,7 +80,7 @@ const ProjectsModal: React.FC<ProjectsModalProps> = ({ onClose }) => {
       
           </div>
           <span className="projects-modal-window-title" id="projects-title">
-            Project Portfolio
+            Projects
           </span>
           <div className="projects-modal-spacer" />
         </div>

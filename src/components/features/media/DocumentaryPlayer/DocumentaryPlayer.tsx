@@ -14,12 +14,9 @@ import {
   useDocumentaryActions,
   useEpisodeContent,
 } from "./hooks";
+import { ModalProps } from "@/lib/types";
 
-interface DocumentaryPlayerProps {
-  onClose: () => void;
-}
-
-const DocumentaryPlayer: React.FC<DocumentaryPlayerProps> = ({ onClose }) => {
+const DocumentaryPlayer: React.FC<ModalProps> = ({ onClose }) => {
   // Initialize hooks
   const { playerState, actions } = useDocumentaryPlayer(documentaryEpisodes[0]);
   const documentaryActions = useDocumentaryActions({ actions, onClose });

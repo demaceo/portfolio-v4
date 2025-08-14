@@ -1,35 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-
-export interface SelectedProject {
-    id: number;
-    name: string;
-    description: string;
-    image?: string;
-    link: string;
-}
-
-export interface SelectedService {
-    icon: string;
-    title: string;
-    description: string;
-}
-
-export interface DropdownState {
-    openDropdown: string | null;
-    hoveredTechCategory: string | null;
-    selectedProject: SelectedProject | null;
-    selectedService: SelectedService | null;
-}
-
-export interface DropdownActions {
-    setOpenDropdown: (dropdown: string | null) => void;
-    setHoveredTechCategory: (category: string | null) => void;
-    setSelectedProject: (project: SelectedProject | null) => void;
-    setSelectedService: (service: SelectedService | null) => void;
-    closeAllDropdowns: () => void;
-}
+import { SelectedProject, SelectedService, DropdownState, DropdownActions } from '@/lib/types';
 
 const initialDropdownState: DropdownState = {
     openDropdown: null,

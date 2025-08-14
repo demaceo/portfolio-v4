@@ -3,5 +3,4 @@ export {
     episodeContentMap,
     getEpisodeContent,
     getEpisodeNumber,
-    type EpisodeContent
 } from './episodeContent';

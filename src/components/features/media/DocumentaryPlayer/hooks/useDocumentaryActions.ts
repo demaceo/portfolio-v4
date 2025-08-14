@@ -1,14 +1,9 @@
 'use client';
 
 import { useCallback } from 'react';
-import { type Episode } from '@/data';
-import { DocumentaryPlayerActions } from './useDocumentaryPlayer';
+import { Episode } from '@/lib/types';
+import { UseDocumentaryActionsProps } from '@/lib/types';
 import { openPBSLink, openDonateLink } from '../utils';
-
-export interface UseDocumentaryActionsProps {
-    actions: DocumentaryPlayerActions;
-    onClose: () => void;
-}
 
 export function useDocumentaryActions({ actions, onClose }: UseDocumentaryActionsProps) {
     const handleExternalLink = useCallback((externalUrl: string) => {

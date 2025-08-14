@@ -1,27 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { type Episode } from '@/data';
+import { Episode } from '@/lib/types';
+import { DocumentaryPlayerState, DocumentaryPlayerActions } from '@/lib/types';
 
-export interface DocumentaryPlayerState {
-    isVideoLoaded: boolean;
-    selectedEpisode: Episode;
-    showEpisodeList: boolean;
-    showInfoDropdown: boolean;
-    isContentExpanded: boolean;
-}
-
-export interface DocumentaryPlayerActions {
-    setIsVideoLoaded: (loaded: boolean) => void;
-    setSelectedEpisode: (episode: Episode) => void;
-    setShowEpisodeList: (show: boolean) => void;
-    setShowInfoDropdown: (show: boolean) => void;
-    setIsContentExpanded: (expanded: boolean) => void;
-    toggleEpisodeList: () => void;
-    toggleInfoDropdown: () => void;
-    toggleContentExpansion: () => void;
-    resetVideoLoad: () => void;
-}
 
 export function useDocumentaryPlayer(initialEpisode: Episode) {
     const [playerState, setPlayerState] = useState<DocumentaryPlayerState>({

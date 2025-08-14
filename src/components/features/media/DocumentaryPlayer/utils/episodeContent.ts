@@ -1,12 +1,5 @@
-import { type Episode } from "@/data";
-
-export interface EpisodeContent {
-    description: string;
-    extendedDescription: string;
-    production: string;
-    series: string;
-    topics: string;
-}
+import { Episode } from "@/lib/types";
+import { EpisodeContent } from "@/lib/types";
 
 // Episode-specific content data
 export const episodeContentMap: Record<string, EpisodeContent> = {

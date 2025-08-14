@@ -28,7 +28,7 @@ const projectData: Project[] = [
     description:
       "A tool to help U.S. citizens find and engage with their elected officials using data visualization and AI-powered message drafting.",
     link: "https://pinpoint-flax.vercel.app/",
-    icon: "/icons/pp_icon.png",
+    icon: "/icons/projects/pp_icon.png",
     image: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BqcHJydDE0OWlyaXBzbzIweTV4bjh2bzNidW1oenprMHdpaTRxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9zB7dPkmU7FUBNh8A/giphy.gif"
   },
   {
@@ -37,7 +37,7 @@ const projectData: Project[] = [
     description:
       "Unmasked Coaching helps individuals unlock their true potential through personalized career guidance, professional development, and strategic growth.",
     link: "https://unmasked-coaching.com",
-    icon: "/icons/unmasked-logo.png",
+    icon: "/icons/projects/unmasked-logo.png",
     image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXRhZ3h4aTM5eWgyMjdscWY3bXJwaGQybHRiMnM0YjVhYW5vcHU0OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sizoIiglMpC57qXlaq/giphy.gif",
   },
   {
