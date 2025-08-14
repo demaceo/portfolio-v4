@@ -68,13 +68,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* background: linear-gradient(
-    135deg,
-    rgba(0, 122, 255, 0.08) 0%,
-    rgba(175, 82, 222, 0.08) 100%
-  );
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,7 +75,7 @@
   padding: var(--space-6);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Helvetica Neue", Arial, sans-serif;
-  /* animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
+  pointer-events: auto;
 }
 
 /* Modal Container */
