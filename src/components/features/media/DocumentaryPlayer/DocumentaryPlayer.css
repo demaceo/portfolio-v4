@@ -194,19 +194,32 @@
 
 /* Close button special styling */
 .control-button:first-child {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
-  border: 1px solid rgba(255, 82, 82, 0.3);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 18px;
   color: white;
-  box-shadow: 0 2px 8px rgba(255, 82, 82, 0.3);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
 }
 
 .control-button:first-child:hover {
-  background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
-  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.4);
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff4742 0%, #e8342e 100%);
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
+  transform: scale(1.1);
 }
 
 .control-button:first-child:active {
+  background: linear-gradient(135deg, #e8342e 0%, #ff4742 100%);
   transform: scale(0.95);
   transition: transform 0.1s ease;
 }
