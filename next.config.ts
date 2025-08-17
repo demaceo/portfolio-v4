@@ -1,6 +1,18 @@
-
+/**
+ * Next.js configuration object for portfolio-v4.
+ *
+ * - Sets long-term cache headers (`Cache-Control: public, max-age=31536000, immutable`)
+ *   for static assets such as JS, CSS, images, and icons to optimize client-side caching.
+ * - Applies cache headers conditionally for production builds.
+ * - Configures remote image domains for Next.js Image Optimization, allowing images
+ *   to be loaded from specified external sources.
+ *
+ * @see https://nextjs.org/docs/app/api-reference/next-config-js
+ */
 import type { NextConfig } from "next";
-const LONG_CACHE = "public, max-age=31536000, immutable";
+// max age value is initially  31536000 which is 1 year
+// 6000 is 
+const LONG_CACHE = "public, max-age=6000, immutable";
 
 const nextConfig: NextConfig = {
   async headers() {
