@@ -17,29 +17,24 @@
 }
 
 .iphone-screen {
-  width: 90%;
+  width: 100vw;
   max-width: 590px;
-  height: 95%;
-  max-height: calc(100vh - 20px);
-  max-height: calc(100dvh - 20px);
-  background: #62dcf537;
-  border: 2px solid #3b3a3a;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  margin: 0 auto;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding-bottom: 0;
   overflow: hidden;
-  box-shadow: 2px 2px 0px #3b3a3a;
-  /* padding-bottom: 110px;  */
-  /* Prevent dock overlap with content */
 }
 
+/* --- IMPROVED MOBILE STYLINGS FOR MobileLayout --- */
+
+/* Ensure mobile-app-container scrolls if content overflows */
 .mobile-app-container {
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-  padding: 10px 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 120px; /* Prevent overlap with dock */
 }
 
 .status-bar {
@@ -112,8 +107,8 @@
 }
 
 .mobile-close-btn {
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
@@ -177,6 +172,8 @@
   background: transparent;
   border: none;
   outline: none;
+  min-width: 80px;
+  min-height: 80px;
 }
 
 .app-icon:active {
@@ -279,18 +276,14 @@
 }
 
 .page-indicators {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
   position: absolute;
   left: 0;
   right: 0;
   bottom: 110px;
-  margin: 0;
-  padding-bottom: 8px;
-  z-index: 10;
+  z-index: 20;
   background: none;
+  padding-bottom: 0;
+  margin: 0;
 }
 
 .page-dot {
@@ -318,7 +311,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-top: 1px solid rgba(255, 255, 255, 0.4);
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   gap: 24px;
   padding: 18px 24px;
@@ -384,8 +377,8 @@
 }
 
 .dock-app {
-  width: 64px;
-  height: 64px;
+  width: 74px;
+  height: 74px;
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
   border-radius: 16px;
   display: flex;
@@ -496,15 +489,15 @@
 /* Enhanced Notification Badge for Mobile */
 .dock-app .notification-badge {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -8px;
+  right: -8px;
   background: linear-gradient(135deg, #ff3b30 0%, #ff1744 100%);
   color: white;
   border-radius: 50%;
   overflow: visible;
-  width: 24px;
-  height: 24px;
-  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -598,15 +591,15 @@
 
 .close-button {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 40px;
-  height: 40px;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
   background: linear-gradient(135deg, #ff3030, #ff1010);
   border: none;
   border-radius: 50%;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -928,4 +921,94 @@
   .iphone-container {
     padding: 0;
   }
+}
+
+/* Responsive: Reduce padding and gaps for smaller screens */
+@media (max-width: 480px) {
+  .iphone-screen {
+    border-radius: 16px;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .mobile-app-container {
+    padding-bottom: 100px;
+  }
+  .page-indicators {
+    bottom: 90px;
+  }
+}
+
+/* Make dock always stick to bottom */
+.dock-mobile {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  z-index: 30;
+}
+
+/* Prevent dock overlap with modals */
+.modal-content {
+  margin-bottom: 110px;
+}
+
+/* Make modal overlays fill the screen and scrollable */
+.modal-overlay {
+  padding: 0;
+  align-items: flex-end;
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    margin-bottom: 90px;
+  }
+}
+
+/* Improve touch targets for app icons */
+.app-icon {
+  min-width: 80px;
+  min-height: 80px;
+  padding: 12px;
+  border-radius: 18px;
+}
+
+/* Make app grid more responsive */
+.home-apps {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  padding: 0 10px;
+}
+
+@media (min-width: 400px) {
+  .home-apps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+  }
+}
+
+/* Make welcome window more readable */
+.mobile-welcome-window {
+  max-width: 95vw;
+  margin: 0 auto 18px;
+  font-size: 15px;
+}
+
+/* Improve modal close button accessibility */
+.close-button {
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+}
+
+/* Ensure dock-app icons are not clipped */
+.dock-app {
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 22px;
 }
