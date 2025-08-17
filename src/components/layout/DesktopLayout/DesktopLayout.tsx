@@ -27,7 +27,7 @@ const HomeScreen = () => {
     useAppActions({ modalActions });
 
   // Initialize desktop with preloading
-  useDesktopInitialization();
+  // useDesktopInitialization();
 
   return (
     <div className="macintosh-container">
