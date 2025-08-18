@@ -43,7 +43,7 @@ body {
 }
 
 /* Base typography */
-body {
+/* body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -63,9 +63,9 @@ body {
   );
   background-size: 175% 175%;
   animation: bg-animation 20s ease-in-out infinite;
-}
+} */
 
-@keyframes bg-animation {
+/* @keyframes bg-animation {
   0% {
     background-position: 10% 0%;
   }
@@ -75,7 +75,7 @@ body {
   100% {
     background-position: 10% 0%;
   }
-}
+} */
 
 h1,
 h2,
