@@ -195,7 +195,7 @@
 }
 
 .contact-modal-close-btn::after {
-  content: "×";
+  content: "";
   position: absolute;
   color: white;
   font-size: 18px;
