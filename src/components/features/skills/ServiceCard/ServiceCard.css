@@ -124,11 +124,6 @@
   transition: background 0.3s, box-shadow 0.3s;
   user-select: none;
   -webkit-user-select: none;
-  cursor: grab;
-}
-
-.service-card-title-bar:active {
-  cursor: grabbing;
 }
 
 .service-card-window-controls {

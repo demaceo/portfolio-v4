@@ -377,14 +377,14 @@ const MenuBar: React.FC<MenuBarProps> = ({
                               <div className="menu-dropdown-project-desc">
                                 {proj.description}
                               </div>
-                              <a
+                              {/* <a
                                 href={proj.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="menu-dropdown-project-link"
                               >
                                 Visit
-                              </a>
+                              </a> */}
                             </div>
                           </li>
                         ))}

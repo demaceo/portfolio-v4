@@ -17,8 +17,6 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-
-
   const handlePillClick = (pill: AboutMePill) => {
     // Toggle tooltip display for all pills
     if (activeTooltip === pill.label) {
