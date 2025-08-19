@@ -122,6 +122,7 @@
   font-size: 11px;
   color: #3b82f6;
   text-decoration: none;
+  max-width: fit-content;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);

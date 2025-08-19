@@ -935,12 +935,12 @@
     max-width: 100vw;
     max-height: 100vh;
   }
-  .mobile-app-container {
+  /* .mobile-app-container {
     padding-bottom: 100px;
-  }
-  .page-indicators {
+  } */
+  /* .page-indicators {
     bottom: 90px;
-  }
+  } */
 }
 
 /* Make dock always stick to bottom */

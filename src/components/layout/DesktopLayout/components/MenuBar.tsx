@@ -7,7 +7,7 @@ import { aboutMePills } from "@/data/aboutMePills";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
-import tools from "@/data/toolbelt";
+// import tools from "@/data/toolbelt";
 import Image from "next/image";
 
 interface SelectedProject {
