@@ -989,34 +989,41 @@
 .menu-dropdown-service-info {
   flex: 1;
   min-width: 0;
-  padding-left: 6px;
+  padding-left: 12px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
 }
 
 .menu-dropdown-service-title {
-  font-weight: 500;
-  font-size: 16px;
-  color: #1f2937;
-  /* margin-bottom: 2px; */
+  font-weight: 600;
+  font-size: 15px;
+  color: #0f172a;
+  margin-bottom: 0;
   white-space: normal;
   word-break: break-word;
-  line-height: 1.5;
+  line-height: 1.3;
   max-width: 100%;
+  letter-spacing: -0.01em;
+  transition: color 0.3s ease;
 }
 
 .menu-dropdown-service-desc {
   font-size: 12px;
-  color: #6b7280;
+  color: #64748b;
   margin-bottom: 0;
-  line-height: 1.7;
+  line-height: 1.6;
   white-space: normal;
   word-break: break-word;
   max-width: 100%;
-  max-height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  font-weight: 400;
+  transition: color 0.3s ease;
 }
 
 .menu-dropdown-service-item:hover {
