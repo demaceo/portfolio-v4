@@ -89,7 +89,7 @@
   padding-left: 4px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .menu-dropdown-project-title {
@@ -999,7 +999,7 @@
   font-weight: 500;
   font-size: 16px;
   color: #1f2937;
-  margin-bottom: 2px;
+  /* margin-bottom: 2px; */
   white-space: normal;
   word-break: break-word;
   line-height: 1.5;
