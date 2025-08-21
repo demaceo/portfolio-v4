@@ -167,7 +167,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                                 className="tool-item"
                                 title={tool.tooltip}
                               >
-                                <FontAwesomeIcon icon={tool.icon} />
+                                <FontAwesomeIcon className="tool-icon" icon={tool.icon} />
                                 <span>{tool.tooltip}</span>
                               </div>
                             ))}
