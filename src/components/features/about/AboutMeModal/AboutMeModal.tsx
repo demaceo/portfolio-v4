@@ -11,8 +11,8 @@ interface AboutMeModalProps {
 
 const AboutMeModal: React.FC<AboutMeModalProps> = ({
   onClose,
-  onOpenContact,
-  onOpenResume,
+  // onOpenContact,
+  // onOpenResume,
 }) => {
 
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);

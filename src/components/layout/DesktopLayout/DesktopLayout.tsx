@@ -15,7 +15,7 @@ import {
   useModalState,
   useDropdownState,
   useAppActions,
-  useDesktopInitialization,
+  // useDesktopInitialization,
 } from "@/hooks";
 import { preloadModules } from "@/lib/utils/preload";
 
