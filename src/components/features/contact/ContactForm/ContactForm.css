@@ -120,16 +120,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* .contact-modal-title-bar:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(248, 250, 252, 0.9) 100%
-  );
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-} */
-
 .contact-modal-title-bar::before {
   content: "";
   position: absolute;
@@ -177,7 +167,6 @@
   height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,7 +179,6 @@
   font-size: 18px;
   color: white;
   outline: none;
-  border: none;
   z-index: 10;
 }
 
@@ -259,13 +247,18 @@
   -webkit-user-select: none;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   filter: drop-shadow(0 1px 2px rgba(255, 149, 0, 0.2));
+
   /* absolute center so it's visually centered regardless of control widths */
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  pointer-events: none;
   z-index: 9;
-  max-width: 60%;
+
+  /* prevent long titles from pushing layout */
+  max-width: calc(100% - 160px); /* keeps space for controls on both sides */
+  padding: 0 var(--space-2);
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -277,91 +270,6 @@
   flex-shrink: 0;
 }
 
-/* Title Bar */
-/* .contact-title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  width: 100%;
-  padding: 0 var(--space-6);
-  position: sticky;
-  margin-bottom: 15px;
-  top: 0;
-  z-index: 100;
-}
-
-.contact-window-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.contact-close-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--ios-surface);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-lg);
-  color: var(--ios-text-primary);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  position: relative;
-}
-
-.contact-close-btn::before {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 1;
-}
-
-.contact-close-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--ios-red);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.contact-close-btn:hover::after {
-  opacity: 0.1;
-}
-
-.contact-close-btn:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-md);
-}
-
-.contact-close-btn:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
-
-.contact-window-title {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--ios-text-primary);
-  text-align: center;
-  flex: 1;
-  letter-spacing: -0.02em;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-} */
-
 /* Form Wrapper */
 .email-form-wrapper {
   padding: var(--space-8);
@@ -372,7 +280,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  /* margin-bottom: var(--space-8); */
 }
 
 .email-form label {
@@ -823,7 +730,7 @@
 }
 
 /* Focus States for Accessibility */
-.contact-close-btn:focus-visible,
+.contact-modal-close-btn:focus-visible,
 .email-form input:focus-visible,
 .email-form textarea:focus-visible,
 #submit-button:focus-visible,
@@ -866,7 +773,7 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-  .contact-close-btn,
+  .contact-modal-close-btn,
   #submit-button,
   .alternative-contact-btn {
     min-height: 44px;

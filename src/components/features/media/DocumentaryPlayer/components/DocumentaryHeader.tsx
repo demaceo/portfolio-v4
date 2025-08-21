@@ -26,7 +26,7 @@ const DocumentaryHeader: React.FC<DocumentaryHeaderProps> = ({
       />
       <div className="documentary-badge">
         <FontAwesomeIcon icon={faFilm} className="badge-icon" />
-        <span>Media</span>
+        <span>Tech For Us</span>
       </div>
       <div className="header-controls">
         <button

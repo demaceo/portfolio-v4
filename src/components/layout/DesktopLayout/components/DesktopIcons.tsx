@@ -3,8 +3,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUser,
-  faCog,
+  faBrain,
+  faToolbox,
   faLaptopCode,
   faFilm,
   faEnvelope,
@@ -22,8 +22,8 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   maybePreloadByPath,
 }) => {
   const desktopApps = [
-    { name: "Mindset", icon: faUser, path: "/mindset" },
-    { name: "Skillset", icon: faCog, path: "/skillset" },
+    { name: "Mindset", icon: faBrain, path: "/mindset" },
+    { name: "Skillset", icon: faToolbox, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
     { name: "Docuseries", icon: faFilm, path: "/documentary" },
     { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },

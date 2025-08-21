@@ -1,26 +1,99 @@
-/* FontAwesome Icon Styling */
+/* scale the actual SVG icon to sit nicely inside the rounded surface */
 .icon-image svg,
 .icon svg,
 .dock-app svg {
-  width: 100%;
-  height: 100%;
-  max-width: 28px;
-  max-height: 28px;
+  width: 60%;
+  height: 60%;
+  display: block;
+  fill: currentColor;
+  color: #233240;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* slightly larger on desktop for the main desktop icon set */
+.desktop-icon .icon-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
 }
 
 .desktop-icon .icon-image svg {
-  width: 32px;
-  height: 32px;
+  width: 58%;
+  height: 58%;
 }
 
-.app-icon .icon svg {
-  width: 28px;
-  height: 28px;
-}
-
+/* tighter sizing for dock icons */
 .dock-app svg {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
+}
+
+/* hover / active - subtle lift, brighten and increase contrast */
+/* .desktop-icon:hover .icon-image,
+.desktop-icon:focus-within .icon-image {
+  transform: translateY(-6px) scale(1.06);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18),
+    inset 0 -6px 12px rgba(255, 255, 255, 0.03);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.09),
+    rgba(255, 255, 255, 0.03)
+  );
+  color: #071022;
+} */
+
+/* keep existing desktop-icon:hover .icon-image transform in sync */
+.desktop-icon:hover .icon-image {
+  transform: translateY(-6px) scale(1.06);
+}
+
+/* accessible focus ring for keyboard navigation */
+.desktop-icon:focus-visible,
+.desktop-icon:focus {
+  outline: 3px solid rgba(0, 122, 255, 0.16);
+  outline-offset: 4px;
+  box-shadow: 0 10px 30px rgba(0, 122, 255, 0.08),
+    0 6px 18px rgba(2, 6, 23, 0.12);
+}
+
+/* adjust notification badge placement to sit over the top-right of the icon surface */
+/* .notification-badge {
+  top: -6px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+} */
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .icon-image,
+  .desktop-icon:hover .icon-image,
+  .desktop-icon:focus-within .icon-image {
+    transition: none;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .icon-image {
+    width: 44px;
+    height: 44px;
+  }
+
+  .desktop-icon .icon-image {
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon-image svg {
+    width: 62%;
+    height: 62%;
+  }
 }
 
 /* Desktop Macintosh Styles */
@@ -149,23 +222,35 @@
 }
 
 .icon-image {
-  font-size: 32px;
-  margin-bottom: 5px;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  /* background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.02)
+  );
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12),
+    inset 0 -6px 12px rgba(255, 255, 255, 0.02); */
+  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 220ms ease, background 220ms ease;
   position: relative;
+  overflow: visible;
 }
 
 /* Notification Badge */
 .notification-badge {
   position: absolute;
-  top: 2px;
-  right: -8px;
+  top: 3px;
+  right: -1px;
   background: #ff3b30;
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   font-size: 11px;
   font-weight: bold;
   display: flex;
@@ -191,7 +276,7 @@
 
 .desktop-icon:hover .icon-image {
   transform: scale(1.1);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); */
 }
 
 .icon-label {

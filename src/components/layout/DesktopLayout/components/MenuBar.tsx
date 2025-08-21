@@ -131,6 +131,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   // };
 
   // Close dropdown on outside click
+  
   useEffect(() => {
     if (!openDropdown) return;
     const handleClick = (e: MouseEvent) => {
