@@ -6,7 +6,7 @@ import {
   faUser,
   faLaptopCode,
   faCog,
-  faFilm,
+  // faFilm,
 } from "@fortawesome/free-solid-svg-icons";
 import { EXTERNAL_LINKS } from "@/lib/constants/paths";
 import "./MobileLayout.css";
@@ -67,7 +67,7 @@ const MobileLayout = () => {
     { name: "Mindset", icon: faUser, path: "/mindset" },
     { name: "Skillset", icon: faCog, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
-    { name: "Docuseries", icon: faFilm, path: "/documentary" },
+    // { name: "Docuseries", icon: faFilm, path: "/documentary" },
   ];
 
   return (

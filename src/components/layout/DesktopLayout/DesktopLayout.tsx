@@ -77,8 +77,8 @@ const HomeScreen = () => {
         setShowSkillset={modalActions.setShowSkillset}
         showProjects={modalState.showProjects}
         setShowProjects={modalActions.setShowProjects}
-        showDocumentary={modalState.showDocumentary}
-        setShowDocumentary={modalActions.setShowDocumentary}
+        // showDocumentary={modalState.showDocumentary}
+        // setShowDocumentary={modalActions.setShowDocumentary}
       />
     </div>
   );

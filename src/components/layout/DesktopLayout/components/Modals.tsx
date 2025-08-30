@@ -68,8 +68,8 @@ interface ModalsProps {
   setShowSkillset: (show: boolean) => void;
   showProjects: boolean;
   setShowProjects: (show: boolean) => void;
-  showDocumentary: boolean;
-  setShowDocumentary: (show: boolean) => void;
+  showDocumentary?: boolean;
+  setShowDocumentary?: (show: boolean) => void;
 }
 
 const Modals: React.FC<ModalsProps> = ({
@@ -87,8 +87,8 @@ const Modals: React.FC<ModalsProps> = ({
   setShowSkillset,
   showProjects,
   setShowProjects,
-  showDocumentary,
-  setShowDocumentary,
+  // showDocumentary,
+  // setShowDocumentary,
 }) => {
   return (
     <>
@@ -123,9 +123,9 @@ const Modals: React.FC<ModalsProps> = ({
       {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
       {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
       {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
-      {showDocumentary && (
-        <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
-      )}
+      {/* {showDocumentary && ( */}
+        {/* <DocumentaryPlayer onClose={() => setShowDocumentary(false)} /> */}
+      {/* )} */}
     </>
   );
 };

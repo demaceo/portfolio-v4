@@ -6,7 +6,7 @@ import {
   faBrain,
   faToolbox,
   faLaptopCode,
-  faFilm,
+  // faFilm,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,7 +25,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     { name: "Mindset", icon: faBrain, path: "/mindset" },
     { name: "Skillset", icon: faToolbox, path: "/skillset" },
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
-    { name: "Docuseries", icon: faFilm, path: "/documentary" },
+    // { name: "Docuseries", icon: faFilm, path: "/documentary" },
     { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true },
   ];
 
