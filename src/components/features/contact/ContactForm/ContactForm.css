@@ -167,6 +167,7 @@
   height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,21 +176,16 @@
   box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
   position: relative;
   overflow: hidden;
-  font-family: inherit;
-  font-size: 18px;
-  color: white;
-  outline: none;
-  z-index: 10;
 }
 
 .contact-modal-close-btn::after {
-  content: "";
+  content: "×";
   position: absolute;
   color: white;
   font-size: 18px;
   font-weight: 500;
   line-height: 1;
-  opacity: 1;
+  opacity: 0;
   transition: opacity 0.2s ease;
 }
 
@@ -218,13 +214,11 @@
 .contact-modal-close-btn:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
-  background: linear-gradient(135deg, #ff4742 0%, #e8342e 100%);
 }
 
 .contact-modal-close-btn:active {
   transform: scale(0.95);
   transition: transform 0.1s ease;
-  background: linear-gradient(135deg, #e8342e 0%, #ff4742 100%);
 }
 
 .contact-modal-window-title {
@@ -234,34 +228,21 @@
   background: linear-gradient(
     135deg,
     var(--ios-orange) 0%,
-    var(--ios-purple) 50%,
-    var(--ios-blue) 100%
+    var(--ios-purple) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: var(--ios-text-primary);
+  text-align: center;
   line-height: 1.2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  filter: drop-shadow(0 1px 2px rgba(255, 149, 0, 0.2));
-
-  /* absolute center so it's visually centered regardless of control widths */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9;
-
-  /* prevent long titles from pushing layout */
-  max-width: calc(100% - 160px); /* keeps space for controls on both sides */
-  padding: 0 var(--space-2);
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .contact-modal-spacer {
@@ -593,7 +574,8 @@
   }
 
   .contact-modal-window-title {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
+    padding: var(--space-1) 0;
   }
 
   .contact-modal-close-btn {
@@ -661,16 +643,13 @@
   }
 
   .contact-modal-window-title {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
+    padding: 4px 0;
   }
 
   .contact-modal-close-btn {
     width: 24px;
     height: 24px;
-  }
-
-  .contact-modal-close-btn::after {
-    font-size: 14px;
   }
 
   .contact-modal-spacer {
@@ -773,7 +752,6 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-  .contact-modal-close-btn,
   #submit-button,
   .alternative-contact-btn {
     min-height: 44px;

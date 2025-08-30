@@ -39,7 +39,7 @@ const HomeApps: React.FC<HomeAppsProps> = ({
       {apps.map((app) => (
         <button
           key={app.name}
-          className="app-icon"
+          className="mobile-app-icon"
           type="button"
           onClick={() => handleAppClick(app.path, app.isToggle)}
           onMouseEnter={() => handlePreload(app.path)}
