@@ -5,11 +5,10 @@
   width: 100vw;
   overflow: hidden;
   /* fallback solid color for environments that don't load the image */
-  background-color: #cfd8d2;
-  /* overlay + image, ensure center/cover and no-repeat */
+  /* background-color: #cfd8d2;
   background: linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46)),
     url("/images/palmtreeleaves-8.jpg") center/cover no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed; */
   color: #3b3a3a;
   font-family: "Chicago", "Geneva", sans-serif;
   display: flex;

@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./woozyx3.module.css";
+import { CurvedLoop } from "@/components/woozyx3";
+import BackgroundBit from "@/components/woozyx3/BackgroundBit/Background";
 
 export default function WoozyX3Page() {
   const [code, setCode] = useState("");
@@ -40,6 +42,12 @@ export default function WoozyX3Page() {
 
   return (
     <main className={styles.container}>
+      <BackgroundBit
+        color={[1, 1, 1]}
+        mouseReact={false}
+        amplitude={0.1}
+        speed={1.0}
+      />
       <div className={styles.hero}>
         <h1 className={styles.title}>{"Woozy's 3rd Birthday"}</h1>
         <p className={styles.subtitle}>
@@ -84,6 +92,8 @@ export default function WoozyX3Page() {
           </div>
         )}
       </div>
+      {/* Curved loop shows the revealed message when available */}
+      {message && <CurvedLoop marqueeText={message} />}
 
       <div className={styles.footerNote}>
         {
