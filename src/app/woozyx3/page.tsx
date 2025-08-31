@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./woozyx3.module.css";
 import { CurvedLoop } from "@/components/woozyx3";
 import BackgroundBit from "@/components/woozyx3/BackgroundBit/Background";
+// import DomeGallery from "@/components/woozyx3/DomeGallery/DomeGallery";
 
 export default function WoozyX3Page() {
   const [code, setCode] = useState("");
@@ -48,6 +49,12 @@ export default function WoozyX3Page() {
         amplitude={0.1}
         speed={1.0}
       />
+      {/* {message && (
+        <div style={{ width: "100vw", height: "100vh" }}>
+          <DomeGallery />
+        </div>
+      )} */}
+
       <div className={styles.hero}>
         <h1 className={styles.title}>{"Woozy's 3rd Birthday"}</h1>
         <p className={styles.subtitle}>
