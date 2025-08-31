@@ -88,18 +88,19 @@ export default function WoozyX3Page() {
 
         {!message && !error && (
           <div className={styles.hint}>
-            Check the back of your polaroid for the printed code.
+            Tip: If you do not see your message, double-check code spelling and
+            capitalization.
           </div>
         )}
       </div>
       {/* Curved loop shows the revealed message when available */}
       {message && <CurvedLoop marqueeText={message} />}
 
-      <div className={styles.footerNote}>
+      {/* <div className={styles.footerNote}>
         {
           "Tip: If you don't see your message, double-check code spelling and capitalization."
         }
-      </div>
+      </div> */}
     </main>
   );
 }
