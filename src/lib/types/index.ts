@@ -82,32 +82,14 @@ export interface ModalActions {
     closeAllModals: () => void;
 }
 
-export interface SelectedProject {
-    id: number;
-    name: string;
-    description: string;
-    image?: string;
-    link: string;
-}
-
-export interface SelectedService {
-    icon: string;
-    title: string;
-    description: string;
-}
-
 export interface DropdownState {
     openDropdown: string | null;
     hoveredTechCategory: string | null;
-    selectedProject: SelectedProject | null;
-    selectedService: SelectedService | null;
 }
 
 export interface DropdownActions {
     setOpenDropdown: (dropdown: string | null) => void;
     setHoveredTechCategory: (category: string | null) => void;
-    setSelectedProject: (project: SelectedProject | null) => void;
-    setSelectedService: (service: SelectedService | null) => void;
     closeAllDropdowns: () => void;
 }
 
@@ -132,26 +114,26 @@ export interface EpisodeContent {
 }
 
 export interface EpisodeInfoProps {
-  selectedEpisode: Episode;
-  episodeTitle: string;
-  episodeContent: EpisodeContent;
-  isContentExpanded: boolean;
-  onToggleContentExpansion: () => void;
-  onExternalLink: (url: string) => void;
-  onDonate: () => void;
+    selectedEpisode: Episode;
+    episodeTitle: string;
+    episodeContent: EpisodeContent;
+    isContentExpanded: boolean;
+    onToggleContentExpansion: () => void;
+    onExternalLink: (url: string) => void;
+    onDonate: () => void;
 }
 
 export interface EpisodeSelectorProps {
-  selectedEpisode: Episode;
-  onEpisodeSelect: (episode: Episode) => void;
+    selectedEpisode: Episode;
+    onEpisodeSelect: (episode: Episode) => void;
 }
 
 export interface DocumentaryHeaderProps {
-  onClose: () => void;
-  onToggleInfo: (e: React.MouseEvent) => void;
-  onToggleEpisodeList: (e: React.MouseEvent) => void;
-  showInfoDropdown: boolean;
-  showEpisodeList: boolean;
+    onClose: () => void;
+    onToggleInfo: (e: React.MouseEvent) => void;
+    onToggleEpisodeList: (e: React.MouseEvent) => void;
+    showInfoDropdown: boolean;
+    showEpisodeList: boolean;
 }
 
 export interface DocumentaryPlayerState {

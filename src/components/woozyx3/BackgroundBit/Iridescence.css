@@ -1,0 +1,33 @@
+.iridescence-container {
+  position: fixed; /* stay fixed while the page scrolls */
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* sit behind page content */
+  pointer-events: none; /* don't interfere with interactions */
+  overflow: hidden;
+  display: block;
+  background-color: transparent; /* WebGL canvas will provide visuals */
+}
+
+/* If the component contains a canvas, ensure it fills the container */
+.iridescence-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Respect users who prefer reduced motion or reduced transparency */
+@media (prefers-reduced-motion: reduce) {
+  .iridescence-container {
+    transition: none !important;
+    will-change: auto !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .iridescence-container {
+    background-color: rgba(0, 0, 0, 0.06);
+    backdrop-filter: none;
+  }
+}

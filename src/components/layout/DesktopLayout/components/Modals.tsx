@@ -2,9 +2,6 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import ServiceCard from "@/features/skills/ServiceCard/ServiceCard";
-import ProjectCard from "@/features/portfolio/ProjectCard/ProjectCard";
-import { SelectedProject, SelectedService } from "@/lib/types";
 
 const LoadingModal = () => {
   return <></>;
@@ -45,6 +42,7 @@ const ProjectsModal = dynamic(
   }
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DocumentaryPlayer = dynamic(
   () => import("@/features/media").then((m) => m.DocumentaryPlayer),
   {
@@ -56,10 +54,6 @@ const DocumentaryPlayer = dynamic(
 interface ModalsProps {
   showContactForm: boolean;
   setShowContactForm: (show: boolean) => void;
-  selectedProject: SelectedProject | null;
-  setSelectedProject: (project: SelectedProject | null) => void;
-  selectedService: SelectedService | null;
-  setSelectedService: (service: SelectedService | null) => void;
   showAboutMe: boolean;
   setShowAboutMe: (show: boolean) => void;
   showResume: boolean;
@@ -75,10 +69,6 @@ interface ModalsProps {
 const Modals: React.FC<ModalsProps> = ({
   showContactForm,
   setShowContactForm,
-  selectedProject,
-  setSelectedProject,
-  selectedService,
-  setSelectedService,
   showAboutMe,
   setShowAboutMe,
   showResume,
@@ -95,24 +85,6 @@ const Modals: React.FC<ModalsProps> = ({
       {showContactForm && (
         <ContactForm onClose={() => setShowContactForm(false)} />
       )}
-      {selectedProject && (
-        <ProjectCard
-          id={selectedProject.id}
-          name={selectedProject.name}
-          description={selectedProject.description}
-          image={selectedProject.image}
-          link={selectedProject.link}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
-      {selectedService && (
-        <ServiceCard
-          icon={selectedService.icon}
-          title={selectedService.title}
-          description={selectedService.description}
-          onClose={() => setSelectedService(null)}
-        />
-      )}
       {showAboutMe && (
         <AboutMeModal
           onClose={() => setShowAboutMe(false)}
@@ -124,7 +96,7 @@ const Modals: React.FC<ModalsProps> = ({
       {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
       {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
       {/* {showDocumentary && ( */}
-        {/* <DocumentaryPlayer onClose={() => setShowDocumentary(false)} /> */}
+      {/* <DocumentaryPlayer onClose={() => setShowDocumentary(false)} /> */}
       {/* )} */}
     </>
   );

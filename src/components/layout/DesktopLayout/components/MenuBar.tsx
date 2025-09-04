@@ -10,28 +10,13 @@ import services from "@/data/services";
 // import tools from "@/data/toolbelt";
 import Image from "next/image";
 
-interface SelectedProject {
-  id: number;
-  name: string;
-  description: string;
-  image?: string;
-  link: string;
-}
-
-interface SelectedService {
-  icon: string;
-  title: string;
-  description: string;
-}
-
 interface MenuBarProps {
   openDropdown: string | null;
   setOpenDropdown: (dropdown: string | null) => void;
   hoveredTechCategory: string | null;
   setHoveredTechCategory: (category: string | null) => void;
   setShowAboutMe: (show: boolean) => void;
-  setSelectedService: (service: SelectedService | null) => void;
-  setSelectedProject: (project: SelectedProject | null) => void;
+  setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
   setShowContactForm: (show: boolean) => void;
   preload: {
@@ -49,14 +34,14 @@ const MenuBar: React.FC<MenuBarProps> = ({
   // hoveredTechCategory,
   // setHoveredTechCategory,
   setShowAboutMe,
-  setSelectedService,
-  setSelectedProject,
-  // setShowSkillset,
+  setShowProjects,
+  setShowSkillset,
   setShowContactForm,
   preload,
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
+  const [hoveredPill, setHoveredPill] = React.useState<string | null>(null);
 
   const iconMap = {
     "fa fa-paw icon": faLaptopCode,
@@ -131,7 +116,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   // };
 
   // Close dropdown on outside click
-  
+
   useEffect(() => {
     if (!openDropdown) return;
     const handleClick = (e: MouseEvent) => {
@@ -213,6 +198,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                         <li
                           key={pill.label}
                           className="menu-dropdown-pill-item"
+                          onMouseEnter={() => setHoveredPill(pill.label)}
+                          onMouseLeave={() => setHoveredPill(null)}
                         >
                           <span
                             className={`pill-tag-mac ${
@@ -239,42 +226,47 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                 }
                               }
                             }}
-                            onMouseEnter={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip)
-                                tooltip.setAttribute("data-show", "true");
-                            }}
-                            onMouseLeave={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip) tooltip.removeAttribute("data-show");
-                            }}
-                            onFocus={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip)
-                                tooltip.setAttribute("data-show", "true");
-                            }}
-                            onBlur={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip) tooltip.removeAttribute("data-show");
-                            }}
+                            onFocus={() => setHoveredPill(pill.label)}
+                            onBlur={() => setHoveredPill(null)}
                           >
+                            {pill.icon && (
+                              <div className="pill-tag-icon">
+                                <Image
+                                  src={pill.icon}
+                                  alt={pill.label}
+                                  width={20}
+                                  height={20}
+                                />
+                              </div>
+                            )}
                             <span className="pill-tag-label">{pill.label}</span>
-                            <span className="pill-tooltip-mac">
-                              {pill.tooltip}
-                            </span>
                           </span>
+
+                          {/* Side dropdown for pill details */}
+                          {hoveredPill === pill.label && pill.tooltip && (
+                            <div className="pill-side-dropdown">
+                              <div className="pill-side-content">
+                                {pill.icon && (
+                                  <div className="pill-side-icon">
+                                    <Image
+                                      src={pill.icon}
+                                      alt={pill.label}
+                                      width={48}
+                                      height={48}
+                                    />
+                                  </div>
+                                )}
+                                <div className="pill-side-info">
+                                  <div className="pill-side-title">
+                                    {pill.label}
+                                  </div>
+                                  <div className="pill-side-description">
+                                    {pill.tooltip}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -288,13 +280,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                         <li
                           key={service.id}
                           className="menu-dropdown-service-item"
-                          onClick={() =>
-                            setSelectedService({
-                              icon: service.icon,
-                              title: service.title,
-                              description: service.description,
-                            })
-                          }
+                          onClick={() => {
+                            setShowSkillset(true);
+                            setOpenDropdown(null);
+                          }}
                         >
                           {service.icon && (
                             <Image
@@ -327,18 +316,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                           <li
                             key={proj.id}
                             className="menu-dropdown-project-item"
-                            onClick={() =>
-                              setSelectedProject({
-                                id: proj.id,
-                                name: proj.name,
-                                description: proj.description,
-                                image:
-                                  typeof proj.image === "string"
-                                    ? proj.image
-                                    : proj.image?.src,
-                                link: proj.link,
-                              })
-                            }
+                            onClick={() => {
+                              setShowProjects(true);
+                              setOpenDropdown(null);
+                            }}
                           >
                             {(() => {
                               let projectVisual = null;
@@ -364,7 +345,11 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                     }}
                                   >
                                     <FontAwesomeIcon
-                                      icon={iconMap[proj.icon as keyof typeof iconMap] || faLaptopCode}
+                                      icon={
+                                        iconMap[
+                                          proj.icon as keyof typeof iconMap
+                                        ] || faLaptopCode
+                                      }
                                     />
                                   </span>
                                 );
