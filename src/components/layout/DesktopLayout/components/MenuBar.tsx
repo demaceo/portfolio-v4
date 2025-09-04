@@ -41,6 +41,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
+  const [hoveredPill, setHoveredPill] = React.useState<string | null>(null);
 
   const iconMap = {
     "fa fa-paw icon": faLaptopCode,
@@ -197,6 +198,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                         <li
                           key={pill.label}
                           className="menu-dropdown-pill-item"
+                          onMouseEnter={() => setHoveredPill(pill.label)}
+                          onMouseLeave={() => setHoveredPill(null)}
                         >
                           <span
                             className={`pill-tag-mac ${
@@ -223,42 +226,47 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                 }
                               }
                             }}
-                            onMouseEnter={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip)
-                                tooltip.setAttribute("data-show", "true");
-                            }}
-                            onMouseLeave={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip) tooltip.removeAttribute("data-show");
-                            }}
-                            onFocus={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip)
-                                tooltip.setAttribute("data-show", "true");
-                            }}
-                            onBlur={(e) => {
-                              const tooltip =
-                                e.currentTarget.querySelector(
-                                  ".pill-tooltip-mac"
-                                );
-                              if (tooltip) tooltip.removeAttribute("data-show");
-                            }}
+                            onFocus={() => setHoveredPill(pill.label)}
+                            onBlur={() => setHoveredPill(null)}
                           >
+                            {pill.icon && (
+                              <div className="pill-tag-icon">
+                                <Image
+                                  src={pill.icon}
+                                  alt={pill.label}
+                                  width={20}
+                                  height={20}
+                                />
+                              </div>
+                            )}
                             <span className="pill-tag-label">{pill.label}</span>
-                            <span className="pill-tooltip-mac">
-                              {pill.tooltip}
-                            </span>
                           </span>
+
+                          {/* Side dropdown for pill details */}
+                          {hoveredPill === pill.label && pill.tooltip && (
+                            <div className="pill-side-dropdown">
+                              <div className="pill-side-content">
+                                {pill.icon && (
+                                  <div className="pill-side-icon">
+                                    <Image
+                                      src={pill.icon}
+                                      alt={pill.label}
+                                      width={48}
+                                      height={48}
+                                    />
+                                  </div>
+                                )}
+                                <div className="pill-side-info">
+                                  <div className="pill-side-title">
+                                    {pill.label}
+                                  </div>
+                                  <div className="pill-side-description">
+                                    {pill.tooltip}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </li>
                       ))}
                     </ul>
