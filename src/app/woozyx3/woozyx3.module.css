@@ -185,6 +185,33 @@
   z-index: 1;
 }
 
+.successContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.domeGalleryContainer {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.curvedLoopContainer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+
 /* On small screens, add a light wash + blur for better contrast and legibility */
 @media (max-width: 640px) {
   .container {

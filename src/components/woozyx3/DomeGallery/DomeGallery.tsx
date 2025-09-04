@@ -800,7 +800,7 @@ export default function DomeGallery({
                     onPointerUp={onTilePointerUp}
                     onTouchEnd={onTileTouchEnd}
                   >
-                    <Image src={it.src} draggable={false} alt={it.alt} />
+                    <Image src={it.src} width={774} height={516} draggable={false} alt={it.alt} />
                   </div>
                 </div>
               ))}
