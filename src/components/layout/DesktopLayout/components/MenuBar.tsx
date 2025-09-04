@@ -10,28 +10,13 @@ import services from "@/data/services";
 // import tools from "@/data/toolbelt";
 import Image from "next/image";
 
-interface SelectedProject {
-  id: number;
-  name: string;
-  description: string;
-  image?: string;
-  link: string;
-}
-
-interface SelectedService {
-  icon: string;
-  title: string;
-  description: string;
-}
-
 interface MenuBarProps {
   openDropdown: string | null;
   setOpenDropdown: (dropdown: string | null) => void;
   hoveredTechCategory: string | null;
   setHoveredTechCategory: (category: string | null) => void;
   setShowAboutMe: (show: boolean) => void;
-  setSelectedService: (service: SelectedService | null) => void;
-  setSelectedProject: (project: SelectedProject | null) => void;
+  setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
   setShowContactForm: (show: boolean) => void;
   preload: {
@@ -49,9 +34,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
   // hoveredTechCategory,
   // setHoveredTechCategory,
   setShowAboutMe,
-  setSelectedService,
-  setSelectedProject,
-  // setShowSkillset,
+  setShowProjects,
+  setShowSkillset,
   setShowContactForm,
   preload,
   TimeDisplay,
@@ -131,7 +115,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   // };
 
   // Close dropdown on outside click
-  
+
   useEffect(() => {
     if (!openDropdown) return;
     const handleClick = (e: MouseEvent) => {
@@ -288,13 +272,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                         <li
                           key={service.id}
                           className="menu-dropdown-service-item"
-                          onClick={() =>
-                            setSelectedService({
-                              icon: service.icon,
-                              title: service.title,
-                              description: service.description,
-                            })
-                          }
+                          onClick={() => {
+                            setShowSkillset(true);
+                            setOpenDropdown(null);
+                          }}
                         >
                           {service.icon && (
                             <Image
@@ -327,18 +308,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                           <li
                             key={proj.id}
                             className="menu-dropdown-project-item"
-                            onClick={() =>
-                              setSelectedProject({
-                                id: proj.id,
-                                name: proj.name,
-                                description: proj.description,
-                                image:
-                                  typeof proj.image === "string"
-                                    ? proj.image
-                                    : proj.image?.src,
-                                link: proj.link,
-                              })
-                            }
+                            onClick={() => {
+                              setShowProjects(true);
+                              setOpenDropdown(null);
+                            }}
                           >
                             {(() => {
                               let projectVisual = null;
@@ -364,7 +337,11 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                     }}
                                   >
                                     <FontAwesomeIcon
-                                      icon={iconMap[proj.icon as keyof typeof iconMap] || faLaptopCode}
+                                      icon={
+                                        iconMap[
+                                          proj.icon as keyof typeof iconMap
+                                        ] || faLaptopCode
+                                      }
                                     />
                                   </span>
                                 );

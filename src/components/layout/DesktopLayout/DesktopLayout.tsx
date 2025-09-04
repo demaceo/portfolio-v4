@@ -38,8 +38,7 @@ const HomeScreen = () => {
           hoveredTechCategory={dropdownState.hoveredTechCategory}
           setHoveredTechCategory={dropdownActions.setHoveredTechCategory}
           setShowAboutMe={modalActions.setShowAboutMe}
-          setSelectedService={dropdownActions.setSelectedService}
-          setSelectedProject={dropdownActions.setSelectedProject}
+          setShowProjects={modalActions.setShowProjects}
           setShowSkillset={modalActions.setShowSkillset}
           setShowContactForm={modalActions.setShowContactForm}
           preload={preloadModules}
@@ -65,10 +64,6 @@ const HomeScreen = () => {
       <Modals
         showContactForm={modalState.showContactForm}
         setShowContactForm={modalActions.setShowContactForm}
-        selectedProject={dropdownState.selectedProject}
-        setSelectedProject={dropdownActions.setSelectedProject}
-        selectedService={dropdownState.selectedService}
-        setSelectedService={dropdownActions.setSelectedService}
         showAboutMe={modalState.showAboutMe}
         setShowAboutMe={modalActions.setShowAboutMe}
         showResume={modalState.showResume}
