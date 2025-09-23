@@ -275,6 +275,8 @@
 .email-form input,
 .email-form textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: var(--space-4) var(--space-5);
   background: var(--ios-surface);
   backdrop-filter: var(--backdrop-blur);
@@ -290,6 +292,7 @@
   box-sizing: border-box;
   -webkit-appearance: none;
   appearance: none;
+  flex-shrink: 1;
 }
 
 .email-form input::placeholder,
@@ -563,7 +566,9 @@
 
   .contact-form-container {
     max-width: 100%;
+    width: calc(100vw - 32px);
     border-radius: var(--radius-2xl);
+    box-sizing: border-box;
   }
 
   .contact-modal-title-bar {
@@ -594,16 +599,22 @@
 
   .email-form-wrapper {
     padding: var(--space-6);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .email-form {
     gap: var(--space-5);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .email-form input,
   .email-form textarea {
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
+    width: calc(100% - 0px);
+    max-width: 100%;
   }
 
   .email-form textarea {
@@ -614,12 +625,17 @@
     padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
     min-height: 48px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .alternative-contact-btn {
     padding: var(--space-3) var(--space-5);
     font-size: var(--text-sm);
     min-height: 48px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -632,7 +648,9 @@
 
   .contact-form-container {
     border-radius: var(--radius-xl);
-    width: 100%;
+    width: calc(100vw - 24px);
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-modal-title-bar {
@@ -659,10 +677,14 @@
 
   .email-form-wrapper {
     padding: var(--space-5);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .email-form {
     gap: var(--space-4);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .email-form label {
@@ -674,6 +696,9 @@
     padding: var(--space-3);
     font-size: var(--text-sm);
     border-radius: var(--radius-lg);
+    width: calc(100% - 0px);
+    max-width: 100%;
+    min-width: 0;
   }
 
   .email-form textarea {
@@ -685,6 +710,8 @@
     font-size: var(--text-sm);
     min-height: 44px;
     border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 100%;
   }
 
   .alternative-contact-btn {
@@ -692,6 +719,9 @@
     font-size: var(--text-sm);
     min-height: 44px;
     border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-divider span {
