@@ -146,7 +146,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           { label: "Services", key: "services" },
           // { label: "Tech Stack", key: "tech" },
           { label: "Projects", key: "projects" },
-          { label: "Contact", key: "contact" },
+          // { label: "Contact", key: "contact" },
         ].map((item, idx, arr) => (
           <div
             key={item.key}
