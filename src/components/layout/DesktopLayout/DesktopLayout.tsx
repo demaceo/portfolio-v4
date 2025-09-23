@@ -23,8 +23,9 @@ const HomeScreen = () => {
   // Initialize hooks
   const { modalState, actions: modalActions } = useModalState();
   const { dropdownState, actions: dropdownActions } = useDropdownState();
-  const { handleAppClick, handleWelcomeWindowClose, maybePreloadByPath } =
-    useAppActions({ modalActions });
+  const { handleAppClick, maybePreloadByPath } = useAppActions({
+    modalActions,
+  });
 
   // Initialize desktop with preloading
   // useDesktopInitialization();
@@ -40,7 +41,7 @@ const HomeScreen = () => {
           setShowAboutMe={modalActions.setShowAboutMe}
           setShowProjects={modalActions.setShowProjects}
           setShowSkillset={modalActions.setShowSkillset}
-          setShowContactForm={modalActions.setShowContactForm}
+          // setShowContactForm={modalActions.setShowContactForm}
           preload={preloadModules}
           TimeDisplay={TimeDisplay}
         />
@@ -53,7 +54,6 @@ const HomeScreen = () => {
 
         <WelcomeWindow
           showWelcomeWindow={modalState.showWelcomeWindow}
-          handleWelcomeWindowClose={handleWelcomeWindowClose}
           handleAppClick={handleAppClick}
           preload={preloadModules}
         />

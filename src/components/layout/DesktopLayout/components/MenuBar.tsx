@@ -18,7 +18,7 @@ interface MenuBarProps {
   setShowAboutMe: (show: boolean) => void;
   setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
-  setShowContactForm: (show: boolean) => void;
+  // setShowContactForm: (show: boolean) => void;
   preload: {
     about: () => void;
     contact: () => void;
@@ -36,7 +36,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   setShowAboutMe,
   setShowProjects,
   setShowSkillset,
-  setShowContactForm,
+  // setShowContactForm,
   preload,
   TimeDisplay,
 }) => {
@@ -398,7 +398,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                     </div>
                   </div>
                 )} */}
-                {item.key === "contact" && (
+                {/* {item.key === "contact" && (
                   <div className="menu-dropdown-contact-info">
                     <div className="contact-info-text">
                       <p>Ready to connect? Let&apos;s start a conversation!</p>
@@ -413,7 +413,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                       Open Contact Form
                     </button>
                   </div>
-                )}
+                )} */}
               </div>
             )}
           </div>
