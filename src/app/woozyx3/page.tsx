@@ -53,11 +53,11 @@ export default function WoozyX3Page() {
       {/* Show DomeGallery and CurvedLoop when message is available */}
       {message && (
         <div className={styles.successContainer}>
-          <div className={styles.domeGalleryContainer}>
-            <DomeGallery />
-          </div>
           <div className={styles.curvedLoopContainer}>
             <CurvedLoop marqueeText={message} />
+          </div>
+          <div className={styles.domeGalleryContainer}>
+            <DomeGallery />
           </div>
         </div>
       )}

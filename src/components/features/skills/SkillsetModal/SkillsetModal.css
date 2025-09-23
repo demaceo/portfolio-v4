@@ -996,11 +996,23 @@
   .skillset-modal-window-title {
     font-size: var(--text-xl);
     padding: var(--space-1) 0;
+    background: linear-gradient(
+      135deg,
+      #667eea 0%,
+      #764ba2 50%,
+      #f093fb 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.2) saturate(1.3);
   }
 
   .skillset-modal-close-btn {
     width: 28px;
     height: 28px;
+    background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%) !important;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4) !important;
   }
 
   .skillset-modal-close-btn::after {
@@ -1022,11 +1034,23 @@
   .skillset-modal-window-title {
     font-size: var(--text-lg);
     padding: 4px 0;
+    background: linear-gradient(
+      135deg,
+      #ff9a9e 0%,
+      #fecfef 50%,
+      #fecfef 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.3) saturate(1.4);
   }
 
   .skillset-modal-close-btn {
     width: 24px;
     height: 24px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
+    box-shadow: 0 3px 12px rgba(255, 107, 107, 0.5) !important;
   }
 
   .skillset-modal-close-btn::after {
@@ -1170,30 +1194,37 @@
   .service-card-content h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-1);
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.2);
   }
 
   .service-card-content p {
     font-size: var(--text-sm);
     margin-bottom: var(--space-1);
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 }
 
 @media (max-width: 480px) {
   .service-card-content h3 {
-    /* ========================= */
-    /* MODAL OVERLAY & CONTAINER */
-    /* ========================= */
     font-size: 13px;
     margin-bottom: 4px;
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.3);
   }
 
   .service-card-content p {
     font-size: 11px;
-
-    /* ========================= */
-    /* HEADER & TITLE BAR        */
-    /* ========================= */
     margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 }
 

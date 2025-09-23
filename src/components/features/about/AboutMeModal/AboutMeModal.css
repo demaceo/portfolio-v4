@@ -1031,12 +1031,23 @@
 
   .about-modal-window-title {
     font-size: var(--text-lg);
-    color: #ffffff !important;
+    background: linear-gradient(
+      135deg,
+      #ff6b6b 0%,
+      #4ecdc4 50%,
+      #45b7d1 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.2) saturate(1.3);
   }
 
   .about-modal-close-btn {
     width: 18px;
     height: 18px;
+    background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%) !important;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4) !important;
   }
 
   .about-modal-content {
@@ -1052,25 +1063,40 @@
   .about-modal-header h2 {
     font-size: var(--text-2xl);
     margin-bottom: var(--space-3);
-    color: #ffffff !important;
+    background: linear-gradient(
+      135deg,
+      #667eea 0%,
+      #764ba2 50%,
+      #f093fb 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.1);
   }
 
   .about-modal-subtitle {
     font-size: var(--text-base);
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
   .about-modal-section h3 {
     font-size: var(--text-xl);
     margin-bottom: var(--space-4);
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.2);
   }
 
   .about-modal-section p {
     font-size: var(--text-base);
     line-height: 1.6;
     margin-bottom: var(--space-4);
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 
   .about-modal-pills {
@@ -1083,13 +1109,25 @@
     border-radius: var(--radius-md);
     min-height: 44px;
     color: rgba(255, 255, 255, 0.95) !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 107, 107, 0.2) 0%,
+      rgba(78, 205, 196, 0.2) 100%
+    ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.1) !important;
   }
 
   .about-modal-pill:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 107, 107, 0.3) 0%,
+      rgba(78, 205, 196, 0.3) 100%
+    ) !important;
     color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.2) !important;
   }
 
   .about-modal-pill-tooltip {
@@ -1137,12 +1175,23 @@
   .about-modal-window-title {
     font-size: var(--text-base);
     font-weight: 600;
-    color: #ffffff !important;
+    background: linear-gradient(
+      135deg,
+      #ff9a9e 0%,
+      #fecfef 50%,
+      #fecfef 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.3) saturate(1.4);
   }
 
   .about-modal-close-btn {
     width: 16px;
     height: 16px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
+    box-shadow: 0 3px 12px rgba(255, 107, 107, 0.5) !important;
   }
 
   .about-modal-content {
@@ -1159,13 +1208,23 @@
     font-size: var(--text-xl);
     margin-bottom: var(--space-2);
     line-height: 1.3;
-    color: #ffffff !important;
+    background: linear-gradient(
+      135deg,
+      #a8edea 0%,
+      #fed6e3 50%,
+      #d299c2 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.2);
   }
 
   .about-modal-subtitle {
     font-size: var(--text-sm);
     line-height: 1.4;
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
   .about-modal-section {
@@ -1176,14 +1235,19 @@
     font-size: var(--text-lg);
     margin-bottom: var(--space-3);
     line-height: 1.3;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: brightness(1.3);
   }
 
   .about-modal-section p {
     font-size: var(--text-sm);
     line-height: 1.5;
     margin-bottom: var(--space-3);
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 
   .about-modal-pills {
