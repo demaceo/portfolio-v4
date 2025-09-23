@@ -209,6 +209,8 @@
 
   .projects-modal-window-title {
     font-size: var(--text-xl);
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
   }
 
   .projects-modal-close-btn {
@@ -228,12 +230,33 @@
   .projects-modal-tabs {
     margin: var(--space-2) 0 var(--space-1) 0;
     padding: var(--space-1);
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
   }
 
   .projects-tab {
     min-width: 100px;
     font-size: var(--text-xs);
     padding: var(--space-2) var(--space-3);
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .projects-tab.active {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #1d1d1f !important;
+  }
+
+  .projects-section h2 {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  .project-info h3 {
+    color: #ffffff !important;
+  }
+
+  .project-info p {
+    color: rgba(255, 255, 255, 0.85) !important;
   }
 }
 

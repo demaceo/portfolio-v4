@@ -4,7 +4,7 @@ import React from "react";
 
 interface WelcomeWindowProps {
   showWelcomeWindow: boolean;
-  handleWelcomeWindowClose: () => void;
+  // handleWelcomeWindowClose: () => void;
   handleAppClick: (path: string, isToggle?: boolean) => void;
   preload: {
     contact: () => void;
@@ -13,7 +13,7 @@ interface WelcomeWindowProps {
 
 const WelcomeWindow: React.FC<WelcomeWindowProps> = ({
   showWelcomeWindow,
-  handleWelcomeWindowClose,
+  // handleWelcomeWindowClose,
   handleAppClick,
   preload,
 }) => {
