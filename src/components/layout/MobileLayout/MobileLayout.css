@@ -220,86 +220,363 @@
 .mobile-welcome-window {
   position: relative;
   width: calc(100% - 40px);
-  max-width: 320px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  margin: 10px auto 25px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: 340px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  backdrop-filter: blur(30px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  margin: 15px auto 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text",
     "Segoe UI", Roboto, Arial, sans-serif;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
+  animation: welcomeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-welcome-window.closing {
+  animation: welcomeSlideOut 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+@keyframes welcomeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    backdrop-filter: blur(30px) saturate(150%);
+  }
+}
+
+@keyframes welcomeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
 }
 
 .mobile-window-title-bar {
-  height: 40px;
+  height: 44px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.1) 100%
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.2) 100%
   );
   color: #ffffff;
   display: flex;
   align-items: center;
-  padding: 0 15px;
+  justify-content: space-between;
+  padding: 0 16px;
   position: relative;
-  border-radius: 20px 20px 0 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px 24px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-window-controls {
-  position: absolute;
-  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mobile-close-btn {
-  width: 15px;
-  height: 15px;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #ff5f57 0%, #ff4444 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(255, 68, 68, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-close-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 50%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.close-x {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-close-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #ff6b63 0%, #ff5555 100%);
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(255, 68, 68, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .mobile-close-btn:active {
-  background: rgba(255, 255, 255, 0.7);
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(255, 68, 68, 0.5),
+    inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-minimize-btn,
+.mobile-maximize-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.mobile-minimize-btn {
+  background: linear-gradient(135deg, #ffbd2e 0%, #ff9500 100%);
+}
+
+.mobile-maximize-btn {
+  background: linear-gradient(135deg, #28ca42 0%, #1ea83a 100%);
+}
+
+.mobile-minimize-btn:hover {
+  background: linear-gradient(135deg, #ffc83e 0%, #ffa500 100%);
+  transform: scale(1.05);
+}
+
+.mobile-maximize-btn:hover {
+  background: linear-gradient(135deg, #32d74b 0%, #28b946 100%);
+  transform: scale(1.05);
 }
 
 .mobile-window-title {
   flex: 1;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.2px;
+}
+
+.title-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.window-actions {
+  display: flex;
+  align-items: center;
+}
+
+.window-menu-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.window-menu-dots:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.window-menu-dots span {
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .mobile-window-content {
-  padding: 20px;
+  padding: 24px 20px 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.mobile-window-content h2 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
+.welcome-message h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
   color: #ffffff;
-  font-weight: 600;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: -0.2px;
 }
 
-.mobile-window-content p {
-  margin: 0;
-  font-size: 14px;
+.welcome-message p {
+  margin: 0 0 20px 0;
+  font-size: 15px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  font-weight: 400;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.welcome-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  min-width: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+.welcome-btn.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.welcome-btn.secondary {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.welcome-btn.primary:hover {
+  background: linear-gradient(135deg, #7289f0 0%, #8057b0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.welcome-btn.secondary:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.welcome-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+.welcome-decoration {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  pointer-events: none;
+  opacity: 0.1;
+}
+
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+
+.decoration-circle:nth-child(1) {
+  width: 60px;
+  height: 60px;
+  top: 0;
+  right: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+.decoration-circle:nth-child(2) {
+  width: 40px;
+  height: 40px;
+  top: 30px;
+  right: 40px;
+  animation: float 4s ease-in-out infinite reverse;
+}
+
+.decoration-circle:nth-child(3) {
+  width: 20px;
+  height: 20px;
+  top: 60px;
+  right: 20px;
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .home-apps {
@@ -1367,32 +1644,106 @@
   }
 }
 
-/* Make welcome window more readable */
-.mobile-welcome-window {
-  max-width: calc(100vw - 40px);
-  margin: 15px auto 20px;
-  font-size: 15px;
+/* Enhanced Welcome Window Responsive Styles */
+@media (max-width: 480px) {
+  .mobile-welcome-window {
+    max-width: calc(100vw - 30px);
+    margin: 10px auto 20px;
+    border-radius: 20px;
+  }
+
+  .mobile-window-title-bar {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .mobile-window-controls {
+    gap: 6px;
+  }
+
+  .mobile-close-btn,
+  .mobile-minimize-btn,
+  .mobile-maximize-btn {
+    width: 16px;
+    height: 16px;
+  }
+
+  .close-x {
+    font-size: 11px;
+  }
+
+  .mobile-window-title {
+    font-size: 14px;
+  }
+
+  .title-icon {
+    font-size: 14px;
+  }
+
+  .mobile-window-content {
+    padding: 20px 16px 16px;
+  }
+
+  .welcome-message h3 {
+    font-size: 18px;
+  }
+
+  .welcome-message p {
+    font-size: 14px;
+  }
+
+  .welcome-actions {
+    gap: 10px;
+  }
+
+  .welcome-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    min-width: 70px;
+  }
 }
 
-.mobile-window-content {
-  padding: 18px 20px;
-  text-align: center;
+@media (max-width: 360px) {
+  .mobile-welcome-window {
+    max-width: calc(100vw - 20px);
+    margin: 8px auto 16px;
+  }
+
+  .welcome-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .welcome-btn {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
-.mobile-window-content h2 {
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  color: #ffffff;
-  font-weight: 600;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
+/* Larger screens */
+@media (min-width: 500px) {
+  .mobile-welcome-window {
+    max-width: 360px;
+  }
 
-.mobile-window-content p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  .mobile-window-content {
+    padding: 28px 24px 24px;
+  }
+
+  .welcome-message h3 {
+    font-size: 22px;
+  }
+
+  .welcome-message p {
+    font-size: 16px;
+  }
+
+  .welcome-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+    min-width: 90px;
+  }
 }
 
 /* Improve modal close button accessibility */

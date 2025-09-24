@@ -28,7 +28,8 @@ const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
           height={24}
           priority
         />
-        <span className="carrier-text">Demaceo</span>
+        {/* <span className="carrier-text">Demaceo</span> */}
+        <span className="time">{formatTime(currentTime)}</span>
       </div>
 
       <div className="status-bar-center">
@@ -46,7 +47,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
           <div className="battery-level"></div>
           <div className="battery-tip"></div>
         </div>
-        <span className="time">{formatTime(currentTime)}</span>
+        {/* <span className="time">{formatTime(currentTime)}</span> */}
       </div>
     </div>
   );
