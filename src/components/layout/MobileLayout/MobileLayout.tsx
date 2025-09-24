@@ -107,13 +107,19 @@ const MobileLayout = () => {
           />
         </div>
         {/* <PageIndicators /> */}
-        <MobileDock
-          handleAppClick={handleAppClick}
-          showContactNotification={showContactNotification}
-          linkedinUrl={EXTERNAL_LINKS.LINKEDIN}
-          calendlyUrl={EXTERNAL_LINKS.CALENDLY}
-          onContactPreload={handleContactPreload}
-        />
+        {!showAboutMe &&
+          !showSkillset &&
+          !showDocumentary &&
+          !showContactForm &&
+          !showProjects && (
+            <MobileDock
+              handleAppClick={handleAppClick}
+              showContactNotification={showContactNotification}
+              linkedinUrl={EXTERNAL_LINKS.LINKEDIN}
+              calendlyUrl={EXTERNAL_LINKS.CALENDLY}
+              onContactPreload={handleContactPreload}
+            />
+          )}
       </div>
     </div>
   );
