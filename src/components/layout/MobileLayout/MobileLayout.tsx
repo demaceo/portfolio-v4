@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   faUser,
@@ -21,7 +21,11 @@ import {
 
 const MobileLayout = () => {
   const router = useRouter();
-  const [currentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setCurrentTime(new Date());
+  }, []);
   const [showContactForm, setShowContactForm] = useState(false);
   const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
   const [showAboutMe, setShowAboutMe] = useState(false);
@@ -69,6 +73,11 @@ const MobileLayout = () => {
     { name: "Projects", icon: faLaptopCode, path: "/projects" },
     // { name: "Docuseries", icon: faFilm, path: "/documentary" },
   ];
+
+  if (!currentTime) {
+    // Prevent hydration mismatch by not rendering until client time is set
+    return null;
+  }
 
   return (
     <div className="iphone-container">

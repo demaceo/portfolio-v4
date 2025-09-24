@@ -3,18 +3,20 @@
 import React, { useState, useEffect } from "react";
 import HomeScreen from "../DesktopLayout/DesktopLayout";
 import MobileLayout from "../MobileLayout/MobileLayout";
+import BackgroundBit from "@/components/woozyx3/BackgroundBit/Background";
 
 const ResponsiveLayout = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Function to check if device is mobile
+    // Set client flag to true and check device
+    setIsClient(true);
+
     const checkDevice = () => {
       const width = window.innerWidth;
       const isMobileDevice = width < 768;
       setIsMobile(isMobileDevice);
-      setIsLoading(false);
     };
 
     // Check device on mount
@@ -34,21 +36,8 @@ const ResponsiveLayout = () => {
   }, []);
 
   // Show loading state during hydration to prevent mismatch
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          background: "#0a0a0a",
-          color: "#ffffff",
-        }}
-      >
-        Loading...
-      </div>
-    );
+  if (!isClient) {
+    return null; // Return null during SSR to prevent hydration mismatch
   }
 
   // Render appropriate layout based on device type
