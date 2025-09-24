@@ -1,6 +1,5 @@
 /* Mobile iPhone Styles */
 .iphone-container {
-  height: 100vh;
   height: 100dvh; /* Dynamic viewport height for mobile browsers */
   width: 100vw;
   background-image: url("/images/palmtreeleaves-7.jpg");
@@ -20,9 +19,7 @@
 .iphone-screen {
   width: 100vw;
   max-width: 590px;
-  height: 100vh;
   height: 100dvh;
-  max-height: 100vh;
   max-height: 100dvh;
   margin: 0 auto;
   border-radius: 24px;
@@ -42,10 +39,9 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 120px; /* Prevent overlap with dock */
+  padding-bottom: 0; /* Remove extra bottom padding */
   position: relative;
-  height: calc(100vh - 44px - 90px); /* Account for status bar and dock */
-  height: calc(100dvh - 44px - 90px);
+  height: calc(100dvh - 44px - 90px); /* Account for status bar and dock */
   box-sizing: border-box;
 }
 
@@ -81,13 +77,12 @@
 
 .wallpaper {
   flex: 1;
-  padding: 20px 25px 120px; /* Bottom padding for dock space */
+  padding: 20px 25px 0; /* Remove extra bottom padding */
   display: flex;
   flex-direction: column;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(100vh - 44px); /* Account for status bar */
   max-height: calc(100dvh - 44px);
   box-sizing: border-box;
 }
