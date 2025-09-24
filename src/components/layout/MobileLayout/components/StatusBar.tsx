@@ -42,7 +42,6 @@ const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
           <div className="bar bar-3"></div>
           <div className="bar bar-4"></div>
         </div>
-        <div className="wifi-icon">📶</div>
         <div className="battery-container">
           <div className="battery-level"></div>
           <div className="battery-tip"></div>
