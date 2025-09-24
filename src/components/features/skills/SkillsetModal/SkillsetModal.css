@@ -788,7 +788,6 @@
 .principle-header {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
   margin-bottom: var(--space-5);
 }
 
@@ -1192,7 +1191,7 @@
 
 @media (max-width: 768px) {
   .service-card-content h3 {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     margin-bottom: var(--space-1);
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
     -webkit-background-clip: text !important;
@@ -1204,14 +1203,14 @@
   .service-card-content p {
     font-size: var(--text-sm);
     margin-bottom: var(--space-1);
-    color: rgba(255, 255, 255, 0.95) !important;
+    /* color: rgba(255, 255, 255, 0.95) !important; */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 }
 
 @media (max-width: 480px) {
   .service-card-content h3 {
-    font-size: 13px;
+    /* font-size: 13px; */
     margin-bottom: 4px;
     background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%) !important;
     -webkit-background-clip: text !important;
@@ -1223,7 +1222,7 @@
   .service-card-content p {
     font-size: 11px;
     margin-bottom: 4px;
-    color: rgba(255, 255, 255, 0.95) !important;
+    /* color: rgba(255, 255, 255, 0.95) !important; */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 }
@@ -1243,20 +1242,12 @@
     var(--ios-purple) 100%
   );
   -webkit-background-clip: text;
-
-  /* ========================= */
-  /* CONTENT SECTIONS          */
-  /* ========================= */
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: var(--ios-text-primary);
   text-align: center;
   line-height: 1.1;
   transition: background 0.3s;
-
-  /* ========================= */
-  /* SERVICES GRID & CARDS     */
-  /* ========================= */
 }
 
 @media (max-width: 768px) {
@@ -1315,7 +1306,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  align-items: flex-start;
 }
 
 .principle-header h3 {
@@ -1366,7 +1356,7 @@
 
   .principle-item {
     padding: var(--space-3) var(--space-2);
-    min-height: 120px;
+    min-height: 80px;
   }
 
   .principle-header h3 {
