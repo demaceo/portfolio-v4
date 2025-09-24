@@ -13,7 +13,9 @@
   margin: 0;
   overflow: hidden;
   box-sizing: border-box;
-  position: relative;
+  position: fixed; /* Prevent any scroll */
+  top: 0;
+  left: 0;
 }
 
 .iphone-screen {
@@ -34,15 +36,16 @@
 
 /* --- IMPROVED MOBILE STYLINGS FOR MobileLayout --- */
 
-/* Ensure mobile-app-container scrolls if content overflows */
+/* Ensure mobile-app-container fills remaining space */
 .mobile-app-container {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: 0; /* Remove extra bottom padding */
+  overflow: hidden; /* Prevent any scrolling */
+  padding-bottom: 0;
   position: relative;
-  height: calc(100dvh - 44px - 90px); /* Account for status bar and dock */
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
+  min-height: 0; /* Allow flex child to shrink */
 }
 
 .status-bar {
@@ -204,14 +207,14 @@
 
 .wallpaper {
   flex: 1;
-  padding: 20px 25px 0; /* Remove extra bottom padding */
+  padding: 20px 25px 20px; /* Consistent padding */
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: calc(100dvh - 44px);
+  overflow: hidden; /* Prevent scrolling */
   box-sizing: border-box;
+  justify-content: flex-start;
+  min-height: 0; /* Allow flex child to shrink */
 }
 
 .mobile-welcome-window {
@@ -303,11 +306,12 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 0 20px;
   width: 100%;
   box-sizing: border-box;
   justify-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .mobile-app-icon {
@@ -1043,7 +1047,7 @@
   }
 
   .wallpaper {
-    padding: 15px 20px 100px;
+    padding: 15px 20px 20px;
   }
 }
 
@@ -1146,7 +1150,7 @@
   }
 
   .wallpaper {
-    padding: 12px 15px 85px;
+    padding: 12px 15px 20px;
   }
 }
 
@@ -1359,7 +1363,7 @@
   }
 
   .wallpaper {
-    padding: 25px 30px 130px;
+    padding: 25px 30px 20px;
   }
 }
 
