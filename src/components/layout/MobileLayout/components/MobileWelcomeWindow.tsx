@@ -32,7 +32,7 @@ const MobileWelcomeWindow: React.FC<MobileWelcomeWindowProps> = ({
             onClick={handleClose}
             aria-label="Close welcome window"
           >
-            <span className="close-x">×</span>
+            <span className="close-x"></span>
           </button>
         </div>
         <span className="mobile-window-title">Demaceo&apos;s Portfolio</span>
