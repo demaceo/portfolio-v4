@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import services from "@/data/services";
-import principlesData from "@/data/principles";
+// import principlesData from "@/data/principles";
 import "./SkillsetModal.css";
 import tools from "@/data/toolbelt";
 import { ModalProps } from "@/lib/types";
@@ -11,7 +11,7 @@ import { ModalProps } from "@/lib/types";
 const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
   // Drag state
   const [activeTab, setActiveTab] = useState<
-    "services" | "tools" | "principles"
+    "services" | "tools"
   >("services");
 
   // Handle keyboard navigation
@@ -89,7 +89,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
             >
               Toolbelt
             </button>
-            <button
+            {/* <button
               className={`skillset-tab ${
                 activeTab === "principles" ? "active" : ""
               }`}
@@ -100,7 +100,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
               aria-selected={activeTab === "principles"}
             >
               Principles
-            </button>
+            </button> */}
           </div>
 
           <div className="skillset-modal-body">
@@ -179,7 +179,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                 </motion.div>
               )}
 
-              {activeTab === "principles" && (
+              {/* {activeTab === "principles" && (
                 <motion.div
                   key="principles"
                   initial={{ opacity: 0, y: 20 }}
@@ -204,7 +204,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                     ))}
                   </div>
                 </motion.div>
-              )}
+              )} */}
             </AnimatePresence>
           </div>
         </div>
