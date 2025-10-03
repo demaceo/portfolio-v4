@@ -86,7 +86,6 @@ const MobileLayout = () => {
         <div className="mobile-app-container">
           <MobileWelcomeWindow
             showWelcomeWindow={showWelcomeWindow}
-            handleWelcomeWindowClose={() => setShowWelcomeWindow(false)}
           />
           <HomeApps
             apps={mobileApps}

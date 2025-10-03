@@ -9,7 +9,7 @@ const Taskbar: React.FC = () => {
         {/* <div className="app-tab active">Finder</div> */}
         <div className="app-tab">Portfolio</div>
       </div>
-      <div className="start-menu">Machina Ex Demaceo</div>
+      <div className="start-menu">Developer | Designer</div>
     </div>
   );
 };
