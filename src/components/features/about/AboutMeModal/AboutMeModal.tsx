@@ -82,8 +82,8 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
                 actionable solutions.
               </p>
               <p>
-                Known for my adaptability, empathy, and reliability, I deliver
-                results - whether working solo or collaborating with a team.
+                Known for my adaptability and reliability, I deliver
+                results.
                 I&apos;m eager to explore new technologies, spark meaningful
                 conversations, and apply knowledge to create tangible, positive
                 impact.
@@ -94,7 +94,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
               <h3>How I Work</h3>
               <p>
                 I excel at untangling problems, uncovering connections, and
-                getting to the root of &quot;why.&quot; Complexity doesn&apos;t
+                getting to the root of &quot;why&quot;. Complexity doesn&apos;t
                 intimidate me - it inspires growth and fresh perspectives. I
                 approach challenges with integrity, focusing on genuine
                 collaboration and shared purpose.
