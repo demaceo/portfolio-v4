@@ -14,12 +14,14 @@ interface DesktopIconsProps {
   showContactNotification: boolean;
   handleAppClick: (path: string, isToggle?: boolean) => void;
   maybePreloadByPath: (path: string) => void;
+  desktopRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 const DesktopIcons: React.FC<DesktopIconsProps> = ({
   showContactNotification,
   handleAppClick,
   maybePreloadByPath,
+  desktopRef,
 }) => {
   const desktopApps = [
     { name: "Mindset", icon: faBrain, path: "/mindset" },
@@ -30,7 +32,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   ];
 
   return (
-    <div className="desktop">
+    <div className="desktop" ref={desktopRef}>
       <div className="desktop-items">
         {desktopApps.map((app) => (
           <button

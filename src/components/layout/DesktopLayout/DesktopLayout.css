@@ -148,14 +148,69 @@
 }
 
 .desktop {
+  --cursor-x: 50%;
+  --cursor-y: 50%;
   flex: 1;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.05), 0 4px 20px rgba(0, 0, 0, 0.1);
   position: relative;
   padding: 20px;
+  overflow: hidden;
+}
+
+/* Clear window that reveals unblurred background */
+.desktop::before {
+  content: '';
+  position: absolute;
+  top: var(--cursor-y);
+  left: var(--cursor-x);
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(0px) brightness(1.1) contrast(1.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.desktop.cursor-active::before {
+  opacity: 1;
+}
+
+/* Clear reveal indicator ring */
+.desktop::after {
+  content: '';
+  position: absolute;
+  top: var(--cursor-y);
+  left: var(--cursor-x);
+  width: 160px;
+  height: 160px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+  background: transparent;
+  transition: opacity 0.2s ease;
+  box-shadow: 
+    0 0 30px rgba(255, 255, 255, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.desktop.cursor-active::after {
+  opacity: 1;
 }
 
 .desktop-items {
@@ -165,6 +220,7 @@
   position: absolute;
   right: 20px;
   top: 20px;
+  z-index: 10;
 }
 
 .desktop-icon {
@@ -303,6 +359,7 @@
   background: #ffffff;
   border: 2px solid #3b3a3a;
   box-shadow: 2px 2px 0px #3b3a3a;
+  z-index: 20;
 }
 
 .window-title-bar {
