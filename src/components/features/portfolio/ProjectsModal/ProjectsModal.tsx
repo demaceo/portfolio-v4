@@ -158,6 +158,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                           }
                         }}
                       >
+                        {/* Documentary Tag */}
+                        {project.type === "documentary" && (
+                          <div className="projects-modal-documentary-tag">
+                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
+                            <span>Documentary</span>
+                          </div>
+                        )}
+                        
                         <div className="projects-modal-card-content">
                           <div className="project-media">
                             {project.image ? (
@@ -258,6 +266,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                           }
                         }}
                       >
+                        {/* Documentary Tag */}
+                        {project.type === "documentary" && (
+                          <div className="projects-modal-documentary-tag">
+                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
+                            <span>Documentary</span>
+                          </div>
+                        )}
+                        
                         <div className="projects-modal-card-content">
                           <div className="project-media">
                             {project.image ? (

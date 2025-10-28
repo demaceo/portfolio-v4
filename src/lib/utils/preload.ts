@@ -13,13 +13,13 @@ const idle: RequestIdleCallback = (cb) => {
 
 // Dynamic import preloaders for code splitting
 export const preloadModules = {
-    contact: () => import("@/features/contact/ContactForm/ContactForm"),
-    about: () => import("@/features/about/AboutMeModal/AboutMeModal"),
-    skillset: () => import("@/features/skills/SkillsetModal/SkillsetModal"),
-    projects: () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+    contact: () => import("@/components/features/contact/ContactForm/ContactForm"),
+    about: () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
+    skillset: () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
+    projects: () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
     documentary: () =>
-        import("@/features/media").then((m) => m.DocumentaryPlayer),
-    resume: () => import("@/features/resume/InteractiveResume/InteractiveResume"),
+        import("@/components/features/media").then((m) => m.DocumentaryPlayer),
+    resume: () => import("@/components/features/resume/InteractiveResume/InteractiveResume"),
 };
 
 // On-intent network warmup for PBS iframe origin

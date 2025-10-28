@@ -8,35 +8,35 @@ const LoadingModal = () => {
 };
 
 const ContactForm = dynamic(
-  () => import("@/features/contact/ContactForm/ContactForm"),
+  () => import("@/components/features/contact/ContactForm/ContactForm"),
   {
     loading: () => <LoadingModal />,
   }
 );
 
 const InteractiveResume = dynamic(
-  () => import("@/features/resume/InteractiveResume/InteractiveResume"),
+  () => import("@/components/features/resume/InteractiveResume/InteractiveResume"),
   {
     loading: () => <LoadingModal />,
   }
 );
 
 const AboutMeModal = dynamic(
-  () => import("@/features/about/AboutMeModal/AboutMeModal"),
+  () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
   {
     loading: () => <LoadingModal />,
   }
 );
 
 const SkillsetModal = dynamic(
-  () => import("@/features/skills/SkillsetModal/SkillsetModal"),
+  () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
   {
     loading: () => <LoadingModal />,
   }
 );
 
 const ProjectsModal = dynamic(
-  () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+  () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
   {
     loading: () => <LoadingModal />,
   }
@@ -44,7 +44,7 @@ const ProjectsModal = dynamic(
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DocumentaryPlayer = dynamic(
-  () => import("@/features/media").then((m) => m.DocumentaryPlayer),
+  () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
   {
     ssr: false,
     loading: () => <LoadingModal />,

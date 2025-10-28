@@ -3,16 +3,6 @@ import { Project } from "@/lib/types";
 const projectData: Project[] = [
   {
     id: 8,
-    name: "Engineer My Career",
-    image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
-    description:
-      "Engineer My Career helps developers plan, track, and accelerate their growth with personalized road-maps, skill assessments, and job-search tooling.",
-    link: "https://engineermycareer.com",
-    icon: "fas fa-briefcase icon",
-    gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
-  },
-  {
-    id: 9,
     name: "Tech For Us",
     image: "https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto",
     description: "Featured in documentary exploring the intersection of technology, innovation, and career development in the modern digital landscape. The documentary highlights personal stories of professionals navigating challenges and building meaningful careers in tech.",
@@ -21,6 +11,16 @@ const projectData: Project[] = [
     type: "documentary",
     duration: "25:33",
     network: "PBS",
+  },
+  {
+    id: 9,
+    name: "Engineer My Career",
+    image: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
+    description:
+      "Engineer My Career helps developers plan, track, and accelerate their growth with personalized road-maps, skill assessments, and job-search tooling.",
+    link: "https://engineermycareer.com",
+    icon: "fas fa-briefcase icon",
+    gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHE3ajE3bnBweG83enpxczRlcmVvandvdjN2NTJzbWZmcDl1Z3FveSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BY1lBaFvNMFE5gYNP9/giphy.gif",
   },
   {
     id: 0,
