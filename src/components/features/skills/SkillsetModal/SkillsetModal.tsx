@@ -111,34 +111,104 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   className="skillset-section"
                   role="tabpanel"
                   id="services-panel"
                   aria-labelledby="services-tab"
                 >
-                  <h2>Service Spectrum</h2>
-                  <div className="services-grid">
-                    {services.map((service) => (
-                      <div
-                        key={service.id}
-                        className="service-card"
-                        role="article"
-                        tabIndex={0}
-                      >
-                        <div className="service-card-content">
-                          <div className="service-icon">
-                            <Image
-                              src={service.icon}
-                              alt={service.title}
-                              width={40}
-                              height={40}
-                            />
-                          </div>
-                          <h3>{service.title}</h3>
-                          <p>{service.description}</p>
+                  {/* Featured Company Section */}
+                  <div className="featured-company-section">
+                    <div className="featured-company-header">
+                      <h2>Mile High Interface LLC</h2>
+                      <p className="company-tagline">Professional Development Services</p>
+                    </div>
+                    
+                    <div className="featured-company-card">
+                      <div className="company-logo-section">
+                        <div className="company-logo">
+                          <span className="logo-text">MHI</span>
+                        </div>
+                        <div className="company-badge">
+                          <span>LLC</span>
                         </div>
                       </div>
-                    ))}
+                      
+                      <div className="company-content">
+                        <h3>Full-Stack Development & Design Solutions</h3>
+                        <p>
+                          Mile High Interface LLC provides comprehensive web development, mobile app design, 
+                          and digital solutions for businesses looking to establish or enhance their online presence. 
+                          From concept to deployment, we deliver professional-grade applications that scale.
+                        </p>
+                        
+                        <div className="company-highlights">
+                          <div className="highlight-item">
+                            <span className="highlight-icon">🚀</span>
+                            <span>Full-Stack Applications</span>
+                          </div>
+                          <div className="highlight-item">
+                            <span className="highlight-icon">📱</span>
+                            <span>Mobile-First Design</span>
+                          </div>
+                          <div className="highlight-item">
+                            <span className="highlight-icon">☁️</span>
+                            <span>Cloud Infrastructure</span>
+                          </div>
+                          <div className="highlight-item">
+                            <span className="highlight-icon">⚡</span>
+                            <span>Performance Optimization</span>
+                          </div>
+                        </div>
+                        
+                        <div className="company-actions">
+                          <a 
+                            href="https://www.milehighinterface.com" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="company-website-btn"
+                          >
+                            Visit Website
+                          </a>
+                          <a 
+                            href="https://github.com/demaceo/mhi" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="company-github-btn"
+                          >
+                            View Source
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Regular Services Section */}
+                  <div className="services-section">
+                    <h2>Service Spectrum</h2>
+                    <div className="services-grid">
+                      {services.map((service) => (
+                        <div
+                          key={service.id}
+                          className="service-card"
+                          role="article"
+                          tabIndex={0}
+                        >
+                          <div className="service-card-content">
+                            <div className="service-icon">
+                              <Image
+                                src={service.icon}
+                                alt={service.title}
+                                width={40}
+                                height={40}
+                              />
+                            </div>
+                            <h3>{service.title}</h3>
+                            <p>{service.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -149,6 +219,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   className="skillset-section"
                   role="tabpanel"
                   id="tools-panel"

@@ -75,36 +75,36 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
             <div className="about-modal-section">
               <h3>Who I Am</h3>
               <p>
-                I&apos;m a lifelong learner who thrives on connecting ideas,
-                people, and possibilities. Whether breaking down complex
-                problems or zooming out to see the bigger picture, I&apos;m
-                comfortable navigating ambiguity and turning challenges into
-                actionable solutions.
+                I&apos;m a goal-oriented professional who thrives on connecting ideas,
+                people, and possibilities. Driven by exceeding expectations and achieving
+                meaningful results, I bring exceptional follow-through to every project.
+                Whether breaking down complex problems or zooming out to see the bigger 
+                picture, I&apos;m comfortable navigating ambiguity and turning challenges 
+                into actionable solutions.
               </p>
               <p>
-                Known for my adaptability and reliability, I deliver
-                results.
-                I&apos;m eager to explore new technologies, spark meaningful
-                conversations, and apply knowledge to create tangible, positive
-                impact.
+                My intellectual curiosity energizes me to explore new technologies, 
+                embrace novel experiences, and engage in creative problem-solving. 
+                Known for my cooperative spirit and patient approach, I deliver results 
+                while fostering collaborative environments where teams can thrive.
               </p>
             </div>
 
             <div className="about-modal-section">
               <h3>How I Work</h3>
               <p>
-                I excel at untangling problems, uncovering connections, and
-                getting to the root of &quot;why&quot;. Complexity doesn&apos;t
-                intimidate me - it inspires growth and fresh perspectives. I
-                approach challenges with integrity, focusing on genuine
-                collaboration and shared purpose.
+                I excel at untangling problems with a service-oriented mindset, 
+                always seeking to accommodate others while maintaining high standards. 
+                My cooperative nature means I value social harmony and actively seek 
+                common ground in team situations. Complexity doesn&apos;t intimidate 
+                me - it inspires growth and fresh perspectives.
               </p>
               <p>
-                Empathy drives how I build relationships and foster
-                collaboration. I listen deeply, value diverse viewpoints, and
-                aim to create meaningful change. Guided by continuous growth -
-                personal, professional, and collective - I&apos;m motivated to
-                make a difference wherever insight meets action.
+                Highly tolerant of frustrations and naturally patient, I remain 
+                calm and level-headed when challenges arise. My intellectual curiosity 
+                drives experimentation and creative solutions, while my goal-oriented 
+                approach ensures consistent follow-through. I thrive in collaborative 
+                environments where diverse viewpoints contribute to meaningful outcomes.
               </p>
             </div>
 
@@ -140,11 +140,13 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
             <div className="about-modal-section">
               <h3>In Summary</h3>
               <p>
-                Whether I&apos;m leading a project, supporting a team, or
-                exploring new ideas, I bring together curiosity, reliability,
-                and a genuine desire to make a difference. I&apos;m at my best
-                where insight meets action, and where growth is both the journey
-                and the goal.
+                Whether I&apos;m leading a project, supporting a team, or exploring 
+                new ideas, I bring together goal-oriented drive, intellectual curiosity, 
+                and genuine collaborative spirit. My patient and tolerant nature, 
+                combined with strong achievement motivation, makes me someone teams 
+                can count on for both innovative thinking and reliable execution. 
+                I&apos;m at my best where insight meets action, and where cooperative 
+                problem-solving drives meaningful results.
               </p>
             </div>
           </div>
