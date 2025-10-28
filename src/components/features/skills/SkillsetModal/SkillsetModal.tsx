@@ -127,7 +127,14 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                     <div className="featured-company-card">
                       <div className="company-logo-section">
                         <div className="company-logo">
-                          <span className="logo-text">MHI</span>
+                          <Image
+                            src="/logos/mhi-logo.png"
+                            alt="Mile High Interface LLC Logo"
+                            width={70}
+                            height={70}
+                            className="company-logo-image"
+                            priority
+                          />
                         </div>
                         <div className="company-badge">
                           <span>LLC</span>

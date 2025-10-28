@@ -12,7 +12,7 @@
 import type { NextConfig } from "next";
 // max age value is initially  31536000 which is 1 year
 // Reduced from 1 year to 10 minutes for development flexibility
-const LONG_CACHE = "public, max-age=600, immutable";
+const LONG_CACHE = "public, max-age=600";
 
 const nextConfig: NextConfig = {
   async headers() {
