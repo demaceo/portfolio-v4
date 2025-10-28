@@ -207,6 +207,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="project-card-inner">
+          {/* Documentary Tag */}
+          {project.type === "documentary" && (
+            <div className="project-card-documentary-tag">
+              <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
+              <span>Documentary</span>
+            </div>
+          )}
+          
           <div className="project-card-window-title">
             <div className="project-card-top-arrows">
               <button

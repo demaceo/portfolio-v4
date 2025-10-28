@@ -93,7 +93,7 @@
   padding: var(--space-8);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Helvetica Neue", Arial, sans-serif;
-  animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: overlayFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .skillset-modal {
@@ -107,7 +107,7 @@
   border-radius: var(--radius-3xl);
   box-shadow: var(--shadow-2xl);
   overflow: hidden;
-  animation: skillsetSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: skillsetSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -171,7 +171,7 @@
   -webkit-backdrop-filter: var(--backdrop-blur);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   padding: var(--space-6) var(--space-8);
-  animation: navigationSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: navigationSlide 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both;
   flex-shrink: 0;
 }
 
@@ -285,8 +285,596 @@
 }
 
 .tab-content {
-  animation: tabContentFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: tabContentFade 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
   min-height: 400px;
+}
+
+/* Featured Company Section */
+.featured-company-section {
+  margin-bottom: var(--space-16);
+  animation: featuredCompanyFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+  padding: var(--space-4);
+  border-radius: var(--radius-3xl);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 122, 255, 0.03) 0%,
+    rgba(175, 82, 222, 0.03) 50%,
+    rgba(255, 45, 146, 0.03) 100%
+  );
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-company-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--ios-blue) 0%, 
+    var(--ios-purple) 30%,
+    var(--ios-pink) 60%, 
+    var(--ios-orange) 100%);
+  z-index: 1;
+}
+
+.featured-company-header {
+  text-align: center;
+  margin-bottom: var(--space-10);
+  padding-top: var(--space-4);
+  position: relative;
+  z-index: 2;
+}
+
+.featured-company-header h2 {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--ios-text-primary);
+  margin: 0 0 var(--space-2) 0;
+  background: linear-gradient(135deg, 
+    #ff6b35 0%, 
+    #f7931e  30%,
+    #764ba2  70%,
+    #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.company-tagline {
+  font-size: var(--text-lg);
+  color: var(--ios-text-secondary);
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  opacity: 0.9;
+}
+
+.featured-company-card {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(248, 250, 252, 0.9) 100%);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-10);
+  display: flex;
+  gap: var(--space-10);
+  align-items: flex-start;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    0 8px 25px rgba(0, 122, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.featured-company-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    var(--ios-blue) 20%,
+    var(--ios-purple) 50%,
+    var(--ios-pink) 80%,
+    transparent 100%);
+  opacity: 0.6;
+}
+
+.featured-company-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 
+    0 32px 80px rgba(0, 0, 0, 0.12),
+    0 16px 40px rgba(0, 122, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 122, 255, 0.4);
+}
+
+.company-logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.company-logo {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(248, 250, 252, 0.9) 100%);
+  border-radius: var(--radius-3xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 12px 32px rgba(0, 122, 255, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: var(--space-3);
+}
+
+.company-logo::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, 
+    var(--ios-blue) 0%, 
+    var(--ios-purple) 50%, 
+    var(--ios-pink) 100%);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.featured-company-card:hover .company-logo {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 
+    0 16px 40px rgba(0, 122, 255, 0.3),
+    0 6px 20px rgba(0, 0, 0, 0.12),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 122, 255, 0.3);
+}
+
+.featured-company-card:hover .company-logo::before {
+  opacity: 0.1;
+}
+
+.company-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-2xl);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.featured-company-card:hover .company-logo-image {
+  transform: scale(1.05);
+  filter: brightness(1.05) contrast(1.05);
+}
+
+.logo-text {
+  font-size: var(--text-3xl);
+  font-weight: 900;
+  color: white;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.02em;
+}
+
+.company-badge {
+  background: linear-gradient(135deg, var(--ios-orange) 0%, var(--ios-pink) 100%);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 
+    0 4px 12px rgba(255, 149, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.featured-company-card:hover .company-badge {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(255, 149, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.company-content {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.company-content h3 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--ios-text-primary);
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, 
+    #2563eb 0%, 
+    #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.company-content h3::after {
+  content: '';
+  position: absolute;
+  bottom: -var(--space-2);
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    #2563eb 0%, 
+    #7c3aed 100%);
+  border-radius: var(--radius-sm);
+}
+
+.company-content p {
+  font-size: var(--text-lg);
+  color: var(--ios-text-secondary);
+  line-height: 1.7;
+  margin: 0 0 var(--space-8) 0;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  opacity: 0.9;
+}
+
+.company-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(248, 250, 252, 0.8) 100%);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--ios-text-primary);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    var(--ios-blue) 0%,
+    var(--ios-purple) 50%,
+    var(--ios-pink) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.highlight-item:hover::before {
+  transform: translateX(0);
+}
+
+.highlight-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 122, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 122, 255, 0.2);
+}
+
+.highlight-icon {
+  font-size: var(--text-xl);
+  filter: grayscale(0.2) brightness(1.1);
+  transition: all 0.3s ease;
+}
+
+.highlight-item:hover .highlight-icon {
+  filter: grayscale(0) brightness(1.2);
+  transform: scale(1.1);
+}
+
+.company-actions {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+.company-website-btn, .company-github-btn {
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-width: 160px;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+.company-website-btn::before, .company-github-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.company-website-btn:hover::before, .company-github-btn:hover::before {
+  left: 100%;
+}
+
+.company-website-btn {
+  background: linear-gradient(135deg, 
+    var(--ios-blue) 0%, 
+    var(--ios-purple) 100%);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 24px rgba(0, 122, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.company-website-btn:hover {
+  background: linear-gradient(135deg, 
+    var(--ios-blue-dark) 0%, 
+    var(--ios-purple) 100%);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 32px rgba(0, 122, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.company-github-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ios-text-primary);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.company-github-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(0, 122, 255, 0.2);
+  color: var(--ios-blue);
+}
+
+.company-website-btn:active, .company-github-btn:active {
+  transform: translateY(-2px) scale(1.01);
+  transition: transform 0.1s ease;
+}
+
+.services-section {
+  border-top: 1px solid var(--glass-border);
+  padding-top: var(--space-8);
+}
+
+.services-section h2 {
+  margin-bottom: var(--space-6);
+}
+
+@keyframes featuredCompanyFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design for Featured Company */
+@media (max-width: 1024px) {
+  .featured-company-card {
+    gap: var(--space-8);
+    padding: var(--space-8);
+  }
+  
+  .company-highlights {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-company-section {
+    padding: var(--space-3);
+    margin-bottom: var(--space-12);
+  }
+  
+  .featured-company-header h2 {
+    font-size: var(--text-3xl);
+  }
+  
+  .company-tagline {
+    font-size: var(--text-base);
+  }
+  
+  .featured-company-card {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-8);
+    gap: var(--space-6);
+  }
+  
+  .company-content h3 {
+    font-size: var(--text-xl);
+    text-align: center;
+  }
+  
+  .company-content h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .company-highlights {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .company-actions {
+    justify-content: center;
+    gap: var(--space-3);
+  }
+  
+  .company-website-btn, .company-github-btn {
+    min-width: 140px;
+    padding: var(--space-3) var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-company-section {
+    padding: var(--space-2);
+    margin-bottom: var(--space-8);
+    border-radius: var(--radius-2xl);
+  }
+  
+  .featured-company-header {
+    margin-bottom: var(--space-6);
+    padding-top: var(--space-3);
+  }
+  
+  .featured-company-header h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+  
+  .company-tagline {
+    font-size: var(--text-sm);
+  }
+  
+  .featured-company-card {
+    padding: var(--space-6);
+    gap: var(--space-5);
+    border-radius: var(--radius-2xl);
+  }
+  
+  .company-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--radius-2xl);
+    padding: var(--space-2);
+  }
+  
+  .company-logo-image {
+    border-radius: var(--radius-lg);
+  }
+  
+  .logo-text {
+    font-size: var(--text-xl);
+  }
+  
+  .company-badge {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    border-radius: var(--radius-md);
+  }
+  
+  .company-content h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+  
+  .company-content p {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+  
+  .highlight-item {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-lg);
+  }
+  
+  .highlight-icon {
+    font-size: var(--text-lg);
+  }
+  
+  .company-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-3);
+  }
+  
+  .company-website-btn, .company-github-btn {
+    width: 100%;
+    justify-content: center;
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--text-sm);
+    min-width: unset;
+    border-radius: var(--radius-lg);
+  }
 }
 
 /* Services Grid */
@@ -301,7 +889,7 @@
   padding: var(--space-1);
   /* Ensure hover elevations don't create stacking conflicts */
   isolation: isolate;
-  animation: servicesGridFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: servicesGridFade 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
   margin-top: var(--space-4);
 }
 
@@ -317,7 +905,7 @@
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
-  animation: serviceCardSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: serviceCardSlide 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   animation-fill-mode: both;
   cursor: pointer;
   /* Stretch to fill the grid row height and avoid content pushing siblings */
@@ -330,19 +918,19 @@
 }
 
 .service-card:nth-child(1) {
-  animation-delay: 0ms;
+  animation-delay: 0.3s;
 }
 
 .service-card:nth-child(2) {
-  animation-delay: 100ms;
+  animation-delay: 0.35s;
 }
 
 .service-card:nth-child(3) {
-  animation-delay: 200ms;
+  animation-delay: 0.4s;
 }
 
 .service-card:nth-child(4) {
-  animation-delay: 300ms;
+  animation-delay: 0.45s;
 }
 
 .service-card::before {
@@ -1081,6 +1669,20 @@
 }
 
 /* Animations */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+  }
+}
+
 @keyframes skillsetSlideUp {
   from {
     opacity: 0;
@@ -1631,6 +2233,92 @@
 
   .skillset-modal-title-bar {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Featured Company Dark Mode */
+  .featured-company-section {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 122, 255, 0.08) 0%,
+      rgba(175, 82, 222, 0.08) 50%,
+      rgba(255, 45, 146, 0.08) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .featured-company-card {
+    background: linear-gradient(135deg, 
+      rgba(58, 58, 60, 0.95) 0%, 
+      rgba(44, 44, 46, 0.9) 100%);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.3),
+      0 8px 25px rgba(0, 122, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .featured-company-card:hover {
+    box-shadow: 
+      0 32px 80px rgba(0, 0, 0, 0.4),
+      0 16px 40px rgba(0, 122, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.3);
+  }
+
+  .highlight-item {
+    background: linear-gradient(135deg,
+      rgba(58, 58, 60, 0.9) 0%,
+      rgba(44, 44, 46, 0.8) 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .highlight-item:hover {
+    box-shadow: 
+      0 8px 20px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(0, 122, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.3);
+  }
+
+  .company-github-btn {
+    background: rgba(58, 58, 60, 0.9);
+    color: var(--ios-text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .company-github-btn:hover {
+    background: rgba(70, 70, 73, 0.95);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.4);
+    color: var(--ios-blue);
+  }
+
+  /* Logo dark mode adjustments */
+  .company-logo {
+    background: linear-gradient(135deg, 
+      rgba(58, 58, 60, 0.95) 0%, 
+      rgba(44, 44, 46, 0.9) 100%);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 12px 32px rgba(0, 0, 0, 0.4),
+      0 4px 16px rgba(0, 122, 255, 0.15),
+      inset 0 2px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .featured-company-card:hover .company-logo {
+    box-shadow: 
+      0 16px 40px rgba(0, 0, 0, 0.5),
+      0 6px 20px rgba(0, 122, 255, 0.2),
+      inset 0 2px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.4);
   }
 }
 

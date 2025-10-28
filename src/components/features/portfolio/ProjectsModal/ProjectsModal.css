@@ -409,7 +409,7 @@
   padding: var(--space-8);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Helvetica Neue", Arial, sans-serif;
-  animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: overlayFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .projects-modal {
@@ -423,7 +423,7 @@
   border-radius: var(--radius-3xl);
   box-shadow: var(--shadow-2xl);
   overflow: hidden;
-  animation: projectsSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: projectsSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -980,6 +980,18 @@
     height: 120px;
     border-radius: var(--radius-md);
   }
+
+  /* Mobile responsive documentary tag */
+  .projects-modal-documentary-tag {
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: var(--space-1);
+    font-size: 10px;
+  }
+
+  .projects-modal-documentary-tag .documentary-icon {
+    font-size: 10px;
+  }
 }
 
 .project-image {
@@ -1041,6 +1053,57 @@
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Documentary Tag for ProjectsModal */
+.projects-modal-documentary-tag {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  background: linear-gradient(135deg, var(--ios-green) 0%, #28c840 100%);
+  color: white;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(48, 209, 88, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.projects-modal-documentary-tag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 50%
+  );
+  border-radius: inherit;
+  opacity: 0.8;
+}
+
+.projects-modal-documentary-tag .documentary-icon {
+  font-size: var(--text-xs);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.projects-modal-card:hover .projects-modal-documentary-tag {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(48, 209, 88, 0.4);
 }
 
 .project-status.live {
@@ -1494,6 +1557,17 @@
     --ios-surface: rgba(44, 44, 46, 0.8);
     --ios-surface-elevated: rgba(58, 58, 60, 0.9);
     --ios-surface-secondary: rgba(28, 28, 30, 0.8);
+  }
+
+  /* Documentary tag dark mode styling */
+  .projects-modal-documentary-tag {
+    background: linear-gradient(135deg, var(--ios-green) 0%, #20a838 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(48, 209, 88, 0.4);
+  }
+
+  .projects-modal-card:hover .projects-modal-documentary-tag {
+    box-shadow: 0 4px 12px rgba(48, 209, 88, 0.5);
   }
 }
 

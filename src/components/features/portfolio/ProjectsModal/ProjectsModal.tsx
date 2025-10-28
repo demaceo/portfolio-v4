@@ -123,6 +123,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   className="projects-section"
                   role="tabpanel"
                   id="current-panel"
@@ -145,8 +146,8 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
-                          duration: 0.4,
-                          delay: index * 0.1,
+                          duration: 0.3,
+                          delay: 0.2 + index * 0.05,
                           ease: "easeOut",
                         }}
                         onClick={() => handleProjectClick(project.link)}
@@ -157,6 +158,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                           }
                         }}
                       >
+                        {/* Documentary Tag */}
+                        {project.type === "documentary" && (
+                          <div className="projects-modal-documentary-tag">
+                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
+                            <span>Documentary</span>
+                          </div>
+                        )}
+                        
                         <div className="projects-modal-card-content">
                           <div className="project-media">
                             {project.image ? (
@@ -226,6 +235,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   className="projects-section"
                   role="tabpanel"
                   id="archived-panel"
@@ -244,8 +254,8 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
-                          duration: 0.4,
-                          delay: index * 0.1,
+                          duration: 0.3,
+                          delay: 0.2 + index * 0.05,
                           ease: "easeOut",
                         }}
                         onClick={() => handleProjectClick(project.link)}
@@ -256,6 +266,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                           }
                         }}
                       >
+                        {/* Documentary Tag */}
+                        {project.type === "documentary" && (
+                          <div className="projects-modal-documentary-tag">
+                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
+                            <span>Documentary</span>
+                          </div>
+                        )}
+                        
                         <div className="projects-modal-card-content">
                           <div className="project-media">
                             {project.image ? (

@@ -2,39 +2,38 @@ import { AboutMePill } from "@/lib/types";
 
 export const aboutMePills: AboutMePill[] = [
     {
-        label: "Intuitive Problem Solver",
+        label: "Goal-Oriented Achiever",
         tooltip:
-            "See patterns, simplify complexity, and generate creative solutions.",
+            "Driven by exceeding expectations with excellent follow-through on tasks and commitments.",
         icon: "/icons/about/IPS.png",
-
     },
     {
-        label: "Adaptive Learner",
-        tooltip: "Energized by change, challenge, and continuous learning.",
+        label: "Intellectually Curious",
+        tooltip: "Creative and experimental, embracing new experiences and continuous learning opportunities.",
         icon: "/icons/about/AL.png",
     },
     {
-        label: "Empathetic Connector",
+        label: "Cooperative Team Player",
         tooltip:
-            "Listen deeply, build trust, and foster inclusive collaboration.",
+            "Values social harmony, seeks common ground, and builds collaborative relationships.",
         icon: "/icons/about/EC.png",    
     },
     {
-        label: "Analytical & Reliable",
+        label: "Patient & Resilient",
         tooltip:
-            "Detail-oriented, organized, and steady - someone you can count on to follow through.",
+            "Highly tolerant of frustrations, calm under pressure, and accepting of challenges and setbacks.",
         icon: "/icons/about/AR.png",
     },
     {
-        label: "Transparent Communicator",
+        label: "Service-Oriented Mindset",
         tooltip:
-            "Quick to understand and articulate new concepts; skilled at building rapport with people from all walks of life.",
+            "Naturally accommodating with a strong desire to help others and contribute meaningfully to team success.",
         icon: "/icons/about/TC.png",
     },
     {
-        label: "Purpose-Driven Innovator",
+        label: "Motivated Self-Starter",
         tooltip:
-            "Driven by curiosity, integrity, and a desire to make a positive impact.",
+            "Possesses inner drive and commitment to achieving goals while maintaining high personal standards.",
         icon: "/icons/about/PDI.png",
     },
     {

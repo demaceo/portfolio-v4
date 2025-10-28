@@ -56,11 +56,11 @@ const MobileLayout = () => {
 
   // Preload handlers for performance
   const preloadHandlers = {
-    about: () => import("@/features/about/AboutMeModal/AboutMeModal"),
-    skillset: () => import("@/features/skills/SkillsetModal/SkillsetModal"),
-    projects: () => import("@/features/portfolio/ProjectsModal/ProjectsModal"),
+    about: () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
+    skillset: () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
+    projects: () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
     documentary: () =>
-      import("@/features/media").then((m) => m.DocumentaryPlayer),
+      import("@/components/features/media").then((m) => m.DocumentaryPlayer),
   };
 
   const handleContactPreload = () =>
