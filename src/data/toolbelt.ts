@@ -28,84 +28,114 @@ import {
     faDiscord,
     faMicrosoft,
     faAngular,
+    faStripe,
+    faShopify,
+    faGolang,
 } from "@fortawesome/free-brands-svg-icons";
 import {
     faDatabase,
     faServer,
     faTerminal,
     faMobile,
-    faFileCode,
     faChartLine,
     faBug,
-    faRocket,
     faFire,
     faCubes,
+    faCode,
+    faCloud,
+    faShoppingCart,
+    faBolt,
+    faLayerGroup,
+    faSearch,
+    faRobot,
+    faShield,
+    faCog,
+    faCodeBranch,
+    faFileAlt,
+    faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 
 const tools = [
-    // Design Tools (5 tools)
+    // Design & Prototyping
     { icon: faFigma, tooltip: "Figma", category: "Design" },
     { icon: faWebflow, tooltip: "Webflow", category: "Design" },
-    { icon: faWordpress, tooltip: "WordPress", category: "Design" },
-    { icon: faFileCode, tooltip: "Creative Tools", category: "Design" },
+    { icon: faCode, tooltip: "Adobe Creative Suite", category: "Design" },
+    { icon: faShoppingCart, tooltip: "E-commerce Design", category: "Design" },
 
-    // Frontend Development (9 tools)
+    // Frontend Development
     { icon: faReact, tooltip: "React", category: "Frontend" },
     { icon: faVuejs, tooltip: "Vue.js", category: "Frontend" },
     { icon: faAngular, tooltip: "Angular", category: "Frontend" },
     { icon: faJs, tooltip: "JavaScript", category: "Frontend" },
+    { icon: faCode, tooltip: "TypeScript", category: "Frontend" },
     { icon: faCss3, tooltip: "CSS3", category: "Frontend" },
     { icon: faHtml5, tooltip: "HTML5", category: "Frontend" },
-    { icon: faBootstrap, tooltip: "Bootstrap", category: "Frontend" },
     { icon: faCubes, tooltip: "Tailwind CSS", category: "Frontend" },
-    { icon: faRocket, tooltip: "Next.js", category: "Frontend" },
+    { icon: faBootstrap, tooltip: "Bootstrap", category: "Frontend" },
+    { icon: faLayerGroup, tooltip: "Next.js", category: "Frontend" },
+    { icon: faBolt, tooltip: "Vite", category: "Frontend" },
 
-    // Backend Development (5 tools)
+    // Backend Development
     { icon: faNode, tooltip: "Node.js", category: "Backend" },
     { icon: faPython, tooltip: "Python", category: "Backend" },
-    { icon: faDatabase, tooltip: "PostgreSQL", category: "Backend" },
+    { icon: faGolang, tooltip: "Go", category: "Backend" },
     { icon: faServer, tooltip: "Express.js", category: "Backend" },
-    { icon: faDatabase, tooltip: "Neon Console", category: "Backend" },
+    { icon: faDatabase, tooltip: "PostgreSQL", category: "Backend" },
+    { icon: faLayerGroup, tooltip: "Prisma", category: "Backend" },
+    { icon: faCloud, tooltip: "Supabase", category: "Backend" },
+    { icon: faCodeBranch, tooltip: "GraphQL", category: "Backend" },
 
-    // DevOps & Version Control (5 tools)
+    // Cloud & Infrastructure
+    { icon: faAws, tooltip: "AWS", category: "Cloud" },
+    { icon: faGoogle, tooltip: "Google Cloud", category: "Cloud" },
+    { icon: faMicrosoft, tooltip: "Azure", category: "Cloud" },
+    { icon: faFire, tooltip: "Firebase", category: "Cloud" },
+    { icon: faGlobe, tooltip: "Vercel", category: "Cloud" },
+    { icon: faCloud, tooltip: "Netlify", category: "Cloud" },
+
+    // DevOps & Version Control
     { icon: faGit, tooltip: "Git", category: "DevOps" },
     { icon: faGithub, tooltip: "GitHub", category: "DevOps" },
     { icon: faGitlab, tooltip: "GitLab", category: "DevOps" },
     { icon: faDocker, tooltip: "Docker", category: "DevOps" },
     { icon: faLinux, tooltip: "Linux", category: "DevOps" },
+    { icon: faCog, tooltip: "GitHub Actions", category: "DevOps" },
 
-    // Cloud & Infrastructure (5 tools)
-    { icon: faAws, tooltip: "AWS", category: "Cloud" },
-    { icon: faGoogle, tooltip: "Google Cloud", category: "Cloud" },
-    { icon: faMicrosoft, tooltip: "Azure", category: "Cloud" },
-    { icon: faFire, tooltip: "Firebase", category: "Cloud" },
+    // Package Management & Tools
+    { icon: faNpm, tooltip: "NPM", category: "Tools" },
+    { icon: faYarn, tooltip: "Yarn", category: "Tools" },
+    { icon: faTerminal, tooltip: "CLI Tools", category: "Tools" },
+    { icon: faApple, tooltip: "macOS", category: "Tools" },
+    { icon: faCode, tooltip: "VS Code", category: "Tools" },
 
-    // Package Management (3 tools)
-    { icon: faNpm, tooltip: "NPM", category: "Package Management" },
-    { icon: faYarn, tooltip: "Yarn", category: "Package Management" },
-    { icon: faTerminal, tooltip: "CLI Tools", category: "Package Management" },
+    // CMS & E-commerce
+    { icon: faWordpress, tooltip: "WordPress", category: "CMS" },
+    { icon: faShopify, tooltip: "Shopify", category: "CMS" },
+    { icon: faStripe, tooltip: "Stripe", category: "CMS" },
+    { icon: faLayerGroup, tooltip: "Contentful", category: "CMS" },
 
-    // Collaboration (4 tools)
+    // Collaboration & Communication
     { icon: faSlack, tooltip: "Slack", category: "Collaboration" },
     { icon: faDiscord, tooltip: "Discord", category: "Collaboration" },
-    { icon: faApple, tooltip: "macOS", category: "Collaboration" },
-    { icon: faMobile, tooltip: "Mobile Testing", category: "Collaboration" },
+    { icon: faJira, tooltip: "Jira", category: "Collaboration" },
+    { icon: faTrello, tooltip: "Trello", category: "Collaboration" },
+    { icon: faConfluence, tooltip: "Confluence", category: "Collaboration" },
 
-    // Project Management (4 tools)
-    { icon: faJira, tooltip: "Jira", category: "Project Management" },
-    { icon: faTrello, tooltip: "Trello", category: "Project Management" },
-    { icon: faChartLine, tooltip: "Analytics", category: "Project Management" },
-    { icon: faBug, tooltip: "Bug Tracking", category: "Project Management" },
+    // Testing & Analytics
+    { icon: faBug, tooltip: "Testing & QA", category: "Testing" },
+    { icon: faMobile, tooltip: "Mobile Testing", category: "Testing" },
+    { icon: faChartLine, tooltip: "Google Analytics", category: "Testing" },
+    { icon: faSearch, tooltip: "Lighthouse", category: "Testing" },
 
-    // Documentation & Testing (4 tools)
+    // AI & Emerging Tech
+    { icon: faRobot, tooltip: "AI Tools", category: "AI" },
+    { icon: faShield, tooltip: "Copilot", category: "AI" },
+    { icon: faCode, tooltip: "OpenAI API", category: "AI" },
+
+    // Documentation
     { icon: faMarkdown, tooltip: "Markdown", category: "Documentation" },
-    { icon: faConfluence, tooltip: "Confluence", category: "Documentation" },
-    {
-        icon: faTerminal,
-        tooltip: "API Documentation",
-        category: "Documentation",
-    },
-    { icon: faBug, tooltip: "Testing & QA", category: "Documentation" },
+    { icon: faFileAlt, tooltip: "Notion", category: "Documentation" },
+    { icon: faGlobe, tooltip: "Storybook", category: "Documentation" },
 ];
 
 export default tools;

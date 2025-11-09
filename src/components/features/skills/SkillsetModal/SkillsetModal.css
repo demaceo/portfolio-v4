@@ -27,6 +27,13 @@
   --ios-indigo: #5856d6;
   --ios-teal: #40c8e0;
   --ios-yellow: #ffcc00;
+  
+  /* Portfolio Logo Inspired Colors */
+  --portfolio-orange: #FF6B47;
+  --portfolio-teal: #4A9B8F;
+  --portfolio-orange-light: rgba(255, 107, 71, 0.1);
+  --portfolio-teal-light: rgba(74, 155, 143, 0.1);
+  
   --ios-text-primary: #1d1d1f;
   --ios-text-secondary: #86868b;
   --ios-text-tertiary: #c7c7cc;
@@ -81,8 +88,8 @@
   height: 100vh;
   background: linear-gradient(
     135deg,
-    rgba(0, 122, 255, 0.08) 0%,
-    rgba(175, 82, 222, 0.08) 100%
+    rgba(255, 107, 71, 0.08) 0%,
+    rgba(74, 155, 143, 0.08) 100%
   );
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
@@ -334,16 +341,8 @@
 .featured-company-header h2 {
   font-size: var(--text-4xl);
   font-weight: 800;
-  color: var(--ios-text-primary);
+  color: var(--portfolio-orange);
   margin: 0 0 var(--space-2) 0;
-  background: linear-gradient(135deg, 
-    #ff6b35 0%, 
-    #f7931e  30%,
-    #764ba2  70%,
-    #667eea 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   letter-spacing: -0.03em;
   line-height: 1.1;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -484,7 +483,7 @@
 }
 
 .company-badge {
-  background: linear-gradient(135deg, var(--ios-orange) 0%, var(--ios-pink) 100%);
+  background: linear-gradient(135deg, var(--portfolio-orange) 0%, var(--portfolio-teal) 100%);
   color: white;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-lg);

@@ -18,6 +18,11 @@
   --ios-red: #ff3b30;
   --ios-orange: #ff9500;
   --ios-purple: #af52de;
+  
+  /* Portfolio Logo Inspired Colors */
+  --portfolio-orange: #FF6B47;
+  --portfolio-teal: #4A9B8F;
+  
   --ios-text-primary: #1d1d1f;
   --ios-text-secondary: #86868b;
   --ios-text-tertiary: #c7c7cc;
@@ -324,11 +329,7 @@
 
 /* Submit Button */
 #submit-button {
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: var(--portfolio-orange);
   color: white;
   border: none;
   padding: var(--space-4) var(--space-8);
