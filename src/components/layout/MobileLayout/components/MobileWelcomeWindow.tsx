@@ -15,17 +15,7 @@ const MobileWelcomeWindow: React.FC<MobileWelcomeWindowProps> = ({
   return (
     <div className={`mobile-welcome-window`}>
       <div className="mobile-window-title-bar">
-        <div className="mobile-window-controls">
-          {/* <button
-            className="mobile-close-btn"
-            onClick={handleClose}
-            aria-label="Close welcome window"
-          >
-            <span className="close-x"></span>
-          </button> */}
-        </div>
         <span className="mobile-window-title">Welcome to My Portfolio</span>
-        <div className="window-actions"></div>
       </div>
       <div className="mobile-window-content">
         <div className="welcome-message">

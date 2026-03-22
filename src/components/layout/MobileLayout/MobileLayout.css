@@ -4,8 +4,8 @@
   --glass-primary: rgba(255, 255, 255, 0.18);
   --glass-secondary: rgba(255, 255, 255, 0.12);
   --glass-tertiary: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.25);
-  --glass-border-strong: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-strong: rgba(255, 255, 255, 0.22);
 
   /* Backdrop Effects */
   --backdrop-blur-strong: blur(40px) saturate(180%);
@@ -16,8 +16,8 @@
   --shadow-ambient: 0 2px 20px rgba(0, 0, 0, 0.1);
   --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.15),
     0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-floating: 0 20px 60px rgba(0, 0, 0, 0.2),
-    0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-floating: 0 16px 48px rgba(0, 0, 0, 0.18),
+    0 6px 20px rgba(0, 0, 0, 0.12);
 
   /* Color Harmony */
   --accent-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -32,7 +32,8 @@
 
 /* Mobile iPhone Styles */
 .iphone-container {
-  height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  height: 100dvh;
+  /* Dynamic viewport height for mobile browsers */
   width: 100vw;
   background-image: url("/images/palmtreeleaves-7.jpg");
   background-size: cover;
@@ -45,7 +46,8 @@
   margin: 0;
   overflow: hidden;
   box-sizing: border-box;
-  position: fixed; /* Prevent any scroll */
+  position: fixed;
+  /* Prevent any scroll */
   top: 0;
   left: 0;
 }
@@ -71,13 +73,16 @@
 /* Ensure mobile-app-container fills remaining space */
 .mobile-app-container {
   flex: 1;
-  overflow: hidden; /* Prevent any scrolling */
+  overflow: hidden;
+  /* Prevent any scrolling */
   padding-bottom: 0;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   box-sizing: border-box;
-  min-height: 0; /* Allow flex child to shrink */
+  min-height: 0;
+  /* Allow flex child to shrink */
 }
 
 .status-bar {
@@ -90,11 +95,9 @@
   font-size: 15px;
   font-weight: 600;
   text-shadow: var(--text-shadow-soft);
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0.12) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.12) 100%);
   backdrop-filter: var(--backdrop-blur-medium);
   border-bottom: 1px solid var(--glass-border);
   position: relative;
@@ -136,12 +139,10 @@
 .notch-indicator {
   width: 120px;
   height: 6px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.2) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.2) 100%);
   border-radius: 3px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -163,11 +164,9 @@
 
 .bar {
   width: 3px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.7) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 100%);
   border-radius: 1px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -175,12 +174,15 @@
 .bar-1 {
   height: 3px;
 }
+
 .bar-2 {
   height: 6px;
 }
+
 .bar-3 {
   height: 9px;
 }
+
 .bar-4 {
   height: 12px;
 }
@@ -228,48 +230,50 @@
 
 .wallpaper {
   flex: 1;
-  padding: 20px 25px 20px; /* Consistent padding */
+  padding: 20px 25px 20px;
+  /* Consistent padding */
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
+  /* Prevent scrolling */
   box-sizing: border-box;
   justify-content: flex-start;
-  min-height: 0; /* Allow flex child to shrink */
+  min-height: 0;
+  /* Allow flex child to shrink */
 }
 
 .mobile-welcome-window {
   position: relative;
   width: calc(100% - 40px);
   max-width: 340px;
-  background: linear-gradient(
-    135deg,
-    var(--glass-primary) 0%,
-    var(--glass-secondary) 50%,
-    var(--glass-tertiary) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--glass-primary) 0%,
+      var(--glass-secondary) 50%,
+      var(--glass-tertiary) 100%);
   backdrop-filter: var(--backdrop-blur-strong);
   border: 1px solid var(--glass-border-strong);
   border-radius: 24px;
-  margin: 15px auto 30px;
-  box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+  margin: 10px auto 16px;
+  box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text",
     "Segoe UI", Roboto, Arial, sans-serif;
   box-sizing: border-box;
-  animation: welcomeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    welcomePulse 4s ease-in-out 2s infinite;
+  animation: welcomeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
 }
 
 @keyframes welcomePulse {
+
   0%,
   100% {
     box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.4),
       inset 0 -1px 0 rgba(0, 0, 0, 0.08);
   }
+
   50% {
     box-shadow: var(--shadow-floating), 0 0 30px rgba(102, 126, 234, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.06);
@@ -286,6 +290,7 @@
     transform: translateY(-20px) scale(0.95);
     backdrop-filter: blur(0px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -298,6 +303,7 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   to {
     opacity: 0;
     transform: translateY(-10px) scale(0.98);
@@ -305,16 +311,15 @@
 }
 
 .mobile-window-title-bar {
-  height: 44px;
+  height: 36px;
   color: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 16px;
   position: relative;
   border-radius: 24px 24px 0 0;
   backdrop-filter: blur(10px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-window-controls {
@@ -347,11 +352,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    transparent 50%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 50%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -452,7 +455,7 @@
 }
 
 .mobile-window-content {
-  padding: 24px 20px 20px;
+  padding: 12px 20px 16px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -468,10 +471,10 @@
 }
 
 .welcome-message p {
-  margin: 0 0 20px 0;
-  font-size: 15px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.85);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   font-weight: 400;
 }
@@ -504,11 +507,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    transparent 50%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 50%);
   pointer-events: none;
   border-radius: 12px;
 }
@@ -522,11 +523,9 @@
 }
 
 .welcome-btn.secondary {
-  background: linear-gradient(
-    135deg,
-    var(--glass-secondary) 0%,
-    var(--glass-tertiary) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--glass-secondary) 0%,
+      var(--glass-tertiary) 100%);
   color: rgba(255, 255, 255, 0.95);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-ambient), inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -541,11 +540,9 @@
 }
 
 .welcome-btn.secondary:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.15) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.15) 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -567,11 +564,9 @@
 .decoration-circle {
   position: absolute;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
 }
 
 .decoration-circle:nth-child(1) {
@@ -599,21 +594,25 @@
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-10px) rotate(2deg);
   }
 }
 
 @keyframes subtleGlow {
+
   0%,
   100% {
     box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(255, 255, 255, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.25);
   }
+
   50% {
     box-shadow: var(--shadow-elevated), 0 0 20px rgba(102, 126, 234, 0.2),
       0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -623,14 +622,19 @@
 .home-apps {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
-  margin-top: 24px;
-  padding: 0 24px;
+  gap: 20px;
+  margin-top: 0;
+  padding: 0 32px;
   width: 100%;
   box-sizing: border-box;
   justify-items: center;
   flex-shrink: 0;
   align-items: start;
+}
+
+/* Center the last item when odd number of icons */
+.home-apps .mobile-app-icon:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .mobile-app-icon {
@@ -665,9 +669,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(0.92);
   }
+
   100% {
     transform: scale(1);
   }
@@ -685,49 +691,49 @@
   width: 62px;
   height: 62px;
   background: var(--accent-primary);
-  border-radius: 15px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 26px;
-  margin-bottom: 10px;
-  box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(255, 255, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: #ffffff;
   position: relative;
   overflow: hidden;
   padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Enhanced gradient colors for each app icon */
 .mobile-app-icon:nth-child(1) .icon {
   /* Mindset */
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: var(--shadow-elevated), 0 0 20px rgba(102, 126, 234, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-elevated), 0 0 14px rgba(102, 126, 234, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mobile-app-icon:nth-child(2) .icon {
   /* Skillset */
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  box-shadow: var(--shadow-elevated), 0 0 20px rgba(240, 147, 251, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-elevated), 0 0 14px rgba(240, 147, 251, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mobile-app-icon:nth-child(3) .icon {
   /* Projects */
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  box-shadow: var(--shadow-elevated), 0 0 20px rgba(79, 172, 254, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-elevated), 0 0 14px rgba(79, 172, 254, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mobile-app-icon:nth-child(4) .icon {
   /* Additional apps */
   background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  box-shadow: var(--shadow-elevated), 0 0 20px rgba(67, 233, 123, 0.25),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-elevated), 0 0 14px rgba(67, 233, 123, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .mobile-app-icon .icon::before {
@@ -737,12 +743,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(0, 0, 0, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(0, 0, 0, 0.1) 100%);
   border-radius: 13px;
   pointer-events: none;
 }
@@ -763,14 +767,14 @@
 
 .app-name {
   color: #ffffff;
-  font-size: 12px;
-  font-weight: 200;
+  font-size: 13px;
+  font-weight: 500;
   text-align: center;
   line-height: 1.2;
-  max-width: 70px;
+  max-width: 80px;
   word-wrap: break-word;
-  letter-spacing: 0.2px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .page-indicators {
@@ -798,31 +802,29 @@
 }
 
 .dock-mobile {
-  height: 90px;
-  width: calc(100% - 40px);
-  max-width: 350px;
-  background: linear-gradient(
-    135deg,
-    var(--glass-primary) 0%,
-    var(--glass-secondary) 50%,
-    var(--glass-tertiary) 100%
-  );
+  height: auto;
+  width: calc(100% - 48px);
+  max-width: 300px;
+  background: linear-gradient(135deg,
+      var(--glass-primary) 0%,
+      var(--glass-secondary) 50%,
+      var(--glass-tertiary) 100%);
   backdrop-filter: var(--backdrop-blur-strong);
   border: 1px solid var(--glass-border-strong);
-  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  gap: 24px;
-  padding: 18px 24px;
+  gap: 20px;
+  padding: 12px 20px;
   position: fixed;
   left: 50% !important;
   bottom: 20px;
   transform: translateX(-50%) !important;
   margin: 0 !important;
-  border-radius: 30px;
-  box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 26px;
+  box-shadow: var(--shadow-floating), inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   overflow: visible;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: dockSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
@@ -836,6 +838,7 @@
     transform: translateX(-50%) translateY(30px) scale(0.95);
     backdrop-filter: blur(0px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
@@ -850,13 +853,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(0, 0, 0, 0.02) 100%
-  );
-  border-radius: 30px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(0, 0, 0, 0.02) 100%);
+  border-radius: 26px;
   pointer-events: none;
   z-index: 1;
 }
@@ -868,59 +869,57 @@
   left: 1px;
   right: 1px;
   bottom: 1px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-  border-radius: 29px;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
+  border-radius: 25px;
   pointer-events: none;
   z-index: 2;
 }
 
 .dock-app {
-  width: 74px;
-  height: 74px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  border-radius: 16px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  font-size: 22px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   color: #ffffff;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2), 0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
   outline: none;
   border: none;
   position: relative;
   overflow: visible;
   z-index: 3;
-  filter: brightness(1) saturate(1.1);
+  filter: brightness(1) saturate(1.05);
 }
 
 /* Enhanced gradients for dock apps */
 .dock-app:nth-child(1) {
   /* LinkedIn */
   background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
-  box-shadow: 0 6px 24px rgba(0, 119, 181, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 18px rgba(0, 119, 181, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .dock-app:nth-child(2) {
   /* Calendar/Calendly */
   background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  box-shadow: 0 6px 24px rgba(255, 107, 53, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 18px rgba(255, 107, 53, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .dock-app:nth-child(3) {
   /* Contact */
   background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  box-shadow: 0 6px 24px rgba(67, 233, 123, 0.3), 0 3px 12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 18px rgba(67, 233, 123, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .dock-app::before {
@@ -930,14 +929,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.2) 30%,
-    rgba(255, 255, 255, 0.05) 70%,
-    rgba(0, 0, 0, 0.1) 100%
-  );
-  border-radius: 16px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0.03) 70%,
+      rgba(0, 0, 0, 0.08) 100%);
+  border-radius: 14px;
   pointer-events: none;
   z-index: 1;
   transition: all 0.3s ease;
@@ -950,13 +947,11 @@
   left: 1px;
   right: 1px;
   bottom: 1px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  border-radius: 15px;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      transparent 100%);
+  border-radius: 13px;
   pointer-events: none;
   z-index: 2;
 }
@@ -978,36 +973,34 @@
 }
 
 .dock-app:hover::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.3) 30%,
-    rgba(255, 255, 255, 0.1) 70%,
-    rgba(0, 0, 0, 0.05) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.3) 30%,
+      rgba(255, 255, 255, 0.1) 70%,
+      rgba(0, 0, 0, 0.05) 100%);
 }
 
 /* Enhanced Notification Badge for Mobile */
 .dock-app .notification-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -6px;
+  right: -6px;
   background: linear-gradient(135deg, #ff3b30 0%, #ff1744 100%);
   color: white;
   border-radius: 50%;
   overflow: visible;
-  width: 20px;
-  height: 20px;
-  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  font-size: 9px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 3px 8px rgba(255, 59, 48, 0.35), 0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   z-index: 20;
-  animation: mobilepulse 2s infinite;
+  animation: mobilepulse 2.5s infinite;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -1020,20 +1013,23 @@
 
 @keyframes mobilepulse {
   0% {
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 0 rgba(255, 59, 48, 0.7);
+    box-shadow: 0 3px 8px rgba(255, 59, 48, 0.35), 0 1px 4px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 0 rgba(255, 59, 48, 0.5);
   }
+
   50% {
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 8px rgba(255, 59, 48, 0.3);
+    box-shadow: 0 3px 8px rgba(255, 59, 48, 0.35), 0 1px 4px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 6px rgba(255, 59, 48, 0.2);
   }
+
   70% {
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 16px rgba(255, 59, 48, 0.1);
+    box-shadow: 0 3px 8px rgba(255, 59, 48, 0.35), 0 1px 4px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 10px rgba(255, 59, 48, 0.06);
   }
+
   100% {
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 0 rgba(255, 59, 48, 0);
+    box-shadow: 0 3px 8px rgba(255, 59, 48, 0.35), 0 1px 4px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 0 rgba(255, 59, 48, 0);
   }
 }
 
@@ -1061,6 +1057,7 @@
     opacity: 0;
     backdrop-filter: blur(0px);
   }
+
   to {
     opacity: 1;
     backdrop-filter: blur(30px);
@@ -1090,6 +1087,7 @@
     opacity: 0;
     transform: translateY(50px) scale(0.85);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1247,7 +1245,7 @@
 }
 
 /* Ensure modal content is displayed properly */
-.modal-content > * {
+.modal-content>* {
   display: block !important;
   overflow: visible !important;
 }
@@ -1595,12 +1593,15 @@
   .bar-1 {
     height: 2px;
   }
+
   .bar-2 {
     height: 4px;
   }
+
   .bar-3 {
     height: 7px;
   }
+
   .bar-4 {
     height: 10px;
   }
@@ -1618,7 +1619,8 @@
   }
 
   .carrier-text {
-    display: none; /* Hide carrier text on very small screens */
+    display: none;
+    /* Hide carrier text on very small screens */
   }
 
   .notch-indicator {
@@ -1643,10 +1645,12 @@
 
 /* Status Bar Animations */
 @keyframes signalPulse {
+
   0%,
   100% {
     opacity: 0.7;
   }
+
   50% {
     opacity: 1;
   }
@@ -1659,18 +1663,22 @@
 .signal-bars .bar-2 {
   animation-delay: 0.2s;
 }
+
 .signal-bars .bar-3 {
   animation-delay: 0.4s;
 }
+
 .signal-bars .bar-4 {
   animation-delay: 0.6s;
 }
 
 @keyframes batteryGlow {
+
   0%,
   100% {
     box-shadow: 0 0 5px rgba(74, 222, 128, 0.3);
   }
+
   50% {
     box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
   }
@@ -1687,12 +1695,10 @@
 }
 
 .status-bar:hover .notch-indicator {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.3) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.3) 100%);
 }
 
 /* Make app grid more responsive */
