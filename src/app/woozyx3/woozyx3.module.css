@@ -57,6 +57,7 @@
   box-shadow: 0 18px 40px rgba(2, 6, 23, 0.22);
   max-width: 700px;
   width: calc(100% - 40px);
+  margin: 0vh 2vw;
 }
 
 .formRow {
@@ -156,11 +157,7 @@
     width: calc(100% - 28px);
     padding: 18px;
   }
-  .container::before {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.18);
-  }
+
   .btn {
     width: 120px;
   }
@@ -221,14 +218,8 @@
   pointer-events: none;
 }
 
-/* On small screens, add a light wash + blur for better contrast and legibility */
 @media (max-width: 640px) {
   .container {
     background-attachment: scroll; /* mobile browsers often ignore fixed */
-  }
-  .container::before {
-    background: rgba(0, 0, 0, 0.42);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
 }
