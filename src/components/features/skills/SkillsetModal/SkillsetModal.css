@@ -79,11 +79,9 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 122, 255, 0.08) 0%,
-    rgba(175, 82, 222, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 122, 255, 0.08) 0%,
+      rgba(175, 82, 222, 0.08) 100%);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   display: flex;
@@ -100,12 +98,12 @@
   width: 100%;
   max-width: 1000px;
   max-height: 90vh;
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.28);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-2xl);
+  box-shadow: 0 26px 64px rgba(2, 6, 23, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.32);
   overflow: hidden;
   animation: skillsetSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
@@ -115,7 +113,7 @@
 
 .skillset-modal-content {
   flex: 1;
-  padding: var(--space-8);
+  padding: var(--space-6);
   background: transparent;
   overflow-y: auto;
   overflow-x: hidden;
@@ -124,7 +122,7 @@
   overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .skillset-modal-content::-webkit-scrollbar {
@@ -195,9 +193,9 @@
 }
 
 .nav-tab {
-  padding: var(--space-3) var(--space-5);
+  padding: 10px 16px;
   border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -207,7 +205,7 @@
   letter-spacing: -0.01em;
   position: relative;
   overflow: hidden;
-  min-width: 100px;
+  min-height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,11 +220,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange-light) 0%,
-    rgba(175, 82, 222, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange-light) 0%,
+      rgba(175, 82, 222, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -247,11 +243,9 @@
 }
 
 .nav-tab.active {
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   color: white;
   box-shadow: var(--shadow-md);
   transform: scale(1.02);
@@ -295,12 +289,10 @@
   animation: featuredCompanyFade 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
   padding: var(--space-4);
   border-radius: var(--radius-3xl);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 122, 255, 0.03) 0%,
-    rgba(175, 82, 222, 0.03) 50%,
-    rgba(255, 45, 146, 0.03) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 122, 255, 0.03) 0%,
+      rgba(175, 82, 222, 0.03) 50%,
+      rgba(255, 45, 146, 0.03) 100%);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -315,11 +307,11 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, 
-    var(--ios-blue) 0%, 
-    var(--ios-purple) 30%,
-    var(--ios-pink) 60%, 
-    var(--ios-orange) 100%);
+  background: linear-gradient(90deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 30%,
+      var(--ios-pink) 60%,
+      var(--ios-orange) 100%);
   z-index: 1;
 }
 
@@ -336,11 +328,11 @@
   font-weight: 800;
   color: var(--ios-text-primary);
   margin: 0 0 var(--space-2) 0;
-  background: linear-gradient(135deg, 
-    #ff6b35 0%, 
-    #f7931e  30%,
-    #764ba2  70%,
-    #667eea 100%);
+  background: linear-gradient(135deg,
+      #ff6b35 0%,
+      #f7931e 30%,
+      #764ba2 70%,
+      #667eea 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -359,9 +351,9 @@
 }
 
 .featured-company-card {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(248, 250, 252, 0.9) 100%);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.9) 100%);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -370,7 +362,7 @@
   display: flex;
   gap: var(--space-10);
   align-items: flex-start;
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.08),
     0 8px 25px rgba(0, 122, 255, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -386,18 +378,18 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    var(--ios-blue) 20%,
-    var(--ios-purple) 50%,
-    var(--ios-pink) 80%,
-    transparent 100%);
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--ios-blue) 20%,
+      var(--ios-purple) 50%,
+      var(--ios-pink) 80%,
+      transparent 100%);
   opacity: 0.6;
 }
 
 .featured-company-card:hover {
   transform: translateY(-8px) scale(1.01);
-  box-shadow: 
+  box-shadow:
     0 32px 80px rgba(0, 0, 0, 0.12),
     0 16px 40px rgba(0, 122, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -416,14 +408,14 @@
 .company-logo {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%, 
-    rgba(248, 250, 252, 0.9) 100%);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.9) 100%);
   border-radius: var(--radius-3xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     0 12px 32px rgba(0, 122, 255, 0.2),
     0 4px 16px rgba(0, 0, 0, 0.08),
     inset 0 2px 0 rgba(255, 255, 255, 0.8);
@@ -437,10 +429,10 @@
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, 
-    var(--ios-blue) 0%, 
-    var(--ios-purple) 50%, 
-    var(--ios-pink) 100%);
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 50%,
+      var(--ios-pink) 100%);
   border-radius: inherit;
   z-index: -1;
   opacity: 0;
@@ -449,7 +441,7 @@
 
 .featured-company-card:hover .company-logo {
   transform: scale(1.05) rotate(1deg);
-  box-shadow: 
+  box-shadow:
     0 16px 40px rgba(0, 122, 255, 0.3),
     0 6px 20px rgba(0, 0, 0, 0.12),
     inset 0 2px 0 rgba(255, 255, 255, 0.9);
@@ -477,7 +469,7 @@
   font-size: var(--text-3xl);
   font-weight: 900;
   color: white;
-  text-shadow: 
+  text-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: -0.02em;
@@ -492,7 +484,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(255, 149, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -501,7 +493,7 @@
 
 .featured-company-card:hover .company-badge {
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 6px 16px rgba(255, 149, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -519,9 +511,9 @@
   margin: 0 0 var(--space-4) 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, 
-    #2563eb 0%, 
-    #7c3aed 100%);
+  background: linear-gradient(135deg,
+      #2563eb 0%,
+      #7c3aed 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -535,9 +527,9 @@
   left: 0;
   width: 50px;
   height: 2px;
-  background: linear-gradient(90deg, 
-    #2563eb 0%, 
-    #7c3aed 100%);
+  background: linear-gradient(90deg,
+      #2563eb 0%,
+      #7c3aed 100%);
   border-radius: var(--radius-sm);
 }
 
@@ -564,8 +556,8 @@
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(248, 250, 252, 0.8) 100%);
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(248, 250, 252, 0.8) 100%);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -573,7 +565,7 @@
   font-size: var(--text-base);
   font-weight: 600;
   color: var(--ios-text-primary);
-  box-shadow: 
+  box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -589,9 +581,9 @@
   right: 0;
   height: 2px;
   background: linear-gradient(90deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 50%,
-    var(--ios-pink) 100%);
+      var(--ios-blue) 0%,
+      var(--ios-purple) 50%,
+      var(--ios-pink) 100%);
   transform: translateX(-100%);
   transition: transform 0.3s ease;
 }
@@ -602,7 +594,7 @@
 
 .highlight-item:hover {
   transform: translateY(-3px);
-  box-shadow: 
+  box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.08),
     0 2px 8px rgba(0, 122, 255, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -627,7 +619,8 @@
   margin-top: var(--space-2);
 }
 
-.company-website-btn, .company-github-btn {
+.company-website-btn,
+.company-github-btn {
   padding: var(--space-4) var(--space-8);
   border-radius: var(--radius-xl);
   font-size: var(--text-base);
@@ -647,7 +640,8 @@
   -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
-.company-website-btn::before, .company-github-btn::before {
+.company-website-btn::before,
+.company-github-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -655,33 +649,34 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent);
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
   transition: left 0.5s ease;
 }
 
-.company-website-btn:hover::before, .company-github-btn:hover::before {
+.company-website-btn:hover::before,
+.company-github-btn:hover::before {
   left: 100%;
 }
 
 .company-website-btn {
-  background: linear-gradient(135deg, 
-    var(--ios-blue) 0%, 
-    var(--ios-purple) 100%);
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
+  box-shadow:
     0 8px 24px rgba(0, 122, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .company-website-btn:hover {
-  background: linear-gradient(135deg, 
-    var(--ios-blue-dark) 0%, 
-    var(--ios-purple) 100%);
+  background: linear-gradient(135deg,
+      var(--ios-blue-dark) 0%,
+      var(--ios-purple) 100%);
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 
+  box-shadow:
     0 12px 32px rgba(0, 122, 255, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.3);
@@ -691,7 +686,7 @@
   background: rgba(255, 255, 255, 0.9);
   color: var(--ios-text-primary);
   border: 2px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
@@ -699,14 +694,15 @@
 .company-github-btn:hover {
   background: rgba(255, 255, 255, 1);
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 
+  box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 1);
   border-color: rgba(0, 122, 255, 0.2);
   color: var(--ios-blue);
 }
 
-.company-website-btn:active, .company-github-btn:active {
+.company-website-btn:active,
+.company-github-btn:active {
   transform: translateY(-2px) scale(1.01);
   transition: transform 0.1s ease;
 }
@@ -725,6 +721,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -737,7 +734,7 @@
     gap: var(--space-8);
     padding: var(--space-8);
   }
-  
+
   .company-highlights {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-4);
@@ -749,43 +746,44 @@
     padding: var(--space-3);
     margin-bottom: var(--space-12);
   }
-  
+
   .featured-company-header h2 {
     font-size: var(--text-3xl);
   }
-  
+
   .company-tagline {
     font-size: var(--text-base);
   }
-  
+
   .featured-company-card {
     flex-direction: column;
     text-align: center;
     padding: var(--space-8);
     gap: var(--space-6);
   }
-  
+
   .company-content h3 {
     font-size: var(--text-xl);
     text-align: center;
   }
-  
+
   .company-content h3::after {
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   .company-highlights {
     grid-template-columns: 1fr;
     gap: var(--space-3);
   }
-  
+
   .company-actions {
     justify-content: center;
     gap: var(--space-3);
   }
-  
-  .company-website-btn, .company-github-btn {
+
+  .company-website-btn,
+  .company-github-btn {
     min-width: 140px;
     padding: var(--space-3) var(--space-6);
   }
@@ -797,77 +795,78 @@
     margin-bottom: var(--space-8);
     border-radius: var(--radius-2xl);
   }
-  
+
   .featured-company-header {
     margin-bottom: var(--space-6);
     padding-top: var(--space-3);
   }
-  
+
   .featured-company-header h2 {
     font-size: var(--text-2xl);
     margin-bottom: var(--space-2);
   }
-  
+
   .company-tagline {
     font-size: var(--text-sm);
   }
-  
+
   .featured-company-card {
     padding: var(--space-6);
     gap: var(--space-5);
     border-radius: var(--radius-2xl);
   }
-  
+
   .company-logo {
     width: 70px;
     height: 70px;
     border-radius: var(--radius-2xl);
     padding: var(--space-2);
   }
-  
+
   .company-logo-image {
     border-radius: var(--radius-lg);
   }
-  
+
   .logo-text {
     font-size: var(--text-xl);
   }
-  
+
   .company-badge {
     padding: var(--space-1) var(--space-3);
     font-size: var(--text-xs);
     border-radius: var(--radius-md);
   }
-  
+
   .company-content h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-4);
   }
-  
+
   .company-content p {
     font-size: var(--text-base);
     line-height: 1.6;
     margin-bottom: var(--space-6);
   }
-  
+
   .highlight-item {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-3);
     font-size: var(--text-sm);
     border-radius: var(--radius-lg);
   }
-  
+
   .highlight-icon {
     font-size: var(--text-lg);
   }
-  
+
   .company-actions {
     flex-direction: column;
     width: 100%;
     gap: var(--space-3);
   }
-  
-  .company-website-btn, .company-github-btn {
+
+  .company-website-btn,
+  .company-github-btn {
     width: 100%;
     justify-content: center;
     padding: var(--space-4) var(--space-6);
@@ -940,12 +939,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 149, 0, 0.05) 0%,
-    rgba(175, 82, 222, 0.05) 50%,
-    rgba(0, 122, 255, 0.05) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 149, 0, 0.05) 0%,
+      rgba(175, 82, 222, 0.05) 50%,
+      rgba(0, 122, 255, 0.05) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -974,11 +971,9 @@
 .service-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
@@ -1085,11 +1080,9 @@
   color: var(--ios-text-primary);
   margin: 0 0 var(--space-5) 0;
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-text-primary) 0%,
-    var(--ios-orange) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-text-primary) 0%,
+      var(--ios-orange) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1101,11 +1094,9 @@
 .category-icon {
   width: 32px;
   height: 32px;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -1143,11 +1134,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange-light) 0%,
-    rgba(175, 82, 222, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange-light) 0%,
+      rgba(175, 82, 222, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -1169,11 +1158,9 @@
   height: 52px;
   padding: 10px;
   margin: 0 auto var(--space-3);
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   border-radius: calc(var(--radius-lg) + 4px);
   display: flex;
   align-items: center;
@@ -1210,11 +1197,9 @@
 /* keep the existing color change when hovering, but smoother */
 .tool-item:hover .tool-icon,
 .tool-item:active .tool-icon {
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   color: white;
 }
 
@@ -1229,6 +1214,7 @@
 
 /* smaller screens adjust size */
 @media (max-width: 768px) {
+
   /* Tool icons */
   .tool-icon {
     width: 48px;
@@ -1261,12 +1247,10 @@
   .skillset-modal-window-title {
     font-size: var(--text-xl);
     padding: var(--space-1) 0;
-    background: linear-gradient(
-      135deg,
-      #667eea 0%,
-      #764ba2 50%,
-      #f093fb 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #667eea 0%,
+        #764ba2 50%,
+        #f093fb 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1340,6 +1324,7 @@
 }
 
 @media (max-width: 480px) {
+
   /* Tool icons */
   .tool-icon {
     width: 40px;
@@ -1389,12 +1374,10 @@
   .skillset-modal-window-title {
     font-size: var(--text-lg);
     padding: 4px 0;
-    background: linear-gradient(
-      135deg,
-      #ff9a9e 0%,
-      #fecfef 50%,
-      #fecfef 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #ff9a9e 0%,
+        #fecfef 50%,
+        #fecfef 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1471,6 +1454,7 @@
 
 /* respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
+
   .tool-icon,
   .tool-item:hover .tool-icon,
   .tool-item:focus-within .tool-icon {
@@ -1557,11 +1541,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 149, 0, 0.05) 0%,
-    rgba(175, 82, 222, 0.05) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 149, 0, 0.05) 0%,
+      rgba(175, 82, 222, 0.05) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -1588,11 +1570,9 @@
 .principle-number {
   width: 44px;
   height: 44px;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1803,12 +1783,10 @@
   .skillset-modal-window-title {
     font-size: var(--text-lg);
     padding: 4px 0;
-    background: linear-gradient(
-      135deg,
-      #ff9a9e 0%,
-      #fecfef 50%,
-      #fecfef 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #ff9a9e 0%,
+        #fecfef 50%,
+        #fecfef 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1904,11 +1882,9 @@
   font-size: var(--text-2xl);
   font-weight: 700;
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1936,11 +1912,9 @@
   font-weight: 700;
   margin: var(--space-3) 0 var(--space-2) 0;
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1979,11 +1953,9 @@
   font-weight: 800;
   margin: 0 0 var(--space-6) 0;
   letter-spacing: -0.03em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2091,11 +2063,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange-light, rgba(255, 149, 0, 0.1)) 0%,
-    rgba(175, 82, 222, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange-light, rgba(255, 149, 0, 0.1)) 0%,
+      rgba(175, 82, 222, 0.08) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -2117,11 +2087,9 @@
 }
 
 .skillset-tab.active {
-  background: linear-gradient(
-    135deg,
-    var(--ios-orange) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-orange) 0%,
+      var(--ios-purple) 100%);
   color: white;
   box-shadow: var(--shadow-md);
   transform: scale(1.06);
@@ -2221,11 +2189,9 @@
 
   .skillset-title,
   .tools-category-title {
-    background: linear-gradient(
-      135deg,
-      var(--ios-text-primary) 0%,
-      var(--ios-orange) 100%
-    );
+    background: linear-gradient(135deg,
+        var(--ios-text-primary) 0%,
+        var(--ios-orange) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2237,28 +2203,26 @@
 
   /* Featured Company Dark Mode */
   .featured-company-section {
-    background: linear-gradient(
-      135deg,
-      rgba(0, 122, 255, 0.08) 0%,
-      rgba(175, 82, 222, 0.08) 50%,
-      rgba(255, 45, 146, 0.08) 100%
-    );
+    background: linear-gradient(135deg,
+        rgba(0, 122, 255, 0.08) 0%,
+        rgba(175, 82, 222, 0.08) 50%,
+        rgba(255, 45, 146, 0.08) 100%);
     border-color: rgba(255, 255, 255, 0.08);
   }
 
   .featured-company-card {
-    background: linear-gradient(135deg, 
-      rgba(58, 58, 60, 0.95) 0%, 
-      rgba(44, 44, 46, 0.9) 100%);
+    background: linear-gradient(135deg,
+        rgba(58, 58, 60, 0.95) 0%,
+        rgba(44, 44, 46, 0.9) 100%);
     border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 
+    box-shadow:
       0 20px 60px rgba(0, 0, 0, 0.3),
       0 8px 25px rgba(0, 122, 255, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .featured-company-card:hover {
-    box-shadow: 
+    box-shadow:
       0 32px 80px rgba(0, 0, 0, 0.4),
       0 16px 40px rgba(0, 122, 255, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -2267,16 +2231,16 @@
 
   .highlight-item {
     background: linear-gradient(135deg,
-      rgba(58, 58, 60, 0.9) 0%,
-      rgba(44, 44, 46, 0.8) 100%);
+        rgba(58, 58, 60, 0.9) 0%,
+        rgba(44, 44, 46, 0.8) 100%);
     border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 
+    box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .highlight-item:hover {
-    box-shadow: 
+    box-shadow:
       0 8px 20px rgba(0, 0, 0, 0.3),
       0 2px 8px rgba(0, 122, 255, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -2287,14 +2251,14 @@
     background: rgba(58, 58, 60, 0.9);
     color: var(--ios-text-primary);
     border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 
+    box-shadow:
       0 4px 16px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .company-github-btn:hover {
     background: rgba(70, 70, 73, 0.95);
-    box-shadow: 
+    box-shadow:
       0 8px 24px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
     border-color: rgba(0, 122, 255, 0.4);
@@ -2303,18 +2267,18 @@
 
   /* Logo dark mode adjustments */
   .company-logo {
-    background: linear-gradient(135deg, 
-      rgba(58, 58, 60, 0.95) 0%, 
-      rgba(44, 44, 46, 0.9) 100%);
+    background: linear-gradient(135deg,
+        rgba(58, 58, 60, 0.95) 0%,
+        rgba(44, 44, 46, 0.9) 100%);
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 
+    box-shadow:
       0 12px 32px rgba(0, 0, 0, 0.4),
       0 4px 16px rgba(0, 122, 255, 0.15),
       inset 0 2px 0 rgba(255, 255, 255, 0.1);
   }
 
   .featured-company-card:hover .company-logo {
-    box-shadow: 
+    box-shadow:
       0 16px 40px rgba(0, 0, 0, 0.5),
       0 6px 20px rgba(0, 122, 255, 0.2),
       inset 0 2px 0 rgba(255, 255, 255, 0.15);
@@ -2324,6 +2288,7 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
+
   .control-button,
   .nav-tab,
   .tool-item {

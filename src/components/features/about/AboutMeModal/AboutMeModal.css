@@ -96,11 +96,9 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 122, 255, 0.08) 0%,
-    rgba(175, 82, 222, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 122, 255, 0.08) 0%,
+      rgba(175, 82, 222, 0.08) 100%);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   display: flex;
@@ -117,13 +115,13 @@
 .about-modal {
   width: 100%;
   max-width: 900px;
-  max-height: 80vh;
-  background: var(--glass-bg);
+  max-height: 85vh;
+  background: rgba(255, 255, 255, 0.28);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-2xl);
+  box-shadow: 0 26px 64px rgba(2, 6, 23, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.32);
   overflow: hidden;
   animation: modalSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
@@ -170,12 +168,10 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 50%,
-    var(--ios-pink) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 50%,
+      var(--ios-pink) 100%);
   border-top-left-radius: var(--radius-3xl);
   border-top-right-radius: var(--radius-3xl);
 }
@@ -269,12 +265,10 @@
   font-size: var(--text-2xl);
   font-weight: 700;
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 50%,
-    var(--ios-pink) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 50%,
+      var(--ios-pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -347,11 +341,9 @@
   font-weight: 800;
   margin: 0 0 var(--space-2) 0;
   letter-spacing: -0.03em;
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -420,11 +412,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue-light) 0%,
-    rgba(175, 82, 222, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-blue-light) 0%,
+      rgba(175, 82, 222, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -447,11 +437,9 @@
 }
 
 .about-modal-pill.active {
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   color: white;
   box-shadow: var(--shadow-lg);
   transform: scale(1.02);
@@ -521,12 +509,10 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
   transition: left 0.5s ease;
 }
 
@@ -535,11 +521,9 @@
 }
 
 .about-modal-action-btn.primary {
-  background: linear-gradient(
-    135deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   color: white;
   box-shadow: var(--shadow-md);
 }
@@ -654,16 +638,15 @@
 
   .about-modal-window-title {
     font-size: var(--text-xl);
-    background: linear-gradient(
-      135deg,
-      #667eea 0%,
-      #764ba2 50%,
-      #f093fb 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #667eea 0%,
+        #764ba2 50%,
+        #f093fb 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
-    filter: brightness(1.2) saturate(1.3);  }
+    filter: brightness(1.2) saturate(1.3);
+  }
 
   .about-modal-content {
     padding: var(--space-6);
@@ -838,15 +821,14 @@
 
   .about-modal-title,
   .about-modal-window-title {
-    background: linear-gradient(
-      135deg,
-      var(--ios-text-primary) 0%,
-      var(--ios-blue) 100%
-    );
+    background: linear-gradient(135deg,
+        var(--ios-text-primary) 0%,
+        var(--ios-blue) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
   .about-modal-section p,
   .about-modal-section h3 {
     color: rgb(184, 182, 182) !important;
@@ -859,6 +841,7 @@
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
+
   .about-modal-pill,
   .about-modal-action-btn {
     min-height: 44px;
@@ -950,12 +933,10 @@
 
   .about-modal-window-title {
     font-size: var(--text-lg);
-    background: linear-gradient(
-      135deg,
-      #ff6b6b 0%,
-      #4ecdc4 50%,
-      #45b7d1 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #ff6b6b 0%,
+        #4ecdc4 50%,
+        #45b7d1 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -982,12 +963,10 @@
   .about-modal-header h2 {
     font-size: var(--text-3xl);
     margin-bottom: var(--space-3);
-    background: linear-gradient(
-      135deg,
-      #667eea 0%,
-      #764ba2 50%,
-      #f093fb 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #667eea 0%,
+        #764ba2 50%,
+        #f093fb 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1028,22 +1007,18 @@
     border-radius: var(--radius-md);
     min-height: 44px;
     color: rgba(255, 255, 255, 0.95) !important;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 107, 107, 0.2) 0%,
-      rgba(78, 205, 196, 0.2) 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        rgba(255, 107, 107, 0.2) 0%,
+        rgba(78, 205, 196, 0.2) 100%) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     backdrop-filter: blur(10px) !important;
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.1) !important;
   }
 
   .about-modal-pill:hover {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 107, 107, 0.3) 0%,
-      rgba(78, 205, 196, 0.3) 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        rgba(255, 107, 107, 0.3) 0%,
+        rgba(78, 205, 196, 0.3) 100%) !important;
     color: #ffffff !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.2) !important;
@@ -1093,12 +1068,10 @@
   .about-modal-window-title {
     font-size: var(--text-base);
     font-weight: 600;
-    background: linear-gradient(
-      135deg,
-      #ff9a9e 0%,
-      #fecfef 50%,
-      #fecfef 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #ff9a9e 0%,
+        #fecfef 50%,
+        #fecfef 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1126,12 +1099,10 @@
     font-size: var(--text-xl);
     margin-bottom: var(--space-2);
     line-height: 1.3;
-    background: linear-gradient(
-      135deg,
-      #a8edea 0%,
-      #fed6e3 50%,
-      #d299c2 100%
-    ) !important;
+    background: linear-gradient(135deg,
+        #a8edea 0%,
+        #fed6e3 50%,
+        #d299c2 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -1330,11 +1301,9 @@
 
 .about-modal-progress-bar {
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
@@ -1343,11 +1312,9 @@
 
 .about-modal-progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--ios-blue) 0%,
-    var(--ios-purple) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--ios-blue) 0%,
+      var(--ios-purple) 100%);
   transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: absolute;
   left: 0;
@@ -1511,6 +1478,7 @@
 /* === MOBILE ENHANCEMENTS === */
 /* Improved touch targets for mobile */
 @media (max-width: 768px) and (hover: none) {
+
   .about-modal-pill,
   .about-modal-action-btn {
     min-height: 44px;
@@ -1557,6 +1525,7 @@
 
 /* Prevent text selection on mobile for better UX */
 @media (max-width: 768px) {
+
   .about-modal-title-bar,
   .about-modal-window-title,
   .about-modal-pill,

@@ -8,7 +8,7 @@
   --glass-border-strong: rgba(255, 255, 255, 0.22);
 
   /* Backdrop Effects */
-  --backdrop-blur-strong: blur(40px) saturate(180%);
+  --backdrop-blur-strong: blur(34px) saturate(150%);
   --backdrop-blur-medium: blur(25px) saturate(150%);
   --backdrop-blur-light: blur(15px) saturate(120%);
 
@@ -28,6 +28,15 @@
   /* Text Shadows */
   --text-shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.3);
   --text-shadow-strong: 0 2px 6px rgba(0, 0, 0, 0.5);
+
+  /* Typography */
+  --text-line-height-body: 1.6;
+  --text-line-height-heading: 1.2;
+
+  /* Button Spacing */
+  --button-padding-primary: 12px 20px;
+  --button-padding-secondary: 10px 16px;
+  --button-gap: 12px;
 }
 
 /* Mobile iPhone Styles */
@@ -1935,6 +1944,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .iphone-container *,
   .iphone-container *::before,
   .iphone-container *::after {
@@ -2507,6 +2517,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .command-layout *,
   .command-layout *::before,
   .command-layout *::after {
