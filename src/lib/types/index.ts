@@ -10,10 +10,15 @@ export interface AboutMePill {
 
 export interface Project {
     id: number;
+    slug?: string;
+    yearRange?: string;
     image?: string | StaticImageData;
     name: string;
     description: string;
     link: string;
+    highlights?: string[];
+    stackPreview?: string[];
+    deepDiveKey?: string;
     icon?: string;
     type?: string;
     duration?: string;

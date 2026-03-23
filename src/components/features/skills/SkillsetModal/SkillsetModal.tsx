@@ -1,28 +1,100 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import services from "@/data/services";
-// import principlesData from "@/data/principles";
-import "./SkillsetModal.css";
 import tools from "@/data/toolbelt";
 import { ModalProps } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
+import "./SkillsetModal.css";
+
+type SkillsetTab = "services" | "tools";
+
+const orderedCategories = [
+  "Frontend",
+  "Backend",
+  "Cloud",
+  "DevOps",
+  "Design",
+  "Collaboration",
+  "Package Management",
+  "Project Management",
+  "Documentation",
+];
+
+const serviceOutcomes: Record<string, string> = {
+  sb1: "Outcome: conversion-focused web experiences with production analytics.",
+  sb2: "Outcome: app flows that feel native, fast, and easy to learn.",
+  sb3: "Outcome: accessible, responsive interfaces that scale in codebase and team size.",
+  sb4: "Outcome: predictable integrations and stable system-to-system communication.",
+  sb5: "Outcome: repeatable releases with deployment confidence and lower operational drag.",
+  sb6: "Outcome: clean domain models, faster queries, and durable data governance.",
+  sb7: "Outcome: less manual overhead through targeted automation and scripting.",
+};
+
+const getServiceSummary = (description: string): string => {
+  const firstSentence = description.split(". ")[0]?.trim();
+  if (!firstSentence) return description;
+  return firstSentence.endsWith(".") ? firstSentence : `${firstSentence}.`;
+};
 
 const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
-  // Drag state
-  const [activeTab, setActiveTab] = useState<
-    "services" | "tools"
-  >("services");
+  const [activeTab, setActiveTab] = useState<SkillsetTab>("services");
+  const [expandedService, setExpandedService] = useState<string | null>(
+    services[0]?.id ?? null
+  );
+  const [toolQuery, setToolQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Group tools by category
-  const toolsByCategory = tools.reduce((acc, tool) => {
-    if (!acc[tool.category]) {
-      acc[tool.category] = [];
-    }
-    acc[tool.category].push(tool);
-    return acc;
-  }, {} as Record<string, typeof tools>);
+  const categories = useMemo(() => {
+    const discovered = Array.from(new Set(tools.map((tool) => tool.category)));
+
+    const prioritized = orderedCategories.filter((category) =>
+      discovered.includes(category)
+    );
+
+    const remaining = discovered
+      .filter((category) => !prioritized.includes(category))
+      .sort((a, b) => a.localeCompare(b));
+
+    return [...prioritized, ...remaining];
+  }, []);
+
+  const filteredTools = useMemo(() => {
+    const normalizedQuery = toolQuery.trim().toLowerCase();
+
+    return tools.filter((tool) => {
+      const categoryMatches =
+        selectedCategory === "All" || tool.category === selectedCategory;
+
+      const queryMatches =
+        normalizedQuery.length === 0 ||
+        tool.tooltip.toLowerCase().includes(normalizedQuery) ||
+        tool.category.toLowerCase().includes(normalizedQuery);
+
+      return categoryMatches && queryMatches;
+    });
+  }, [selectedCategory, toolQuery]);
+
+  const toolsByCategory = useMemo(() => {
+    return filteredTools.reduce((acc, tool) => {
+      if (!acc[tool.category]) acc[tool.category] = [];
+      acc[tool.category].push(tool);
+      return acc;
+    }, {} as Record<string, typeof tools>);
+  }, [filteredTools]);
+
+  const visibleCategories = useMemo(() => {
+    return Object.keys(toolsByCategory).sort((a, b) => {
+      const aIndex = categories.indexOf(a);
+      const bIndex = categories.indexOf(b);
+
+      if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
+      if (aIndex === -1) return 1;
+      if (bIndex === -1) return -1;
+      return aIndex - bIndex;
+    });
+  }, [categories, toolsByCategory]);
 
   return (
     <ModalFrame
@@ -33,225 +105,220 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
       closeAriaLabel="Close skillset modal"
     >
       <div className="skillset-modal-content">
-        <div className="skillset-modal-tabs" role="tablist">
+        <header className="skillset-intro">
+          <p className="skillset-eyebrow">Capability Overview</p>
+          <h2>Focused execution across product, engineering, and delivery.</h2>
+          <p>
+            The goal here is clarity: what I offer, how I work, and which tools I
+            use to ship reliable product outcomes.
+          </p>
+        </header>
+
+        <div className="skillset-modal-tabs" role="tablist" aria-label="Skillset sections">
           <button
-            className={`skillset-tab ${
-              activeTab === "services" ? "active" : ""
-            }`}
+            className={`skillset-tab ${activeTab === "services" ? "active" : ""}`}
             onClick={() => setActiveTab("services")}
             role="tab"
             id="services-tab"
             aria-controls="services-panel"
             aria-selected={activeTab === "services"}
+            type="button"
           >
             Services
           </button>
           <button
-            className={`skillset-tab ${
-              activeTab === "tools" ? "active" : ""
-            }`}
+            className={`skillset-tab ${activeTab === "tools" ? "active" : ""}`}
             onClick={() => setActiveTab("tools")}
             role="tab"
             id="tools-tab"
             aria-controls="tools-panel"
             aria-selected={activeTab === "tools"}
+            type="button"
           >
             Toolbelt
           </button>
-          {/* <button
-            className={`skillset-tab ${
-              activeTab === "principles" ? "active" : ""
-            }`}
-            onClick={() => setActiveTab("principles")}
-            role="tab"
-            id="principles-tab"
-            aria-controls="principles-panel"
-            aria-selected={activeTab === "principles"}
-          >
-            Principles
-          </button> */}
         </div>
 
         <div className="skillset-modal-body">
           <AnimatePresence mode="wait">
             {activeTab === "services" && (
-              <motion.div
+              <motion.section
                 key="services"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
                 className="skillset-section"
                 role="tabpanel"
                 id="services-panel"
                 aria-labelledby="services-tab"
               >
-                {/* Featured Company Section */}
-                <div className="featured-company-section">
-                  <div className="featured-company-header">
-                    <h2>Mile High Interface LLC</h2>
-                    <p className="company-tagline">Professional Development Services</p>
-                  </div>
-                  
-                  <div className="featured-company-card">
-                    <div className="company-logo-section">
-                      <div className="company-logo">
-                        <Image
-                          src="/logos/mhi-logo.png"
-                          alt="Mile High Interface LLC Logo"
-                          width={70}
-                          height={70}
-                          className="company-logo-image"
-                          priority
-                        />
-                      </div>
-                      <div className="company-badge">
-                        <span>LLC</span>
-                      </div>
-                    </div>
-                    
-                    <div className="company-content">
-                      <h3>Full-Stack Development & Design Solutions</h3>
-                      <p>
-                        Mile High Interface LLC provides comprehensive web development, mobile app design, 
-                        and digital solutions for businesses looking to establish or enhance their online presence. 
-                        From concept to deployment, we deliver professional-grade applications that scale.
-                      </p>
-                      
-                      <div className="company-highlights">
-                        <div className="highlight-item">
-                          <span className="highlight-icon">🚀</span>
-                          <span>Full-Stack Applications</span>
-                        </div>
-                        <div className="highlight-item">
-                          <span className="highlight-icon">📱</span>
-                          <span>Mobile-First Design</span>
-                        </div>
-                        <div className="highlight-item">
-                          <span className="highlight-icon">☁️</span>
-                          <span>Cloud Infrastructure</span>
-                        </div>
-                        <div className="highlight-item">
-                          <span className="highlight-icon">⚡</span>
-                          <span>Performance Optimization</span>
-                        </div>
-                      </div>
-                      
-                      <div className="company-actions">
-                        <a 
-                          href="https://www.milehighinterface.com" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="company-website-btn"
-                        >
-                          Visit Website
-                        </a>
-                        <a 
-                          href="https://github.com/demaceo/mhi" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="company-github-btn"
-                        >
-                          View Source
-                        </a>
-                      </div>
+                <article className="studio-card" aria-label="Mile High Interface profile">
+                  <div className="studio-brand">
+                    <Image
+                      src="/logos/mhi-logo.png"
+                      alt="Mile High Interface LLC"
+                      width={56}
+                      height={56}
+                      className="studio-logo"
+                      priority
+                    />
+                    <div>
+                      <p className="studio-label">Mile High Interface LLC</p>
+                      <h3>Full-stack product and interface delivery studio.</h3>
                     </div>
                   </div>
-                </div>
+                  <div className="studio-links">
+                    <a
+                      href="https://www.milehighinterface.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Website
+                    </a>
+                    <a
+                      href="https://github.com/demaceo/mhi"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Source
+                    </a>
+                  </div>
+                </article>
 
-                {/* Regular Services Section */}
-                <div className="services-section">
-                  <h2>Service Spectrum</h2>
-                  <div className="services-grid">
-                    {services.map((service) => (
-                      <div
+                <div className="services-stack" role="list" aria-label="Service offerings">
+                  {services.map((service) => {
+                    const isExpanded = expandedService === service.id;
+                    return (
+                      <article
                         key={service.id}
-                        className="service-card"
-                        role="article"
-                        tabIndex={0}
+                        className={`service-item ${isExpanded ? "expanded" : ""}`}
+                        role="listitem"
                       >
-                        <div className="service-card-content">
-                          <div className="service-icon">
+                        <button
+                          type="button"
+                          className="service-item-trigger"
+                          onClick={() =>
+                            setExpandedService((prev) =>
+                              prev === service.id ? null : service.id
+                            )
+                          }
+                          aria-expanded={isExpanded}
+                          aria-controls={`service-detail-${service.id}`}
+                        >
+                          <span className="service-item-head">
                             <Image
                               src={service.icon}
                               alt={service.title}
-                              width={40}
-                              height={40}
+                              width={28}
+                              height={28}
                             />
-                          </div>
-                          <h3>{service.title}</h3>
-                          <p>{service.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                            <span className="service-item-title">{service.title}</span>
+                          </span>
+                          <span className="service-toggle-indicator" aria-hidden="true">
+                            {isExpanded ? "-" : "+"}
+                          </span>
+                        </button>
+
+                        <p className="service-item-summary">
+                          {getServiceSummary(service.description)}
+                        </p>
+                        <p className="service-item-outcome">
+                          {serviceOutcomes[service.id]}
+                        </p>
+
+                        {isExpanded && (
+                          <p id={`service-detail-${service.id}`} className="service-item-detail">
+                            {service.description}
+                          </p>
+                        )}
+                      </article>
+                    );
+                  })}
                 </div>
-              </motion.div>
+              </motion.section>
             )}
 
             {activeTab === "tools" && (
-              <motion.div
+              <motion.section
                 key="tools"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
                 className="skillset-section"
                 role="tabpanel"
                 id="tools-panel"
                 aria-labelledby="tools-tab"
               >
-                <h2>Technical Toolbelt</h2>
-                <div className="tools-categories">
-                  {Object.entries(toolsByCategory).map(
-                    ([category, categoryTools]) => (
-                      <div key={category} className="tool-category">
-                        <h3>{category}</h3>
-                        <div className="tools-grid">
-                          {categoryTools.map((tool, index) => (
+                <div className="tools-toolbar">
+                  <label className="tools-search" htmlFor="tools-query">
+                    <span>Search</span>
+                    <input
+                      id="tools-query"
+                      type="search"
+                      value={toolQuery}
+                      onChange={(event) => setToolQuery(event.target.value)}
+                      placeholder="Find tools or categories"
+                    />
+                  </label>
+
+                  <div className="tools-category-filter" role="tablist" aria-label="Tool categories">
+                    <button
+                      type="button"
+                      className={`category-chip ${selectedCategory === "All" ? "active" : ""}`}
+                      onClick={() => setSelectedCategory("All")}
+                    >
+                      All
+                    </button>
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        type="button"
+                        className={`category-chip ${
+                          selectedCategory === category ? "active" : ""
+                        }`}
+                        onClick={() => setSelectedCategory(category)}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {visibleCategories.length === 0 ? (
+                  <div className="tools-empty-state">
+                    <h3>No matching tools</h3>
+                    <p>Try a different search term or switch category filters.</p>
+                  </div>
+                ) : (
+                  <div className="tools-categories">
+                    {visibleCategories.map((category) => (
+                      <article key={category} className="tool-category">
+                        <header>
+                          <h3>{category}</h3>
+                          <span>{toolsByCategory[category].length}</span>
+                        </header>
+
+                        <div className="tool-pill-grid" role="list" aria-label={`${category} tools`}>
+                          {toolsByCategory[category].map((tool, index) => (
                             <div
-                              key={`${category}-${index}`}
-                              className="tool-item"
+                              key={`${category}-${tool.tooltip}-${index}`}
+                              className="tool-pill"
+                              role="listitem"
                               title={tool.tooltip}
                             >
-                              <FontAwesomeIcon className="tool-icon" icon={tool.icon} />
+                              <FontAwesomeIcon className="tool-pill-icon" icon={tool.icon} />
                               <span>{tool.tooltip}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              </motion.div>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </motion.section>
             )}
-
-            {/* {activeTab === "principles" && (
-              <motion.div
-                key="principles"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="skillset-section"
-                role="tabpanel"
-                id="principles-panel"
-                aria-labelledby="principles-tab"
-              >
-                <h2>Principles & Strategies</h2>
-                <div className="principles-list">
-                  {principlesData.map((principle) => (
-                    <div key={principle.id} className="principle-item">
-                      <div className="principle-header">
-                        <h3>{principle.title}</h3>
-                        <p className="principle-description">
-                          {principle.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )} */}
           </AnimatePresence>
         </div>
       </div>

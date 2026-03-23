@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { aboutMePills } from "@/data/aboutMePills";
 import { AboutMePill } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
@@ -10,34 +10,81 @@ interface AboutMeModalProps {
   onOpenResume?: () => void;
 }
 
+const profileHighlights = [
+  {
+    label: "Core Role",
+    value: "Product-minded software engineer and UI-focused builder",
+  },
+  {
+    label: "Operating Mode",
+    value: "Calm execution, high ownership, and strong follow-through",
+  },
+  {
+    label: "Team Value",
+    value: "Bridges strategy, design, and implementation",
+  },
+  {
+    label: "Primary Focus",
+    value: "Human-centered systems with measurable product outcomes",
+  },
+];
+
+const collaborationSections = [
+  {
+    title: "How I Think",
+    points: [
+      "I break complex problems into practical delivery steps.",
+      "I stay focused on user outcomes, not just feature output.",
+      "I move between detail and big picture without losing momentum.",
+    ],
+  },
+  {
+    title: "How I Work",
+    points: [
+      "I prefer clear constraints, clean tradeoffs, and accountable execution.",
+      "I communicate early when risk appears, then propose options with impact.",
+      "I prioritize maintainable systems that teams can extend confidently.",
+    ],
+  },
+  {
+    title: "How I Collaborate",
+    points: [
+      "I work best in cooperative teams with direct, respectful feedback.",
+      "I default to alignment through context, examples, and shared language.",
+      "I balance speed and quality so decisions remain durable over time.",
+    ],
+  },
+];
+
 const AboutMeModal: React.FC<AboutMeModalProps> = ({
   onClose,
   // onOpenContact,
   // onOpenResume,
 }) => {
-
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
+  const pillsByLabel = useMemo(() => {
+    return aboutMePills.reduce<Record<string, AboutMePill>>((acc, pill) => {
+      acc[pill.label] = pill;
+      return acc;
+    }, {});
+  }, []);
+
   const handlePillClick = (pill: AboutMePill) => {
-    // Toggle tooltip display for all pills
     if (activeTooltip === pill.label) {
-      setActiveTooltip(null);
-    } else {
-      setActiveTooltip(pill.label);
-    }
-
-    // Handle link navigation for clickable pills
-    if (pill.link) {
-      // Small delay to show tooltip before opening link
-      setTimeout(() => {
+      if (pill.link) {
         window.open(pill.link, "_blank", "noopener,noreferrer");
-      }, 300);
+      } else {
+        setActiveTooltip(null);
+      }
+      return;
     }
-  }
 
-  // Close tooltip when clicking outside of pills
-  const handleModalClick = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
+    setActiveTooltip(pill.label);
+  };
+
+  const handleModalClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
     if (!target.closest(".about-modal-pill")) {
       setActiveTooltip(null);
     }
@@ -51,128 +98,77 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
       titleId="about-title"
       closeAriaLabel="Close about modal"
     >
-      <div
-        className="about-modal-content"
-        // ref={bodyRef}
-        onClick={handleModalClick}
-      >
-        <div className="about-modal-header">
+      <div className="about-modal-content" onClick={handleModalClick}>
+        <header className="about-modal-header">
+          <p className="about-modal-eyebrow">Profile</p>
           <h2>Hello, I&apos;m Demaceo Vincent</h2>
           <p className="about-modal-subtitle">
-            Developer, Designer, Dog-Dad, & Diver
+            Software Engineer, Designer, and systems-minded problem solver.
           </p>
-        </div>
+        </header>
 
-        <div className="about-modal-body">
-          <div className="about-modal-section">
-            <h3>Who I Am</h3>
-            <p>
-              I&apos;m a goal-oriented professional who thrives on connecting ideas,
-              people, and possibilities. Driven by exceeding expectations and achieving
-              meaningful results, I bring exceptional follow-through to every project.
-              Whether breaking down complex problems or zooming out to see the bigger 
-              picture, I&apos;m comfortable navigating ambiguity and turning challenges 
-              into actionable solutions.
-            </p>
-            <p>
-              My intellectual curiosity energizes me to explore new technologies, 
-              embrace novel experiences, and engage in creative problem-solving. 
-              Known for my cooperative spirit and patient approach, I deliver results 
-              while fostering collaborative environments where teams can thrive.
-            </p>
-          </div>
+        <section className="about-highlight-grid" aria-label="At a glance profile highlights">
+          {profileHighlights.map((item) => (
+            <article key={item.label} className="about-highlight-card">
+              <h3>{item.label}</h3>
+              <p>{item.value}</p>
+            </article>
+          ))}
+        </section>
 
-          <div className="about-modal-section">
-            <h3>How I Work</h3>
-            <p>
-              I excel at untangling problems with a service-oriented mindset, 
-              always seeking to accommodate others while maintaining high standards. 
-              My cooperative nature means I value social harmony and actively seek 
-              common ground in team situations. Complexity doesn&apos;t intimidate 
-              me - it inspires growth and fresh perspectives.
-            </p>
-            <p>
-              Highly tolerant of frustrations and naturally patient, I remain 
-              calm and level-headed when challenges arise. My intellectual curiosity 
-              drives experimentation and creative solutions, while my goal-oriented 
-              approach ensures consistent follow-through. I thrive in collaborative 
-              environments where diverse viewpoints contribute to meaningful outcomes.
-            </p>
-          </div>
+        <section className="about-modal-body" aria-label="Working style details">
+          {collaborationSections.map((section) => (
+            <article key={section.title} className="about-modal-section">
+              <h3>{section.title}</h3>
+              <ul>
+                {section.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </section>
 
-          <div className="about-modal-section">
+        <section className="about-strengths" aria-label="Core strengths">
+          <header>
             <h3>Core Strengths</h3>
-            <div className="about-modal-pills">
-              {aboutMePills.map((pill) => (
-                <div
-                  key={pill.label}
-                  className={`about-modal-pill ${
-                    pill.link ? "clickable" : ""
-                  } ${activeTooltip === pill.label ? "active" : ""}`}
-                  onClick={() => handlePillClick(pill)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {pill.label}
-                  {activeTooltip === pill.label && (
-                    <div className="about-modal-pill-tooltip">
-                      {pill.tooltip}
-                      {pill.link && (
-                        <span className="tooltip-link-hint">
-                          {" "}
-                          (Click to open)
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="about-modal-section">
-            <h3>In Summary</h3>
             <p>
-              Whether I&apos;m leading a project, supporting a team, or exploring 
-              new ideas, I bring together goal-oriented drive, intellectual curiosity, 
-              and genuine collaborative spirit. My patient and tolerant nature, 
-              combined with strong achievement motivation, makes me someone teams 
-              can count on for both innovative thinking and reliable execution. 
-              I&apos;m at my best where insight meets action, and where cooperative 
-              problem-solving drives meaningful results.
+              Select a strength to see detail. Click again to open external links.
             </p>
-          </div>
-        </div>
-      </div>
+          </header>
 
-      {/* <div className="about-modal-footer">
-        <div className="about-modal-progress-bar">
-          <div
-            className="about-modal-progress-fill"
-            style={{ width: `${scrollProgress}%` }}
-          />
-        </div>
-        <div className="about-modal-actions">
-          <div className="about-modal-status">
-            <span>Reading: {Math.round(scrollProgress)}% complete</span>
+          <div className="about-modal-pills">
+            {aboutMePills.map((pill) => {
+              const isActive = activeTooltip === pill.label;
+              return (
+                <button
+                  key={pill.label}
+                  type="button"
+                  className={`about-modal-pill ${pill.link ? "clickable" : ""} ${
+                    isActive ? "active" : ""
+                  }`}
+                  onClick={() => handlePillClick(pill)}
+                  aria-expanded={isActive}
+                  aria-controls={`pill-tooltip-${pill.label.replace(/\s+/g, "-")}`}
+                >
+                  <span>{pill.label}</span>
+                  {isActive && (
+                    <span
+                      id={`pill-tooltip-${pill.label.replace(/\s+/g, "-")}`}
+                      className="about-modal-pill-tooltip"
+                    >
+                      {pillsByLabel[pill.label]?.tooltip}
+                      {pill.link && (
+                        <span className="tooltip-link-hint"> Click again to open.</span>
+                      )}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
-          <div className="about-modal-buttons">
-            <button
-              className="about-modal-action-btn contact-btn"
-              onClick={handleContactMe}
-              type="button"
-            >
-              Contact
-            </button>
-            <button
-              className="about-modal-action-btn resume-btn"
-              onClick={handleViewResume}
-              type="button"
-            >
-              View Work XP
-            </button>
-          </div>
-        </div>
-      </div> */}
+        </section>
+      </div>
     </ModalFrame>
   );
 };

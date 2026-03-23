@@ -280,17 +280,18 @@
 }
 
 .icon-label {
+  color: rgba(241, 245, 249, 0.96);
   font-size: 10px;
   text-align: center;
   max-width: 60px;
   word-wrap: break-word;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
 }
 
 .desktop-icon:hover .icon-label {
   transform: translateY(-2px);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 3px 8px rgba(2, 6, 23, 0.82);
   font-weight: 500;
 }
 
@@ -405,6 +406,8 @@
   cursor: pointer;
 }
 .app-tab.active {
+  background: #3b3a3a;
+  border-color: #3b3a3a;
   color: #ffffff;
 }
 

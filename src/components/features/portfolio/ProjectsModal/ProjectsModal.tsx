@@ -16,6 +16,7 @@ import { projectsData } from "@/data/projects";
 import "./ProjectsModal.css";
 import { ModalProps } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
+import ResumeHighlightsModal from "../ResumeHighlightsModal/ResumeHighlightsModal";
 
 const iconMap: Record<string, typeof faBriefcase> = {
   "fas fa-briefcase icon": faBriefcase,
@@ -30,6 +31,10 @@ const iconMap: Record<string, typeof faBriefcase> = {
 const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
   // Drag state
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
+  const [showResumeHighlights, setShowResumeHighlights] = useState(false);
+  const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
+    string | undefined
+  >(undefined);
 
   // Separate projects by active/archived status
   const activeProjects = projectsData.filter((p) => !p.archived);
@@ -40,15 +45,21 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
+  const handleOpenResumeHighlights = (projectKey?: string) => {
+    setResumeHighlightsProjectKey(projectKey);
+    setShowResumeHighlights(true);
+  };
+
   return (
-    <ModalFrame
-      onClose={onClose}
-      title="Projects"
-      size="md"
-      titleId="projects-title"
-      closeAriaLabel="Close projects modal"
-    >
-      <div className="projects-modal-content">
+    <>
+      <ModalFrame
+        onClose={onClose}
+        title="Projects"
+        size="md"
+        titleId="projects-title"
+        closeAriaLabel="Close projects modal"
+      >
+        <div className="projects-modal-content">
         <div className="projects-modal-tabs" role="tablist">
           <button
             className={`projects-tab ${
@@ -78,6 +89,16 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
           )}
         </div>
 
+        <div className="projects-resume-entry">
+          <button
+            type="button"
+            className="projects-resume-entry-btn"
+            onClick={() => handleOpenResumeHighlights()}
+          >
+            Open Full Resume Highlights
+          </button>
+        </div>
+
         <div className="projects-modal-body">
           <AnimatePresence mode="wait">
             {activeTab === "current" && (
@@ -102,23 +123,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                     <motion.div
                       key={project.id}
                       className="projects-modal-card"
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Open ${project.name} project - ${project.description}`}
-                      aria-describedby={`project-desc-${project.id}`}
+                      role="article"
+                      aria-label={`${project.name} project summary`}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
                         duration: 0.3,
                         delay: 0.2 + index * 0.05,
                         ease: "easeOut",
-                      }}
-                      onClick={() => handleProjectClick(project.link)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleProjectClick(project.link);
-                        }
                       }}
                     >
                       {/* Documentary Tag */}
@@ -167,23 +179,78 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                               />
                             </div>
                           )}
-                          <div className="project-overlay" aria-hidden="true">
-                            <FontAwesomeIcon
-                              icon={faExternalLinkAlt}
-                              className="external-link-icon"
-                              aria-hidden="true"
-                            />
-                            <span>View Project</span>
-                          </div>
                         </div>
                         <div className="project-info">
                           <h3 id={`project-title-${project.id}`}>
                             {project.name}
                           </h3>
+                          {project.yearRange && (
+                            <p className="project-year-range">{project.yearRange}</p>
+                          )}
                           <p id={`project-desc-${project.id}`}>
                             {project.description}
                           </p>
-                        
+
+                          {project.stackPreview && project.stackPreview.length > 0 && (
+                            <div className="project-stack-preview">
+                              {project.stackPreview.map((stackItem) => (
+                                <span key={`${project.id}-${stackItem}`}>
+                                  {stackItem}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {project.highlights && project.highlights.length > 0 && (
+                            <ul className="project-highlights">
+                              {project.highlights.map((highlight) => (
+                                <li key={`${project.id}-${highlight}`}>{highlight}</li>
+                              ))}
+                            </ul>
+                          )}
+
+                          {project.deepDiveKey && (
+                            <div className="project-actions">
+                              <button
+                                type="button"
+                                className="project-open-btn"
+                                onClick={() => handleProjectClick(project.link)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faExternalLinkAlt}
+                                  className="external-link-icon"
+                                  aria-hidden="true"
+                                />
+                                <span>Open Project</span>
+                              </button>
+                              <button
+                                type="button"
+                                className="project-deep-dive-btn"
+                                onClick={() =>
+                                  handleOpenResumeHighlights(project.deepDiveKey)
+                                }
+                              >
+                                View Resume Deep Dive
+                              </button>
+                            </div>
+                          )}
+
+                          {!project.deepDiveKey && (
+                            <div className="project-actions">
+                              <button
+                                type="button"
+                                className="project-open-btn"
+                                onClick={() => handleProjectClick(project.link)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faExternalLinkAlt}
+                                  className="external-link-icon"
+                                  aria-hidden="true"
+                                />
+                                <span>Open Project</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -210,23 +277,14 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                     <motion.div
                       key={project.id}
                       className="projects-modal-card archived"
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Open archived ${project.name} project - ${project.description}`}
-                      aria-describedby={`archived-project-desc-${project.id}`}
+                      role="article"
+                      aria-label={`Archived project: ${project.name}`}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
                         duration: 0.3,
                         delay: 0.2 + index * 0.05,
                         ease: "easeOut",
-                      }}
-                      onClick={() => handleProjectClick(project.link)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleProjectClick(project.link);
-                        }
                       }}
                     >
                       {/* Documentary Tag */}
@@ -267,17 +325,24 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                               />
                             </div>
                           )}
-                          <div className="project-overlay">
-                            <FontAwesomeIcon
-                              icon={faExternalLinkAlt}
-                              className="external-link-icon"
-                            />
-                            <span>View Project</span>
-                          </div>
                         </div>
                         <div className="project-info">
                           <h3>{project.name}</h3>
                           <p>{project.description}</p>
+                          <div className="project-actions">
+                            <button
+                              type="button"
+                              className="project-open-btn"
+                              onClick={() => handleProjectClick(project.link)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faExternalLinkAlt}
+                                className="external-link-icon"
+                                aria-hidden="true"
+                              />
+                              <span>Open Project</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -287,8 +352,19 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
             )}
           </AnimatePresence>
         </div>
-      </div>
-    </ModalFrame>
+        </div>
+      </ModalFrame>
+
+      {showResumeHighlights && (
+        <ResumeHighlightsModal
+          onClose={() => {
+            setShowResumeHighlights(false);
+            setResumeHighlightsProjectKey(undefined);
+          }}
+          initialProjectKey={resumeHighlightsProjectKey}
+        />
+      )}
+    </>
   );
 };
 
