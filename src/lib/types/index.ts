@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import type { ReactNode } from "react";
 
 export interface AboutMePill {
     label: string;
@@ -49,6 +50,26 @@ export interface Principle {
 
 export interface ModalProps {
     onClose: () => void;
+}
+
+export type ModalSize = "sm" | "md" | "lg" | "xl";
+
+export interface ModalShellProps {
+    onClose: () => void;
+    children: ReactNode;
+    titleId?: string;
+    overlayClassName?: string;
+    dialogClassName?: string;
+}
+
+export interface ModalFrameProps {
+    onClose: () => void;
+    title: string;
+    size: ModalSize;
+    children: ReactNode;
+    headerActions?: ReactNode;
+    closeAriaLabel?: string;
+    titleId?: string;
 }
 
 export interface ModalState {

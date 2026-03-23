@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import { EXTERNAL_LINKS } from "@/lib/constants/paths";
 import "./ContactForm.css";
 import { ModalProps } from "@/lib/types";
+import { ModalFrame } from "@/components/features/modal";
 
 // Declare Calendly for TypeScript
 declare global {
@@ -83,96 +84,84 @@ const ContactForm = ({ onClose }: ModalProps) => {
   };
 
   return (
-    <div className="contact-modal-overlay" onClick={onClose}>
-      <div
-        className="contact-form-container"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="contact-modal-title-bar">
-          <div className="contact-modal-window-controls">
-            <button
-              className="contact-modal-close-btn"
-              onClick={onClose}
-              aria-label="Close contact Modal"
-            />
+    <ModalFrame
+      onClose={onClose}
+      title="Contact"
+      size="sm"
+      titleId="contact-title"
+      closeAriaLabel="Close contact modal"
+    >
+      <div className="email-form-wrapper">
+        <form className="email-form" onSubmit={sendEmail}>
+          <input
+            ref={nameInputRef}
+            type="text"
+            name="from_name"
+            id="from_name"
+            placeholder="Enter your name"
+            required
+          />
+
+          <input
+            type="email"
+            name="reply_to"
+            id="reply_to"
+            placeholder="Enter your email"
+            required
+          />
+
+          <textarea
+            name="message"
+            id="message"
+            placeholder="Enter your message"
+            required
+          />
+
+          <input
+            id="submit-button"
+            type="submit"
+            value={isSubmitting ? "Sending..." : "Send"}
+            disabled={isSubmitting}
+            aria-disabled={isSubmitting}
+          />
+        </form>
+
+        <p
+          id="form-sent-status"
+          aria-live="polite"
+          role="status"
+          style={{ minHeight: "1.5rem" }}
+        >
+          {stateMessage}
+        </p>
+
+        <div className="alternative-contact-methods">
+          <div className="contact-divider">
+            <span>or connect via</span>
           </div>
-          <span className="contact-modal-window-title" id="contact-title">
-            Contact
-          </span>
-          <div className="contact-modal-spacer" />
-        </div>
-        <div className="email-form-wrapper">
-          <form className="email-form" onSubmit={sendEmail}>
-            <input
-              ref={nameInputRef}
-              type="text"
-              name="from_name"
-              id="from_name"
-              placeholder="Enter your name"
-              required
-            />
 
-            <input
-              type="email"
-              name="reply_to"
-              id="reply_to"
-              placeholder="Enter your email"
-              required
-            />
+          <div className="alternative-buttons">
+            <a
+              href={EXTERNAL_LINKS.LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="alternative-contact-btn linkedin-btn"
+            >
+              <i className="fab fa-linkedin-in"></i>
+              LinkedIn
+            </a>
 
-            <textarea
-              name="message"
-              id="message"
-              placeholder="Enter your message"
-              required
-            />
-
-            <input
-              id="submit-button"
-              type="submit"
-              value={isSubmitting ? "Sending..." : "Send"}
-              disabled={isSubmitting}
-              aria-disabled={isSubmitting}
-            />
-          </form>
-
-          <p
-            id="form-sent-status"
-            aria-live="polite"
-            role="status"
-            style={{ minHeight: "1.5rem" }}
-          >
-            {stateMessage}
-          </p>
-
-          <div className="alternative-contact-methods">
-            <div className="contact-divider">
-              <span>or connect via</span>
-            </div>
-
-            <div className="alternative-buttons">
-              <a
-                href={EXTERNAL_LINKS.LINKEDIN}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="alternative-contact-btn linkedin-btn"
-              >
-                <i className="fab fa-linkedin-in"></i>
-                LinkedIn
-              </a>
-
-              <button
-                onClick={handleCalendlyClick}
-                className="alternative-contact-btn calendly-btn"
-              >
-                <i className="fas fa-calendar-alt"></i>
-                Schedule a Virtual Chat
-              </button>
-            </div>
+            <button
+              onClick={handleCalendlyClick}
+              className="alternative-contact-btn calendly-btn"
+            >
+              <i className="fas fa-calendar-alt"></i>
+              Schedule a Virtual Chat
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </ModalFrame>
   );
 };
 

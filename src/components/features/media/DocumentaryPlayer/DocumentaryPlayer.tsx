@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle, faList } from "@fortawesome/free-solid-svg-icons";
 import { documentaryEpisodes } from "@/data";
 import "./DocumentaryPlayer.css";
 import {
-  DocumentaryHeader,
   EpisodeSelector,
   EpisodeInfo,
   VideoPlayer,
@@ -15,6 +16,7 @@ import {
   useEpisodeContent,
 } from "./hooks";
 import { ModalProps } from "@/lib/types";
+import { ModalFrame } from "@/components/features/modal";
 
 const DocumentaryPlayer: React.FC<ModalProps> = ({ onClose }) => {
   // Initialize hooks
@@ -22,20 +24,41 @@ const DocumentaryPlayer: React.FC<ModalProps> = ({ onClose }) => {
   const documentaryActions = useDocumentaryActions({ actions, onClose });
   const { episodeContent, episodeTitle } = useEpisodeContent(playerState.selectedEpisode);
 
-  return (
-    <div className="documentary-player-overlay" onClick={documentaryActions.handleClosePlayer}>
-      <div
-        className="documentary-player-container"
-        onClick={(e) => e.stopPropagation()}
+  const headerActions = (
+    <div className="documentary-frame-actions">
+      <button
+        className={`documentary-frame-button ${
+          playerState.showInfoDropdown ? "active" : ""
+        }`}
+        onClick={documentaryActions.handleToggleInfoDropdown}
+        aria-label="Show episode information"
+        type="button"
       >
-        <DocumentaryHeader
-          onClose={documentaryActions.handleClosePlayer}
-          onToggleInfo={documentaryActions.handleToggleInfoDropdown}
-          onToggleEpisodeList={documentaryActions.handleToggleEpisodeList}
-          showInfoDropdown={playerState.showInfoDropdown}
-          showEpisodeList={playerState.showEpisodeList}
-        />
+        <FontAwesomeIcon icon={faInfoCircle} />
+      </button>
+      <button
+        className={`documentary-frame-button ${
+          playerState.showEpisodeList ? "active" : ""
+        }`}
+        onClick={documentaryActions.handleToggleEpisodeList}
+        aria-label="Show episode list"
+        type="button"
+      >
+        <FontAwesomeIcon icon={faList} />
+      </button>
+    </div>
+  );
 
+  return (
+    <ModalFrame
+      onClose={documentaryActions.handleClosePlayer}
+      title="Documentary"
+      size="xl"
+      titleId="documentary-title"
+      closeAriaLabel="Close documentary player"
+      headerActions={headerActions}
+    >
+      <div className="documentary-player-content">
         {playerState.showEpisodeList && (
           <EpisodeSelector
             selectedEpisode={playerState.selectedEpisode}
@@ -60,7 +83,7 @@ const DocumentaryPlayer: React.FC<ModalProps> = ({ onClose }) => {
           onVideoLoad={documentaryActions.handleVideoLoad}
         />
       </div>
-    </div>
+    </ModalFrame>
   );
 };
 

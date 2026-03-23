@@ -9,6 +9,60 @@
   --backdrop-saturate: saturate(120%);
 }
 
+.documentary-player-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.documentary-frame-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.documentary-frame-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(245, 245, 247, 0.9)
+  );
+  color: var(--ios-text-primary, #1d1d1f);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.documentary-frame-button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.documentary-frame-button:active {
+  transform: scale(0.97);
+}
+
+.documentary-frame-button.active {
+  background: linear-gradient(135deg, #007aff 0%, #0056d3 100%);
+  color: #ffffff;
+  border-color: #007aff;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.documentary-frame-button:focus-visible {
+  outline: 2px solid rgba(0, 122, 255, 0.5);
+  outline-offset: 2px;
+}
+
 /* === Header (single authoritative definition) === */
 .documentary-player-header {
   display: grid;

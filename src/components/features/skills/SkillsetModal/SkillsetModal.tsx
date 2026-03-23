@@ -7,24 +7,13 @@ import services from "@/data/services";
 import "./SkillsetModal.css";
 import tools from "@/data/toolbelt";
 import { ModalProps } from "@/lib/types";
+import { ModalFrame } from "@/components/features/modal";
 
 const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
   // Drag state
   const [activeTab, setActiveTab] = useState<
     "services" | "tools"
   >("services");
-
-  // Handle keyboard navigation
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
 
   // Group tools by category
   const toolsByCategory = tools.reduce((acc, tool) => {
@@ -36,258 +25,237 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
   }, {} as Record<string, typeof tools>);
 
   return (
-    <div
-      className="skillset-modal-overlay"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="skillset-title"
+    <ModalFrame
+      onClose={onClose}
+      title="Skillset"
+      size="lg"
+      titleId="skillset-title"
+      closeAriaLabel="Close skillset modal"
     >
-      <div
-        className="skillset-modal"
-        onClick={(e) => e.stopPropagation()}
-        tabIndex={-1}
-        role="document"
-      >
-        <div className="skillset-modal-title-bar">
-          <div className="skillset-modal-window-controls">
-            <button
-              className="skillset-modal-close-btn"
-              onClick={onClose}
-              aria-label="Close Skillset Modal"
-            />
-          </div>
-          <span className="skillset-modal-window-title" id="skillset-title">
-            Skillset
-          </span>
-          <div className="skillset-modal-spacer" />
+      <div className="skillset-modal-content">
+        <div className="skillset-modal-tabs" role="tablist">
+          <button
+            className={`skillset-tab ${
+              activeTab === "services" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("services")}
+            role="tab"
+            id="services-tab"
+            aria-controls="services-panel"
+            aria-selected={activeTab === "services"}
+          >
+            Services
+          </button>
+          <button
+            className={`skillset-tab ${
+              activeTab === "tools" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("tools")}
+            role="tab"
+            id="tools-tab"
+            aria-controls="tools-panel"
+            aria-selected={activeTab === "tools"}
+          >
+            Toolbelt
+          </button>
+          {/* <button
+            className={`skillset-tab ${
+              activeTab === "principles" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("principles")}
+            role="tab"
+            id="principles-tab"
+            aria-controls="principles-panel"
+            aria-selected={activeTab === "principles"}
+          >
+            Principles
+          </button> */}
         </div>
 
-        <div className="skillset-modal-content">
-          <div className="skillset-modal-tabs" role="tablist">
-            <button
-              className={`skillset-tab ${
-                activeTab === "services" ? "active" : ""
-              }`}
-              onClick={() => setActiveTab("services")}
-              role="tab"
-              id="services-tab"
-              aria-controls="services-panel"
-              aria-selected={activeTab === "services"}
-            >
-              Services
-            </button>
-            <button
-              className={`skillset-tab ${
-                activeTab === "tools" ? "active" : ""
-              }`}
-              onClick={() => setActiveTab("tools")}
-              role="tab"
-              id="tools-tab"
-              aria-controls="tools-panel"
-              aria-selected={activeTab === "tools"}
-            >
-              Toolbelt
-            </button>
-            {/* <button
-              className={`skillset-tab ${
-                activeTab === "principles" ? "active" : ""
-              }`}
-              onClick={() => setActiveTab("principles")}
-              role="tab"
-              id="principles-tab"
-              aria-controls="principles-panel"
-              aria-selected={activeTab === "principles"}
-            >
-              Principles
-            </button> */}
-          </div>
-
-          <div className="skillset-modal-body">
-            <AnimatePresence mode="wait">
-              {activeTab === "services" && (
-                <motion.div
-                  key="services"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="skillset-section"
-                  role="tabpanel"
-                  id="services-panel"
-                  aria-labelledby="services-tab"
-                >
-                  {/* Featured Company Section */}
-                  <div className="featured-company-section">
-                    <div className="featured-company-header">
-                      <h2>Mile High Interface LLC</h2>
-                      <p className="company-tagline">Professional Development Services</p>
+        <div className="skillset-modal-body">
+          <AnimatePresence mode="wait">
+            {activeTab === "services" && (
+              <motion.div
+                key="services"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="skillset-section"
+                role="tabpanel"
+                id="services-panel"
+                aria-labelledby="services-tab"
+              >
+                {/* Featured Company Section */}
+                <div className="featured-company-section">
+                  <div className="featured-company-header">
+                    <h2>Mile High Interface LLC</h2>
+                    <p className="company-tagline">Professional Development Services</p>
+                  </div>
+                  
+                  <div className="featured-company-card">
+                    <div className="company-logo-section">
+                      <div className="company-logo">
+                        <Image
+                          src="/logos/mhi-logo.png"
+                          alt="Mile High Interface LLC Logo"
+                          width={70}
+                          height={70}
+                          className="company-logo-image"
+                          priority
+                        />
+                      </div>
+                      <div className="company-badge">
+                        <span>LLC</span>
+                      </div>
                     </div>
                     
-                    <div className="featured-company-card">
-                      <div className="company-logo-section">
-                        <div className="company-logo">
-                          <Image
-                            src="/logos/mhi-logo.png"
-                            alt="Mile High Interface LLC Logo"
-                            width={70}
-                            height={70}
-                            className="company-logo-image"
-                            priority
-                          />
+                    <div className="company-content">
+                      <h3>Full-Stack Development & Design Solutions</h3>
+                      <p>
+                        Mile High Interface LLC provides comprehensive web development, mobile app design, 
+                        and digital solutions for businesses looking to establish or enhance their online presence. 
+                        From concept to deployment, we deliver professional-grade applications that scale.
+                      </p>
+                      
+                      <div className="company-highlights">
+                        <div className="highlight-item">
+                          <span className="highlight-icon">🚀</span>
+                          <span>Full-Stack Applications</span>
                         </div>
-                        <div className="company-badge">
-                          <span>LLC</span>
+                        <div className="highlight-item">
+                          <span className="highlight-icon">📱</span>
+                          <span>Mobile-First Design</span>
+                        </div>
+                        <div className="highlight-item">
+                          <span className="highlight-icon">☁️</span>
+                          <span>Cloud Infrastructure</span>
+                        </div>
+                        <div className="highlight-item">
+                          <span className="highlight-icon">⚡</span>
+                          <span>Performance Optimization</span>
                         </div>
                       </div>
                       
-                      <div className="company-content">
-                        <h3>Full-Stack Development & Design Solutions</h3>
-                        <p>
-                          Mile High Interface LLC provides comprehensive web development, mobile app design, 
-                          and digital solutions for businesses looking to establish or enhance their online presence. 
-                          From concept to deployment, we deliver professional-grade applications that scale.
-                        </p>
-                        
-                        <div className="company-highlights">
-                          <div className="highlight-item">
-                            <span className="highlight-icon">🚀</span>
-                            <span>Full-Stack Applications</span>
-                          </div>
-                          <div className="highlight-item">
-                            <span className="highlight-icon">📱</span>
-                            <span>Mobile-First Design</span>
-                          </div>
-                          <div className="highlight-item">
-                            <span className="highlight-icon">☁️</span>
-                            <span>Cloud Infrastructure</span>
-                          </div>
-                          <div className="highlight-item">
-                            <span className="highlight-icon">⚡</span>
-                            <span>Performance Optimization</span>
-                          </div>
-                        </div>
-                        
-                        <div className="company-actions">
-                          <a 
-                            href="https://www.milehighinterface.com" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="company-website-btn"
-                          >
-                            Visit Website
-                          </a>
-                          <a 
-                            href="https://github.com/demaceo/mhi" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="company-github-btn"
-                          >
-                            View Source
-                          </a>
-                        </div>
+                      <div className="company-actions">
+                        <a 
+                          href="https://www.milehighinterface.com" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="company-website-btn"
+                        >
+                          Visit Website
+                        </a>
+                        <a 
+                          href="https://github.com/demaceo/mhi" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="company-github-btn"
+                        >
+                          View Source
+                        </a>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Regular Services Section */}
-                  <div className="services-section">
-                    <h2>Service Spectrum</h2>
-                    <div className="services-grid">
-                      {services.map((service) => (
-                        <div
-                          key={service.id}
-                          className="service-card"
-                          role="article"
-                          tabIndex={0}
-                        >
-                          <div className="service-card-content">
-                            <div className="service-icon">
-                              <Image
-                                src={service.icon}
-                                alt={service.title}
-                                width={40}
-                                height={40}
-                              />
-                            </div>
-                            <h3>{service.title}</h3>
-                            <p>{service.description}</p>
+                {/* Regular Services Section */}
+                <div className="services-section">
+                  <h2>Service Spectrum</h2>
+                  <div className="services-grid">
+                    {services.map((service) => (
+                      <div
+                        key={service.id}
+                        className="service-card"
+                        role="article"
+                        tabIndex={0}
+                      >
+                        <div className="service-card-content">
+                          <div className="service-icon">
+                            <Image
+                              src={service.icon}
+                              alt={service.title}
+                              width={40}
+                              height={40}
+                            />
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {activeTab === "tools" && (
-                <motion.div
-                  key="tools"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="skillset-section"
-                  role="tabpanel"
-                  id="tools-panel"
-                  aria-labelledby="tools-tab"
-                >
-                  <h2>Technical Toolbelt</h2>
-                  <div className="tools-categories">
-                    {Object.entries(toolsByCategory).map(
-                      ([category, categoryTools]) => (
-                        <div key={category} className="tool-category">
-                          <h3>{category}</h3>
-                          <div className="tools-grid">
-                            {categoryTools.map((tool, index) => (
-                              <div
-                                key={`${category}-${index}`}
-                                className="tool-item"
-                                title={tool.tooltip}
-                              >
-                                <FontAwesomeIcon className="tool-icon" icon={tool.icon} />
-                                <span>{tool.tooltip}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* {activeTab === "principles" && (
-                <motion.div
-                  key="principles"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="skillset-section"
-                  role="tabpanel"
-                  id="principles-panel"
-                  aria-labelledby="principles-tab"
-                >
-                  <h2>Principles & Strategies</h2>
-                  <div className="principles-list">
-                    {principlesData.map((principle) => (
-                      <div key={principle.id} className="principle-item">
-                        <div className="principle-header">
-                          <h3>{principle.title}</h3>
-                          <p className="principle-description">
-                            {principle.description}
-                          </p>
+                          <h3>{service.title}</h3>
+                          <p>{service.description}</p>
                         </div>
                       </div>
                     ))}
                   </div>
-                </motion.div>
-              )} */}
-            </AnimatePresence>
-          </div>
+                </div>
+              </motion.div>
+            )}
+
+            {activeTab === "tools" && (
+              <motion.div
+                key="tools"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="skillset-section"
+                role="tabpanel"
+                id="tools-panel"
+                aria-labelledby="tools-tab"
+              >
+                <h2>Technical Toolbelt</h2>
+                <div className="tools-categories">
+                  {Object.entries(toolsByCategory).map(
+                    ([category, categoryTools]) => (
+                      <div key={category} className="tool-category">
+                        <h3>{category}</h3>
+                        <div className="tools-grid">
+                          {categoryTools.map((tool, index) => (
+                            <div
+                              key={`${category}-${index}`}
+                              className="tool-item"
+                              title={tool.tooltip}
+                            >
+                              <FontAwesomeIcon className="tool-icon" icon={tool.icon} />
+                              <span>{tool.tooltip}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* {activeTab === "principles" && (
+              <motion.div
+                key="principles"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="skillset-section"
+                role="tabpanel"
+                id="principles-panel"
+                aria-labelledby="principles-tab"
+              >
+                <h2>Principles & Strategies</h2>
+                <div className="principles-list">
+                  {principlesData.map((principle) => (
+                    <div key={principle.id} className="principle-item">
+                      <div className="principle-header">
+                        <h3>{principle.title}</h3>
+                        <p className="principle-description">
+                          {principle.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )} */}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </ModalFrame>
   );
 };
 

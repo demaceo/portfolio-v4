@@ -14,10 +14,7 @@ import {
 import { projectsData } from "@/data/projects";
 import "./ProjectCard.css";
 
-// Map icon string to FontAwesome icon
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-
-const iconMap: Record<string, IconDefinition> = {
+const iconMap: Record<string, typeof faBriefcase> = {
   "fas fa-briefcase icon": faBriefcase,
   "fa fa-paw icon": faPaw,
   "fas fa-theater-masks icon": faTheaterMasks,
