@@ -16,7 +16,7 @@ const projectData: Project[] = [
       "JWKS-based Firebase token verification without Firebase Admin SDK.",
       "Gemini SSE chat and ElevenLabs voice responses for AI official simulations.",
     ],
-    icon: "/icons/projects/pp_icon.png",
+    icon: "/icons/projects/pinpoint.png",
     image:
       "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BqcHJydDE0OWlyaXBzbzIweTV4bjh2bzNidW1oenprMHdpaTRxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9zB7dPkmU7FUBNh8A/giphy.gif",
   },
@@ -35,7 +35,7 @@ const projectData: Project[] = [
       "Checkpointed background processing for interruption-safe long tasks.",
       "135-category analytics model with GDPR/CCPA-ready compliance workflows.",
     ],
-    icon: "fas fa-briefcase icon",
+    icon: "/icons/projects/payback.png",
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ const projectData: Project[] = [
       "Realtime subscriptions for maintenance, payments, and messaging.",
       "Server-side Gemini proxy via Supabase Edge Functions.",
     ],
-    icon: "fas fa-briefcase icon",
+    icon: "/icons/projects/rentharbor.png",
   },
   {
     id: 3,
@@ -69,7 +69,7 @@ const projectData: Project[] = [
       "Gemini-powered Bagua and layout analysis through Cloud Functions.",
       "Animated AI rearrangement previews with score comparisons before apply.",
     ],
-    icon: "fas fa-briefcase icon",
+    icon: "/icons/projects/fengshui.png",
   },
   {
     id: 4,
@@ -91,7 +91,7 @@ const projectData: Project[] = [
       "Bidirectional STT translation and multilingual TTS for 15 languages.",
       "Geo-zoned chat with moderation controls and per-user voice profiles.",
     ],
-    icon: "fas fa-briefcase icon",
+    icon: "/icons/projects/yap.png",
   },
   {
     id: 8,
