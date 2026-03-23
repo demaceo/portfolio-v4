@@ -23,7 +23,7 @@ const projectData: Project[] = [
   {
     id: 1,
     slug: "payback",
-    name: "Payback (pbv2)",
+    name: "Payback",
     yearRange: "2025-2026",
     description:
       "Privacy-first consumer intelligence platform that processes personal data on-device and generates secure behavioral analytics.",

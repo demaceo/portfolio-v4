@@ -24,6 +24,14 @@ const iconMap: Record<string, typeof faBriefcase> = {
   "fas fa-film icon": faFilm,
 };
 
+const isImageIcon = (icon?: string) => {
+  if (!icon) return false;
+  return (
+    (icon.startsWith("/") || icon.startsWith("http")) &&
+    /\.(png|jpe?g|webp|svg)$/i.test(icon)
+  );
+};
+
 const CARD_WIDTH = 420; // match your CSS max-width
 const CARD_HEIGHT = 380; // estimate or measure your card height
 
@@ -137,7 +145,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       : faLaptopCode;
 
   let projectVisual: React.ReactNode = null;
-  if (project.image) {
+  if (isImageIcon(project.icon)) {
+    projectVisual = (
+      <Image
+        src={project.icon as string}
+        alt={`${project.name} icon`}
+        width={220}
+        height={220}
+        className="project-card-icon"
+      />
+    );
+  } else if (project.image) {
     projectVisual = (
       <Image
         src={project.image || ""}
@@ -211,7 +229,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <span>Documentary</span>
             </div>
           )}
-          
+
           <div className="project-card-window-title">
             <div className="project-card-top-arrows">
               <button
@@ -245,7 +263,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
           {projectVisual}
           <p className="project-card-description">{project.description}</p>
-  
+
         </div>
       </div>
     </div>
