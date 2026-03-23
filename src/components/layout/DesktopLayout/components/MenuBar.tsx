@@ -150,9 +150,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
         ].map((item, idx, arr) => (
           <div
             key={item.key}
-            className={`menu-item-wrapper${
-              openDropdown === item.key ? " menu-item-wrapper-active" : ""
-            }`}
+            className={`menu-item-wrapper${openDropdown === item.key ? " menu-item-wrapper-active" : ""
+              }`}
             data-menu-index={idx}
             style={{
               zIndex: openDropdown === item.key ? 1010 : 1,
@@ -160,9 +159,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
             }}
           >
             <span
-              className={`menu-item${
-                openDropdown === item.key ? " menu-item-active" : ""
-              }`}
+              className={`menu-item${openDropdown === item.key ? " menu-item-active" : ""
+                }`}
               tabIndex={0}
               onMouseEnter={() => {
                 if (item.key === "about") preload.about();
@@ -186,9 +184,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
             </span>
             {openDropdown === item.key && (
               <div
-                className={`menu-dropdown menu-dropdown-mac${
-                  openDropdown === item.key ? " menu-dropdown-mac-active" : ""
-                }`}
+                className={`menu-dropdown menu-dropdown-mac${openDropdown === item.key ? " menu-dropdown-mac-active" : ""
+                  }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 {item.key === "about" && (
@@ -202,11 +199,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
                           onMouseLeave={() => setHoveredPill(null)}
                         >
                           <span
-                            className={`pill-tag-mac ${
-                              pill.label === "& more..."
+                            className={`pill-tag-mac ${pill.label === "& more..."
                                 ? "pill-tag-clickable"
                                 : ""
-                            }`}
+                              }`}
                             tabIndex={0}
                             onClick={() => {
                               if (pill.label === "& more...") {
@@ -329,8 +325,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                     src={proj.image}
                                     alt={proj.name}
                                     className="menu-dropdown-project-img"
-                                    width={38}
-                                    height={38}
+                                    width={78}
+                                    height={78}
                                   />
                                 );
                               } else if (proj.icon) {
@@ -347,7 +343,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                     <FontAwesomeIcon
                                       icon={
                                         iconMap[
-                                          proj.icon as keyof typeof iconMap
+                                        proj.icon as keyof typeof iconMap
                                         ] || faLaptopCode
                                       }
                                     />
