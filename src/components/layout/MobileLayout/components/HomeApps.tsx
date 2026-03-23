@@ -9,6 +9,8 @@ interface MobileApp {
   icon: IconDefinition;
   path: string;
   isToggle?: boolean;
+  description?: string;
+  meta?: string;
 }
 
 interface HomeAppsProps {
@@ -21,6 +23,21 @@ interface HomeAppsProps {
     documentary: () => void;
   };
 }
+
+const getAppVariantClass = (path: string): string => {
+  switch (path) {
+    case "/mindset":
+      return "app-variant-mindset";
+    case "/skillset":
+      return "app-variant-skillset";
+    case "/projects":
+      return "app-variant-projects";
+    case "/documentary":
+      return "app-variant-documentary";
+    default:
+      return "app-variant-default";
+  }
+};
 
 const HomeApps: React.FC<HomeAppsProps> = ({
   apps,
@@ -39,7 +56,7 @@ const HomeApps: React.FC<HomeAppsProps> = ({
       {apps.map((app) => (
         <button
           key={app.name}
-          className="mobile-app-icon"
+          className={`mobile-app-icon ${getAppVariantClass(app.path)}`}
           type="button"
           onClick={() => handleAppClick(app.path, app.isToggle)}
           onMouseEnter={() => handlePreload(app.path)}
@@ -52,10 +69,23 @@ const HomeApps: React.FC<HomeAppsProps> = ({
             }
           }}
         >
-          <span className="icon">
-            <FontAwesomeIcon icon={app.icon} />
+          <span className="app-card-main">
+            <span className="icon">
+              <FontAwesomeIcon icon={app.icon} />
+            </span>
+            <span className="app-copy">
+              <span className="app-name">{app.name}</span>
+              <span className="app-description">
+                {app.description ?? "Open section"}
+              </span>
+            </span>
           </span>
-          <span className="app-name">{app.name}</span>
+          <span className="app-card-meta">
+            <span className="app-meta-chip">{app.meta ?? "Open"}</span>
+            <span className="app-open-indicator" aria-hidden="true">
+              Open
+            </span>
+          </span>
         </button>
       ))}
     </div>

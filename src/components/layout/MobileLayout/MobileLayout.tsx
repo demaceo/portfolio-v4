@@ -24,15 +24,30 @@ const MobileLayout = () => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    setCurrentTime(new Date());
+    const syncTime = () => {
+      setCurrentTime(new Date());
+    };
+
+    syncTime();
+    const intervalId = window.setInterval(syncTime, 60_000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, []);
   const [showContactForm, setShowContactForm] = useState(false);
-  const [showWelcomeWindow, setShowWelcomeWindow] = useState(true);
+  const showWelcomeWindow = true;
   const [showAboutMe, setShowAboutMe] = useState(false);
   const [showSkillset, setShowSkillset] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showDocumentary, setShowDocumentary] = useState(false);
   const [showContactNotification, setShowContactNotification] = useState(true);
+  const isAnyModalOpen =
+    showAboutMe ||
+    showSkillset ||
+    showDocumentary ||
+    showContactForm ||
+    showProjects;
 
   // App click handler
   const handleAppClick = (path: string, isToggle?: boolean): void => {
@@ -68,9 +83,27 @@ const MobileLayout = () => {
 
   // Mobile apps data
   const mobileApps = [
-    { name: "Mindset", icon: faUser, path: "/mindset" },
-    { name: "Skillset", icon: faCog, path: "/skillset" },
-    { name: "Projects", icon: faLaptopCode, path: "/projects" },
+    {
+      name: "Mindset",
+      icon: faUser,
+      path: "/mindset",
+      description: "Approach, leadership style, and professional direction.",
+      meta: "Profile",
+    },
+    {
+      name: "Skillset",
+      icon: faCog,
+      path: "/skillset",
+      description: "Core capabilities, service focus, and technical strengths.",
+      meta: "Capabilities",
+    },
+    {
+      name: "Projects",
+      icon: faLaptopCode,
+      path: "/projects",
+      description: "Case studies and shipped work across product experiences.",
+      meta: "Portfolio",
+    },
     // { name: "Docuseries", icon: faFilm, path: "/documentary" },
   ];
 
@@ -80,45 +113,45 @@ const MobileLayout = () => {
   }
 
   return (
-    <div className="iphone-container">
+    <div className="iphone-container command-layout">
       <div className="iphone-screen">
         <StatusBar currentTime={currentTime} />
-        <div className="mobile-app-container">
+        <div
+          className={`mobile-app-container command-stage${isAnyModalOpen ? " has-open-modal" : ""}`}
+        >
           <MobileWelcomeWindow
             showWelcomeWindow={showWelcomeWindow}
+            onPrimaryAction={() => handleAppClick("/projects")}
+            onSecondaryAction={() => handleAppClick("/contact", true)}
           />
           <HomeApps
             apps={mobileApps}
             handleAppClick={handleAppClick}
             preloadHandlers={preloadHandlers}
           />
-          <MobileModals
-            showContactForm={showContactForm}
-            setShowContactForm={setShowContactForm}
-            showAboutMe={showAboutMe}
-            setShowAboutMe={setShowAboutMe}
-            showSkillset={showSkillset}
-            setShowSkillset={setShowSkillset}
-            showProjects={showProjects}
-            setShowProjects={setShowProjects}
-            showDocumentary={showDocumentary}
-            setShowDocumentary={setShowDocumentary}
-          />
         </div>
         {/* <PageIndicators /> */}
-        {!showAboutMe &&
-          !showSkillset &&
-          !showDocumentary &&
-          !showContactForm &&
-          !showProjects && (
-            <MobileDock
-              handleAppClick={handleAppClick}
-              showContactNotification={showContactNotification}
-              linkedinUrl={EXTERNAL_LINKS.LINKEDIN}
-              calendlyUrl={EXTERNAL_LINKS.CALENDLY}
-              onContactPreload={handleContactPreload}
-            />
-          )}
+        {!isAnyModalOpen && (
+          <MobileDock
+            handleAppClick={handleAppClick}
+            showContactNotification={showContactNotification}
+            linkedinUrl={EXTERNAL_LINKS.LINKEDIN}
+            calendlyUrl={EXTERNAL_LINKS.CALENDLY}
+            onContactPreload={handleContactPreload}
+          />
+        )}
+        <MobileModals
+          showContactForm={showContactForm}
+          setShowContactForm={setShowContactForm}
+          showAboutMe={showAboutMe}
+          setShowAboutMe={setShowAboutMe}
+          showSkillset={showSkillset}
+          setShowSkillset={setShowSkillset}
+          showProjects={showProjects}
+          setShowProjects={setShowProjects}
+          showDocumentary={showDocumentary}
+          setShowDocumentary={setShowDocumentary}
+        />
       </div>
     </div>
   );

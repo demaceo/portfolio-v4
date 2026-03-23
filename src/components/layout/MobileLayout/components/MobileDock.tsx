@@ -23,7 +23,7 @@ const MobileDock: React.FC<MobileDockProps> = ({
   return (
     <div className="dock-mobile">
       <button
-        className="dock-app"
+        className="dock-app dock-app-linkedin"
         type="button"
         onClick={() => handleAppClick(linkedinUrl)}
         tabIndex={0}
@@ -35,9 +35,10 @@ const MobileDock: React.FC<MobileDockProps> = ({
         }}
       >
         <FontAwesomeIcon icon={faLinkedin} />
+        <span className="dock-label">LinkedIn</span>
       </button>
       <button
-        className="dock-app"
+        className="dock-app dock-app-calendar"
         type="button"
         onClick={() => handleAppClick(calendlyUrl)}
         tabIndex={0}
@@ -49,9 +50,10 @@ const MobileDock: React.FC<MobileDockProps> = ({
         }}
       >
         <FontAwesomeIcon icon={faCalendarDays} />
+        <span className="dock-label">Schedule</span>
       </button>
       <button
-        className="dock-app"
+        className="dock-app dock-app-contact"
         type="button"
         onMouseEnter={onContactPreload}
         onTouchStart={onContactPreload}
@@ -65,6 +67,7 @@ const MobileDock: React.FC<MobileDockProps> = ({
         }}
       >
         <FontAwesomeIcon icon={faEnvelope} />
+        <span className="dock-label">Contact</span>
         {showContactNotification && <div className="notification-badge">!</div>}
       </button>
     </div>

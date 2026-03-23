@@ -11,9 +11,9 @@ interface StatusBarProps {
 const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
   const formatTime = (date: Date): string => {
     return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
+      hour: "numeric",
       minute: "2-digit",
-      hour12: false,
+      hour12: true,
     });
   };
 
@@ -22,32 +22,24 @@ const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
       <div className="status-bar-left">
         <Image
           className="carrier-logo"
-          alt="portfolio-logo"
+          alt="Demaceo Vincent portfolio logo"
           src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
           width={24}
           height={24}
           priority
         />
-        {/* <span className="carrier-text">Demaceo</span> */}
-        <span className="time">{formatTime(currentTime)}</span>
+        <span className="carrier-text">Demaceo Vincent</span>
       </div>
 
       <div className="status-bar-center">
-        <div className="notch-indicator"></div>
+        <span className="status-chip">
+          <span className="status-chip-dot" aria-hidden="true"></span>
+          Available for Projects
+        </span>
       </div>
 
       <div className="status-bar-right">
-        <div className="signal-bars">
-          <div className="bar bar-1"></div>
-          <div className="bar bar-2"></div>
-          <div className="bar bar-3"></div>
-          <div className="bar bar-4"></div>
-        </div>
-        <div className="battery-container">
-          <div className="battery-level"></div>
-          <div className="battery-tip"></div>
-        </div>
-        {/* <span className="time">{formatTime(currentTime)}</span> */}
+        <span className="time">{formatTime(currentTime)}</span>
       </div>
     </div>
   );
