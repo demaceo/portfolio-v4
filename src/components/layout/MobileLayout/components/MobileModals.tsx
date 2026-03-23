@@ -70,52 +70,18 @@ const MobileModals: React.FC<MobileModalsProps> = ({
 }) => {
   return (
     <>
-      {showContactForm && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowContactForm(false)}
-        >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="contact-form-inner">
-              <ContactForm onClose={() => setShowContactForm(false)} />
-            </div>
-          </div>
-        </div>
-      )}
-
+      {showContactForm && <ContactForm onClose={() => setShowContactForm(false)} />}
       {showAboutMe && (
-        <div className="modal-overlay" onClick={() => setShowAboutMe(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <AboutMeModal onClose={() => setShowAboutMe(false)} />
-          </div>
-        </div>
+        <AboutMeModal onClose={() => setShowAboutMe(false)} />
       )}
-
       {showSkillset && (
-        <div className="modal-overlay" onClick={() => setShowSkillset(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <SkillsetModal onClose={() => setShowSkillset(false)} />
-          </div>
-        </div>
+        <SkillsetModal onClose={() => setShowSkillset(false)} />
       )}
-
       {showProjects && (
-        <div className="modal-overlay" onClick={() => setShowProjects(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <ProjectsModal onClose={() => setShowProjects(false)} />
-          </div>
-        </div>
+        <ProjectsModal onClose={() => setShowProjects(false)} />
       )}
-
       {showDocumentary && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowDocumentary(false)}
-        >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
-          </div>
-        </div>
+        <DocumentaryPlayer onClose={() => setShowDocumentary(false)} />
       )}
     </>
   );
