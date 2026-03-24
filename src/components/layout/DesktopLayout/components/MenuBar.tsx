@@ -353,13 +353,15 @@ const MenuBar: React.FC<MenuBarProps> = ({
                               let projectVisual = null;
                               if (isImageIcon(proj.icon)) {
                                 projectVisual = (
-                                  <Image
-                                    src={proj.icon as string}
-                                    alt={`${proj.name} icon`}
-                                    className="menu-dropdown-project-img menu-dropdown-project-img-icon"
-                                    width={78}
-                                    height={78}
-                                  />
+                                  <span className="menu-dropdown-project-img menu-dropdown-project-img-icon">
+                                    <Image
+                                      src={proj.icon as string}
+                                      alt={`${proj.name} icon`}
+                                      className="menu-dropdown-project-img-media"
+                                      width={62}
+                                      height={62}
+                                    />
+                                  </span>
                                 );
                               } else if (proj.icon) {
                                 projectVisual = (
