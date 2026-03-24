@@ -2,7 +2,16 @@
 
 import React, { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLaptopCode } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLaptopCode,
+  faBriefcase,
+  faPaw,
+  faTheaterMasks,
+  faRobot,
+  faMusic,
+  faCookieBite,
+  faFilm,
+} from "@fortawesome/free-solid-svg-icons";
 import { aboutMePills } from "@/data/aboutMePills";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
@@ -44,12 +53,29 @@ const MenuBar: React.FC<MenuBarProps> = ({
   const [hoveredPill, setHoveredPill] = React.useState<string | null>(null);
 
   const iconMap = {
-    "fa fa-paw icon": faLaptopCode,
-    "fas fa-theater-masks icon": faLaptopCode,
-    "fas fa-robot icon": faLaptopCode,
-    "fas fa-music icon": faLaptopCode,
-    "fas fa-cookie-bite icon": faLaptopCode,
-    "fas fa-film icon": faLaptopCode,
+    "fas fa-briefcase icon": faBriefcase,
+    "fa fa-paw icon": faPaw,
+    "fas fa-theater-masks icon": faTheaterMasks,
+    "fas fa-robot icon": faRobot,
+    "fas fa-music icon": faMusic,
+    "fas fa-cookie-bite icon": faCookieBite,
+    "fas fa-film icon": faFilm,
+  };
+
+  const isImageIcon = (icon?: string) => {
+    if (!icon) return false;
+    return (
+      (icon.startsWith("/") || icon.startsWith("http")) &&
+      /\.(png|jpe?g|webp|svg)$/i.test(icon)
+    );
+  };
+
+  const getServicePreview = (description: string) => {
+    const normalizedDescription = description.replace(/\s+/g, " ").trim();
+    const firstSentence =
+      normalizedDescription.match(/[^.!?]+[.!?]/)?.[0] ?? normalizedDescription;
+    if (firstSentence.length <= 110) return firstSentence;
+    return `${firstSentence.slice(0, 107).trimEnd()}...`;
   };
 
   // Define category order and display names for tech stack
@@ -272,34 +298,40 @@ const MenuBar: React.FC<MenuBarProps> = ({
                 {item.key === "services" && (
                   <div>
                     <ul className="menu-dropdown-services">
-                      {services.map((service) => (
-                        <li
-                          key={service.id}
-                          className="menu-dropdown-service-item"
-                          onClick={() => {
-                            setShowSkillset(true);
-                            setOpenDropdown(null);
-                          }}
-                        >
-                          {service.icon && (
-                            <Image
-                              src={service.icon}
-                              alt={service.title}
-                              className="menu-dropdown-service-icon"
-                              width={38}
-                              height={38}
-                            />
-                          )}
-                          <div className="menu-dropdown-service-info">
-                            <div className="menu-dropdown-service-title">
-                              {service.title}
+                      {services.map((service) => {
+                        const servicePreview = getServicePreview(service.description);
+                        return (
+                          <li
+                            key={service.id}
+                            className="menu-dropdown-service-item"
+                            onClick={() => {
+                              setShowSkillset(true);
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            {service.icon && (
+                              <Image
+                                src={service.icon}
+                                alt={service.title}
+                                className="menu-dropdown-service-icon"
+                                width={38}
+                                height={38}
+                              />
+                            )}
+                            <div className="menu-dropdown-service-info">
+                              <div className="menu-dropdown-service-title">
+                                {service.title}
+                              </div>
+                              <div
+                                className="menu-dropdown-service-desc"
+                                title={service.description}
+                              >
+                                {servicePreview}
+                              </div>
                             </div>
-                            <div className="menu-dropdown-service-desc">
-                              {service.description}
-                            </div>
-                          </div>
-                        </li>
-                      ))}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -319,12 +351,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
                           >
                             {(() => {
                               let projectVisual = null;
-                              if (proj.image) {
+                              if (isImageIcon(proj.icon)) {
                                 projectVisual = (
                                   <Image
-                                    src={proj.image}
-                                    alt={proj.name}
-                                    className="menu-dropdown-project-img"
+                                    src={proj.icon as string}
+                                    alt={`${proj.name} icon`}
+                                    className="menu-dropdown-project-img menu-dropdown-project-img-icon"
                                     width={78}
                                     height={78}
                                   />
@@ -348,6 +380,16 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                       }
                                     />
                                   </span>
+                                );
+                              } else if (proj.image) {
+                                projectVisual = (
+                                  <Image
+                                    src={proj.image}
+                                    alt={proj.name}
+                                    className="menu-dropdown-project-img"
+                                    width={78}
+                                    height={78}
+                                  />
                                 );
                               }
                               return projectVisual;

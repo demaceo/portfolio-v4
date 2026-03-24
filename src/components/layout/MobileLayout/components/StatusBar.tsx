@@ -6,9 +6,17 @@ import { ASSET_PATHS } from "@/lib/constants/paths";
 
 interface StatusBarProps {
   currentTime: Date;
+  showPerformanceToggle?: boolean;
+  performanceMode?: boolean;
+  onPerformanceModeToggle?: () => void;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
+const StatusBar: React.FC<StatusBarProps> = ({
+  currentTime,
+  showPerformanceToggle = false,
+  performanceMode = false,
+  onPerformanceModeToggle,
+}) => {
   const formatTime = (date: Date): string => {
     return date.toLocaleTimeString("en-US", {
       hour: "numeric",
@@ -39,6 +47,22 @@ const StatusBar: React.FC<StatusBarProps> = ({ currentTime }) => {
       </div>
 
       <div className="status-bar-right">
+        {showPerformanceToggle && onPerformanceModeToggle && (
+          <button
+            type="button"
+            className={`status-performance-toggle ${performanceMode ? "active" : ""}`}
+            onClick={onPerformanceModeToggle}
+            aria-pressed={performanceMode}
+            aria-label={
+              performanceMode
+                ? "Disable modal performance mode"
+                : "Enable modal performance mode"
+            }
+            title={performanceMode ? "Performance Mode On" : "Performance Mode Off"}
+          >
+            Perf
+          </button>
+        )}
         <span className="time">{formatTime(currentTime)}</span>
       </div>
     </div>

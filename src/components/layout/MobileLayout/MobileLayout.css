@@ -164,6 +164,36 @@
   justify-content: flex-end;
 }
 
+.status-performance-toggle {
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.42);
+  color: rgba(241, 245, 249, 0.94);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease,
+    color 140ms ease;
+}
+
+.status-performance-toggle:hover {
+  border-color: rgba(56, 189, 248, 0.72);
+}
+
+.status-performance-toggle.active {
+  border-color: rgba(16, 185, 129, 0.75);
+  background: rgba(16, 185, 129, 0.22);
+  color: #ecfdf5;
+}
+
+.status-performance-toggle:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.66);
+  outline-offset: 2px;
+}
+
 .signal-bars {
   display: flex;
   align-items: flex-end;
@@ -2071,6 +2101,9 @@
 }
 
 .command-layout .status-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   justify-content: flex-end;
 }
 
@@ -2435,6 +2468,18 @@
   font-size: 9px;
 }
 
+.command-layout .status-performance-toggle {
+  border: 1px solid rgba(56, 189, 248, 0.38);
+  background: rgba(14, 165, 233, 0.18);
+  color: #e0f2fe;
+}
+
+.command-layout .status-performance-toggle.active {
+  border-color: rgba(34, 197, 94, 0.58);
+  background: rgba(22, 163, 74, 0.24);
+  color: #ecfdf5;
+}
+
 @supports (padding: max(0px)) {
   .command-layout .status-bar {
     padding-top: max(0px, env(safe-area-inset-top));
@@ -2485,6 +2530,11 @@
   .command-layout .status-chip {
     font-size: 9px;
     padding: 4px 8px;
+  }
+
+  .command-layout .status-performance-toggle {
+    font-size: 9px;
+    padding: 3px 6px;
   }
 
   .command-layout .welcome-actions {

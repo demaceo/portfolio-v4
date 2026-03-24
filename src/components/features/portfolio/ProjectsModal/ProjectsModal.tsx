@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { projectsData } from "@/data/projects";
 import "./ProjectsModal.css";
-import { ModalProps } from "@/lib/types";
+import { ModalProps, Project } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
 import ResumeHighlightsModal from "../ResumeHighlightsModal/ResumeHighlightsModal";
 
@@ -36,8 +36,13 @@ const isImageIcon = (icon?: string) => {
   );
 };
 
+const isGifSource = (source?: string) => {
+  if (!source) return false;
+  return /\.gif($|\?)/i.test(source);
+};
+
 const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
-  // Drag state
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
   const [showResumeHighlights, setShowResumeHighlights] = useState(false);
   const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
@@ -56,6 +61,94 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
   const handleOpenResumeHighlights = (projectKey?: string) => {
     setResumeHighlightsProjectKey(projectKey);
     setShowResumeHighlights(true);
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const syncViewport = () => {
+      setIsMobileViewport(mediaQuery.matches);
+    };
+
+    syncViewport();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncViewport);
+      return () => mediaQuery.removeEventListener("change", syncViewport);
+    }
+
+    mediaQuery.addListener(syncViewport);
+    return () => mediaQuery.removeListener(syncViewport);
+  }, []);
+
+  const renderProjectMedia = (project: Project) => {
+    const previewSource =
+      typeof project.image === "string" ? project.image : undefined;
+    const showIconOnMobile = isMobileViewport && isGifSource(previewSource);
+    const iconIsImage = isImageIcon(project.icon);
+
+    if (showIconOnMobile && iconIsImage) {
+      return (
+        <Image
+          src={project.icon as string}
+          alt={`${project.name} icon`}
+          width={132}
+          height={132}
+          className="project-image project-image-icon"
+          loading="lazy"
+        />
+      );
+    }
+
+    if (iconIsImage) {
+      return (
+        <Image
+          src={project.icon as string}
+          alt={`${project.name} icon`}
+          width={132}
+          height={132}
+          className="project-image project-image-icon"
+          loading="lazy"
+        />
+      );
+    }
+
+    if (project.image && !showIconOnMobile) {
+      return (
+        <Image
+          src={project.image}
+          alt={`Screenshot of ${project.name} project`}
+          width={300}
+          height={180}
+          className="project-image"
+          loading="lazy"
+          unoptimized={isGifSource(previewSource)}
+        />
+      );
+    }
+
+    if (project.icon) {
+      return (
+        <div className="project-icon-container" aria-hidden="true">
+          <FontAwesomeIcon
+            icon={iconMap[project.icon] || faBriefcase}
+            className="project-icon"
+            aria-hidden="true"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="project-icon-container" aria-hidden="true">
+        <FontAwesomeIcon
+          icon={faBriefcase}
+          className="project-icon"
+          aria-hidden="true"
+        />
+      </div>
+    );
   };
 
   return (
@@ -148,53 +241,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                         )}
 
                         <div className="projects-modal-card-content">
-                          <div className="project-media">
-                            {isImageIcon(project.icon) ? (
-                              <Image
-                                src={project.icon as string}
-                                alt={`${project.name} icon`}
-                                width={132}
-                                height={132}
-                                className="project-image"
-                                loading="lazy"
-                              />
-                            ) : project.image ? (
-                              <Image
-                                src={project.image}
-                                alt={`Screenshot of ${project.name} project`}
-                                width={300}
-                                height={180}
-                                className="project-image"
-                                loading="lazy"
-                                unoptimized={
-                                  typeof project.image === "string" &&
-                                  project.image.includes(".gif")
-                                }
-                              />
-                            ) : project.icon ? (
-                              <div
-                                className="project-icon-container"
-                                aria-hidden="true"
-                              >
-                                <FontAwesomeIcon
-                                  icon={iconMap[project.icon] || faBriefcase}
-                                  className="project-icon"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            ) : (
-                              <div
-                                className="project-icon-container"
-                                aria-hidden="true"
-                              >
-                                <FontAwesomeIcon
-                                  icon={faBriefcase}
-                                  className="project-icon"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            )}
-                          </div>
+                          <div className="project-media">{renderProjectMedia(project)}</div>
                           <div className="project-info">
                             <h3 id={`project-title-${project.id}`}>
                               {project.name}
@@ -311,45 +358,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                         )}
 
                         <div className="projects-modal-card-content">
-                          <div className="project-media">
-                            {isImageIcon(project.icon) ? (
-                              <Image
-                                src={project.icon as string}
-                                alt={`${project.name} icon`}
-                                width={132}
-                                height={132}
-                                className="project-image"
-                                loading="lazy"
-                              />
-                            ) : project.image ? (
-                              <Image
-                                src={project.image}
-                                alt={project.name}
-                                width={300}
-                                height={180}
-                                className="project-image"
-                                loading="lazy"
-                                unoptimized={
-                                  typeof project.image === "string" &&
-                                  project.image.includes(".gif")
-                                }
-                              />
-                            ) : project.icon ? (
-                              <div className="project-icon-container">
-                                <FontAwesomeIcon
-                                  icon={iconMap[project.icon] || faBriefcase}
-                                  className="project-icon"
-                                />
-                              </div>
-                            ) : (
-                              <div className="project-icon-container">
-                                <FontAwesomeIcon
-                                  icon={faBriefcase}
-                                  className="project-icon"
-                                />
-                              </div>
-                            )}
-                          </div>
+                          <div className="project-media">{renderProjectMedia(project)}</div>
                           <div className="project-info">
                             <h3>{project.name}</h3>
                             <p>{project.description}</p>

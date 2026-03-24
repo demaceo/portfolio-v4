@@ -22,6 +22,9 @@ import {
 const MobileLayout = () => {
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [performanceMode, setPerformanceMode] = useState(false);
+  const performanceStorageKey = "portfolio.touchPerformanceMode";
 
   useEffect(() => {
     const syncTime = () => {
@@ -35,6 +38,59 @@ const MobileLayout = () => {
       window.clearInterval(intervalId);
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(pointer: coarse)");
+    const syncTouchCapability = () => {
+      const touchCapable =
+        mediaQuery.matches ||
+        navigator.maxTouchPoints > 0 ||
+        "ontouchstart" in window;
+      setIsTouchDevice(touchCapable);
+    };
+
+    syncTouchCapability();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncTouchCapability);
+      return () => mediaQuery.removeEventListener("change", syncTouchCapability);
+    }
+
+    mediaQuery.addListener(syncTouchCapability);
+    return () => mediaQuery.removeListener(syncTouchCapability);
+  }, []);
+
+  useEffect(() => {
+    if (!isTouchDevice || typeof window === "undefined") return;
+    const storedValue = window.localStorage.getItem(performanceStorageKey);
+    if (storedValue === "true") {
+      setPerformanceMode(true);
+    }
+  }, [isTouchDevice]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle(
+      "touch-performance-mode",
+      isTouchDevice && performanceMode
+    );
+  }, [isTouchDevice, performanceMode]);
+
+  useEffect(() => {
+    if (!isTouchDevice || typeof window === "undefined") return;
+    window.localStorage.setItem(performanceStorageKey, String(performanceMode));
+  }, [isTouchDevice, performanceMode]);
+
+  useEffect(() => {
+    return () => {
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.remove("touch-performance-mode");
+      }
+    };
+  }, []);
+
   const [showContactForm, setShowContactForm] = useState(false);
   const showWelcomeWindow = true;
   const [showAboutMe, setShowAboutMe] = useState(false);
@@ -115,7 +171,12 @@ const MobileLayout = () => {
   return (
     <div className="iphone-container command-layout">
       <div className="iphone-screen">
-        <StatusBar currentTime={currentTime} />
+        <StatusBar
+          currentTime={currentTime}
+          showPerformanceToggle={isTouchDevice}
+          performanceMode={performanceMode}
+          onPerformanceModeToggle={() => setPerformanceMode((prev) => !prev)}
+        />
         <div
           className={`mobile-app-container command-stage${isAnyModalOpen ? " has-open-modal" : ""}`}
         >

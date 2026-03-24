@@ -11,8 +11,8 @@
   background: linear-gradient(135deg,
       rgba(15, 23, 42, 0.6) 0%,
       rgba(15, 23, 42, 0.5) 100%);
-  backdrop-filter: blur(34px) saturate(150%);
-  -webkit-backdrop-filter: blur(34px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
   animation: overlayFadeIn 220ms ease-out;
 }
 
@@ -29,11 +29,12 @@
   box-shadow:
     0 26px 64px rgba(2, 6, 23, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.32);
-  backdrop-filter: blur(34px) saturate(150%);
-  -webkit-backdrop-filter: blur(34px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(115%);
+  -webkit-backdrop-filter: blur(10px) saturate(115%);
   overflow: hidden;
   animation: modalSlideUp 260ms cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
+  transform: translateZ(0);
 }
 
 .sizeSm {
@@ -153,6 +154,8 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
 }
@@ -182,12 +185,19 @@
 @media (max-width: 768px) {
   .overlay {
     padding: 16px;
+    background: rgba(15, 23, 42, 0.52);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .frame {
     width: min(calc(100vw - 24px), var(--modal-max-width));
     max-height: min(95vh, 95dvh);
     border-radius: 24px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 14px 34px rgba(2, 6, 23, 0.3);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .titleBar {
@@ -209,4 +219,35 @@
   .closeButton::after {
     font-size: 16px;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .frame {
+    animation: none;
+  }
+}
+
+:global(html.touch-performance-mode) .overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none;
+}
+
+:global(html.touch-performance-mode) .frame {
+  background: rgba(248, 250, 252, 0.98);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.32);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none;
+}
+
+:global(html.touch-performance-mode) .titleBar {
+  background: rgba(248, 250, 252, 0.98);
+}
+
+:global(html.touch-performance-mode) .frame :where(*) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }

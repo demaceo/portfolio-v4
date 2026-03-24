@@ -1,10 +1,5 @@
 /* ===== CONTACT FORM - APPLE LIQUID GLASS DESIGN ===== */
 
-.email-form-wrapper {
-  max-height: 100%;
-  overflow-y: auto;
-}
-
 /* Apple Design System Variables */
 :root {
   /* Apple Glass Morphism Colors */

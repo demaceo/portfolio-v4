@@ -15,8 +15,6 @@
     radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.12), transparent 42%),
     radial-gradient(circle at 100% 0%, rgba(6, 182, 212, 0.1), transparent 40%),
     rgba(248, 250, 252, 0.24);
-  max-height: 100%;
-  overflow-y: auto;
 }
 
 .projects-modal-tabs {
@@ -156,6 +154,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.project-image-icon {
+  object-fit: contain;
+  padding: 0.72rem;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.82), transparent 62%),
+    linear-gradient(160deg, rgba(241, 245, 249, 0.92), rgba(226, 232, 240, 0.78));
 }
 
 .project-icon-container {
