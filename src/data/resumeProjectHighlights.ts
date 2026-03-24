@@ -66,27 +66,27 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
         text: "Enforced code quality with a full CI/CD pipeline: GitHub Actions (lint -> typecheck -> test -> secret scan) plus Husky pre-commit hooks across a monorepo.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Built 100% on-device signal extraction from Google Takeout and Meta ZIP exports using AES-256-GCM encrypted SQLite, ensuring raw personal data is never transmitted to a server.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Implemented checkpoint-based background processing using BGTaskScheduler (iOS) and WorkManager (Android) for long-running tasks that survive app suspension and resume from interruption.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Normalized user behavioral data into 135 unified categories across 10 pillars, consistent between Google and Meta data sources.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Engineered a secure backend AI proxy with Google OAuth token verification, 5 req/min per-user limiting, 100 req/15 min global limiting, dual Gemini key failover, and a 2-minute AbortController timeout.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Built a multi-tenant PostgreSQL analytics system with materialized views and SHA-256 anonymized category match tracking for GDPR/CCPA compliance.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Prevented AI token truncation by batching 135+ behavioral categories into groups of 50 for Gemini 2.5 Pro calls.",
       },
       {
@@ -158,7 +158,7 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
         text: "Designed a 3-sided marketplace architecture with role-based access flows for landlords, tenants, and admins, including an admin approval gate for onboarding.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Maintained full compliance documentation including PRIVACY_POLICY.md, SECURITY.md, TERMS_OF_SERVICE.md, and DATA_DELETION.md for GDPR/CCPA readiness at launch.",
       },
       {
@@ -189,7 +189,7 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
         text: "Implemented deep linking (pinpointapp://) across officials, bills, and chat sessions to support shareable direct-entry flows.",
       },
       {
-        project: "pbv2 (Payback)",
+        project: "Payback",
         text: "Designed a data vault trust metaphor that framed privacy-first architecture as product identity, paired with high-fidelity visualizations using Skia and Victory Native.",
       },
       {
@@ -283,7 +283,7 @@ Pinpoint Backend (Express / TypeScript)
   },
   {
     key: "payback",
-    name: "pbv2 (Payback)",
+    name: "Payback",
     subtitle: "Privacy-First Consumer Intelligence Platform",
     stack: [
       "React Native 0.81",
