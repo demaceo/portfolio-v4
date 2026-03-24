@@ -137,6 +137,33 @@
   gap: 0.46rem;
 }
 
+.about-strength-detail {
+  margin-top: 0.62rem;
+  border: 1px solid rgba(30, 64, 175, 0.24);
+  border-radius: 0.72rem;
+  padding: 0.58rem 0.64rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.12), transparent 58%),
+    rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.09);
+}
+
+.about-strength-detail-title {
+  margin: 0;
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(30, 64, 175, 0.94);
+}
+
+.about-strength-detail-copy {
+  margin: 0.32rem 0 0 0;
+  font-size: 0.78rem;
+  line-height: 1.42;
+  color: #1e293b;
+}
+
 .about-modal-pill {
   border: 1px solid rgba(148, 163, 184, 0.44);
   border-radius: 999px;
@@ -172,25 +199,6 @@
   outline-offset: 2px;
 }
 
-.about-modal-pill-tooltip {
-  position: absolute;
-  z-index: 4;
-  left: 0;
-  top: calc(100% + 8px);
-  min-width: 220px;
-  max-width: 320px;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  border-radius: 0.7rem;
-  padding: 0.56rem 0.62rem;
-  background: rgba(255, 255, 255, 0.96);
-  color: #1e293b;
-  font-size: 0.76rem;
-  font-weight: 500;
-  line-height: 1.4;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-  text-align: left;
-}
-
 .tooltip-link-hint {
   color: rgba(30, 64, 175, 0.9);
   font-weight: 700;
@@ -206,11 +214,8 @@
     grid-template-columns: 1fr;
   }
 
-  .about-modal-pill-tooltip {
-    left: auto;
-    right: 0;
-    min-width: 180px;
-    max-width: 260px;
+  .about-strength-detail-copy {
+    font-size: 0.76rem;
   }
 }
 

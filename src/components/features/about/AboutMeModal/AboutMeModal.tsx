@@ -85,7 +85,10 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
 
   const handleModalClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
-    if (!target.closest(".about-modal-pill")) {
+    if (
+      !target.closest(".about-modal-pill") &&
+      !target.closest(".about-strength-detail")
+    ) {
       setActiveTooltip(null);
     }
   };
@@ -137,6 +140,23 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
             </p>
           </header>
 
+          {activeTooltip && pillsByLabel[activeTooltip] && (
+            <div
+              id="about-strength-detail"
+              className="about-strength-detail"
+              role="status"
+              aria-live="polite"
+            >
+              <p className="about-strength-detail-title">{activeTooltip}</p>
+              <p className="about-strength-detail-copy">
+                {pillsByLabel[activeTooltip]?.tooltip}
+                {pillsByLabel[activeTooltip]?.link && (
+                  <span className="tooltip-link-hint"> Click again to open.</span>
+                )}
+              </p>
+            </div>
+          )}
+
           <div className="about-modal-pills">
             {aboutMePills.map((pill) => {
               const isActive = activeTooltip === pill.label;
@@ -149,20 +169,9 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({
                   }`}
                   onClick={() => handlePillClick(pill)}
                   aria-expanded={isActive}
-                  aria-controls={`pill-tooltip-${pill.label.replace(/\s+/g, "-")}`}
+                  aria-controls="about-strength-detail"
                 >
                   <span>{pill.label}</span>
-                  {isActive && (
-                    <span
-                      id={`pill-tooltip-${pill.label.replace(/\s+/g, "-")}`}
-                      className="about-modal-pill-tooltip"
-                    >
-                      {pillsByLabel[pill.label]?.tooltip}
-                      {pill.link && (
-                        <span className="tooltip-link-hint"> Click again to open.</span>
-                      )}
-                    </span>
-                  )}
                 </button>
               );
             })}

@@ -57,6 +57,15 @@
     linear-gradient(145deg, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.84));
 }
 
+.menu-dropdown-project-icon {
+  line-height: 1;
+}
+
+.menu-dropdown-project-icon .svg-inline--fa {
+  display: block;
+  vertical-align: 0;
+}
+
 .menu-dropdown-project-img::before {
   content: "";
   position: absolute;

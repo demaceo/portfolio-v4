@@ -364,7 +364,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
                               } else if (proj.icon) {
                                 projectVisual = (
                                   <span
-                                    className="menu-dropdown-project-img"
+                                    className="menu-dropdown-project-img menu-dropdown-project-icon"
                                     style={{
                                       fontSize: 28,
                                       display: "flex",
