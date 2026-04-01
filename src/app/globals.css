@@ -25,10 +25,14 @@ body {
   box-sizing: border-box;
   border: none !important;
   outline: none !important;
-  width: 100vw;
-  min-height: 100vh;
-  height: 100vh;
-  background: none;
+  width: 100dvw;
+  max-width: 100vw;
+  min-height: 100dvh;
+  background-color: #0b1220;
+  background-image: url("/images/palmtreeleaves-7.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Shadowed title styling as a reusable class using CSS variables */

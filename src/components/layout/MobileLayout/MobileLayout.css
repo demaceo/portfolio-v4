@@ -2215,6 +2215,73 @@
   gap: 10px;
 }
 
+.command-layout .mobile-welcome-window {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 18px;
+  border: 1px solid var(--deck-border);
+  background: rgba(15, 23, 42, 0.78);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.3);
+  padding: 0;
+}
+
+.command-layout .mobile-window-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(180deg,
+      rgba(31, 41, 55, 0.78) 0%,
+      rgba(15, 23, 42, 0.7) 100%);
+}
+
+.command-layout .mobile-window-title {
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.command-layout .mobile-window-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(34, 197, 94, 0.14);
+  color: #bbf7d0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.command-layout .mobile-window-content {
+  padding: 14px;
+}
+
+.command-layout .welcome-message h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.command-layout .welcome-message p {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0 0 12px;
+}
+
+.command-layout .welcome-highlights {
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.command-layout .highlight-pill {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
 .command-layout .welcome-btn {
   border-radius: 12px;
   border: 1px solid transparent;
@@ -2247,7 +2314,7 @@
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 12px;
   align-items: stretch;
   justify-items: stretch;
 }
@@ -2260,18 +2327,19 @@
   --app-accent: #94a3b8;
   width: 100%;
   max-width: none;
-  min-height: 96px;
-  padding: 12px;
+  min-height: 88px;
+  padding: 12px 14px;
   margin: 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 12px;
   align-items: center;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid var(--deck-border-soft);
   background: linear-gradient(145deg,
       rgba(15, 23, 42, 0.76) 0%,
       rgba(15, 23, 42, 0.56) 100%);
-  box-shadow: 0 8px 18px rgba(2, 6, 23, 0.18);
+  box-shadow: 0 10px 22px rgba(2, 6, 23, 0.22);
   position: relative;
   transition: transform 170ms ease, border-color 170ms ease,
     background-color 170ms ease;
@@ -2280,12 +2348,12 @@
 .command-layout .mobile-app-icon::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 3px;
+  left: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--app-accent) 0%, rgba(15, 23, 42, 0.3) 100%);
+  background: linear-gradient(180deg, var(--app-accent) 0%, rgba(15, 23, 42, 0.45) 100%);
 }
 
 .command-layout .mobile-app-icon.app-variant-mindset {
@@ -2312,9 +2380,9 @@
 }
 
 .command-layout .mobile-app-icon .icon {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   margin: 0;
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.24);
@@ -2335,22 +2403,22 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .command-layout .app-name {
   margin: 0;
   color: var(--deck-text-primary);
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.1px;
+  letter-spacing: 0.05px;
 }
 
 .command-layout .app-description {
   color: var(--deck-text-secondary);
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 11.5px;
+  line-height: 1.35;
   text-align: left;
 }
 
@@ -2358,8 +2426,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
-  margin-left: 8px;
+  gap: 6px;
+  margin-left: 6px;
 }
 
 .command-layout .app-meta-chip {
@@ -2368,18 +2436,18 @@
   background: rgba(30, 41, 59, 0.7);
   color: rgba(241, 245, 249, 0.96);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.35px;
-  padding: 4px 7px;
+  padding: 4px 8px;
   white-space: nowrap;
 }
 
 .command-layout .app-open-indicator {
-  color: var(--app-accent);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.35px;
+  color: rgba(226, 232, 240, 0.76);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.25px;
   text-transform: uppercase;
 }
 

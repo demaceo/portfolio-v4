@@ -173,7 +173,7 @@ const MobileLayout = () => {
       <div className="iphone-screen">
         <StatusBar
           currentTime={currentTime}
-          showPerformanceToggle={isTouchDevice}
+          showPerformanceToggle={false}
           performanceMode={performanceMode}
           onPerformanceModeToggle={() => setPerformanceMode((prev) => !prev)}
         />
