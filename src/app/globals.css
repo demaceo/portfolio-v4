@@ -1,8 +1,11 @@
 /* @import "tailwindcss"; */
 /* Font definitions */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
 :root {
   --font-primary: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-secondary: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Poppins", "Inter", ui-sans-serif, system-ui,
+    sans-serif;
   --font-lato: "Lato", sans-serif;
   --gradient-start: rgba(92, 129, 202, 1);
   --gradient-end: rgba(249, 140, 112, 1);
