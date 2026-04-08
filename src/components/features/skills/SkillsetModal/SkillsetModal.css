@@ -1,22 +1,22 @@
 .skillset-modal-content {
-  --skillset-text: #0f172a;
-  --skillset-muted: #334155;
-  --skillset-border: rgba(148, 163, 184, 0.32);
-  --skillset-panel: rgba(255, 255, 255, 0.74);
-  --skillset-panel-strong: rgba(255, 255, 255, 0.9);
-  --skillset-accent: #2563eb;
-  --skillset-accent-soft: rgba(37, 99, 235, 0.11);
+  --skillset-text: rgba(250, 246, 242, 0.95);
+  --skillset-muted: rgba(214, 204, 194, 0.80);
+  --skillset-border: rgba(168, 152, 138, 0.20);
+  --skillset-panel: rgba(42, 36, 32, 0.76);
+  --skillset-panel-strong: rgba(48, 40, 35, 0.90);
+  --skillset-accent: #e8734a;
+  --skillset-accent-soft: rgba(232, 115, 74, 0.11);
 
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
   color: var(--skillset-text);
-  font-family: "Avenir Next", "Manrope", "Segoe UI", sans-serif;
+  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.12), transparent 44%),
-    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.1), transparent 42%),
-    rgba(248, 250, 252, 0.24);
+    radial-gradient(circle at 0% 0%, rgba(232, 115, 74, 0.10), transparent 44%),
+    radial-gradient(circle at 100% 0%, rgba(143, 174, 139, 0.08), transparent 42%),
+    rgba(26, 22, 21, 0.24);
 }
 
 .skillset-intro {
@@ -29,7 +29,7 @@
 
 .skillset-eyebrow {
   margin: 0;
-  color: rgba(30, 64, 175, 0.92);
+  color: #e8734a;
   font-size: 0.72rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -82,9 +82,9 @@
 }
 
 .skillset-tab.active {
-  background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22);
+  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.22);
 }
 
 .skillset-tab:focus-visible,
@@ -92,7 +92,7 @@
 .tools-search input:focus-visible,
 .category-chip:focus-visible,
 .studio-links a:focus-visible {
-  outline: 2px solid rgba(30, 64, 175, 0.42);
+  outline: 2px solid rgba(232, 115, 74, 0.42);
   outline-offset: 2px;
 }
 
@@ -126,14 +126,14 @@
 
 .studio-logo {
   border-radius: 0.8rem;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(48, 40, 35, 0.92);
+  border: 1px solid rgba(232, 115, 74, 0.15);
   padding: 0.2rem;
 }
 
 .studio-label {
   margin: 0;
-  color: rgba(30, 64, 175, 0.9);
+  color: #e8734a;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -161,15 +161,15 @@
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--skillset-text);
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(52, 44, 38, 0.78);
   transition: transform 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
 .studio-links a:hover {
-  border-color: rgba(37, 99, 235, 0.45);
+  border-color: rgba(232, 115, 74, 0.40);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 4px 10px rgba(232, 115, 74, 0.12);
 }
 
 .services-stack {
@@ -230,10 +230,10 @@
   border-radius: 999px;
   display: grid;
   place-items: center;
-  color: rgba(30, 64, 175, 0.92);
+  color: #e8734a;
   font-size: 0.92rem;
   font-weight: 700;
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(232, 115, 74, 0.10);
   flex-shrink: 0;
 }
 
@@ -246,7 +246,7 @@
 
 .service-item-outcome {
   margin: 0.32rem 0 0 0;
-  color: rgba(30, 64, 175, 0.9);
+  color: #e8734a;
   font-size: 0.77rem;
   font-weight: 700;
   line-height: 1.4;
@@ -254,7 +254,7 @@
 
 .service-item-detail {
   margin: 0.55rem 0 0 0;
-  color: #334155;
+  color: var(--skillset-muted);
   font-size: 0.84rem;
   line-height: 1.48;
   border-top: 1px solid rgba(148, 163, 184, 0.24);
@@ -277,7 +277,7 @@
 }
 
 .tools-search span {
-  color: #334155;
+  color: var(--skillset-muted);
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -286,16 +286,16 @@
 
 .tools-search input {
   width: 100%;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(168, 152, 138, 0.30);
   border-radius: 0.65rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(48, 40, 35, 0.88);
   color: var(--skillset-text);
   font-size: 0.86rem;
   padding: 0.56rem 0.66rem;
 }
 
 .tools-search input::placeholder {
-  color: #64748b;
+  color: rgba(168, 152, 138, 0.60);
 }
 
 .tools-category-filter {
@@ -305,10 +305,10 @@
 }
 
 .category-chip {
-  border: 1px solid rgba(148, 163, 184, 0.44);
+  border: 1px solid rgba(168, 152, 138, 0.25);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  color: #334155;
+  background: rgba(52, 44, 38, 0.80);
+  color: var(--skillset-muted);
   font-size: 0.74rem;
   font-weight: 700;
   padding: 0.34rem 0.66rem;
@@ -319,13 +319,13 @@
 
 .category-chip:hover {
   border-color: rgba(30, 64, 175, 0.45);
-  color: #0f172a;
+  color: var(--skillset-text);
 }
 
 .category-chip.active {
-  border-color: rgba(30, 64, 175, 0.9);
+  border-color: #e8734a;
   color: #ffffff;
-  background: linear-gradient(135deg, #1d4ed8 0%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
 }
 
 .tools-categories {
@@ -357,13 +357,13 @@
   min-width: 1.4rem;
   height: 1.4rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(168, 152, 138, 0.30);
   display: grid;
   place-items: center;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #334155;
-  background: rgba(255, 255, 255, 0.88);
+  color: var(--skillset-muted);
+  background: rgba(52, 44, 38, 0.80);
 }
 
 .tool-pill-grid {
@@ -376,23 +376,23 @@
   display: inline-flex;
   align-items: center;
   gap: 0.36rem;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid rgba(168, 152, 138, 0.22);
   border-radius: 999px;
   padding: 0.34rem 0.56rem;
   font-size: 0.75rem;
-  color: #1f2937;
-  background: rgba(255, 255, 255, 0.84);
+  color: var(--skillset-text);
+  background: rgba(52, 44, 38, 0.76);
 }
 
 .tool-pill-icon {
-  color: rgba(30, 64, 175, 0.9);
+  color: #e8734a;
   font-size: 0.72rem;
 }
 
 .tools-empty-state {
-  border: 1px dashed rgba(148, 163, 184, 0.65);
+  border: 1px dashed rgba(168, 152, 138, 0.35);
   border-radius: 0.9rem;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(42, 36, 32, 0.72);
   padding: 1rem;
 }
 
