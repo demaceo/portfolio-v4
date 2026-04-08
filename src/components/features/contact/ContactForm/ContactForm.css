@@ -1,7 +1,7 @@
 /* ===== CONTACT FORM - APPLE LIQUID GLASS DESIGN ===== */
 
-/* Apple Design System Variables */
-:root {
+/* Contact Form Design Variables — scoped to avoid global leakage */
+.contact-modal-overlay {
   /* Warm Noir Glass Colors */
   --glass-bg: rgba(32, 27, 24, 0.85);
   --glass-bg-dark: rgba(26, 22, 21, 0.15);
@@ -386,7 +386,7 @@
   background: var(--ios-surface);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid rgba(48, 209, 88, 0.2);
+  border: 1px solid rgba(143, 174, 139, 0.25);
   margin-bottom: var(--space-6);
   opacity: 0;
   transform: translateY(10px);
@@ -503,13 +503,13 @@
 
 /* Calendly Button */
 .calendly-btn {
-  background: linear-gradient(135deg, var(--ios-orange) 0%, #ff6b35 100%);
+  background: linear-gradient(145deg, #e8734a 0%, #d4623c 100%);
   color: white;
-  border: 1px solid var(--ios-orange);
+  border: 1px solid rgba(232, 115, 74, 0.5);
 }
 
 .calendly-btn:hover {
-  box-shadow: 0 8px 32px rgba(255, 149, 0, 0.3), var(--shadow-lg);
+  box-shadow: 0 8px 32px rgba(232, 115, 74, 0.3), var(--shadow-lg);
 }
 
 /* Icons */
@@ -717,7 +717,8 @@
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  .contact-form-container,
+  .contact-form-container * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -736,11 +737,11 @@
 
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
-  :root {
-    --glass-border: rgba(255, 255, 255, 0.4);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  .contact-modal-overlay {
+    --glass-border: rgba(168, 152, 138, 0.45);
+    --shadow-sm: 0 2px 8px rgba(26, 22, 21, 0.25);
+    --shadow-md: 0 4px 16px rgba(26, 22, 21, 0.35);
+    --shadow-lg: 0 8px 32px rgba(26, 22, 21, 0.45);
   }
 
   .email-form input,

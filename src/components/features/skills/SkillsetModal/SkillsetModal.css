@@ -187,8 +187,8 @@
 }
 
 .service-item:hover {
-  border-color: rgba(37, 99, 235, 0.32);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  border-color: rgba(168, 152, 138, 0.32);
+  box-shadow: 0 4px 12px rgba(26, 22, 21, 0.10);
 }
 
 .service-item.expanded {
@@ -226,7 +226,7 @@
 .service-toggle-indicator {
   width: 1.45rem;
   height: 1.45rem;
-  border: 1px solid rgba(30, 64, 175, 0.26);
+  border: 1px solid rgba(232, 115, 74, 0.26);
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -257,7 +257,7 @@
   color: var(--skillset-muted);
   font-size: 0.84rem;
   line-height: 1.48;
-  border-top: 1px solid rgba(148, 163, 184, 0.24);
+  border-top: 1px solid rgba(168, 152, 138, 0.15);
   padding-top: 0.52rem;
 }
 
@@ -318,7 +318,7 @@
 }
 
 .category-chip:hover {
-  border-color: rgba(30, 64, 175, 0.45);
+  border-color: rgba(232, 115, 74, 0.40);
   color: var(--skillset-text);
 }
 
