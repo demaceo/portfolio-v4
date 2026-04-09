@@ -3,8 +3,8 @@
 /* Warm Noir Design Variables — scoped to prevent global leakage */
 .documentary-player-content {
   --glass-bg: rgba(32, 27, 24, 0.85);
-  --glass-bg-dark: rgba(26, 22, 21, 0.15);
-  --glass-border: rgba(168, 152, 138, 0.18);
+  --glass-bg-dark: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(148, 163, 184, 0.18);
   --backdrop-blur: blur(32px);
   --backdrop-saturate: saturate(120%);
 }
@@ -24,9 +24,9 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   background: linear-gradient(135deg,
-      rgba(48, 40, 35, 0.95),
+      rgba(248, 250, 252, 0.95),
       rgba(38, 32, 28, 0.90));
   color: rgba(250, 246, 242, 0.95);
   display: inline-flex;
@@ -34,7 +34,7 @@
   justify-content: center;
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  box-shadow: 0 2px 6px rgba(168, 152, 138, 0.12);
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
 }
 
 .documentary-frame-button:hover {
@@ -47,14 +47,14 @@
 }
 
 .documentary-frame-button.active {
-  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
   color: #ffffff;
-  border-color: #e8734a;
-  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .documentary-frame-button:focus-visible {
-  outline: 2px solid rgba(232, 115, 74, 0.5);
+  outline: 2px solid rgba(59, 130, 246, 0.5);
   outline-offset: 2px;
 }
 
@@ -69,9 +69,9 @@
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   background: linear-gradient(180deg,
-      rgba(42, 36, 32, 0.96),
-      rgba(42, 36, 32, 0.90));
-  border-bottom: 1px solid rgba(168, 152, 138, 0.12);
+      rgba(248, 250, 252, 0.96),
+      rgba(248, 250, 252, 0.90));
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -83,7 +83,7 @@
 
 .documentary-player-header:hover {
   border-bottom-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 6px rgba(168, 152, 138, 0.12);
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
 }
 
 .documentary-player-header>button.control-button {
@@ -136,9 +136,9 @@
   height: 38px;
   border-radius: 50%;
   background: linear-gradient(135deg,
-      rgba(48, 40, 35, 0.95),
+      rgba(248, 250, 252, 0.95),
       rgba(38, 32, 28, 0.90));
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -146,7 +146,7 @@
   color: var(--ios-text-primary);
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  box-shadow: 0 2px 6px rgba(168, 152, 138, 0.12);
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   position: relative;
@@ -173,17 +173,17 @@
 }
 
 .control-button:focus-visible {
-  outline: 3px solid rgba(232, 115, 74, 0.14);
+  outline: 3px solid rgba(59, 130, 246, 0.14);
   outline-offset: 4px;
 }
 
 .control-button.active {
   background: linear-gradient(135deg,
-      #e8734a 0%,
-      #d4623c 100%);
+      #3b82f6 0%,
+      #0ea5e9 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.3);
-  border-color: #e8734a;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
   transform: scale(1.02);
 }
 
@@ -192,7 +192,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: rgba(232, 115, 74, 0.08);
+  background: rgba(59, 130, 246, 0.08);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -206,7 +206,7 @@
 .header-controls .control-button.info {
   background: linear-gradient(135deg,
       rgba(52, 199, 89, 0.08),
-      rgba(42, 36, 32, 0.90));
+      rgba(248, 250, 252, 0.90));
   border: 1px solid rgba(52, 199, 89, 0.12);
   color: #34c759;
 }
@@ -317,7 +317,7 @@
 }
 
 .episode-item.selected .episode-duration {
-  color: rgba(42, 36, 32, 0.80);
+  color: rgba(248, 250, 252, 0.80);
 }
 
 /* Info Dropdown */
@@ -438,9 +438,9 @@
   height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg,
-      rgba(42, 36, 32, 0.90),
+      rgba(248, 250, 252, 0.90),
       rgba(245, 245, 247, 0.8));
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -654,7 +654,7 @@
     height: 56px;
     padding: 0 var(--space-5);
     background: linear-gradient(180deg,
-        rgba(42, 36, 32, 0.90),
+        rgba(248, 250, 252, 0.90),
         rgba(255, 255, 255, 0.85));
   }
 
@@ -666,7 +666,7 @@
   .control-button {
     width: 30px;
     height: 30px;
-    box-shadow: 0 1px 4px rgba(168, 152, 138, 0.12);
+    box-shadow: 0 1px 4px rgba(148, 163, 184, 0.12);
   }
 }
 
@@ -907,7 +907,7 @@
 }
 
 .episode-item.selected .episode-duration {
-  color: rgba(42, 36, 32, 0.80);
+  color: rgba(248, 250, 252, 0.80);
 }
 
 /* Info Dropdown */
@@ -1048,13 +1048,13 @@
 }
 
 .documentary-content::-webkit-scrollbar-thumb {
-  background: rgba(232, 115, 74, 0.4);
+  background: rgba(59, 130, 246, 0.4);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 .documentary-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(232, 115, 74, 0.6);
+  background: rgba(59, 130, 246, 0.6);
 }
 
 .documentary-header {
@@ -1105,9 +1105,9 @@
   height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg,
-      rgba(42, 36, 32, 0.90) 0%,
+      rgba(248, 250, 252, 0.90) 0%,
       rgba(245, 245, 247, 0.8) 100%);
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1115,7 +1115,7 @@
   color: var(--ios-text-primary);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 2px 6px rgba(168, 152, 138, 0.12);
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   position: absolute;
@@ -1129,8 +1129,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-color: var(--ios-blue);
   background: linear-gradient(135deg,
-      rgba(232, 115, 74, 0.1) 0%,
-      rgba(42, 36, 32, 0.90) 100%);
+      rgba(59, 130, 246, 0.1) 0%,
+      rgba(248, 250, 252, 0.90) 100%);
 }
 
 .content-expand-button:active {
@@ -1412,7 +1412,7 @@
     height: 56px;
     padding: 0 var(--space-5);
     background: linear-gradient(180deg,
-        rgba(42, 36, 32, 0.90) 0%,
+        rgba(248, 250, 252, 0.90) 0%,
         rgba(255, 255, 255, 0.85) 100%);
   }
 
@@ -1429,7 +1429,7 @@
   .control-button {
     width: 30px;
     height: 30px;
-    box-shadow: 0 1px 4px rgba(168, 152, 138, 0.12);
+    box-shadow: 0 1px 4px rgba(148, 163, 184, 0.12);
   }
 
   .control-button:first-child {
@@ -1437,7 +1437,7 @@
   }
 
   .control-button.active {
-    box-shadow: 0 2px 8px rgba(232, 115, 74, 0.25);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
   }
 
   .header-controls .control-button:first-child {
@@ -1601,7 +1601,7 @@
   }
 
   .control-button.active {
-    box-shadow: 0 2px 6px rgba(232, 115, 74, 0.2);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
   }
 
   .header-controls .control-button:first-child {
@@ -1864,7 +1864,7 @@
   .content-expand-button:hover {
     border-color: var(--ios-blue);
     background: linear-gradient(135deg,
-        rgba(232, 115, 74, 0.2) 0%,
+        rgba(59, 130, 246, 0.2) 0%,
         rgba(58, 58, 60, 0.9) 100%);
   }
 
@@ -1896,7 +1896,7 @@
     background: linear-gradient(135deg,
         rgba(52, 199, 89, 0.15) 0%,
         rgba(58, 58, 60, 0.9) 50%,
-        rgba(232, 115, 74, 0.1) 100%);
+        rgba(59, 130, 246, 0.1) 100%);
     border: 1px solid rgba(52, 199, 89, 0.3);
     box-shadow: 0 2px 8px rgba(52, 199, 89, 0.2);
     color: #32d74b;
@@ -1906,7 +1906,7 @@
     background: linear-gradient(135deg,
         rgba(52, 199, 89, 0.25) 0%,
         rgba(58, 58, 60, 0.95) 50%,
-        rgba(232, 115, 74, 0.15) 100%);
+        rgba(59, 130, 246, 0.15) 100%);
     border-color: #32d74b;
     box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
     color: #30d158;
@@ -1978,7 +1978,7 @@
     }
 
     .control-button {
-      box-shadow: 0 1px 3px rgba(168, 152, 138, 0.12);
+      box-shadow: 0 1px 3px rgba(148, 163, 184, 0.12);
       width: 24px;
       height: 24px;
     }

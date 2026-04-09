@@ -5,26 +5,26 @@
     /* Apple Glass Morphism Colors */
     --glass-bg: rgba(255, 255, 255, 0.25);
     --glass-bg-dark: rgba(0, 0, 0, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-shadow: rgba(31, 38, 135, 0.37);
+    --glass-border: rgba(203, 213, 225, 0.4);
+    --glass-shadow: rgba(0, 0, 0, 0.12);
     --backdrop-blur: blur(40px);
     --backdrop-saturate: saturate(180%);
 
     /* Apple Color Palette */
-    --ios-blue: #007aff;
-    --ios-blue-light: rgba(0, 122, 255, 0.1);
-    --ios-blue-dark: rgba(0, 122, 255, 0.8);
+    --ios-blue: #3b82f6;
+    --ios-blue-light: rgba(59, 130, 246, 0.1);
+    --ios-blue-dark: rgba(59, 130, 246, 0.8);
     --ios-red: #ff3b30;
-    --ios-green: #30d158;
+    --ios-green: #10b981;
     --ios-orange: #ff9500;
-    --ios-purple: #af52de;
+    --ios-purple: #0ea5e9;
     --ios-pink: #ff2d92;
     --ios-indigo: #5856d6;
-    --ios-teal: #40c8e0;
+    --ios-teal: #0ea5e9;
     --ios-yellow: #ffcc00;
-    --ios-text-primary: #1d1d1f;
-    --ios-text-secondary: #5f6b7a;
-    --ios-text-tertiary: #c7c7cc;
+    --ios-text-primary: #0f172a;
+    --ios-text-secondary: #64748b;
+    --ios-text-tertiary: #94a3b8;
     --ios-surface: rgba(255, 255, 255, 0.8);
     --ios-surface-elevated: rgba(255, 255, 255, 0.95);
     --ios-surface-secondary: rgba(242, 242, 247, 0.8);
@@ -75,9 +75,9 @@
     width: 100vw;
     height: 100vh;
     background: linear-gradient(135deg,
-            rgba(48, 209, 88, 0.1) 0%,
-            rgba(0, 122, 255, 0.1) 50%,
-            rgba(175, 82, 222, 0.1) 100%);
+            rgba(59, 130, 246, 0.06) 0%,
+            rgba(14, 165, 233, 0.06) 50%,
+            rgba(16, 185, 129, 0.06) 100%);
     backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
     -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
     display: flex;
@@ -194,7 +194,7 @@
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4) var(--space-6);
-    background: linear-gradient(135deg, var(--ios-red) 0%, var(--ios-pink) 100%);
+    background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-teal) 100%);
     color: white;
     border: none;
     border-radius: var(--radius-xl);
@@ -229,7 +229,7 @@
 
 .pdf-download-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(255, 45, 146, 0.3), var(--shadow-xl);
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), var(--shadow-xl);
 }
 
 .pdf-download-button:active {
@@ -260,7 +260,7 @@
 }
 
 .resume-content::-webkit-scrollbar-thumb {
-    background: rgba(0, 122, 255, 0.3);
+    background: rgba(59, 130, 246, 0.3);
     border-radius: 3px;
 }
 
@@ -370,9 +370,9 @@
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg,
-            rgba(48, 209, 88, 0.05) 0%,
-            rgba(0, 122, 255, 0.05) 50%,
-            rgba(175, 82, 222, 0.05) 100%);
+            rgba(59, 130, 246, 0.05) 0%,
+            rgba(14, 165, 233, 0.05) 50%,
+            rgba(16, 185, 129, 0.05) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;

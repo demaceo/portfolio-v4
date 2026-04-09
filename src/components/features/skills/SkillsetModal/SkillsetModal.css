@@ -1,11 +1,11 @@
 .skillset-modal-content {
-  --skillset-text: rgba(250, 246, 242, 0.95);
-  --skillset-muted: rgba(214, 204, 194, 0.80);
-  --skillset-border: rgba(168, 152, 138, 0.20);
-  --skillset-panel: rgba(42, 36, 32, 0.76);
-  --skillset-panel-strong: rgba(48, 40, 35, 0.90);
-  --skillset-accent: #e8734a;
-  --skillset-accent-soft: rgba(232, 115, 74, 0.11);
+  --skillset-text: #0f172a;
+  --skillset-muted: #64748b;
+  --skillset-border: rgba(148, 163, 184, 0.18);
+  --skillset-panel: rgba(255, 255, 255, 0.85);
+  --skillset-panel-strong: rgba(248, 250, 252, 0.95);
+  --skillset-accent: #3b82f6;
+  --skillset-accent-soft: rgba(59, 130, 246, 0.08);
 
   display: flex;
   flex-direction: column;
@@ -14,9 +14,9 @@
   color: var(--skillset-text);
   font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 0% 0%, rgba(232, 115, 74, 0.10), transparent 44%),
-    radial-gradient(circle at 100% 0%, rgba(143, 174, 139, 0.08), transparent 42%),
-    rgba(26, 22, 21, 0.24);
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.06), transparent 44%),
+    radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.05), transparent 42%),
+    rgba(248, 250, 252, 0.24);
 }
 
 .skillset-intro {
@@ -29,7 +29,7 @@
 
 .skillset-eyebrow {
   margin: 0;
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.72rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -82,9 +82,9 @@
 }
 
 .skillset-tab.active {
-  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.22);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.22);
 }
 
 .skillset-tab:focus-visible,
@@ -92,7 +92,7 @@
 .tools-search input:focus-visible,
 .category-chip:focus-visible,
 .studio-links a:focus-visible {
-  outline: 2px solid rgba(232, 115, 74, 0.42);
+  outline: 2px solid rgba(59, 130, 246, 0.42);
   outline-offset: 2px;
 }
 
@@ -126,14 +126,14 @@
 
 .studio-logo {
   border-radius: 0.8rem;
-  background: rgba(48, 40, 35, 0.92);
-  border: 1px solid rgba(232, 115, 74, 0.15);
+  background: rgba(248, 250, 252, 0.92);
+  border: 1px solid rgba(59, 130, 246, 0.15);
   padding: 0.2rem;
 }
 
 .studio-label {
   margin: 0;
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -161,15 +161,15 @@
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--skillset-text);
-  background: rgba(52, 44, 38, 0.78);
+  background: rgba(241, 245, 249, 0.9);
   transition: transform 0.2s ease, border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
 .studio-links a:hover {
-  border-color: rgba(232, 115, 74, 0.40);
+  border-color: rgba(59, 130, 246, 0.40);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(232, 115, 74, 0.12);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.12);
 }
 
 .services-stack {
@@ -187,8 +187,8 @@
 }
 
 .service-item:hover {
-  border-color: rgba(168, 152, 138, 0.32);
-  box-shadow: 0 4px 12px rgba(26, 22, 21, 0.10);
+  border-color: rgba(148, 163, 184, 0.32);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .service-item.expanded {
@@ -226,14 +226,14 @@
 .service-toggle-indicator {
   width: 1.45rem;
   height: 1.45rem;
-  border: 1px solid rgba(232, 115, 74, 0.26);
+  border: 1px solid rgba(59, 130, 246, 0.26);
   border-radius: 999px;
   display: grid;
   place-items: center;
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.92rem;
   font-weight: 700;
-  background: rgba(232, 115, 74, 0.10);
+  background: rgba(59, 130, 246, 0.10);
   flex-shrink: 0;
 }
 
@@ -246,7 +246,7 @@
 
 .service-item-outcome {
   margin: 0.32rem 0 0 0;
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.77rem;
   font-weight: 700;
   line-height: 1.4;
@@ -257,7 +257,7 @@
   color: var(--skillset-muted);
   font-size: 0.84rem;
   line-height: 1.48;
-  border-top: 1px solid rgba(168, 152, 138, 0.15);
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
   padding-top: 0.52rem;
 }
 
@@ -286,16 +286,16 @@
 
 .tools-search input {
   width: 100%;
-  border: 1px solid rgba(168, 152, 138, 0.30);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: 0.65rem;
-  background: rgba(48, 40, 35, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--skillset-text);
   font-size: 0.86rem;
   padding: 0.56rem 0.66rem;
 }
 
 .tools-search input::placeholder {
-  color: rgba(168, 152, 138, 0.60);
+  color: #94a3b8;
 }
 
 .tools-category-filter {
@@ -305,9 +305,9 @@
 }
 
 .category-chip {
-  border: 1px solid rgba(168, 152, 138, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: 999px;
-  background: rgba(52, 44, 38, 0.80);
+  background: rgba(241, 245, 249, 0.9);
   color: var(--skillset-muted);
   font-size: 0.74rem;
   font-weight: 700;
@@ -318,14 +318,14 @@
 }
 
 .category-chip:hover {
-  border-color: rgba(232, 115, 74, 0.40);
+  border-color: rgba(59, 130, 246, 0.40);
   color: var(--skillset-text);
 }
 
 .category-chip.active {
-  border-color: #e8734a;
+  border-color: #3b82f6;
   color: #ffffff;
-  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
 }
 
 .tools-categories {
@@ -357,13 +357,13 @@
   min-width: 1.4rem;
   height: 1.4rem;
   border-radius: 999px;
-  border: 1px solid rgba(168, 152, 138, 0.30);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   display: grid;
   place-items: center;
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--skillset-muted);
-  background: rgba(52, 44, 38, 0.80);
+  background: rgba(241, 245, 249, 0.9);
 }
 
 .tool-pill-grid {
@@ -376,23 +376,23 @@
   display: inline-flex;
   align-items: center;
   gap: 0.36rem;
-  border: 1px solid rgba(168, 152, 138, 0.22);
+  border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 999px;
   padding: 0.34rem 0.56rem;
   font-size: 0.75rem;
   color: var(--skillset-text);
-  background: rgba(52, 44, 38, 0.76);
+  background: rgba(241, 245, 249, 0.85);
 }
 
 .tool-pill-icon {
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.72rem;
 }
 
 .tools-empty-state {
-  border: 1px dashed rgba(168, 152, 138, 0.35);
+  border: 1px dashed rgba(148, 163, 184, 0.35);
   border-radius: 0.9rem;
-  background: rgba(42, 36, 32, 0.72);
+  background: rgba(248, 250, 252, 0.72);
   padding: 1rem;
 }
 

@@ -12,8 +12,8 @@
   box-sizing: border-box;
   z-index: 3000;
   background: linear-gradient(135deg,
-      rgba(26, 22, 21, 0.65) 0%,
-      rgba(26, 22, 21, 0.55) 100%);
+      rgba(15, 23, 42, 0.25) 0%,
+      rgba(15, 23, 42, 0.18) 100%);
   backdrop-filter: blur(14px) saturate(120%);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
   animation: overlayFadeIn 220ms ease-out;
@@ -27,11 +27,12 @@
   display: flex;
   flex-direction: column;
   border-radius: 28px;
-  border: 1px solid rgba(168, 152, 138, 0.20);
-  background: rgba(32, 27, 24, 0.92);
+  border: 1px solid rgba(203, 213, 225, 0.5);
+  background: rgba(255, 255, 255, 0.88);
   box-shadow:
-    0 26px 64px rgba(26, 22, 21, 0.50),
-    inset 0 1px 0 rgba(168, 152, 138, 0.12);
+    0 26px 64px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px) saturate(115%);
   -webkit-backdrop-filter: blur(10px) saturate(115%);
   overflow: hidden;
@@ -62,12 +63,13 @@
   justify-content: space-between;
   min-height: 60px;
   padding: 0 24px;
-  border-bottom: 1px solid rgba(168, 152, 138, 0.12);
+  border-bottom: 1px solid #cbd5e1;
   position: relative;
   flex-shrink: 0;
   background: linear-gradient(180deg,
-      rgba(42, 36, 32, 0.96) 0%,
-      rgba(32, 27, 24, 0.90) 100%);
+      #f8fafc 0%,
+      #f1f5f9 50%,
+      #e2e8f0 100%);
 }
 
 .windowControls {
@@ -82,14 +84,14 @@
 .closeButton {
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(168, 152, 138, 0.15);
+  border: 1px solid rgba(203, 213, 225, 0.4);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: rgba(168, 152, 138, 0.20);
+  background: rgba(226, 232, 240, 0.6);
   box-shadow: none;
   transition:
     transform 0.18s ease,
@@ -102,19 +104,19 @@
   position: absolute;
   font-size: 16px;
   line-height: 1;
-  color: rgba(214, 204, 194, 0.80);
+  color: #64748b;
   opacity: 1;
   transition: color 0.18s ease;
 }
 
 .closeButton:hover {
   transform: scale(1.08);
-  background: rgba(232, 115, 74, 0.30);
-  border-color: rgba(232, 115, 74, 0.25);
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .closeButton:hover::after {
-  color: #e8734a;
+  color: #3b82f6;
 }
 
 .closeButton:active {
@@ -122,7 +124,7 @@
 }
 
 .closeButton:focus-visible {
-  outline: 2px solid rgba(232, 115, 74, 0.60);
+  outline: 2px solid rgba(59, 130, 246, 0.6);
   outline-offset: 2px;
 }
 
@@ -135,7 +137,7 @@
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: rgba(250, 246, 242, 0.95);
+  color: #0f172a;
   text-align: center;
   white-space: nowrap;
   user-select: none;
@@ -190,7 +192,7 @@
 @media (max-width: 768px) {
   .overlay {
     padding: max(12px, env(safe-area-inset-top)) clamp(10px, 5vw, 16px) max(12px, env(safe-area-inset-bottom));
-    background: rgba(26, 22, 21, 0.55);
+    background: rgba(15, 23, 42, 0.2);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -199,8 +201,8 @@
     width: min(calc(100svw - 24px), var(--modal-max-width));
     max-height: min(95svh, 95vh);
     border-radius: 24px;
-    background: rgba(28, 24, 22, 0.97);
-    box-shadow: 0 14px 34px rgba(26, 22, 21, 0.4);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.15);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -234,22 +236,22 @@
 }
 
 :global(html.touch-performance-mode) .overlay {
-  background: rgba(26, 22, 21, 0.65);
+  background: rgba(15, 23, 42, 0.3);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   animation: none;
 }
 
 :global(html.touch-performance-mode) .frame {
-  background: rgba(28, 24, 22, 0.98);
-  box-shadow: 0 14px 34px rgba(26, 22, 21, 0.4);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.15);
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   animation: none;
 }
 
 :global(html.touch-performance-mode) .titleBar {
-  background: rgba(42, 36, 32, 0.98);
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 :global(html.touch-performance-mode) .frame :where(*) {

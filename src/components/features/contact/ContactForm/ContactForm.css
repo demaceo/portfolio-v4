@@ -2,28 +2,28 @@
 
 /* Contact Form Design Variables — scoped to avoid global leakage */
 .contact-modal-overlay {
-  /* Warm Noir Glass Colors */
-  --glass-bg: rgba(32, 27, 24, 0.88);
-  --glass-bg-dark: rgba(26, 22, 21, 0.15);
-  --glass-border: rgba(168, 152, 138, 0.14);
-  --glass-shadow: rgba(26, 22, 21, 0.37);
+  /* Light Glass Colors */
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-bg-dark: rgba(248, 250, 252, 0.15);
+  --glass-border: rgba(203, 213, 225, 0.4);
+  --glass-shadow: rgba(0, 0, 0, 0.12);
   --backdrop-blur: blur(40px);
   --backdrop-saturate: saturate(180%);
 
-  /* Warm Noir Color Palette */
-  --ios-blue: #e8734a;
-  --ios-blue-light: rgba(232, 115, 74, 0.10);
-  --ios-blue-dark: rgba(232, 115, 74, 0.8);
-  --ios-green: #8fae8b;
-  --ios-red: #e8734a;
-  --ios-orange: #e8734a;
-  --ios-purple: #d4623c;
-  --ios-text-primary: rgba(250, 246, 242, 0.96);
-  --ios-text-secondary: rgba(194, 182, 172, 0.62);
-  --ios-text-tertiary: rgba(168, 152, 138, 0.40);
-  --ios-surface: rgba(28, 24, 21, 0.70);
-  --ios-surface-elevated: rgba(48, 40, 35, 0.95);
-  --ios-surface-secondary: rgba(36, 30, 26, 0.70);
+  /* DesktopLayout Color Palette */
+  --ios-blue: #3b82f6;
+  --ios-blue-light: rgba(59, 130, 246, 0.10);
+  --ios-blue-dark: rgba(59, 130, 246, 0.8);
+  --ios-green: #10b981;
+  --ios-red: #ef4444;
+  --ios-orange: #3b82f6;
+  --ios-purple: #0ea5e9;
+  --ios-text-primary: #0f172a;
+  --ios-text-secondary: #64748b;
+  --ios-text-tertiary: #94a3b8;
+  --ios-surface: rgba(255, 255, 255, 0.8);
+  --ios-surface-elevated: rgba(255, 255, 255, 0.95);
+  --ios-surface-secondary: rgba(242, 242, 247, 0.8);
 
   /* Typography Scale - SF Pro Inspired */
   --text-xs: 11px;
@@ -108,11 +108,11 @@
   padding: 0 var(--space-6);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  border-bottom: 1px solid rgba(168, 152, 138, 0.12);
+  border-bottom: 1px solid #cbd5e1;
   border-top-left-radius: var(--radius-3xl);
   border-top-right-radius: var(--radius-3xl);
-  box-shadow: 0 2px 12px rgba(26, 22, 21, 0.08),
-    inset 0 1px 0 rgba(168, 152, 138, 0.10);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   position: relative;
   z-index: 100;
   overflow: hidden;
@@ -128,9 +128,9 @@
   right: 0;
   height: 2px;
   background: linear-gradient(90deg,
-      #e8734a 0%,
-      #d4623c 50%,
-      #8fae8b 100%);
+      #3b82f6 0%,
+      #0ea5e9 50%,
+      #10b981 100%);
   border-top-left-radius: var(--radius-3xl);
   border-top-right-radius: var(--radius-3xl);
 }
@@ -143,8 +143,8 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(180deg,
-      rgba(168, 152, 138, 0.08) 0%,
-      rgba(168, 152, 138, 0.03) 50%,
+      rgba(203, 213, 225, 0.08) 0%,
+      rgba(203, 213, 225, 0.03) 50%,
       transparent 100%);
   pointer-events: none;
 }
@@ -162,8 +162,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(168, 152, 138, 0.20);
-  border: 1px solid rgba(168, 152, 138, 0.15);
+  background: rgba(226, 232, 240, 0.6);
+  border: 1px solid rgba(203, 213, 225, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,7 +177,7 @@
 .contact-modal-close-btn::after {
   content: "×";
   position: absolute;
-  color: rgba(214, 204, 194, 0.80);
+  color: #64748b;
   font-size: 16px;
   font-weight: 500;
   line-height: 1;
@@ -186,7 +186,7 @@
 }
 
 .contact-modal-close-btn:hover::after {
-  color: #e8734a;
+  color: #3b82f6;
 }
 
 .contact-modal-close-btn::before {
@@ -196,7 +196,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(232, 115, 74, 0.15);
+  background: rgba(59, 130, 246, 0.15);
   border-radius: 50%;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -209,7 +209,7 @@
 
 .contact-modal-close-btn:hover {
   transform: scale(1.08);
-  border-color: rgba(232, 115, 74, 0.25);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .contact-modal-close-btn:active {
@@ -274,7 +274,7 @@
   min-width: 0;
   padding: var(--space-4) var(--space-5);
   background: var(--ios-surface);
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(203, 213, 225, 0.4);
   border-radius: var(--radius-lg);
   font-size: var(--text-base);
   font-family: inherit;
@@ -296,13 +296,13 @@
 
 .email-form input:focus,
 .email-form textarea:focus {
-  border-color: rgba(232, 115, 74, 0.50);
-  box-shadow: 0 0 0 3px rgba(232, 115, 74, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-color: rgba(59, 130, 246, 0.50);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .email-form input:hover,
 .email-form textarea:hover {
-  border-color: rgba(168, 152, 138, 0.28);
+  border-color: rgba(203, 213, 225, 0.5);
 }
 
 .email-form textarea {
@@ -314,7 +314,7 @@
 
 /* Submit Button */
 #submit-button {
-  background: linear-gradient(145deg, #e8734a 0%, #c95a36 100%);
+  background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
   color: #fff;
   border: none;
   padding: var(--space-4) var(--space-8);
@@ -323,7 +323,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 4px 14px rgba(232, 115, 74, 0.20);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.20);
   letter-spacing: 0.01em;
   min-height: 50px;
   position: relative;
@@ -350,7 +350,7 @@
 
 #submit-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(232, 115, 74, 0.28);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.28);
   filter: brightness(1.05);
 }
 
@@ -368,7 +368,7 @@
 
 #submit-button:disabled:hover {
   transform: none;
-  box-shadow: 0 4px 14px rgba(232, 115, 74, 0.20);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.20);
   filter: saturate(0.6);
 }
 
@@ -380,8 +380,8 @@
   color: var(--ios-green);
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  background: rgba(143, 174, 139, 0.08);
-  border: 1px solid rgba(143, 174, 139, 0.18);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.18);
   margin-bottom: var(--space-4);
   opacity: 0;
   transform: translateY(6px);
@@ -410,7 +410,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(168, 152, 138, 0.15);
+  background: rgba(203, 213, 225, 0.3);
 }
 
 .contact-divider span {
@@ -439,7 +439,7 @@
   font-size: var(--text-sm);
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid rgba(168, 152, 138, 0.12);
+  border: 1px solid rgba(203, 213, 225, 0.3);
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: none;
@@ -455,8 +455,8 @@
 
 .alternative-contact-btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(168, 152, 138, 0.28);
-  box-shadow: 0 4px 12px rgba(26, 22, 21, 0.12);
+  border-color: rgba(203, 213, 225, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .alternative-contact-btn:active {
@@ -479,13 +479,13 @@
 /* Calendly Button */
 .calendly-btn {
   background: var(--ios-surface);
-  color: #e8734a;
-  border-color: rgba(232, 115, 74, 0.18);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.18);
 }
 
 .calendly-btn:hover {
-  border-color: rgba(232, 115, 74, 0.35);
-  color: #f08060;
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #059669;
 }
 
 /* Icons */
@@ -707,10 +707,10 @@
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
   .contact-modal-overlay {
-    --glass-border: rgba(168, 152, 138, 0.45);
-    --shadow-sm: 0 2px 8px rgba(26, 22, 21, 0.25);
-    --shadow-md: 0 4px 16px rgba(26, 22, 21, 0.35);
-    --shadow-lg: 0 8px 32px rgba(26, 22, 21, 0.45);
+    --glass-border: rgba(203, 213, 225, 0.6);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
   }
 
   .email-form input,

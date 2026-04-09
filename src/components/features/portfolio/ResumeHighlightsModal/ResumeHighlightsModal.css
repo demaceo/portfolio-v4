@@ -1,9 +1,9 @@
 .resume-highlights-content {
-  --resume-text: rgba(250, 246, 242, 0.95);
-  --resume-muted: rgba(214, 204, 194, 0.80);
-  --resume-border: rgba(168, 152, 138, 0.20);
-  --resume-panel: rgba(42, 36, 32, 0.76);
-  --resume-panel-strong: rgba(48, 40, 35, 0.90);
+  --resume-text: #0f172a;
+  --resume-muted: #64748b;
+  --resume-border: rgba(148, 163, 184, 0.18);
+  --resume-panel: rgba(255, 255, 255, 0.85);
+  --resume-panel-strong: rgba(248, 250, 252, 0.95);
 
   display: flex;
   flex-direction: column;
@@ -13,9 +13,9 @@
   color: var(--resume-text);
   font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 0% 0%, rgba(232, 115, 74, 0.10), transparent 42%),
-    radial-gradient(circle at 100% 0%, rgba(143, 174, 139, 0.08), transparent 40%),
-    rgba(26, 22, 21, 0.24);
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.06), transparent 42%),
+    radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.05), transparent 40%),
+    rgba(248, 250, 252, 0.24);
 }
 
 .resume-highlights-intro {
@@ -28,7 +28,7 @@
 
 .resume-highlights-eyebrow {
   margin: 0;
-  color: #e8734a;
+  color: #3b82f6;
   font-size: 0.72rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -82,8 +82,8 @@
 
 .resume-highlights-tab.active {
   color: #ffffff;
-  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
-  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.22);
+  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.22);
 }
 
 .resume-highlights-panel-wrap {
@@ -112,7 +112,7 @@
 }
 
 .resume-role-group {
-  border: 1px solid rgba(168, 152, 138, 0.20);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 0.82rem;
   background: var(--resume-panel-strong);
   padding: 0.66rem;
@@ -142,8 +142,8 @@
   min-width: 1.45rem;
   height: 1.45rem;
   border-radius: 999px;
-  border: 1px solid rgba(168, 152, 138, 0.28);
-  background: rgba(52, 44, 38, 0.80);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(241, 245, 249, 0.9);
   color: var(--resume-muted);
   display: grid;
   place-items: center;
@@ -171,9 +171,9 @@
   display: inline-block;
   margin-right: 0.4rem;
   margin-bottom: 0.16rem;
-  border: 1px solid rgba(232, 115, 74, 0.25);
-  background: rgba(232, 115, 74, 0.10);
-  color: #e8734a;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  background: rgba(59, 130, 246, 0.10);
+  color: #3b82f6;
   border-radius: 999px;
   padding: 0.1rem 0.44rem;
   font-size: 0.68rem;
@@ -190,9 +190,9 @@
 }
 
 .resume-project-picker-btn {
-  border: 1px solid rgba(168, 152, 138, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: 999px;
-  background: rgba(52, 44, 38, 0.80);
+  background: rgba(241, 245, 249, 0.9);
   color: var(--resume-muted);
   font-size: 0.75rem;
   font-weight: 700;
@@ -203,20 +203,20 @@
 }
 
 .resume-project-picker-btn:hover {
-  border-color: rgba(232, 115, 74, 0.40);
+  border-color: rgba(59, 130, 246, 0.40);
   transform: translateY(-1px);
 }
 
 .resume-project-picker-btn.active {
   color: #ffffff;
-  border-color: rgba(232, 115, 74, 0.85);
-  background: linear-gradient(135deg, #e8734a 0%, #d4623c 100%);
-  box-shadow: 0 4px 12px rgba(232, 115, 74, 0.22);
+  border-color: rgba(59, 130, 246, 0.85);
+  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.22);
 }
 
 .resume-project-detail {
   margin-top: 0.62rem;
-  border: 1px solid rgba(168, 152, 138, 0.20);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 0.84rem;
   background: var(--resume-panel-strong);
   padding: 0.74rem;
@@ -243,7 +243,7 @@
   font-size: 0.82rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: #e8734a;
+  color: #3b82f6;
 }
 
 .resume-project-section pre {
@@ -254,9 +254,9 @@
   font-size: 0.74rem;
   line-height: 1.4;
   color: var(--resume-text);
-  border: 1px solid rgba(168, 152, 138, 0.20);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 0.72rem;
-  background: rgba(38, 32, 28, 0.88);
+  background: rgba(248, 250, 252, 0.88);
   padding: 0.62rem;
 }
 
@@ -268,9 +268,9 @@
 }
 
 .resume-chip {
-  border: 1px solid rgba(168, 152, 138, 0.22);
+  border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 999px;
-  background: rgba(48, 40, 35, 0.85);
+  background: rgba(241, 245, 249, 0.85);
   color: var(--resume-muted);
   font-size: 0.72rem;
   font-weight: 600;
@@ -280,7 +280,7 @@
 .resume-patterns-table-wrap {
   margin-top: 0.62rem;
   overflow-x: auto;
-  border: 1px solid rgba(168, 152, 138, 0.20);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 0.8rem;
   background: var(--resume-panel-strong);
 }
@@ -296,7 +296,7 @@
   text-align: left;
   vertical-align: top;
   padding: 0.56rem 0.62rem;
-  border-bottom: 1px solid rgba(168, 152, 138, 0.15);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
   font-size: 0.8rem;
   line-height: 1.42;
   color: var(--resume-text);
@@ -307,13 +307,13 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--resume-muted);
-  background: rgba(38, 32, 28, 0.80);
+  background: rgba(241, 245, 249, 0.8);
 }
 
 .resume-highlights-tab:focus-visible,
 .resume-role-group-trigger:focus-visible,
 .resume-project-picker-btn:focus-visible {
-  outline: 2px solid rgba(232, 115, 74, 0.42);
+  outline: 2px solid rgba(59, 130, 246, 0.42);
   outline-offset: 2px;
 }
 
