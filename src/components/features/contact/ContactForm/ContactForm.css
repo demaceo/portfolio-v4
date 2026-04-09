@@ -3,7 +3,7 @@
 /* Contact Form Design Variables — scoped to avoid global leakage */
 .contact-modal-overlay {
   /* Light Glass Colors */
-  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-bg: rgba(255, 255, 255, 0.97);
   --glass-bg-dark: rgba(248, 250, 252, 0.15);
   --glass-border: rgba(203, 213, 225, 0.4);
   --glass-shadow: rgba(0, 0, 0, 0.12);
@@ -16,14 +16,14 @@
   --ios-blue-dark: rgba(59, 130, 246, 0.8);
   --ios-green: #10b981;
   --ios-red: #ef4444;
-  --ios-orange: #3b82f6;
-  --ios-purple: #0ea5e9;
+  --contact-accent: #3b82f6;
+  --contact-accent-alt: #0ea5e9;
   --ios-text-primary: #0f172a;
   --ios-text-secondary: #64748b;
   --ios-text-tertiary: #94a3b8;
-  --ios-surface: rgba(255, 255, 255, 0.8);
-  --ios-surface-elevated: rgba(255, 255, 255, 0.95);
-  --ios-surface-secondary: rgba(242, 242, 247, 0.8);
+  --ios-surface: rgba(248, 250, 252, 1);
+  --ios-surface-elevated: rgba(255, 255, 255, 1);
+  --ios-surface-secondary: rgba(241, 245, 249, 1);
 
   /* Typography Scale - SF Pro Inspired */
   --text-xs: 11px;
@@ -222,8 +222,8 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   background: linear-gradient(135deg,
-      var(--ios-orange) 0%,
-      var(--ios-purple) 100%);
+      var(--contact-accent) 0%,
+      var(--contact-accent-alt) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

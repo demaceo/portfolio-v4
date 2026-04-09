@@ -1,8 +1,9 @@
 /* ===== INTERACTIVE RESUME - APPLE LIQUID GLASS DESIGN ===== */
 
 /* Apple Design System Variables */
-:root {
-    /* Apple Glass Morphism Colors */
+/* Variables scoped to resume modal to prevent global leakage */
+.resume-modal-overlay {
+    /* Light Glass Colors */
     --glass-bg: rgba(255, 255, 255, 0.25);
     --glass-bg-dark: rgba(0, 0, 0, 0.15);
     --glass-border: rgba(203, 213, 225, 0.4);
@@ -10,7 +11,7 @@
     --backdrop-blur: blur(40px);
     --backdrop-saturate: saturate(180%);
 
-    /* Apple Color Palette */
+    /* Color Palette */
     --ios-blue: #3b82f6;
     --ios-blue-light: rgba(59, 130, 246, 0.1);
     --ios-blue-dark: rgba(59, 130, 246, 0.8);
@@ -29,7 +30,7 @@
     --ios-surface-elevated: rgba(255, 255, 255, 0.95);
     --ios-surface-secondary: rgba(242, 242, 247, 0.8);
 
-    /* Typography Scale - SF Pro Inspired */
+    /* Typography Scale */
     --text-xs: 11px;
     --text-sm: 13px;
     --text-base: 15px;
@@ -941,8 +942,8 @@
 
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
-    :root {
-        --glass-border: rgba(255, 255, 255, 0.4);
+    .resume-modal-overlay {
+        --glass-border: rgba(0, 0, 0, 0.4);
         --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
         --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
         --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -956,16 +957,27 @@
 }
 
 /* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --glass-bg: rgba(28, 28, 30, 0.8);
-        --glass-bg-dark: rgba(0, 0, 0, 0.6);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --ios-text-primary: #f2f2f7;
-        --ios-text-secondary: #8e8e93;
-        --ios-text-tertiary: #48484a;
-        --ios-surface: rgba(44, 44, 46, 0.8);
-        --ios-surface-elevated: rgba(58, 58, 60, 0.9);
+/* Dark mode override removed — DesktopLayout is always light-themed */
+
+/* Touch-specific optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+    .control-button,
+    .pdf-download-button,
+    .skill-tag {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .experience-card {
+        transform: none;
+    }
+
+    .experience-card:hover {
+        transform: none;
+    }
+}
+, 0.9);
         --ios-surface-secondary: rgba(28, 28, 30, 0.8);
     }
 
