@@ -17,10 +17,6 @@ const MobileWelcomeWindow: React.FC<MobileWelcomeWindowProps> = ({
 
   return (
     <section className="mobile-welcome-window">
-      <div className="mobile-window-title-bar">
-        <span className="mobile-window-title">Command Deck</span>
-        <span className="mobile-window-status">Open to Collaborate</span>
-      </div>
       <div className="mobile-window-content">
         <div className="welcome-message">
           <h3>Demaceo Vincent</h3>

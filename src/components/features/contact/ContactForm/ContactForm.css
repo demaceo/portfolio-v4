@@ -3,27 +3,27 @@
 /* Contact Form Design Variables — scoped to avoid global leakage */
 .contact-modal-overlay {
   /* Warm Noir Glass Colors */
-  --glass-bg: rgba(32, 27, 24, 0.85);
+  --glass-bg: rgba(32, 27, 24, 0.88);
   --glass-bg-dark: rgba(26, 22, 21, 0.15);
-  --glass-border: rgba(168, 152, 138, 0.18);
+  --glass-border: rgba(168, 152, 138, 0.14);
   --glass-shadow: rgba(26, 22, 21, 0.37);
   --backdrop-blur: blur(40px);
   --backdrop-saturate: saturate(180%);
 
   /* Warm Noir Color Palette */
   --ios-blue: #e8734a;
-  --ios-blue-light: rgba(232, 115, 74, 0.12);
+  --ios-blue-light: rgba(232, 115, 74, 0.10);
   --ios-blue-dark: rgba(232, 115, 74, 0.8);
   --ios-green: #8fae8b;
   --ios-red: #e8734a;
   --ios-orange: #e8734a;
   --ios-purple: #d4623c;
-  --ios-text-primary: rgba(250, 246, 242, 0.95);
-  --ios-text-secondary: rgba(214, 204, 194, 0.70);
-  --ios-text-tertiary: rgba(168, 152, 138, 0.50);
-  --ios-surface: rgba(42, 36, 32, 0.80);
+  --ios-text-primary: rgba(250, 246, 242, 0.96);
+  --ios-text-secondary: rgba(194, 182, 172, 0.62);
+  --ios-text-tertiary: rgba(168, 152, 138, 0.40);
+  --ios-surface: rgba(28, 24, 21, 0.70);
   --ios-surface-elevated: rgba(48, 40, 35, 0.95);
-  --ios-surface-secondary: rgba(52, 44, 38, 0.80);
+  --ios-surface-secondary: rgba(36, 30, 26, 0.70);
 
   /* Typography Scale - SF Pro Inspired */
   --text-xs: 11px;
@@ -78,8 +78,8 @@
   z-index: 2000;
   padding: var(--space-6);
   animation: overlayFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-display), -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", sans-serif;
 }
 
 /* Form Container */
@@ -247,22 +247,23 @@
 
 /* Form Wrapper */
 .email-form-wrapper {
-  padding: var(--space-8);
+  padding: var(--space-6) var(--space-6) var(--space-8);
 }
 
 /* Form Styling */
 .email-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 .email-form label {
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--ios-text-primary);
-  margin-bottom: var(--space-2);
-  letter-spacing: -0.01em;
+  color: var(--ios-text-secondary);
+  margin-bottom: var(--space-1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   display: block;
 }
 
@@ -273,15 +274,13 @@
   min-width: 0;
   padding: var(--space-4) var(--space-5);
   background: var(--ios-surface);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
+  border: 1px solid rgba(168, 152, 138, 0.12);
+  border-radius: var(--radius-lg);
   font-size: var(--text-base);
   font-family: inherit;
   color: var(--ios-text-primary);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
   outline: none;
   box-sizing: border-box;
   -webkit-appearance: none;
@@ -297,16 +296,13 @@
 
 .email-form input:focus,
 .email-form textarea:focus {
-  border-color: var(--ios-blue);
-  box-shadow: 0 0 0 3px var(--ios-blue-light), var(--shadow-md);
-  transform: translateY(-1px);
+  border-color: rgba(232, 115, 74, 0.50);
+  box-shadow: 0 0 0 3px rgba(232, 115, 74, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .email-form input:hover,
 .email-form textarea:hover {
-  border-color: var(--ios-text-secondary);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  border-color: rgba(168, 152, 138, 0.28);
 }
 
 .email-form textarea {
@@ -318,20 +314,18 @@
 
 /* Submit Button */
 #submit-button {
-  background: linear-gradient(135deg,
-      var(--ios-blue) 0%,
-      var(--ios-purple) 100%);
-  color: white;
+  background: linear-gradient(145deg, #e8734a 0%, #c95a36 100%);
+  color: #fff;
   border: none;
   padding: var(--space-4) var(--space-8);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   font-size: var(--text-base);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-md);
-  letter-spacing: -0.01em;
-  min-height: 52px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 4px 14px rgba(232, 115, 74, 0.20);
+  letter-spacing: 0.01em;
+  min-height: 50px;
   position: relative;
   overflow: hidden;
 }
@@ -345,7 +339,7 @@
   height: 100%;
   background: linear-gradient(90deg,
       transparent,
-      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.15),
       transparent);
   transition: left 0.5s ease;
 }
@@ -355,8 +349,9 @@
 }
 
 #submit-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(232, 115, 74, 0.28);
+  filter: brightness(1.05);
 }
 
 #submit-button:active {
@@ -365,32 +360,32 @@
 }
 
 #submit-button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  filter: saturate(0.6);
 }
 
 #submit-button:disabled:hover {
   transform: none;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 14px rgba(232, 115, 74, 0.20);
+  filter: saturate(0.6);
 }
 
 /* Status Message */
 #form-sent-status {
   text-align: center;
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ios-green);
   padding: var(--space-3);
-  border-radius: var(--radius-lg);
-  background: var(--ios-surface);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid rgba(143, 174, 139, 0.25);
-  margin-bottom: var(--space-6);
+  border-radius: var(--radius-md);
+  background: rgba(143, 174, 139, 0.08);
+  border: 1px solid rgba(143, 174, 139, 0.18);
+  margin-bottom: var(--space-4);
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 #form-sent-status:not(:empty) {
@@ -400,14 +395,14 @@
 
 /* Alternative Contact Methods */
 .alternative-contact-methods {
-  margin-top: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 .contact-divider {
   display: flex;
   align-items: center;
-  margin: var(--space-4) 0;
-  gap: var(--space-4);
+  margin: var(--space-5) 0;
+  gap: var(--space-3);
 }
 
 .contact-divider::before,
@@ -415,73 +410,53 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg,
-      transparent,
-      var(--ios-text-tertiary),
-      transparent);
+  background: rgba(168, 152, 138, 0.15);
 }
 
 .contact-divider span {
-  font-size: var(--text-sm);
-  color: var(--ios-text-secondary);
-  font-weight: 500;
-  padding: 0 var(--space-4);
-  background: var(--ios-surface);
-  border-radius: var(--radius-lg);
-  letter-spacing: -0.01em;
+  font-size: var(--text-xs);
+  color: var(--ios-text-tertiary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0;
 }
 
 /* Alternative Buttons */
 .alternative-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
 }
 
 .alternative-contact-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--space-6);
-  border-radius: var(--radius-xl);
-  font-size: var(--text-base);
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
   font-weight: 600;
   text-decoration: none;
-  border: none;
+  border: 1px solid rgba(168, 152, 138, 0.12);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  letter-spacing: -0.01em;
-  min-height: 52px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: none;
+  letter-spacing: 0;
+  min-height: 46px;
   position: relative;
   overflow: hidden;
 }
 
 .alternative-contact-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg,
-      var(--ios-blue-light) 0%,
-      rgba(232, 115, 74, 0.08) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.alternative-contact-btn:hover::before {
-  opacity: 1;
+  display: none;
 }
 
 .alternative-contact-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+  border-color: rgba(168, 152, 138, 0.28);
+  box-shadow: 0 4px 12px rgba(26, 22, 21, 0.12);
 }
 
 .alternative-contact-btn:active {
@@ -492,24 +467,25 @@
 /* LinkedIn Button */
 .linkedin-btn {
   background: var(--ios-surface);
-  color: #0077b5;
-  border: 1px solid rgba(0, 119, 181, 0.25);
+  color: #4da3d4;
+  border-color: rgba(77, 163, 212, 0.18);
 }
 
 .linkedin-btn:hover {
-  border-color: #0077b5;
-  color: #0077b5;
+  border-color: rgba(77, 163, 212, 0.35);
+  color: #6bb5de;
 }
 
 /* Calendly Button */
 .calendly-btn {
-  background: linear-gradient(145deg, #e8734a 0%, #d4623c 100%);
-  color: white;
-  border: 1px solid rgba(232, 115, 74, 0.5);
+  background: var(--ios-surface);
+  color: #e8734a;
+  border-color: rgba(232, 115, 74, 0.18);
 }
 
 .calendly-btn:hover {
-  box-shadow: 0 8px 32px rgba(232, 115, 74, 0.3), var(--shadow-lg);
+  border-color: rgba(232, 115, 74, 0.35);
+  color: #f08060;
 }
 
 /* Icons */
@@ -584,13 +560,13 @@
   }
 
   .email-form-wrapper {
-    padding: var(--space-6);
+    padding: var(--space-5);
     width: 100%;
     box-sizing: border-box;
   }
 
   .email-form {
-    gap: var(--space-5);
+    gap: var(--space-4);
     width: 100%;
     box-sizing: border-box;
   }
@@ -599,7 +575,7 @@
   .email-form textarea {
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
-    width: calc(100% - 0px);
+    width: 100%;
     max-width: 100%;
   }
 
@@ -610,17 +586,14 @@
   #submit-button {
     padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
-    min-height: 48px;
+    min-height: 46px;
     width: 100%;
     max-width: 100%;
   }
 
   .alternative-contact-btn {
-    padding: var(--space-3) var(--space-5);
     font-size: var(--text-sm);
-    min-height: 48px;
-    width: 100%;
-    max-width: 100%;
+    min-height: 44px;
     box-sizing: border-box;
   }
 }
@@ -662,7 +635,7 @@
   }
 
   .email-form-wrapper {
-    padding: var(--space-5);
+    padding: var(--space-4);
     width: 100%;
     box-sizing: border-box;
   }
@@ -681,8 +654,8 @@
   .email-form textarea {
     padding: var(--space-3);
     font-size: var(--text-sm);
-    border-radius: var(--radius-lg);
-    width: calc(100% - 0px);
+    border-radius: var(--radius-md);
+    width: 100%;
     max-width: 100%;
     min-width: 0;
   }
@@ -695,23 +668,19 @@
     padding: var(--space-3) var(--space-5);
     font-size: var(--text-sm);
     min-height: 44px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     width: 100%;
     max-width: 100%;
+  }
+
+  .alternative-buttons {
+    grid-template-columns: 1fr;
   }
 
   .alternative-contact-btn {
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--text-sm);
-    min-height: 44px;
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 100%;
+    min-height: 42px;
+    border-radius: var(--radius-md);
     box-sizing: border-box;
-  }
-
-  .contact-divider span {
-    font-size: var(--text-xs);
   }
 }
 

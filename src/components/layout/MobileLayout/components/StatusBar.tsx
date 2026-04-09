@@ -5,26 +5,17 @@ import Image from "next/image";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 
 interface StatusBarProps {
-  currentTime: Date;
+  currentTime?: Date;
   showPerformanceToggle?: boolean;
   performanceMode?: boolean;
   onPerformanceModeToggle?: () => void;
 }
 
 const StatusBar: React.FC<StatusBarProps> = ({
-  currentTime,
   showPerformanceToggle = false,
   performanceMode = false,
   onPerformanceModeToggle,
 }) => {
-  const formatTime = (date: Date): string => {
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   return (
     <div className="status-bar">
       <div className="status-bar-left">
@@ -36,7 +27,6 @@ const StatusBar: React.FC<StatusBarProps> = ({
           height={24}
           priority
         />
-        <span className="carrier-text">Demaceo Vincent</span>
       </div>
 
       <div className="status-bar-center">
@@ -63,7 +53,6 @@ const StatusBar: React.FC<StatusBarProps> = ({
             Perf
           </button>
         )}
-        <span className="time">{formatTime(currentTime)}</span>
       </div>
     </div>
   );
