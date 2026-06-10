@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,8 @@ import {
   faCookieBite,
   faFilm,
   faExternalLinkAlt,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { projectsData } from "@/data/projects";
 import "./ProjectsModal.css";
@@ -41,21 +43,52 @@ const isGifSource = (source?: string) => {
   return /\.gif($|\?)/i.test(source);
 };
 
+const slideVariants = {
+  enter: (dir: number) => ({
+    opacity: 0,
+    x: dir > 0 ? 56 : -56,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (dir: number) => ({
+    opacity: 0,
+    x: dir > 0 ? -56 : 56,
+  }),
+};
+
 const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
   const [showResumeHighlights, setShowResumeHighlights] = useState(false);
   const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
     string | undefined
   >(undefined);
 
-  // Separate projects by active/archived status
   const activeProjects = projectsData.filter((p) => !p.archived);
   const archivedProjects = projectsData.filter((p) => p.archived);
+  const projects = activeTab === "current" ? activeProjects : archivedProjects;
+  const project = projects[currentIndex];
 
+  const handleTabChange = (tab: "current" | "archived") => {
+    if (tab === activeTab) return;
+    setActiveTab(tab);
+    setCurrentIndex(0);
+    setDirection(1);
+  };
 
-  const handleProjectClick = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
+  const navigate = (dir: 1 | -1) => {
+    if (projects.length <= 1) return;
+    setDirection(dir);
+    setCurrentIndex((prev) => (prev + dir + projects.length) % projects.length);
+  };
+
+  const handleDotClick = (index: number) => {
+    if (index === currentIndex) return;
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
   };
 
   const handleOpenResumeHighlights = (projectKey?: string) => {
@@ -63,327 +96,218 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
     setShowResumeHighlights(true);
   };
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  const renderGalleryMedia = (proj: Project) => {
+    const iconIsImage = isImageIcon(proj.icon);
+    const imageStr = typeof proj.image === "string" ? proj.image : undefined;
 
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    const syncViewport = () => {
-      setIsMobileViewport(mediaQuery.matches);
-    };
-
-    syncViewport();
-
-    if (typeof mediaQuery.addEventListener === "function") {
-      mediaQuery.addEventListener("change", syncViewport);
-      return () => mediaQuery.removeEventListener("change", syncViewport);
-    }
-
-    mediaQuery.addListener(syncViewport);
-    return () => mediaQuery.removeListener(syncViewport);
-  }, []);
-
-  const renderProjectMedia = (project: Project) => {
-    const previewSource =
-      typeof project.image === "string" ? project.image : undefined;
-    const showIconOnMobile = isMobileViewport && isGifSource(previewSource);
-    const iconIsImage = isImageIcon(project.icon);
-
-    if (showIconOnMobile && iconIsImage) {
+    if (iconIsImage && !imageStr) {
       return (
         <Image
-          src={project.icon as string}
-          alt={`${project.name} icon`}
-          width={132}
-          height={132}
-          className="project-image project-image-icon"
+          src={proj.icon as string}
+          alt={`${proj.name} icon`}
+          width={200}
+          height={200}
+          className="gallery-icon-img"
           loading="lazy"
         />
       );
     }
 
-    if (iconIsImage) {
+    if (imageStr) {
       return (
         <Image
-          src={project.icon as string}
-          alt={`${project.name} icon`}
-          width={132}
-          height={132}
-          className="project-image project-image-icon"
+          src={imageStr}
+          alt={proj.name}
+          fill
+          className="gallery-hero-img"
           loading="lazy"
+          unoptimized={isGifSource(imageStr)}
+          sizes="(max-width: 640px) 100vw, 42vw"
         />
-      );
-    }
-
-    if (project.image && !showIconOnMobile) {
-      return (
-        <Image
-          src={project.image}
-          alt={`Screenshot of ${project.name} project`}
-          width={300}
-          height={180}
-          className="project-image"
-          loading="lazy"
-          unoptimized={isGifSource(previewSource)}
-        />
-      );
-    }
-
-    if (project.icon) {
-      return (
-        <div className="project-icon-container" aria-hidden="true">
-          <FontAwesomeIcon
-            icon={iconMap[project.icon] || faBriefcase}
-            className="project-icon"
-            aria-hidden="true"
-          />
-        </div>
       );
     }
 
     return (
-      <div className="project-icon-container" aria-hidden="true">
+      <div className="gallery-fa-icon" aria-hidden="true">
         <FontAwesomeIcon
-          icon={faBriefcase}
-          className="project-icon"
+          icon={iconMap[proj.icon as string] || faBriefcase}
           aria-hidden="true"
         />
       </div>
     );
   };
 
+  if (!project) return null;
+
   return (
     <>
       <ModalFrame
         onClose={onClose}
         title="Projects"
-        size="md"
+        size="lg"
         titleId="projects-title"
         closeAriaLabel="Close projects modal"
       >
-        <div className="projects-modal-content">
-          <div className="projects-modal-tabs" role="tablist">
-            <button
-              className={`projects-tab ${activeTab === "current" ? "active" : ""
-                }`}
-              onClick={() => setActiveTab("current")}
-              role="tab"
-              id="current-tab"
-              aria-controls="current-panel"
-              aria-selected={activeTab === "current"}
-            >
-              Recent ({activeProjects.length})
-            </button>
-            {archivedProjects.length > 0 && (
+        <div className="projects-gallery">
+          {/* Top bar: tabs + resume link */}
+          <div className="gallery-topbar">
+            <div className="gallery-tabs" aria-label="Project categories">
               <button
-                className={`projects-tab ${activeTab === "archived" ? "active" : ""
-                  }`}
-                onClick={() => setActiveTab("archived")}
+                className={`gallery-tab ${activeTab === "current" ? "active" : ""}`}
+                onClick={() => handleTabChange("current")}
                 role="tab"
-                id="archived-tab"
-                aria-controls="archived-panel"
-                aria-selected={activeTab === "archived"}
+                aria-selected={activeTab === "current"}
+                type="button"
               >
-                Archived ({archivedProjects.length})
+                Recent ({activeProjects.length})
               </button>
-            )}
-          </div>
+              {archivedProjects.length > 0 && (
+                <button
+                  className={`gallery-tab ${activeTab === "archived" ? "active" : ""}`}
+                  onClick={() => handleTabChange("archived")}
+                  aria-pressed={activeTab === "archived"}
+                  type="button"
+                >
+                  Archived ({archivedProjects.length})
+                </button>
+              )}
+            </div>
 
-          <div className="projects-resume-entry">
             <button
               type="button"
-              className="projects-resume-entry-btn"
+              className="gallery-resume-btn"
               onClick={() => handleOpenResumeHighlights()}
             >
-              Open Full Resume Highlights
+              Full Resume Highlights
             </button>
           </div>
 
-          <div className="projects-modal-body">
-            <AnimatePresence mode="wait">
-              {activeTab === "current" && (
-                <motion.div
-                  key="current"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="projects-section"
-                  role="tabpanel"
-                  id="current-panel"
-                  aria-labelledby="current-tab"
-                >
-                  <h2>Recent Projects</h2>
-                  <div
-                    className="projects-grid"
-                    role="group"
-                    aria-label="Current projects"
-                  >
-                    {activeProjects.map((project, index) => (
-                      <motion.div
-                        key={project.id}
-                        className="projects-modal-card"
-                        role="article"
-                        aria-label={`${project.name} project summary`}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: 0.2 + index * 0.05,
-                          ease: "easeOut",
-                        }}
-                      >
-                        {/* Documentary Tag */}
-                        {project.type === "documentary" && (
-                          <div className="projects-modal-documentary-tag">
-                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
-                            <span>Documentary</span>
-                          </div>
-                        )}
+          {/* Gallery stage */}
+          <div className="gallery-stage" aria-live="polite" aria-atomic="false">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`${activeTab}-${currentIndex}`}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="gallery-card"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.08}
+                onDragEnd={(_, { offset, velocity }) => {
+                  const power = Math.abs(offset.x) + Math.abs(velocity.x) * 0.25;
+                  if (power > 70) navigate(offset.x > 0 ? -1 : 1);
+                }}
+              >
+                {/* Left: visual */}
+                <div className="gallery-media" aria-hidden="true">
+                  {renderGalleryMedia(project)}
+                  <div className="gallery-media-vignette" />
+                </div>
 
-                        <div className="projects-modal-card-content">
-                          <div className="project-media">{renderProjectMedia(project)}</div>
-                          <div className="project-info">
-                            <h3 id={`project-title-${project.id}`}>
-                              {project.name}
-                            </h3>
-                            {project.yearRange && (
-                              <p className="project-year-range">{project.yearRange}</p>
-                            )}
-                            <p id={`project-desc-${project.id}`}>
-                              {project.description}
-                            </p>
-
-                            {project.stackPreview && project.stackPreview.length > 0 && (
-                              <div className="project-stack-preview">
-                                {project.stackPreview.map((stackItem) => (
-                                  <span key={`${project.id}-${stackItem}`}>
-                                    {stackItem}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-
-                            {project.highlights && project.highlights.length > 0 && (
-                              <ul className="project-highlights">
-                                {project.highlights.map((highlight) => (
-                                  <li key={`${project.id}-${highlight}`}>{highlight}</li>
-                                ))}
-                              </ul>
-                            )}
-
-                            {project.deepDiveKey && (
-                              <div className="project-actions">
-                                <button
-                                  type="button"
-                                  className="project-open-btn"
-                                  onClick={() => handleProjectClick(project.link)}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faExternalLinkAlt}
-                                    className="external-link-icon"
-                                    aria-hidden="true"
-                                  />
-                                  <span>Open Project</span>
-                                </button>
-                                <button
-                                  type="button"
-                                  className="project-deep-dive-btn"
-                                  onClick={() =>
-                                    handleOpenResumeHighlights(project.deepDiveKey)
-                                  }
-                                >
-                                  View Resume Deep Dive
-                                </button>
-                              </div>
-                            )}
-
-                            {!project.deepDiveKey && (
-                              <div className="project-actions">
-                                <button
-                                  type="button"
-                                  className="project-open-btn"
-                                  onClick={() => handleProjectClick(project.link)}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faExternalLinkAlt}
-                                    className="external-link-icon"
-                                    aria-hidden="true"
-                                  />
-                                  <span>Open Project</span>
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                {/* Right: info */}
+                <div className="gallery-info">
+                  <div className="gallery-counter" aria-label={`Project ${currentIndex + 1} of ${projects.length}`}>
+                    <span className="counter-current">{String(currentIndex + 1).padStart(2, "0")}</span>
+                    <span className="counter-sep"> / </span>
+                    <span className="counter-total">{String(projects.length).padStart(2, "0")}</span>
                   </div>
-                </motion.div>
-              )}
 
-              {activeTab === "archived" && archivedProjects.length > 0 && (
-                <motion.div
-                  key="archived"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="projects-section"
-                  role="tabpanel"
-                  id="archived-panel"
-                  aria-labelledby="archived-tab"
-                >
-                  <h2>Archived Projects</h2>
-                  <div className="projects-grid">
-                    {archivedProjects.map((project, index) => (
-                      <motion.div
-                        key={project.id}
-                        className="projects-modal-card archived"
-                        role="article"
-                        aria-label={`Archived project: ${project.name}`}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: 0.2 + index * 0.05,
-                          ease: "easeOut",
-                        }}
+                  {project.type === "documentary" && (
+                    <div className="gallery-doc-tag" aria-label="Documentary">
+                      <FontAwesomeIcon icon={faFilm} aria-hidden="true" />
+                      <span>Documentary</span>
+                    </div>
+                  )}
+
+                  <h2 className="gallery-project-name">{project.name}</h2>
+
+                  {project.yearRange && (
+                    <p className="gallery-year" aria-label={`Year range: ${project.yearRange}`}>
+                      {project.yearRange}
+                    </p>
+                  )}
+
+                  <p className="gallery-description">{project.description}</p>
+
+                  {project.stackPreview && project.stackPreview.length > 0 && (
+                    <div className="gallery-stack" aria-label="Technology stack">
+                      {project.stackPreview.map((tech) => (
+                        <span key={tech}>{tech}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {project.highlights && project.highlights.length > 0 && (
+                    <ul className="gallery-highlights" aria-label="Project highlights">
+                      {project.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className="gallery-actions">
+                    <button
+                      type="button"
+                      className="gallery-open-btn"
+                      onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
+                    >
+                      <FontAwesomeIcon icon={faExternalLinkAlt} aria-hidden="true" />
+                      <span>Open Project</span>
+                    </button>
+
+                    {project.deepDiveKey && (
+                      <button
+                        type="button"
+                        className="gallery-dive-btn"
+                        onClick={() => handleOpenResumeHighlights(project.deepDiveKey)}
                       >
-                        {/* Documentary Tag */}
-                        {project.type === "documentary" && (
-                          <div className="projects-modal-documentary-tag">
-                            <FontAwesomeIcon icon={faFilm} className="documentary-icon" />
-                            <span>Documentary</span>
-                          </div>
-                        )}
-
-                        <div className="projects-modal-card-content">
-                          <div className="project-media">{renderProjectMedia(project)}</div>
-                          <div className="project-info">
-                            <h3>{project.name}</h3>
-                            <p>{project.description}</p>
-                            <div className="project-actions">
-                              <button
-                                type="button"
-                                className="project-open-btn"
-                                onClick={() => handleProjectClick(project.link)}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faExternalLinkAlt}
-                                  className="external-link-icon"
-                                  aria-hidden="true"
-                                />
-                                <span>Open Project</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        Resume Deep Dive
+                      </button>
+                    )}
                   </div>
-                </motion.div>
-              )}
+                </div>
+              </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* Bottom nav: arrows + dots */}
+          <div className="gallery-nav-bar">
+            <button
+              type="button"
+              className="gallery-nav-arrow"
+              onClick={() => navigate(-1)}
+              disabled={projects.length <= 1}
+              aria-label="Previous project"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+
+            <div className="gallery-dots" aria-label="Project navigation dots">
+              {projects.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-current={i === currentIndex ? "true" : undefined}
+                  aria-label={`Go to project ${i + 1}: ${projects[i].name}`}
+                  className={`gallery-dot ${i === currentIndex ? "active" : ""}`}
+                  onClick={() => handleDotClick(i)}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="gallery-nav-arrow"
+              onClick={() => navigate(1)}
+              disabled={projects.length <= 1}
+              aria-label="Next project"
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
           </div>
         </div>
       </ModalFrame>

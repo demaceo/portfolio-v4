@@ -1,268 +1,34 @@
-/* ===== CONTACT FORM - APPLE LIQUID GLASS DESIGN ===== */
+/* ===== CONTACT FORM — WARM NOIR GLASS THEME ===== */
 
-/* Contact Form Design Variables — scoped to avoid global leakage */
-.contact-modal-overlay {
-  /* Light Glass Colors */
-  --glass-bg: rgba(255, 255, 255, 0.97);
-  --glass-bg-dark: rgba(248, 250, 252, 0.15);
-  --glass-border: rgba(203, 213, 225, 0.4);
-  --glass-shadow: rgba(0, 0, 0, 0.12);
-  --backdrop-blur: blur(40px);
-  --backdrop-saturate: saturate(180%);
-
-  /* DesktopLayout Color Palette */
-  --ios-blue: #3b82f6;
-  --ios-blue-light: rgba(59, 130, 246, 0.10);
-  --ios-blue-dark: rgba(59, 130, 246, 0.8);
-  --ios-green: #10b981;
-  --ios-red: #ef4444;
-  --contact-accent: #3b82f6;
-  --contact-accent-alt: #0ea5e9;
-  --ios-text-primary: #0f172a;
-  --ios-text-secondary: #64748b;
-  --ios-text-tertiary: #94a3b8;
-  --ios-surface: rgba(248, 250, 252, 1);
-  --ios-surface-elevated: rgba(255, 255, 255, 1);
-  --ios-surface-secondary: rgba(241, 245, 249, 1);
-
-  /* Typography Scale - SF Pro Inspired */
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-lg: 17px;
-  --text-xl: 19px;
-  --text-2xl: 22px;
-  --text-3xl: 28px;
-  --text-4xl: 34px;
-
-  /* Spacing Scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 30px;
-
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.16);
-  --shadow-2xl: 0 25px 80px rgba(0, 0, 0, 0.25);
-}
-
-/* Modal Overlay */
-.contact-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: var(--space-6);
-  animation: overlayFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  font-family: var(--font-display), -apple-system, BlinkMacSystemFont,
-    "Helvetica Neue", sans-serif;
-}
-
-/* Form Container */
-.contact-form-container {
-  width: 100%;
-  max-width: 480px;
-  background: var(--glass-bg);
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-3xl);
-  box-shadow: var(--shadow-2xl);
-  overflow: hidden;
-  animation: modalSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  max-height: 95%;
-}
-
-/* Enhanced Title Bar */
-.contact-modal-title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  width: 100%;
-  padding: 0 var(--space-6);
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  border-bottom: 1px solid #cbd5e1;
-  border-top-left-radius: var(--radius-3xl);
-  border-top-right-radius: var(--radius-3xl);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  position: relative;
-  z-index: 100;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.contact-modal-title-bar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg,
-      #3b82f6 0%,
-      #0ea5e9 50%,
-      #10b981 100%);
-  border-top-left-radius: var(--radius-3xl);
-  border-top-right-radius: var(--radius-3xl);
-}
-
-.contact-modal-title-bar::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg,
-      rgba(203, 213, 225, 0.08) 0%,
-      rgba(203, 213, 225, 0.03) 50%,
-      transparent 100%);
-  pointer-events: none;
-}
-
-.contact-modal-window-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-
-.contact-modal-close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(226, 232, 240, 0.6);
-  border: 1px solid rgba(203, 213, 225, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.contact-modal-close-btn::after {
-  content: "×";
-  position: absolute;
-  color: #64748b;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
-  opacity: 1;
-  transition: color 0.2s ease;
-}
-
-.contact-modal-close-btn:hover::after {
-  color: #3b82f6;
-}
-
-.contact-modal-close-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(59, 130, 246, 0.15);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-}
-
-.contact-modal-close-btn:hover::before {
-  opacity: 1;
-}
-
-.contact-modal-close-btn:hover {
-  transform: scale(1.08);
-  border-color: rgba(59, 130, 246, 0.3);
-}
-
-.contact-modal-close-btn:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
-}
-
-.contact-modal-window-title {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg,
-      var(--contact-accent) 0%,
-      var(--contact-accent-alt) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: var(--ios-text-primary);
-  text-align: center;
-  line-height: 1.2;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
-  white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.contact-modal-spacer {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-}
-
-/* Form Wrapper */
 .email-form-wrapper {
-  padding: var(--space-6) var(--space-6) var(--space-8);
+  --cf-accent: #d4845a;
+  --cf-accent-soft: rgba(212, 132, 90, 0.10);
+  --cf-accent-glow: rgba(212, 132, 90, 0.25);
+  --cf-text: #f0ece8;
+  --cf-muted: rgba(240, 236, 232, 0.50);
+  --cf-border: rgba(220, 175, 130, 0.14);
+  --cf-surface: rgba(255, 255, 255, 0.05);
+  --cf-surface-focus: rgba(212, 132, 90, 0.06);
+
+  padding: 1.25rem 1.25rem 1.5rem;
+  font-family: var(--font-display), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--cf-text);
 }
 
-/* Form Styling */
+/* ── Form ─────────────────────────────────────────────── */
+
 .email-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 0.85rem;
 }
 
 .email-form label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--ios-text-secondary);
-  margin-bottom: var(--space-1);
-  letter-spacing: 0.02em;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cf-muted);
+  margin-bottom: 0.22rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   display: block;
 }
@@ -272,76 +38,73 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  padding: var(--space-4) var(--space-5);
-  background: var(--ios-surface);
-  border: 1px solid rgba(203, 213, 225, 0.4);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-base);
+  padding: 0.72rem 0.9rem;
+  background: var(--cf-surface);
+  border: 1px solid var(--cf-border);
+  border-radius: 10px;
+  font-size: 14px;
   font-family: inherit;
-  color: var(--ios-text-primary);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: var(--cf-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
   outline: none;
   box-sizing: border-box;
   -webkit-appearance: none;
   appearance: none;
-  flex-shrink: 1;
 }
 
 .email-form input::placeholder,
 .email-form textarea::placeholder {
-  color: var(--ios-text-secondary);
-  opacity: 1;
+  color: rgba(240, 236, 232, 0.28);
 }
 
 .email-form input:focus,
 .email-form textarea:focus {
-  border-color: rgba(59, 130, 246, 0.50);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.06);
+  border-color: rgba(212, 132, 90, 0.45);
+  background: var(--cf-surface-focus);
+  box-shadow: 0 0 0 3px rgba(212, 132, 90, 0.10), inset 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
-.email-form input:hover,
-.email-form textarea:hover {
-  border-color: rgba(203, 213, 225, 0.5);
+.email-form input:hover:not(:focus),
+.email-form textarea:hover:not(:focus) {
+  border-color: rgba(220, 175, 130, 0.26);
 }
 
 .email-form textarea {
-  min-height: 120px;
+  min-height: 110px;
   resize: vertical;
   font-family: inherit;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-/* Submit Button */
+/* ── Submit button ───────────────────────────────────── */
+
 #submit-button {
-  background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
+  background: var(--cf-accent);
   color: #fff;
-  border: none;
-  padding: var(--space-4) var(--space-8);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-base);
+  border: 1px solid rgba(212, 132, 90, 0.85);
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.20);
-  letter-spacing: 0.01em;
-  min-height: 50px;
+  box-shadow: 0 4px 16px var(--cf-accent-glow);
+  letter-spacing: 0.04em;
+  min-height: 46px;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 #submit-button::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.15),
-      transparent);
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
   transition: left 0.5s ease;
+  pointer-events: none;
 }
 
 #submit-button:hover::before {
@@ -350,42 +113,43 @@
 
 #submit-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.28);
-  filter: brightness(1.05);
+  box-shadow: 0 6px 22px rgba(212, 132, 90, 0.38);
 }
 
 #submit-button:active {
   transform: translateY(0);
   transition: transform 0.1s ease;
+  box-shadow: 0 2px 8px rgba(212, 132, 90, 0.20);
 }
 
 #submit-button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none;
-  filter: saturate(0.6);
+  filter: saturate(0.5);
 }
 
 #submit-button:disabled:hover {
   transform: none;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.20);
-  filter: saturate(0.6);
+  box-shadow: 0 4px 16px var(--cf-accent-glow);
 }
 
-/* Status Message */
+/* ── Status message ──────────────────────────────────── */
+
 #form-sent-status {
   text-align: center;
-  font-size: var(--text-sm);
+  font-size: 12px;
   font-weight: 600;
-  color: var(--ios-green);
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
+  color: #10b981;
+  padding: 0.6rem;
+  border-radius: 8px;
   background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.18);
-  margin-bottom: var(--space-4);
+  margin-top: 0.4rem;
   opacity: 0;
-  transform: translateY(6px);
+  transform: translateY(5px);
   transition: opacity 0.25s ease, transform 0.25s ease;
+  min-height: 1.5rem;
 }
 
 #form-sent-status:not(:empty) {
@@ -393,16 +157,17 @@
   transform: translateY(0);
 }
 
-/* Alternative Contact Methods */
+/* ── Alternative contact ─────────────────────────────── */
+
 .alternative-contact-methods {
-  margin-top: var(--space-3);
+  margin-top: 0.75rem;
 }
 
 .contact-divider {
   display: flex;
   align-items: center;
-  margin: var(--space-5) 0;
-  gap: var(--space-3);
+  margin: 0.85rem 0;
+  gap: 0.75rem;
 }
 
 .contact-divider::before,
@@ -410,267 +175,107 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(203, 213, 225, 0.3);
+  background: rgba(220, 175, 130, 0.12);
 }
 
 .contact-divider span {
-  font-size: var(--text-xs);
-  color: var(--ios-text-tertiary);
-  font-weight: 600;
+  font-size: 10px;
+  color: rgba(240, 236, 232, 0.28);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0;
+  letter-spacing: 0.08em;
 }
 
-/* Alternative Buttons */
 .alternative-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
+  gap: 0.55rem;
 }
 
 .alternative-contact-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
+  gap: 0.45rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid rgba(203, 213, 225, 0.3);
+  border: 1px solid rgba(220, 175, 130, 0.12);
+  background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: none;
-  letter-spacing: 0;
-  min-height: 46px;
-  position: relative;
-  overflow: hidden;
-}
-
-.alternative-contact-btn::before {
-  display: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  min-height: 44px;
 }
 
 .alternative-contact-btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(203, 213, 225, 0.5);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .alternative-contact-btn:active {
   transform: translateY(0);
-  transition: transform 0.1s ease;
 }
 
-/* LinkedIn Button */
 .linkedin-btn {
-  background: var(--ios-surface);
-  color: #4da3d4;
-  border-color: rgba(77, 163, 212, 0.18);
+  color: rgba(100, 175, 220, 0.85);
+  border-color: rgba(100, 175, 220, 0.16);
 }
 
 .linkedin-btn:hover {
-  border-color: rgba(77, 163, 212, 0.35);
-  color: #6bb5de;
+  border-color: rgba(100, 175, 220, 0.32);
+  color: rgba(120, 190, 235, 0.95);
 }
 
-/* Calendly Button */
 .calendly-btn {
-  background: var(--ios-surface);
-  color: #10b981;
-  border-color: rgba(16, 185, 129, 0.18);
+  color: rgba(16, 185, 129, 0.82);
+  border-color: rgba(16, 185, 129, 0.16);
 }
 
 .calendly-btn:hover {
-  border-color: rgba(16, 185, 129, 0.35);
-  color: #059669;
+  border-color: rgba(16, 185, 129, 0.32);
+  color: rgba(16, 185, 129, 0.95);
 }
 
-/* Icons */
 .alternative-contact-btn i {
-  font-size: var(--text-lg);
+  font-size: 15px;
 }
 
-/* Animations */
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-  }
+/* ── Focus states ────────────────────────────────────── */
 
-  to {
-    opacity: 1;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-  }
+.email-form input:focus-visible,
+.email-form textarea:focus-visible,
+#submit-button:focus-visible,
+.alternative-contact-btn:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline-offset: 2px;
 }
 
-@keyframes modalSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .contact-modal-overlay {
-    padding: var(--space-4);
-  }
-
-  .contact-form-container {
-    max-width: 100%;
-    width: calc(100vw - 32px);
-    border-radius: var(--radius-2xl);
-    box-sizing: border-box;
-  }
-
-  .contact-modal-title-bar {
-    height: 56px;
-    padding: 0 var(--space-5);
-    border-top-left-radius: var(--radius-2xl);
-    border-top-right-radius: var(--radius-2xl);
-  }
-
-  .contact-modal-window-title {
-    font-size: var(--text-xl);
-    padding: var(--space-1) 0;
-  }
-
-  .contact-modal-close-btn {
-    width: 28px;
-    height: 28px;
-  }
-
-  .contact-modal-close-btn::after {
-    font-size: 16px;
-  }
-
-  .contact-modal-spacer {
-    width: 28px;
-    height: 28px;
-  }
-
-  .email-form-wrapper {
-    padding: var(--space-5);
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .email-form {
-    gap: var(--space-4);
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .email-form input,
-  .email-form textarea {
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--text-sm);
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .email-form textarea {
-    min-height: 100px;
-  }
-
-  #submit-button {
-    padding: var(--space-3) var(--space-6);
-    font-size: var(--text-sm);
-    min-height: 46px;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .alternative-contact-btn {
-    font-size: var(--text-sm);
-    min-height: 44px;
-    box-sizing: border-box;
-  }
-}
+/* ── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 480px) {
-  .contact-modal-overlay {
-    padding: var(--space-3);
-    width: 100%;
-    height: 100%;
-  }
-
-  .contact-form-container {
-    border-radius: var(--radius-xl);
-    width: calc(100vw - 24px);
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .contact-modal-title-bar {
-    height: 52px;
-    padding: 0 var(--space-4);
-    border-top-left-radius: var(--radius-xl);
-    border-top-right-radius: var(--radius-xl);
-  }
-
-  .contact-modal-window-title {
-    font-size: var(--text-lg);
-    padding: 4px 0;
-  }
-
-  .contact-modal-close-btn {
-    width: 24px;
-    height: 24px;
-  }
-
-  .contact-modal-spacer {
-    width: 24px;
-    height: 24px;
-  }
-
   .email-form-wrapper {
-    padding: var(--space-4);
-    width: 100%;
-    box-sizing: border-box;
+    padding: 1rem;
   }
 
   .email-form {
-    gap: var(--space-4);
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .email-form label {
-    font-size: var(--text-sm);
+    gap: 0.72rem;
   }
 
   .email-form input,
   .email-form textarea {
-    padding: var(--space-3);
-    font-size: var(--text-sm);
-    border-radius: var(--radius-md);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+    padding: 0.62rem 0.78rem;
+    font-size: 13px;
   }
 
   .email-form textarea {
-    min-height: 80px;
+    min-height: 90px;
   }
 
   #submit-button {
-    padding: var(--space-3) var(--space-5);
-    font-size: var(--text-sm);
+    font-size: 13px;
     min-height: 44px;
-    border-radius: var(--radius-md);
-    width: 100%;
-    max-width: 100%;
   }
 
   .alternative-buttons {
@@ -678,58 +283,25 @@
   }
 
   .alternative-contact-btn {
-    min-height: 42px;
-    border-radius: var(--radius-md);
-    box-sizing: border-box;
+    min-height: 44px;
   }
 }
 
-/* Accessibility */
+/* ── Accessibility ───────────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
-  .contact-form-container,
-  .contact-form-container * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Focus States for Accessibility */
-.contact-modal-close-btn:focus-visible,
-.email-form input:focus-visible,
-.email-form textarea:focus-visible,
-#submit-button:focus-visible,
-.alternative-contact-btn:focus-visible {
-  outline: 2px solid var(--ios-blue);
-  outline-offset: 2px;
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .contact-modal-overlay {
-    --glass-border: rgba(203, 213, 225, 0.6);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
-  }
-
   .email-form input,
   .email-form textarea,
   #submit-button,
   .alternative-contact-btn {
-    border-width: 2px;
+    transition: none;
   }
 }
 
-/* Dark mode is now the default -- no override needed */
-
-/* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
-
   #submit-button,
   .alternative-contact-btn {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: 48px;
   }
 
   .email-form input,
