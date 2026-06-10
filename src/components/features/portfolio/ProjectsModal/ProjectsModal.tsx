@@ -290,8 +290,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                 <button
                   key={i}
                   type="button"
-                  role="tab"
-                  aria-selected={i === currentIndex}
+                  aria-current={i === currentIndex ? "true" : undefined}
                   aria-label={`Go to project ${i + 1}: ${projects[i].name}`}
                   className={`gallery-dot ${i === currentIndex ? "active" : ""}`}
                   onClick={() => handleDotClick(i)}
