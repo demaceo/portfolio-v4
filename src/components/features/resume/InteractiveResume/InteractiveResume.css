@@ -977,34 +977,3 @@
         transform: none;
     }
 }
-, 0.9);
-        --ios-surface-secondary: rgba(28, 28, 30, 0.8);
-    }
-
-    .resume-title,
-    .section-title {
-        background: linear-gradient(135deg, var(--ios-text-primary) 0%, var(--ios-blue) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-}
-
-/* Touch-specific optimizations */
-@media (hover: none) and (pointer: coarse) {
-
-    .control-button,
-    .pdf-download-button,
-    .skill-tag {
-        min-height: 44px;
-        min-width: 44px;
-    }
-
-    .experience-card {
-        transform: none;
-    }
-
-    .experience-card:hover {
-        transform: none;
-    }
-}
