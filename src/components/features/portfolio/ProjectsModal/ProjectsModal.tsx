@@ -164,8 +164,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                 <button
                   className={`gallery-tab ${activeTab === "archived" ? "active" : ""}`}
                   onClick={() => handleTabChange("archived")}
-                  role="tab"
-                  aria-selected={activeTab === "archived"}
+                  aria-pressed={activeTab === "archived"}
                   type="button"
                 >
                   Archived ({archivedProjects.length})
