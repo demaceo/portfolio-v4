@@ -1,311 +1,496 @@
-/* ===== CONTACT FORM — WARM NOIR GLASS THEME ===== */
+/* ===== CONTACT — "THE INVITATION" / WARM NOIR ===== */
 
-.email-form-wrapper {
+.contact-invite {
   --cf-accent: #d4845a;
   --cf-accent-soft: rgba(212, 132, 90, 0.10);
   --cf-accent-glow: rgba(212, 132, 90, 0.25);
   --cf-text: #f0ece8;
-  --cf-muted: rgba(240, 236, 232, 0.50);
-  --cf-border: rgba(220, 175, 130, 0.14);
-  --cf-surface: rgba(255, 255, 255, 0.05);
-  --cf-surface-focus: rgba(212, 132, 90, 0.06);
+  --cf-muted: rgba(240, 236, 232, 0.52);
+  --cf-faint: rgba(240, 236, 232, 0.30);
+  --cf-border: rgba(220, 175, 130, 0.12);
+  --cf-surface: rgba(255, 255, 255, 0.04);
 
-  padding: 1.25rem 1.25rem 1.5rem;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-display), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--cf-text);
+  overflow: hidden;
+}
+
+.contact-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.6rem 1.5rem 1.65rem;
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+
+.contact-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-eyebrow {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cf-accent);
+}
+
+.contact-headline {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.14;
   color: var(--cf-text);
 }
 
-/* ── Form ─────────────────────────────────────────────── */
+.contact-headline.sm {
+  font-size: 1.28rem;
+}
 
-.email-form {
+.contact-subline {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--cf-muted);
+}
+
+/* ── Two doors ────────────────────────────────────────── */
+
+.contact-doors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact-door {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: left;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--cf-border);
+  background: var(--cf-surface);
+  color: var(--cf-text);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-door:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 132, 90, 0.42);
+  background: rgba(212, 132, 90, 0.07);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.32);
+}
+
+.contact-door:active {
+  transform: translateY(0);
+}
+
+.contact-door:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.6);
+  outline-offset: 2px;
+}
+
+.door-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  font-size: 1rem;
+  color: var(--cf-accent);
+  background: var(--cf-accent-soft);
+  border: 1px solid rgba(212, 132, 90, 0.22);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-door:hover .door-icon {
+  background: var(--cf-accent);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.door-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.door-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.door-sub {
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--cf-muted);
+}
+
+.door-arrow {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--cf-faint);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.contact-door:hover .door-arrow {
+  color: var(--cf-accent);
+  transform: translateX(3px);
+}
+
+/* ── Quiet links ──────────────────────────────────────── */
+
+.contact-quiet {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.1rem;
+}
+
+.contact-quiet-label {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cf-faint);
+  white-space: nowrap;
+}
+
+.contact-quiet::before,
+.contact-quiet::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(220, 175, 130, 0.12);
+}
+
+.contact-quiet-links {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.quiet-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36rem;
+  padding: 0.34rem 0.66rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--cf-muted);
+  border: 1px solid var(--cf-border);
+  background: var(--cf-surface);
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    background 0.2s ease;
+}
+
+.quiet-link:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.quiet-link.linkedin:hover {
+  color: rgba(120, 190, 235, 0.95);
+  border-color: rgba(100, 175, 220, 0.32);
+}
+
+.quiet-link.email:hover {
+  color: var(--cf-accent);
+  border-color: rgba(212, 132, 90, 0.36);
+}
+
+.quiet-link:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline-offset: 2px;
+}
+
+/* ── Back affordance ──────────────────────────────────── */
+
+.contact-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  padding: 0.28rem 0.2rem;
+  margin-bottom: -0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--cf-muted);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-back:hover {
+  color: var(--cf-accent);
+  transform: translateX(-2px);
+}
+
+.contact-back:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.contact-form-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ── Form + floating labels ───────────────────────────── */
+
+.contact-form {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
 }
 
-.email-form label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--cf-muted);
-  margin-bottom: 0.22rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  display: block;
+.field {
+  position: relative;
 }
 
-.email-form input,
-.email-form textarea {
+.field input,
+.field textarea {
   width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  padding: 0.72rem 0.9rem;
+  box-sizing: border-box;
+  padding: 1.15rem 0.9rem 0.5rem;
   background: var(--cf-surface);
   border: 1px solid var(--cf-border);
-  border-radius: 10px;
-  font-size: 14px;
+  border-radius: 11px;
+  font-size: 0.88rem;
   font-family: inherit;
   color: var(--cf-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
   outline: none;
-  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   -webkit-appearance: none;
   appearance: none;
 }
 
-.email-form input::placeholder,
-.email-form textarea::placeholder {
-  color: rgba(240, 236, 232, 0.28);
-}
-
-.email-form input:focus,
-.email-form textarea:focus {
-  border-color: rgba(212, 132, 90, 0.45);
-  background: var(--cf-surface-focus);
-  box-shadow: 0 0 0 3px rgba(212, 132, 90, 0.10), inset 0 1px 2px rgba(0, 0, 0, 0.12);
-}
-
-.email-form input:hover:not(:focus),
-.email-form textarea:hover:not(:focus) {
-  border-color: rgba(220, 175, 130, 0.26);
-}
-
-.email-form textarea {
-  min-height: 110px;
+.field textarea {
+  min-height: 104px;
   resize: vertical;
-  font-family: inherit;
   line-height: 1.55;
 }
 
-/* ── Submit button ───────────────────────────────────── */
+.field label {
+  position: absolute;
+  left: 0.95rem;
+  top: 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--cf-faint);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
 
-#submit-button {
+.field input:focus,
+.field textarea:focus {
+  border-color: rgba(212, 132, 90, 0.5);
+  background: rgba(212, 132, 90, 0.06);
+  box-shadow: 0 0 0 3px rgba(212, 132, 90, 0.12),
+    inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.field input:hover:not(:focus),
+.field textarea:hover:not(:focus) {
+  border-color: rgba(220, 175, 130, 0.26);
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-0.62rem) scale(0.74);
+  color: var(--cf-accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.contact-error {
+  margin: -0.2rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: #f0a489;
+  padding: 0.5rem 0.7rem;
+  border-radius: 9px;
+  background: rgba(220, 90, 60, 0.10);
+  border: 1px solid rgba(220, 90, 60, 0.24);
+}
+
+/* ── Primary send button ──────────────────────────────── */
+
+.contact-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 1.4rem;
+  border-radius: 11px;
+  border: 1px solid rgba(212, 132, 90, 0.85);
   background: var(--cf-accent);
   color: #fff;
-  border: 1px solid rgba(212, 132, 90, 0.85);
-  padding: 0.7rem 1.5rem;
-  border-radius: 10px;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: 0.88rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   box-shadow: 0 4px 16px var(--cf-accent-glow);
-  letter-spacing: 0.04em;
-  min-height: 46px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease,
+    background 0.2s ease, border-color 0.2s ease;
 }
 
-#submit-button::before {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
-  transition: left 0.5s ease;
-  pointer-events: none;
-}
-
-#submit-button:hover::before {
-  left: 100%;
-}
-
-#submit-button:hover {
+.contact-send:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 6px 22px rgba(212, 132, 90, 0.38);
 }
 
-#submit-button:active {
+.contact-send:active:not(:disabled) {
   transform: translateY(0);
-  transition: transform 0.1s ease;
   box-shadow: 0 2px 8px rgba(212, 132, 90, 0.20);
 }
 
-#submit-button:disabled {
-  opacity: 0.45;
+.contact-send:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
-  transform: none;
-  filter: saturate(0.5);
+  filter: saturate(0.6);
 }
 
-#submit-button:disabled:hover {
-  transform: none;
-  box-shadow: 0 4px 16px var(--cf-accent-glow);
-}
-
-/* ── Status message ──────────────────────────────────── */
-
-#form-sent-status {
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #10b981;
-  padding: 0.6rem;
-  border-radius: 8px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.18);
-  margin-top: 0.4rem;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  min-height: 1.5rem;
-}
-
-#form-sent-status:not(:empty) {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── Alternative contact ─────────────────────────────── */
-
-.alternative-contact-methods {
-  margin-top: 0.75rem;
-}
-
-.contact-divider {
-  display: flex;
-  align-items: center;
-  margin: 0.85rem 0;
-  gap: 0.75rem;
-}
-
-.contact-divider::before,
-.contact-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: rgba(220, 175, 130, 0.12);
-}
-
-.contact-divider span {
-  font-size: 10px;
-  color: rgba(240, 236, 232, 0.28);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.alternative-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.55rem;
-}
-
-.alternative-contact-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.6rem 0.75rem;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid rgba(220, 175, 130, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-  min-height: 44px;
-}
-
-.alternative-contact-btn:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.alternative-contact-btn:active {
-  transform: translateY(0);
-}
-
-.linkedin-btn {
-  color: rgba(100, 175, 220, 0.85);
-  border-color: rgba(100, 175, 220, 0.16);
-}
-
-.linkedin-btn:hover {
-  border-color: rgba(100, 175, 220, 0.32);
-  color: rgba(120, 190, 235, 0.95);
-}
-
-.calendly-btn {
-  color: rgba(16, 185, 129, 0.82);
-  border-color: rgba(16, 185, 129, 0.16);
-}
-
-.calendly-btn:hover {
-  border-color: rgba(16, 185, 129, 0.32);
-  color: rgba(16, 185, 129, 0.95);
-}
-
-.alternative-contact-btn i {
-  font-size: 15px;
-}
-
-/* ── Focus states ────────────────────────────────────── */
-
-.email-form input:focus-visible,
-.email-form textarea:focus-visible,
-#submit-button:focus-visible,
-.alternative-contact-btn:focus-visible {
-  outline: 2px solid rgba(212, 132, 90, 0.55);
+.contact-send:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.6);
   outline-offset: 2px;
 }
 
-/* ── Responsive ──────────────────────────────────────── */
-
-@media (max-width: 480px) {
-  .email-form-wrapper {
-    padding: 1rem;
-  }
-
-  .email-form {
-    gap: 0.72rem;
-  }
-
-  .email-form input,
-  .email-form textarea {
-    padding: 0.62rem 0.78rem;
-    font-size: 13px;
-  }
-
-  .email-form textarea {
-    min-height: 90px;
-  }
-
-  #submit-button {
-    font-size: 13px;
-    min-height: 44px;
-  }
-
-  .alternative-buttons {
-    grid-template-columns: 1fr;
-  }
-
-  .alternative-contact-btn {
-    min-height: 44px;
-  }
+.contact-send .sending {
+  animation: contact-send-pulse 0.9s ease-in-out infinite;
 }
 
-/* ── Accessibility ───────────────────────────────────── */
+.contact-send.ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--cf-border);
+  color: var(--cf-muted);
+  box-shadow: none;
+}
 
-@media (prefers-reduced-motion: reduce) {
-  .email-form input,
-  .email-form textarea,
-  #submit-button,
-  .alternative-contact-btn {
-    transition: none;
+.contact-send.ghost:hover:not(:disabled) {
+  background: rgba(212, 132, 90, 0.08);
+  border-color: rgba(212, 132, 90, 0.36);
+  color: var(--cf-text);
+}
+
+@keyframes contact-send-pulse {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  50% { transform: translateX(3px); opacity: 0.6; }
+}
+
+/* ── Sent confirmation ────────────────────────────────── */
+
+.contact-sent {
+  align-items: center;
+  text-align: center;
+  padding-top: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+
+.sent-check {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: #fff;
+  background: linear-gradient(135deg, #d4845a 0%, #b85f3a 100%);
+  box-shadow: 0 8px 28px rgba(212, 132, 90, 0.45);
+}
+
+.sent-actions {
+  display: flex;
+  gap: 0.55rem;
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.contact-sent .contact-headline {
+  margin-top: 0.2rem;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .contact-stage {
+    padding: 1.25rem 1.1rem 1.35rem;
+    gap: 0.95rem;
+  }
+
+  .contact-headline {
+    font-size: 1.32rem;
+  }
+
+  .door-sub {
+    font-size: 0.72rem;
+  }
+
+  .contact-quiet-links {
+    flex-wrap: wrap;
   }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  #submit-button,
-  .alternative-contact-btn {
-    min-height: 48px;
+  .contact-door {
+    min-height: 64px;
   }
 
-  .email-form input,
-  .email-form textarea {
-    min-height: 44px;
+  .field input,
+  .field textarea {
+    font-size: 16px; /* prevent iOS zoom-on-focus */
+  }
+
+  .contact-send {
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-door,
+  .door-icon,
+  .door-arrow,
+  .quiet-link,
+  .contact-back,
+  .field input,
+  .field textarea,
+  .field label,
+  .contact-send {
+    transition: none;
+  }
+
+  .contact-send .sending {
+    animation: none;
   }
 }
