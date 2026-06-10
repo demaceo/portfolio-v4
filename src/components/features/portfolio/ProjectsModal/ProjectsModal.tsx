@@ -150,7 +150,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
         <div className="projects-gallery">
           {/* Top bar: tabs + resume link */}
           <div className="gallery-topbar">
-            <div className="gallery-tabs" role="tablist" aria-label="Project categories">
+            <div className="gallery-tabs" aria-label="Project categories">
               <button
                 className={`gallery-tab ${activeTab === "current" ? "active" : ""}`}
                 onClick={() => handleTabChange("current")}
