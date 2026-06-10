@@ -86,6 +86,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
   };
 
   const handleDotClick = (index: number) => {
+    if (index === currentIndex) return;
     setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   };
