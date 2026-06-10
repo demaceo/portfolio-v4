@@ -100,8 +100,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
     const iconIsImage = isImageIcon(proj.icon);
     const imageStr = typeof proj.image === "string" ? proj.image : undefined;
 
-    if (iconIsImage) {
-      return (
+    if (iconIsImage && !imageStr) {
         <Image
           src={proj.icon as string}
           alt={`${proj.name} icon`}
