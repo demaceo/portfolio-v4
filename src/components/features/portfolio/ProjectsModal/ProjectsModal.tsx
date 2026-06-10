@@ -285,7 +285,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
 
-            <div className="gallery-dots" role="tablist" aria-label="Project navigation dots">
+            <div className="gallery-dots" aria-label="Project navigation dots">
               {projects.map((_, i) => (
                 <button
                   key={i}
