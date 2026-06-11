@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ModalFrame } from "@/components/features/modal";
 import { ModalProps } from "@/lib/types";
 import {
@@ -65,54 +66,55 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
       closeAriaLabel="Close resume highlights"
     >
       <div className="resume-highlights-content">
-        <header className="resume-highlights-intro">
-          <p className="resume-highlights-eyebrow">Interview + Resume Pack</p>
-          <h2>Deep project evidence, organized for fast evaluation.</h2>
-          <p>
-            Structured for recruiter scan speed and technical interview depth
-            without forcing you through long-form narrative blocks.
-          </p>
-        </header>
+        <div className="resume-highlights-topbar">
+          <div className="resume-highlights-tabs" role="tablist" aria-label="Resume highlights sections">
+            <button
+              type="button"
+              className={`resume-highlights-tab ${activeTab === "role-bullets" ? "active" : ""}`}
+              role="tab"
+              id="resume-role-bullets-tab"
+              aria-selected={activeTab === "role-bullets"}
+              aria-controls="resume-role-bullets-panel"
+              onClick={() => setActiveTab("role-bullets")}
+            >
+              Role Bullets
+            </button>
+            <button
+              type="button"
+              className={`resume-highlights-tab ${activeTab === "project-breakdown" ? "active" : ""}`}
+              role="tab"
+              id="resume-project-breakdown-tab"
+              aria-selected={activeTab === "project-breakdown"}
+              aria-controls="resume-project-breakdown-panel"
+              onClick={() => setActiveTab("project-breakdown")}
+            >
+              Project Breakdown
+            </button>
+            <button
+              type="button"
+              className={`resume-highlights-tab ${activeTab === "cross-cutting-patterns" ? "active" : ""}`}
+              role="tab"
+              id="resume-cross-cutting-patterns-tab"
+              aria-selected={activeTab === "cross-cutting-patterns"}
+              aria-controls="resume-cross-cutting-patterns-panel"
+              onClick={() => setActiveTab("cross-cutting-patterns")}
+            >
+              Cross-Cutting Patterns
+            </button>
+          </div>
 
-        <div className="resume-highlights-tabs" role="tablist" aria-label="Resume highlights sections">
-          <button
-            type="button"
-            className={`resume-highlights-tab ${activeTab === "role-bullets" ? "active" : ""}`}
-            role="tab"
-            id="resume-role-bullets-tab"
-            aria-selected={activeTab === "role-bullets"}
-            aria-controls="resume-role-bullets-panel"
-            onClick={() => setActiveTab("role-bullets")}
-          >
-            Role Bullets
-          </button>
-          <button
-            type="button"
-            className={`resume-highlights-tab ${activeTab === "project-breakdown" ? "active" : ""}`}
-            role="tab"
-            id="resume-project-breakdown-tab"
-            aria-selected={activeTab === "project-breakdown"}
-            aria-controls="resume-project-breakdown-panel"
-            onClick={() => setActiveTab("project-breakdown")}
-          >
-            Project Breakdown
-          </button>
-          <button
-            type="button"
-            className={`resume-highlights-tab ${activeTab === "cross-cutting-patterns" ? "active" : ""}`}
-            role="tab"
-            id="resume-cross-cutting-patterns-tab"
-            aria-selected={activeTab === "cross-cutting-patterns"}
-            aria-controls="resume-cross-cutting-patterns-panel"
-            onClick={() => setActiveTab("cross-cutting-patterns")}
-          >
-            Cross-Cutting Patterns
-          </button>
+          <span className="resume-highlights-byline">Interview + Resume Pack</span>
         </div>
 
-        <div className="resume-highlights-panel-wrap">
+        <div className="resume-highlights-body">
+          <AnimatePresence mode="wait">
           {activeTab === "role-bullets" && (
-            <section
+            <motion.section
+              key="role-bullets"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="resume-highlights-panel"
               role="tabpanel"
               id="resume-role-bullets-panel"
@@ -159,11 +161,16 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
                   </article>
                 ))}
               </div>
-            </section>
+            </motion.section>
           )}
 
           {activeTab === "project-breakdown" && (
-            <section
+            <motion.section
+              key="project-breakdown"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="resume-highlights-panel"
               role="tabpanel"
               id="resume-project-breakdown-panel"
@@ -261,11 +268,16 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
                     </section>
                   )}
               </article>
-            </section>
+            </motion.section>
           )}
 
           {activeTab === "cross-cutting-patterns" && (
-            <section
+            <motion.section
+              key="cross-cutting-patterns"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="resume-highlights-panel"
               role="tabpanel"
               id="resume-cross-cutting-patterns-panel"
@@ -294,8 +306,9 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
                   </tbody>
                 </table>
               </div>
-            </section>
+            </motion.section>
           )}
+          </AnimatePresence>
         </div>
       </div>
     </ModalFrame>

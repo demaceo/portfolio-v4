@@ -18,6 +18,19 @@
   --shadowed-title-text-transform: uppercase;
   --shadowed-title-text-shadow: 0px 10px rgba(0, 0, 0, 0.15);
   --shadowed-title-text-align: center;
+
+  /* ===== Warm Noir modal design tokens =====
+     Single source of truth for the gallery modal aesthetic. Each modal
+     aliases these to its own semantic names (e.g. --gallery-accent). */
+  --noir-accent: #d4845a;
+  --noir-accent-soft: rgba(212, 132, 90, 0.1);
+  --noir-accent-glow: rgba(212, 132, 90, 0.22);
+  --noir-text: #f0ece8;
+  --noir-muted: rgba(240, 236, 232, 0.52);
+  --noir-faint: rgba(240, 236, 232, 0.3);
+  --noir-border: rgba(220, 175, 130, 0.1);
+  --noir-panel: rgba(255, 255, 255, 0.03);
+  --noir-panel-strong: rgba(255, 255, 255, 0.05);
 }
 
 /* Strict CSS reset for html and body */

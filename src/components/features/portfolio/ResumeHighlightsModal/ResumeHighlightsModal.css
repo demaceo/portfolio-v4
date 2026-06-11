@@ -1,135 +1,106 @@
-/* ===== RESUME HIGHLIGHTS MODAL — WARM NOIR THEME ===== */
+/* ===== RESUME HIGHLIGHTS — WARM NOIR GALLERY GRAMMAR ===== */
 
 .resume-highlights-content {
-  --resume-text: #f0ece8;
-  --resume-muted: rgba(240, 236, 232, 0.52);
-  --resume-border: rgba(220, 175, 130, 0.09);
-  --resume-panel: rgba(255, 255, 255, 0.03);
-  --resume-panel-strong: rgba(255, 255, 255, 0.05);
-  --resume-accent: #d4845a;
+  --resume-accent: var(--noir-accent);
+  --resume-accent-soft: var(--noir-accent-soft);
+  --resume-text: var(--noir-text);
+  --resume-muted: var(--noir-muted);
+  --resume-faint: var(--noir-faint);
+  --resume-border: var(--noir-border);
+  --resume-panel: var(--noir-panel);
+  --resume-panel-strong: var(--noir-panel-strong);
 
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  min-height: 100%;
-  padding: 1rem;
+  flex: 1;
+  min-height: 0;
   color: var(--resume-text);
   font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(212, 132, 90, 0.05), transparent 42%),
-    radial-gradient(circle at 100% 0%, rgba(180, 100, 60, 0.04), transparent 40%),
-    transparent;
 }
 
-/* ── Intro ───────────────────────────────────────────── */
+/* ── Top bar: tabs + byline ───────────────────────────── */
 
-.resume-highlights-intro {
-  border: 1px solid var(--resume-border);
-  border-radius: 0.9rem;
-  background: var(--resume-panel);
-  padding: 0.9rem;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
-  position: relative;
-  overflow: hidden;
+.resume-highlights-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--resume-border);
+  background: rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
 }
-
-.resume-highlights-intro::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(212, 132, 90, 0.28) 50%,
-    transparent 100%);
-}
-
-.resume-highlights-eyebrow {
-  margin: 0;
-  color: var(--resume-accent);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.resume-highlights-intro h2 {
-  margin: 0.35rem 0 0 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  color: var(--resume-text);
-}
-
-.resume-highlights-intro p {
-  margin: 0.52rem 0 0 0;
-  color: var(--resume-muted);
-  font-size: 0.86rem;
-  line-height: 1.46;
-}
-
-/* ── Tabs ────────────────────────────────────────────── */
 
 .resume-highlights-tabs {
   display: flex;
-  align-items: center;
-  gap: 0.3rem;
+  gap: 0.28rem;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--resume-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  width: fit-content;
-  padding: 0.26rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  padding: 0.24rem;
 }
 
 .resume-highlights-tab {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(240, 236, 232, 0.40);
-  font-size: 0.78rem;
+  color: rgba(240, 236, 232, 0.4);
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  padding: 0.38rem 0.8rem;
+  padding: 0.34rem 0.8rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.resume-highlights-tab:hover {
-  color: rgba(240, 236, 232, 0.72);
+.resume-highlights-tab:hover:not(.active) {
+  color: rgba(240, 236, 232, 0.7);
 }
 
 .resume-highlights-tab.active {
-  color: #ffffff;
+  color: #fff;
   background: var(--resume-accent);
-  box-shadow: 0 3px 10px rgba(212, 132, 90, 0.28);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
-/* ── Panel ───────────────────────────────────────────── */
+.resume-highlights-byline {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--resume-faint);
+  white-space: nowrap;
+}
 
-.resume-highlights-panel-wrap {
+/* ── Scrolling body ───────────────────────────────────── */
+
+.resume-highlights-body {
+  flex: 1;
   min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.25rem 1.4rem;
 }
 
 .resume-highlights-panel {
-  border: 1px solid var(--resume-border);
-  border-radius: 0.9rem;
-  background: var(--resume-panel);
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.20);
-  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .resume-highlights-panel-intro {
   margin: 0;
   color: var(--resume-muted);
-  font-size: 0.84rem;
-  line-height: 1.46;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  max-width: 70ch;
 }
 
 /* ── Role groups ─────────────────────────────────────── */
 
 .resume-role-groups {
-  margin-top: 0.62rem;
+  margin-top: 0.85rem;
   display: grid;
   gap: 0.5rem;
 }
@@ -137,13 +108,18 @@
 .resume-role-group {
   border: 1px solid var(--resume-border);
   border-radius: 0.82rem;
-  background: var(--resume-panel-strong);
-  padding: 0.66rem;
-  transition: border-color 0.2s ease;
+  background: var(--resume-panel);
+  padding: 0.72rem 0.8rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .resume-role-group:hover {
-  border-color: rgba(212, 132, 90, 0.16);
+  border-color: rgba(212, 132, 90, 0.18);
+}
+
+.resume-role-group:has(.resume-role-group-trigger[aria-expanded="true"]) {
+  background: var(--resume-panel-strong);
+  border-color: rgba(212, 132, 90, 0.2);
 }
 
 .resume-role-group-trigger {
@@ -162,7 +138,8 @@
 
 .resume-role-group h3 {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--resume-text);
 }
@@ -171,9 +148,9 @@
   min-width: 1.4rem;
   height: 1.4rem;
   border-radius: 999px;
-  border: 1px solid rgba(220, 175, 130, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--resume-muted);
+  border: 1px solid rgba(212, 132, 90, 0.24);
+  background: var(--resume-accent-soft);
+  color: var(--resume-accent);
   display: grid;
   place-items: center;
   font-size: 0.68rem;
@@ -183,22 +160,22 @@
 
 .resume-role-group ul,
 .resume-project-section ul {
-  margin: 0.54rem 0 0 0;
+  margin: 0.7rem 0 0 0;
   padding-left: 1.1rem;
   display: grid;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .resume-role-group li,
 .resume-project-section li {
-  color: var(--resume-muted);
-  line-height: 1.44;
-  font-size: 0.82rem;
+  color: rgba(240, 236, 232, 0.72);
+  line-height: 1.5;
+  font-size: 0.84rem;
 }
 
 .resume-role-group li::marker,
 .resume-project-section li::marker {
-  color: rgba(212, 132, 90, 0.4);
+  color: rgba(212, 132, 90, 0.45);
 }
 
 /* ── Bullet project tags ─────────────────────────────── */
@@ -212,7 +189,7 @@
   color: var(--resume-accent);
   border-radius: 999px;
   padding: 0.1rem 0.44rem;
-  font-size: 0.65rem;
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -221,7 +198,7 @@
 /* ── Project picker ──────────────────────────────────── */
 
 .resume-project-picker {
-  margin-top: 0.62rem;
+  margin-top: 0.85rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.36rem;
@@ -231,15 +208,16 @@
   border: 1px solid rgba(220, 175, 130, 0.14);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
-  color: rgba(240, 236, 232, 0.50);
+  color: rgba(240, 236, 232, 0.5);
   font-size: 0.74rem;
   font-weight: 700;
-  padding: 0.32rem 0.62rem;
+  padding: 0.34rem 0.66rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease,
+    background 0.2s ease;
 }
 
-.resume-project-picker-btn:hover {
+.resume-project-picker-btn:hover:not(.active) {
   border-color: rgba(212, 132, 90, 0.32);
   color: rgba(240, 236, 232, 0.75);
   transform: translateY(-1px);
@@ -249,86 +227,105 @@
   color: #fff;
   border-color: rgba(212, 132, 90, 0.75);
   background: var(--resume-accent);
-  box-shadow: 0 3px 10px rgba(212, 132, 90, 0.26);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
 /* ── Project detail ──────────────────────────────────── */
 
 .resume-project-detail {
-  margin-top: 0.62rem;
+  margin-top: 0.85rem;
   border: 1px solid var(--resume-border);
-  border-radius: 0.84rem;
+  border-radius: 0.9rem;
   background: var(--resume-panel-strong);
-  padding: 0.76rem;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-project-detail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 132, 90, 0.3) 50%,
+    transparent 100%
+  );
 }
 
 .resume-project-detail-header h3 {
   margin: 0;
-  font-size: 0.96rem;
-  letter-spacing: -0.01em;
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--resume-text);
 }
 
 .resume-project-detail-header p {
-  margin: 0.22rem 0 0 0;
+  margin: 0.28rem 0 0 0;
   color: var(--resume-muted);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
 }
 
 .resume-project-section {
-  margin-top: 0.72rem;
+  margin-top: 0.9rem;
 }
 
 .resume-project-section h4 {
   margin: 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.09em;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--resume-accent);
   font-weight: 700;
 }
 
 .resume-project-section pre {
-  margin: 0.44rem 0 0 0;
+  margin: 0.5rem 0 0 0;
   white-space: pre-wrap;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   font-size: 0.72rem;
-  line-height: 1.42;
+  line-height: 1.46;
   color: rgba(240, 236, 232, 0.72);
-  border: 1px solid rgba(220, 175, 130, 0.10);
+  border: 1px solid rgba(220, 175, 130, 0.1);
   border-radius: 0.72rem;
   background: rgba(0, 0, 0, 0.25);
-  padding: 0.62rem;
+  padding: 0.7rem;
 }
 
 /* ── Chip grid ───────────────────────────────────────── */
 
 .resume-chip-grid {
-  margin-top: 0.44rem;
+  margin-top: 0.5rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.32rem;
 }
 
 .resume-chip {
-  border: 1px solid rgba(220, 175, 130, 0.12);
+  border: 1px solid rgba(220, 175, 130, 0.14);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(240, 236, 232, 0.50);
+  background: rgba(220, 175, 130, 0.05);
+  color: rgba(240, 236, 232, 0.62);
   font-size: 0.7rem;
   font-weight: 600;
-  padding: 0.16rem 0.46rem;
+  padding: 0.18rem 0.5rem;
 }
 
 /* ── Patterns table ──────────────────────────────────── */
 
 .resume-patterns-table-wrap {
-  margin-top: 0.62rem;
+  margin-top: 0.85rem;
   overflow-x: auto;
   border: 1px solid var(--resume-border);
   border-radius: 0.82rem;
-  background: var(--resume-panel-strong);
+  background: var(--resume-panel);
 }
 
 .resume-patterns-table-wrap table {
@@ -341,24 +338,33 @@
 .resume-patterns-table-wrap td {
   text-align: left;
   vertical-align: top;
-  padding: 0.56rem 0.64rem;
+  padding: 0.62rem 0.7rem;
   border-bottom: 1px solid rgba(220, 175, 130, 0.08);
   font-size: 0.8rem;
-  line-height: 1.44;
+  line-height: 1.46;
   color: var(--resume-text);
 }
 
-.resume-patterns-table-wrap tr:last-child th,
-.resume-patterns-table-wrap tr:last-child td {
+.resume-patterns-table-wrap tbody tr:last-child td {
   border-bottom: none;
 }
 
+.resume-patterns-table-wrap tbody tr:hover td {
+  background: rgba(212, 132, 90, 0.04);
+}
+
+.resume-patterns-table-wrap td:first-child {
+  font-weight: 700;
+  color: var(--resume-accent);
+}
+
 .resume-patterns-table-wrap th {
-  font-size: 0.7rem;
+  font-size: 0.66rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.1em;
   color: var(--resume-muted);
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* ── Focus states ────────────────────────────────────── */
@@ -368,39 +374,54 @@
 .resume-project-picker-btn:focus-visible {
   outline: 2px solid rgba(212, 132, 90, 0.55);
   outline-offset: 2px;
+  border-radius: 6px;
 }
 
 /* ── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 900px) {
-  .resume-highlights-content {
-    padding: 0.82rem;
+  .resume-highlights-topbar {
+    flex-wrap: wrap;
+    gap: 0.45rem;
   }
 
   .resume-highlights-tabs {
-    width: 100%;
-    justify-content: stretch;
+    flex: 1;
   }
 
   .resume-highlights-tab {
     flex: 1;
     text-align: center;
   }
+
+  .resume-highlights-byline {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
-  .resume-highlights-intro h2 {
-    font-size: 1rem;
+  .resume-highlights-body {
+    padding: 1rem;
   }
 
-  .resume-highlights-intro p,
+  .resume-project-detail-header h3 {
+    font-size: 1.05rem;
+  }
+
   .resume-highlights-panel-intro,
   .resume-role-group li,
   .resume-project-section li {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
   }
 
   .resume-patterns-table-wrap table {
     min-width: 500px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-role-group,
+  .resume-project-picker-btn {
+    transition: none;
   }
 }

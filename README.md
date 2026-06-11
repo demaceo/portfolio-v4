@@ -212,7 +212,6 @@ portfolio-v4/
     │   │   │   └── index.ts          # Feature exports
     │   │   ├── skills/               # Skills and services
     │   │   │   ├── SkillsetModal/    # Mac-styled skills modal
-    │   │   │   ├── ServiceCard/      # Service display cards
     │   │   │   └── index.ts          # Feature exports
     │   │   ├── portfolio/            # Project portfolio
     │   │   │   ├── ProjectCard/      # Individual project cards

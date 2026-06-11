@@ -1,13 +1,13 @@
 /* ===== PROJECTS GALLERY — WARM NOIR MUSEUM AESTHETIC ===== */
 
 .projects-gallery {
-  --gallery-accent: #d4845a;
-  --gallery-accent-soft: rgba(212, 132, 90, 0.12);
-  --gallery-accent-glow: rgba(212, 132, 90, 0.22);
-  --gallery-text: #f0ece8;
-  --gallery-muted: rgba(240, 236, 232, 0.52);
-  --gallery-border: rgba(220, 175, 130, 0.09);
-  --gallery-panel: rgba(255, 255, 255, 0.03);
+  --gallery-accent: var(--noir-accent);
+  --gallery-accent-soft: var(--noir-accent-soft);
+  --gallery-accent-glow: var(--noir-accent-glow);
+  --gallery-text: var(--noir-text);
+  --gallery-muted: var(--noir-muted);
+  --gallery-border: var(--noir-border);
+  --gallery-panel: var(--noir-panel);
 
   display: flex;
   flex-direction: column;
