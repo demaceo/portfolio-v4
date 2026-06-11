@@ -41,6 +41,8 @@ const ContactForm = ({ onClose }: ModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const firstDoorRef = useRef<HTMLButtonElement>(null);
+  const doneButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     // Load Calendly script
@@ -65,16 +67,20 @@ const ContactForm = ({ onClose }: ModalProps) => {
     };
   }, []);
 
-  // Focus the name field when the writing surface opens.
+  // Keep keyboard focus on a sensible target as views swap in/out — the
+  // previously focused control unmounts, so focus would otherwise fall to body.
   useEffect(() => {
-    if (view === "message") {
-      const id = window.setTimeout(() => nameInputRef.current?.focus(), 60);
-      return () => window.clearTimeout(id);
-    }
+    const id = window.setTimeout(() => {
+      if (view === "message") nameInputRef.current?.focus();
+      else if (view === "sent") doneButtonRef.current?.focus();
+      else firstDoorRef.current?.focus();
+    }, 60);
+    return () => window.clearTimeout(id);
   }, [view]);
 
   const goToView = (next: ContactView, dir: 1 | -1) => {
     setDirection(dir);
+    setErrorMessage(null); // drop transient state so it can't resurface on return
     setView(next);
   };
 
@@ -148,6 +154,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
 
               <div className="contact-doors" role="group" aria-label="Ways to reach me">
                 <button
+                  ref={firstDoorRef}
                   type="button"
                   className="contact-door"
                   onClick={() => goToView("message", 1)}
@@ -219,6 +226,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
                 type="button"
                 className="contact-back"
                 onClick={() => goToView("choose", -1)}
+                disabled={isSubmitting}
               >
                 <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" />
                 <span>Back</span>
@@ -318,7 +326,12 @@ const ContactForm = ({ onClose }: ModalProps) => {
                 <button type="button" className="contact-send ghost" onClick={() => goToView("choose", -1)}>
                   Send another
                 </button>
-                <button type="button" className="contact-send" onClick={onClose}>
+                <button
+                  ref={doneButtonRef}
+                  type="button"
+                  className="contact-send"
+                  onClick={onClose}
+                >
                   Done
                 </button>
               </div>

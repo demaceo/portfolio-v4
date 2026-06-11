@@ -256,13 +256,22 @@
 }
 
 .plate-dot {
+  position: relative;
   height: 6px;
   width: 6px;
   border-radius: 999px;
   background: rgba(220, 175, 130, 0.18);
   border: 0;
+  padding: 0;
   cursor: pointer;
   transition: background 0.22s ease, width 0.22s ease;
+}
+
+/* Keep the 6px visual but expand the tap target to ~24x20px for touch. */
+.plate-dot::after {
+  content: "";
+  position: absolute;
+  inset: -9px -7px;
 }
 
 .plate-dot.active {

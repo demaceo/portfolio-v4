@@ -254,6 +254,12 @@
   border-radius: 6px;
 }
 
+.contact-back:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .contact-form-head {
   display: flex;
   flex-direction: column;
