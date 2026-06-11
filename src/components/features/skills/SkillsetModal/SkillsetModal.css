@@ -1,14 +1,14 @@
 /* ===== SKILLSET — WARM NOIR: PLATES + PROFICIENCY WALL ===== */
 
 .skillset {
-  --skill-accent: #d4845a;
-  --skill-accent-soft: rgba(212, 132, 90, 0.10);
-  --skill-accent-glow: rgba(212, 132, 90, 0.22);
-  --skill-text: #f0ece8;
-  --skill-muted: rgba(240, 236, 232, 0.52);
-  --skill-faint: rgba(240, 236, 232, 0.30);
-  --skill-border: rgba(220, 175, 130, 0.10);
-  --skill-panel: rgba(255, 255, 255, 0.03);
+  --skill-accent: var(--noir-accent);
+  --skill-accent-soft: var(--noir-accent-soft);
+  --skill-accent-glow: var(--noir-accent-glow);
+  --skill-text: var(--noir-text);
+  --skill-muted: var(--noir-muted);
+  --skill-faint: var(--noir-faint);
+  --skill-border: var(--noir-border);
+  --skill-panel: var(--noir-panel);
 
   display: flex;
   flex-direction: column;

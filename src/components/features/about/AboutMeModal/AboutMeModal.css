@@ -1,14 +1,14 @@
 /* ===== ABOUT — "THE DOSSIER" / CHAPTERED NARRATIVE ===== */
 
 .about-dossier {
-  --about-accent: #d4845a;
-  --about-accent-soft: rgba(212, 132, 90, 0.10);
-  --about-accent-glow: rgba(212, 132, 90, 0.22);
-  --about-text: #f0ece8;
-  --about-muted: rgba(240, 236, 232, 0.52);
-  --about-faint: rgba(240, 236, 232, 0.30);
-  --about-border: rgba(220, 175, 130, 0.10);
-  --about-panel: rgba(255, 255, 255, 0.03);
+  --about-accent: var(--noir-accent);
+  --about-accent-soft: var(--noir-accent-soft);
+  --about-accent-glow: var(--noir-accent-glow);
+  --about-text: var(--noir-text);
+  --about-muted: var(--noir-muted);
+  --about-faint: var(--noir-faint);
+  --about-border: var(--noir-border);
+  --about-panel: var(--noir-panel);
 
   display: grid;
   grid-template-columns: 210px 1fr;
