@@ -1758,3 +1758,54 @@
   /* Firefox */
   scrollbar-color: #94a3b8 rgba(243, 244, 246, 0.5);
 }
+
+/* ==========================================================================
+   Phone — keep dropdowns inside the viewport.
+   On desktop each dropdown is anchored to its menu item (which sits at an
+   arbitrary x), so on a narrow screen a left-aligned dropdown overflows the
+   right edge. We neutralize the item as the positioning context so the
+   dropdown anchors to the full-width .menu-bar instead, then pin it edge to
+   edge below the bar. This needs no JS and no per-item coordinates.
+   ========================================================================== */
+@media (max-width: 600px) {
+  .menu-bar {
+    padding: 6px 10px;
+  }
+
+  .menu-item {
+    /* Keep horizontal footprint compact so all items fit a narrow bar,
+       but give a full-height (>=44px) tap target — .menu-item is a span,
+       so use inline-flex to make min-height take effect. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 10px;
+  }
+
+  /* Make .menu-bar (position: relative) the dropdown's containing block. */
+  .menu-item-wrapper {
+    position: static;
+  }
+
+  .menu-dropdown {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  /* The little arrow points at the item; meaningless once detached. */
+  .menu-dropdown::before {
+    display: none;
+  }
+
+  /* Inner lists must not force the dropdown wider than the screen. */
+  .menu-dropdown-pills,
+  .menu-dropdown-services,
+  .menu-dropdown-projects,
+  .menu-dropdown-project-item {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
