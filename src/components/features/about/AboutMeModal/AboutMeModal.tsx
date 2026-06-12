@@ -221,6 +221,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose }) => {
       onClose={onClose}
       title="About"
       size="lg"
+      variant="light"
       titleId="about-title"
       closeAriaLabel="Close about modal"
     >

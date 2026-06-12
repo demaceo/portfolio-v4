@@ -145,6 +145,7 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
         onClose={onClose}
         title="Projects"
         size="lg"
+        variant="light"
         titleId="projects-title"
         closeAriaLabel="Close projects modal"
       >

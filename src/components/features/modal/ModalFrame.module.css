@@ -230,3 +230,63 @@
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Light variant — re-skins the shared shell to the light desktop palette.
+   Opt in via <ModalFrame variant="light">. Content CSS supplies its own
+   light colors; this only handles the overlay scrim and the window chrome.
+   ========================================================================== */
+.overlay.light {
+  background: linear-gradient(135deg,
+    rgba(40, 36, 33, 0.42) 0%,
+    rgba(40, 36, 33, 0.34) 100%);
+}
+
+.frame.light {
+  border-color: var(--light-border);
+  background: var(--light-surface);
+  box-shadow:
+    0 36px 90px rgba(22, 20, 18, 0.26),
+    0 10px 28px rgba(22, 20, 18, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.frame.light .titleBar {
+  border-bottom: 1px solid var(--light-border);
+  background: linear-gradient(180deg, #f8fafc 0%, #eef1f5 100%);
+}
+
+.frame.light .titleBar::before {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--light-accent-soft) 25%,
+    var(--light-accent-line) 50%,
+    var(--light-accent-soft) 75%,
+    transparent 100%);
+}
+
+.frame.light .windowTitle {
+  color: rgba(43, 42, 40, 0.55);
+}
+
+.frame.light .closeButton {
+  border-color: var(--light-border);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.frame.light .closeButton::after {
+  color: rgba(43, 42, 40, 0.5);
+}
+
+.frame.light .closeButton:hover {
+  background: var(--light-accent-soft);
+  border-color: var(--light-accent-line);
+}
+
+.frame.light .closeButton:hover::after {
+  color: var(--light-accent);
+}
+
+.frame.light .closeButton:focus-visible {
+  outline-color: var(--light-accent);
+}

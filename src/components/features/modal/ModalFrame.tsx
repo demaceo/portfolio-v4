@@ -20,16 +20,18 @@ const ModalFrame: React.FC<ModalFrameProps> = ({
   headerActions,
   closeAriaLabel,
   titleId,
+  variant = "noir",
 }) => {
   const generatedId = useId().replace(/:/g, "");
   const resolvedTitleId = titleId ?? `modal-title-${generatedId}`;
+  const variantClass = variant === "light" ? styles.light : "";
 
   return (
     <ModalShell
       onClose={onClose}
       titleId={resolvedTitleId}
-      overlayClassName={styles.overlay}
-      dialogClassName={`${styles.frame} ${sizeClassMap[size]}`}
+      overlayClassName={`${styles.overlay} ${variantClass}`}
+      dialogClassName={`${styles.frame} ${sizeClassMap[size]} ${variantClass}`}
     >
       <div className={styles.titleBar}>
         <div className={styles.windowControls}>

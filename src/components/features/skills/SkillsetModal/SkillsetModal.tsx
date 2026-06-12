@@ -126,6 +126,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
       onClose={onClose}
       title="Skillset"
       size="lg"
+      variant="light"
       titleId="skillset-title"
       closeAriaLabel="Close skillset modal"
     >

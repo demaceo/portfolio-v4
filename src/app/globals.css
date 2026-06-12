@@ -31,6 +31,22 @@
   --noir-border: rgba(220, 175, 130, 0.1);
   --noir-panel: rgba(255, 255, 255, 0.03);
   --noir-panel-strong: rgba(255, 255, 255, 0.05);
+
+  /* ===== Light modal design tokens (Phase 3 migration target) =====
+     Mirror of the noir tokens for modals re-skinned to the light desktop
+     palette. A modal opts in with <ModalFrame variant="light"> for the
+     shell; its content CSS aliases these to its own semantic names. */
+  --light-accent: #b65f38;
+  --light-accent-soft: rgba(182, 95, 56, 0.1);
+  --light-accent-line: rgba(182, 95, 56, 0.3);
+  --light-accent-glow: rgba(182, 95, 56, 0.2);
+  --light-text: #2b2a28;
+  --light-muted: #585c63;
+  --light-faint: #888d95;
+  --light-border: rgba(43, 42, 40, 0.14);
+  --light-panel: #f4f5f7;
+  --light-panel-strong: #eaecef;
+  --light-surface: #ffffff;
 }
 
 /* Strict CSS reset for html and body */
