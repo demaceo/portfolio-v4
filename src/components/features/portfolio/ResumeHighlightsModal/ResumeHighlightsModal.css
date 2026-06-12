@@ -1,14 +1,17 @@
-/* ===== RESUME HIGHLIGHTS — WARM NOIR GALLERY GRAMMAR ===== */
+/* ===== RESUME HIGHLIGHTS — LIGHT DESKTOP GALLERY GRAMMAR ===== */
 
 .resume-highlights-content {
-  --resume-accent: var(--noir-accent);
-  --resume-accent-soft: var(--noir-accent-soft);
-  --resume-text: var(--noir-text);
-  --resume-muted: var(--noir-muted);
-  --resume-faint: var(--noir-faint);
-  --resume-border: var(--noir-border);
-  --resume-panel: var(--noir-panel);
-  --resume-panel-strong: var(--noir-panel-strong);
+  --resume-accent: var(--light-accent);
+  --resume-accent-soft: var(--light-accent-soft);
+  --resume-accent-line: var(--light-accent-line);
+  --resume-accent-glow: var(--light-accent-glow);
+  --resume-text: var(--light-text);
+  --resume-muted: var(--light-muted);
+  --resume-faint: var(--light-faint);
+  --resume-border: var(--light-border);
+  --resume-panel: var(--light-panel);
+  --resume-panel-strong: var(--light-panel-strong);
+  --resume-surface: var(--light-surface);
 
   display: flex;
   flex-direction: column;
@@ -27,14 +30,14 @@
   gap: 0.75rem;
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--resume-border);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--resume-panel);
   flex-shrink: 0;
 }
 
 .resume-highlights-tabs {
   display: flex;
   gap: 0.28rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--resume-surface);
   border: 1px solid var(--resume-border);
   border-radius: 999px;
   padding: 0.24rem;
@@ -44,7 +47,7 @@
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(240, 236, 232, 0.4);
+  color: var(--resume-faint);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -55,13 +58,13 @@
 }
 
 .resume-highlights-tab:hover:not(.active) {
-  color: rgba(240, 236, 232, 0.7);
+  color: var(--resume-text);
 }
 
 .resume-highlights-tab.active {
   color: #fff;
   background: var(--resume-accent);
-  box-shadow: 0 2px 10px var(--noir-accent-glow);
+  box-shadow: 0 2px 10px var(--resume-accent-glow);
 }
 
 .resume-highlights-byline {
@@ -114,12 +117,12 @@
 }
 
 .resume-role-group:hover {
-  border-color: rgba(212, 132, 90, 0.18);
+  border-color: var(--resume-accent-line);
 }
 
 .resume-role-group:has(.resume-role-group-trigger[aria-expanded="true"]) {
   background: var(--resume-panel-strong);
-  border-color: rgba(212, 132, 90, 0.2);
+  border-color: var(--resume-accent-line);
 }
 
 .resume-role-group-trigger {
@@ -148,7 +151,7 @@
   min-width: 1.4rem;
   height: 1.4rem;
   border-radius: 999px;
-  border: 1px solid rgba(212, 132, 90, 0.24);
+  border: 1px solid var(--resume-accent-line);
   background: var(--resume-accent-soft);
   color: var(--resume-accent);
   display: grid;
@@ -168,14 +171,14 @@
 
 .resume-role-group li,
 .resume-project-section li {
-  color: rgba(240, 236, 232, 0.72);
+  color: var(--resume-muted);
   line-height: 1.5;
   font-size: 0.84rem;
 }
 
 .resume-role-group li::marker,
 .resume-project-section li::marker {
-  color: rgba(212, 132, 90, 0.45);
+  color: var(--resume-accent);
 }
 
 /* ── Bullet project tags ─────────────────────────────── */
@@ -184,8 +187,8 @@
   display: inline-block;
   margin-right: 0.4rem;
   margin-bottom: 0.16rem;
-  border: 1px solid rgba(212, 132, 90, 0.24);
-  background: rgba(212, 132, 90, 0.09);
+  border: 1px solid var(--resume-accent-line);
+  background: var(--resume-accent-soft);
   color: var(--resume-accent);
   border-radius: 999px;
   padding: 0.1rem 0.44rem;
@@ -205,10 +208,10 @@
 }
 
 .resume-project-picker-btn {
-  border: 1px solid rgba(220, 175, 130, 0.14);
+  border: 1px solid var(--resume-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(240, 236, 232, 0.5);
+  background: var(--resume-surface);
+  color: var(--resume-muted);
   font-size: 0.74rem;
   font-weight: 700;
   padding: 0.34rem 0.66rem;
@@ -218,16 +221,16 @@
 }
 
 .resume-project-picker-btn:hover:not(.active) {
-  border-color: rgba(212, 132, 90, 0.32);
-  color: rgba(240, 236, 232, 0.75);
+  border-color: var(--resume-accent-line);
+  color: var(--resume-text);
   transform: translateY(-1px);
 }
 
 .resume-project-picker-btn.active {
   color: #fff;
-  border-color: rgba(212, 132, 90, 0.75);
+  border-color: var(--resume-accent);
   background: var(--resume-accent);
-  box-shadow: 0 2px 10px var(--noir-accent-glow);
+  box-shadow: 0 2px 10px var(--resume-accent-glow);
 }
 
 /* ── Project detail ──────────────────────────────────── */
@@ -252,7 +255,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(212, 132, 90, 0.3) 50%,
+    var(--resume-accent-line) 50%,
     transparent 100%
   );
 }
@@ -292,10 +295,10 @@
     "Liberation Mono", "Courier New", monospace;
   font-size: 0.72rem;
   line-height: 1.46;
-  color: rgba(240, 236, 232, 0.72);
-  border: 1px solid rgba(220, 175, 130, 0.1);
+  color: var(--resume-muted);
+  border: 1px solid var(--resume-border);
   border-radius: 0.72rem;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--resume-surface);
   padding: 0.7rem;
 }
 
@@ -309,10 +312,10 @@
 }
 
 .resume-chip {
-  border: 1px solid rgba(220, 175, 130, 0.14);
+  border: 1px solid var(--resume-border);
   border-radius: 999px;
-  background: rgba(220, 175, 130, 0.05);
-  color: rgba(240, 236, 232, 0.62);
+  background: var(--resume-panel);
+  color: var(--resume-muted);
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.18rem 0.5rem;
@@ -339,7 +342,7 @@
   text-align: left;
   vertical-align: top;
   padding: 0.62rem 0.7rem;
-  border-bottom: 1px solid rgba(220, 175, 130, 0.08);
+  border-bottom: 1px solid var(--resume-border);
   font-size: 0.8rem;
   line-height: 1.46;
   color: var(--resume-text);
@@ -350,7 +353,7 @@
 }
 
 .resume-patterns-table-wrap tbody tr:hover td {
-  background: rgba(212, 132, 90, 0.04);
+  background: var(--resume-accent-soft);
 }
 
 .resume-patterns-table-wrap td:first-child {
@@ -364,7 +367,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--resume-muted);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--resume-panel-strong);
 }
 
 /* ── Focus states ────────────────────────────────────── */
@@ -372,7 +375,7 @@
 .resume-highlights-tab:focus-visible,
 .resume-role-group-trigger:focus-visible,
 .resume-project-picker-btn:focus-visible {
-  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline: 2px solid var(--resume-accent);
   outline-offset: 2px;
   border-radius: 6px;
 }

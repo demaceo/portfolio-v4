@@ -59,6 +59,8 @@ export interface ModalProps {
 
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 
+export type ModalVariant = "noir" | "light";
+
 export interface ModalShellProps {
     onClose: () => void;
     children: ReactNode;
@@ -75,6 +77,8 @@ export interface ModalFrameProps {
     headerActions?: ReactNode;
     closeAriaLabel?: string;
     titleId?: string;
+    /** Visual theme of the shared shell. Defaults to "noir". */
+    variant?: ModalVariant;
 }
 
 export interface ModalState {
