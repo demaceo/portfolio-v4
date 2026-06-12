@@ -1,14 +1,14 @@
 /* ===== SKILLSET — WARM NOIR: PLATES + PROFICIENCY WALL ===== */
 
 .skillset {
-  --skill-accent: var(--noir-accent);
-  --skill-accent-soft: var(--noir-accent-soft);
-  --skill-accent-glow: var(--noir-accent-glow);
-  --skill-text: var(--noir-text);
-  --skill-muted: var(--noir-muted);
-  --skill-faint: var(--noir-faint);
-  --skill-border: var(--noir-border);
-  --skill-panel: var(--noir-panel);
+  --skill-accent: var(--light-accent);
+  --skill-accent-soft: var(--light-accent-soft);
+  --skill-accent-glow: var(--light-accent-glow);
+  --skill-text: var(--light-text);
+  --skill-muted: var(--light-muted);
+  --skill-faint: var(--light-faint);
+  --skill-border: var(--light-border);
+  --skill-panel: var(--light-panel);
 
   display: flex;
   flex-direction: column;
@@ -27,14 +27,14 @@
   gap: 0.75rem;
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--skill-border);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--skill-panel);
   flex-shrink: 0;
 }
 
 .skill-tabs {
   display: flex;
   gap: 0.28rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--skill-panel);
   border: 1px solid var(--skill-border);
   border-radius: 999px;
   padding: 0.24rem;
@@ -44,7 +44,7 @@
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(240, 236, 232, 0.4);
+  color: rgba(43, 42, 40, 0.4);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -60,7 +60,7 @@
 }
 
 .skill-tab:hover:not(.active) {
-  color: rgba(240, 236, 232, 0.7);
+  color: rgba(43, 42, 40, 0.7);
 }
 
 .skill-tab:focus-visible,
@@ -69,7 +69,7 @@
 .wall-chip:focus-visible,
 .wall-search input:focus-visible,
 .skill-studio-byline:focus-visible {
-  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline: 2px solid rgba(182, 95, 56, 0.55);
   outline-offset: 2px;
 }
 
@@ -91,13 +91,13 @@
 
 .skill-studio-byline:hover {
   color: var(--skill-accent);
-  border-color: rgba(212, 132, 90, 0.28);
+  border-color: rgba(182, 95, 56, 0.28);
   background: var(--skill-accent-soft);
 }
 
 .skill-studio-logo {
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--skill-panel);
 }
 
 /* ── Services: capability plates ──────────────────────── */
@@ -139,8 +139,8 @@
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 45%,
-    rgba(212, 132, 90, 0.18) 0%,
-    rgba(212, 132, 90, 0.05) 55%,
+    rgba(182, 95, 56, 0.18) 0%,
+    rgba(182, 95, 56, 0.05) 55%,
     transparent 72%
   );
   margin-bottom: 0.2rem;
@@ -151,14 +151,14 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(212, 132, 90, 0.2);
+  border: 1px solid rgba(182, 95, 56, 0.2);
 }
 
 .plate-icon {
   width: 72px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 8px 24px rgba(212, 132, 90, 0.28));
+  filter: drop-shadow(0 8px 24px rgba(182, 95, 56, 0.28));
 }
 
 .plate-counter {
@@ -169,16 +169,16 @@
 }
 
 .counter-current {
-  color: rgba(212, 132, 90, 0.75);
+  color: rgba(182, 95, 56, 0.75);
 }
 
 .counter-sep {
-  color: rgba(240, 236, 232, 0.18);
+  color: rgba(43, 42, 40, 0.18);
   margin: 0 0.15em;
 }
 
 .counter-total {
-  color: rgba(240, 236, 232, 0.25);
+  color: rgba(43, 42, 40, 0.25);
 }
 
 .plate-title {
@@ -217,7 +217,7 @@
   gap: 0.85rem;
   padding: 0.6rem 1rem;
   border-top: 1px solid var(--skill-border);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--skill-panel);
   flex-shrink: 0;
 }
 
@@ -225,9 +225,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(220, 175, 130, 0.14);
-  color: rgba(240, 236, 232, 0.45);
+  background: var(--skill-panel);
+  border: 1px solid rgba(43, 42, 40, 0.14);
+  color: rgba(43, 42, 40, 0.45);
   font-size: 0.72rem;
   cursor: pointer;
   display: flex;
@@ -239,8 +239,8 @@
 }
 
 .plate-arrow:hover {
-  background: rgba(212, 132, 90, 0.14);
-  border-color: rgba(212, 132, 90, 0.38);
+  background: rgba(182, 95, 56, 0.14);
+  border-color: rgba(182, 95, 56, 0.38);
   color: var(--skill-accent);
   transform: scale(1.05);
 }
@@ -260,7 +260,7 @@
   height: 6px;
   width: 6px;
   border-radius: 999px;
-  background: rgba(220, 175, 130, 0.18);
+  background: rgba(43, 42, 40, 0.18);
   border: 0;
   padding: 0;
   cursor: pointer;
@@ -280,7 +280,7 @@
 }
 
 .plate-dot:hover:not(.active) {
-  background: rgba(220, 175, 130, 0.38);
+  background: rgba(43, 42, 40, 0.38);
 }
 
 /* ── Toolbelt: proficiency wall ───────────────────────── */
@@ -298,7 +298,7 @@
   gap: 0.6rem;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--skill-border);
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--skill-panel);
   flex-shrink: 0;
 }
 
@@ -306,16 +306,16 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid rgba(220, 175, 130, 0.14);
+  border: 1px solid rgba(43, 42, 40, 0.14);
   border-radius: 0.66rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--skill-panel);
   padding: 0.5rem 0.7rem;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .wall-search:focus-within {
-  border-color: rgba(212, 132, 90, 0.42);
-  background: rgba(212, 132, 90, 0.05);
+  border-color: rgba(182, 95, 56, 0.42);
+  background: rgba(182, 95, 56, 0.05);
 }
 
 .wall-search-icon {
@@ -336,7 +336,7 @@
 }
 
 .wall-search input::placeholder {
-  color: rgba(240, 236, 232, 0.28);
+  color: rgba(43, 42, 40, 0.28);
 }
 
 .wall-chips {
@@ -346,10 +346,10 @@
 }
 
 .wall-chip {
-  border: 1px solid rgba(220, 175, 130, 0.13);
+  border: 1px solid rgba(43, 42, 40, 0.13);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(240, 236, 232, 0.45);
+  background: var(--skill-panel);
+  color: rgba(43, 42, 40, 0.45);
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.3rem 0.62rem;
@@ -358,12 +358,12 @@
 }
 
 .wall-chip:hover:not(.active) {
-  border-color: rgba(212, 132, 90, 0.32);
-  color: rgba(240, 236, 232, 0.75);
+  border-color: rgba(182, 95, 56, 0.32);
+  color: rgba(43, 42, 40, 0.75);
 }
 
 .wall-chip.active {
-  border-color: rgba(212, 132, 90, 0.55);
+  border-color: rgba(182, 95, 56, 0.55);
   color: #fff;
   background: var(--skill-accent);
   box-shadow: 0 2px 8px var(--skill-accent-glow);
@@ -401,7 +401,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(220, 175, 130, 0.1);
+  background: rgba(43, 42, 40, 0.1);
 }
 
 .wall-group-count {
@@ -409,13 +409,13 @@
   height: 1.3rem;
   padding: 0 0.35rem;
   border-radius: 999px;
-  border: 1px solid rgba(220, 175, 130, 0.14);
+  border: 1px solid rgba(43, 42, 40, 0.14);
   display: grid;
   place-items: center;
   font-size: 0.66rem;
   font-weight: 700;
   color: var(--skill-faint);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--skill-panel);
 }
 
 .wall-grid {
@@ -442,14 +442,14 @@
 
 .wall-tile:hover {
   transform: translateY(-2px);
-  border-color: rgba(212, 132, 90, 0.3);
-  background: rgba(212, 132, 90, 0.06);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  border-color: rgba(182, 95, 56, 0.3);
+  background: rgba(182, 95, 56, 0.06);
+  box-shadow: 0 6px 18px rgba(22, 20, 18, 0.12);
 }
 
 .wall-tile-icon {
   font-size: 1.35rem;
-  color: rgba(212, 132, 90, 0.62);
+  color: rgba(182, 95, 56, 0.62);
   transition: color 0.2s ease;
 }
 
@@ -461,13 +461,13 @@
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: rgba(240, 236, 232, 0.62);
+  color: rgba(43, 42, 40, 0.62);
   line-height: 1.2;
 }
 
 .wall-tile.signature {
-  border-color: rgba(212, 132, 90, 0.28);
-  background: rgba(212, 132, 90, 0.07);
+  border-color: rgba(182, 95, 56, 0.28);
+  background: rgba(182, 95, 56, 0.07);
 }
 
 .wall-tile.signature .wall-tile-icon {
@@ -481,9 +481,9 @@
 /* ── Empty state ──────────────────────────────────────── */
 
 .wall-empty {
-  border: 1px dashed rgba(220, 175, 130, 0.18);
+  border: 1px dashed rgba(43, 42, 40, 0.18);
   border-radius: 0.88rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--skill-panel);
   padding: 1.6rem;
   text-align: center;
 }

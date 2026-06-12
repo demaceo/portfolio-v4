@@ -1,14 +1,14 @@
 /* ===== ABOUT — "THE DOSSIER" / CHAPTERED NARRATIVE ===== */
 
 .about-dossier {
-  --about-accent: var(--noir-accent);
-  --about-accent-soft: var(--noir-accent-soft);
-  --about-accent-glow: var(--noir-accent-glow);
-  --about-text: var(--noir-text);
-  --about-muted: var(--noir-muted);
-  --about-faint: var(--noir-faint);
-  --about-border: var(--noir-border);
-  --about-panel: var(--noir-panel);
+  --about-accent: var(--light-accent);
+  --about-accent-soft: var(--light-accent-soft);
+  --about-accent-glow: var(--light-accent-glow);
+  --about-text: var(--light-text);
+  --about-muted: var(--light-muted);
+  --about-faint: var(--light-faint);
+  --about-border: var(--light-border);
+  --about-panel: var(--light-panel);
 
   display: grid;
   grid-template-columns: 210px 1fr;
@@ -26,7 +26,7 @@
   gap: 0.2rem;
   padding: 1rem 0.7rem;
   border-right: 1px solid var(--about-border);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--about-panel);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -61,8 +61,8 @@
 }
 
 .about-rail-item:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(240, 236, 232, 0.78);
+  background: var(--about-panel);
+  color: rgba(43, 42, 40, 0.78);
 }
 
 .about-rail-item.active {
@@ -96,7 +96,7 @@
 .about-rail-item:focus-visible,
 .about-prog-arrow:focus-visible,
 .about-pill:focus-visible {
-  outline: 2px solid rgba(212, 132, 90, 0.55);
+  outline: 2px solid rgba(182, 95, 56, 0.55);
   outline-offset: 2px;
 }
 
@@ -167,9 +167,9 @@
 }
 
 .about-highlight-card:hover {
-  border-color: rgba(212, 132, 90, 0.24);
+  border-color: rgba(182, 95, 56, 0.24);
   transform: translateY(-2px);
-  background: rgba(212, 132, 90, 0.05);
+  background: rgba(182, 95, 56, 0.05);
 }
 
 .about-highlight-card h3 {
@@ -204,7 +204,7 @@
   padding-left: 1.5rem;
   font-size: 0.92rem;
   line-height: 1.58;
-  color: rgba(240, 236, 232, 0.72);
+  color: rgba(43, 42, 40, 0.72);
 }
 
 .about-points li::before {
@@ -231,10 +231,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  border: 1px solid rgba(220, 175, 130, 0.14);
+  border: 1px solid rgba(43, 42, 40, 0.14);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(240, 236, 232, 0.68);
+  background: var(--about-panel);
+  color: rgba(43, 42, 40, 0.68);
   font-family: inherit;
   font-size: 0.8rem;
   font-weight: 600;
@@ -245,18 +245,18 @@
 }
 
 .about-pill.clickable {
-  border-color: rgba(212, 132, 90, 0.24);
+  border-color: rgba(182, 95, 56, 0.24);
 }
 
 .about-pill:hover {
-  border-color: rgba(212, 132, 90, 0.4);
-  color: rgba(240, 236, 232, 0.9);
+  border-color: rgba(182, 95, 56, 0.4);
+  color: rgba(43, 42, 40, 0.9);
   transform: translateY(-1px);
 }
 
 .about-pill.active {
   color: #fff;
-  border-color: rgba(212, 132, 90, 0.8);
+  border-color: rgba(182, 95, 56, 0.8);
   background: var(--about-accent);
   box-shadow: 0 3px 12px var(--about-accent-glow);
 }
@@ -268,13 +268,13 @@
 
 .about-strength-detail {
   margin-top: 0.5rem;
-  border: 1px solid rgba(212, 132, 90, 0.2);
+  border: 1px solid rgba(182, 95, 56, 0.2);
   border-radius: 0.78rem;
   padding: 0.75rem 0.85rem;
   background:
-    radial-gradient(circle at 0% 0%, rgba(212, 132, 90, 0.08), transparent 60%),
+    radial-gradient(circle at 0% 0%, rgba(182, 95, 56, 0.08), transparent 60%),
     rgba(255, 255, 255, 0.03);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 8px 24px rgba(22, 20, 18, 0.12);
 }
 
 .about-strength-detail-title {
@@ -307,7 +307,7 @@
   gap: 0.85rem;
   padding: 0.6rem 1rem;
   border-top: 1px solid var(--about-border);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--about-panel);
   flex-shrink: 0;
 }
 
@@ -315,9 +315,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(220, 175, 130, 0.14);
-  color: rgba(240, 236, 232, 0.45);
+  background: var(--about-panel);
+  border: 1px solid rgba(43, 42, 40, 0.14);
+  color: rgba(43, 42, 40, 0.45);
   font-size: 0.72rem;
   cursor: pointer;
   display: flex;
@@ -329,8 +329,8 @@
 }
 
 .about-prog-arrow:hover:not(:disabled) {
-  background: rgba(212, 132, 90, 0.14);
-  border-color: rgba(212, 132, 90, 0.38);
+  background: rgba(182, 95, 56, 0.14);
+  border-color: rgba(182, 95, 56, 0.38);
   color: var(--about-accent);
   transform: scale(1.05);
 }
@@ -352,16 +352,16 @@
 }
 
 .about-prog-current {
-  color: rgba(212, 132, 90, 0.75);
+  color: rgba(182, 95, 56, 0.75);
 }
 
 .about-prog-sep {
-  color: rgba(240, 236, 232, 0.18);
+  color: rgba(43, 42, 40, 0.18);
   margin: 0 0.15em;
 }
 
 .about-prog-total {
-  color: rgba(240, 236, 232, 0.25);
+  color: rgba(43, 42, 40, 0.25);
 }
 
 /* ── Responsive ───────────────────────────────────────── */
