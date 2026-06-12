@@ -131,12 +131,19 @@
   background: transparent;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.6rem;
   cursor: pointer;
   padding: 0;
   text-align: left;
   color: var(--resume-text);
+}
+
+.resume-role-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  min-width: 0;
 }
 
 .resume-role-group h3 {
@@ -145,6 +152,45 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--resume-text);
+}
+
+/* One-line summary shown while the role is collapsed (summary-first view). */
+.resume-role-summary {
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--resume-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.resume-role-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Chevron points down when collapsed, flips up when expanded. */
+.resume-role-chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--resume-faint);
+  border-bottom: 2px solid var(--resume-faint);
+  transform: rotate(45deg);
+  margin-top: 2px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.resume-role-group-trigger:hover .resume-role-chevron {
+  border-color: var(--resume-accent);
+}
+
+.resume-role-group-trigger[aria-expanded="true"] .resume-role-chevron {
+  transform: rotate(225deg);
+  margin-top: 5px;
 }
 
 .resume-role-count {

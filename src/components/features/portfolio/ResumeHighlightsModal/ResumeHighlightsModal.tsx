@@ -39,9 +39,9 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] =
     useState<ResumeHighlightsTab>("role-bullets");
-  const [expandedRole, setExpandedRole] = useState<string>(
-    resumeRoleBullets[0]?.role ?? "Senior Software Engineer"
-  );
+  // Start collapsed so every role reads as a scannable one-line summary;
+  // expanding a role reveals its full bullet list.
+  const [expandedRole, setExpandedRole] = useState<string>("");
   const [selectedProjectKey, setSelectedProjectKey] =
     useState<ResumeProjectKey>(() => resolveProjectKey(initialProjectKey));
 
@@ -127,7 +127,9 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
               </p>
 
               <div className="resume-role-groups">
-                {resumeRoleBullets.map((group) => (
+                {resumeRoleBullets.map((group) => {
+                  const isExpanded = expandedRole === group.role;
+                  return (
                   <article key={group.role} className="resume-role-group">
                     <button
                       type="button"
@@ -137,15 +139,28 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
                           current === group.role ? "" : group.role
                         )
                       }
-                      aria-expanded={expandedRole === group.role}
+                      aria-expanded={isExpanded}
                       aria-controls={`role-panel-${toDomId(group.role)}`}
                     >
-                      <h3>{group.role}</h3>
-                      <span className="resume-role-count">
-                        {group.bullets.length}
+                      <span className="resume-role-heading">
+                        <h3>{group.role}</h3>
+                        {!isExpanded && (
+                          <span className="resume-role-summary">
+                            {group.summary}
+                          </span>
+                        )}
+                      </span>
+                      <span className="resume-role-meta">
+                        <span className="resume-role-count">
+                          {group.bullets.length}
+                        </span>
+                        <span
+                          className="resume-role-chevron"
+                          aria-hidden="true"
+                        />
                       </span>
                     </button>
-                    {expandedRole === group.role && (
+                    {isExpanded && (
                       <ul id={`role-panel-${toDomId(group.role)}`}>
                         {group.bullets.map((bullet, index) => (
                           <li key={`${group.role}-${index}`}>
@@ -160,7 +175,8 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
                       </ul>
                     )}
                   </article>
-                ))}
+                  );
+                })}
               </div>
             </motion.section>
           )}
