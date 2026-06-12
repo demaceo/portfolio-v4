@@ -230,25 +230,3 @@
     animation: none;
   }
 }
-
-:global(html.touch-performance-mode) .overlay {
-  background: rgba(8, 5, 3, 0.80);
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  animation: none;
-}
-
-:global(html.touch-performance-mode) .frame {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  animation: none;
-}
-
-:global(html.touch-performance-mode) .titleBar {
-  background: rgba(9, 7, 5, 0.99);
-}
-
-:global(html.touch-performance-mode) .frame :where(*) {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}

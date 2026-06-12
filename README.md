@@ -187,10 +187,6 @@ portfolio-v4/
     │   ├── not-found.tsx             # 404 page
     │   │
     │   ├── (routes)/                 # Route groups
-    │   │   ├── desktop/              # Desktop view route
-    │   │   │   └── page.tsx
-    │   │   ├── mobile/               # Mobile view route
-    │   │   │   └── page.tsx
     │   │   └── project/              # Dynamic project routes
     │   │       └── [id]/
     │   │           └── page.tsx
@@ -225,8 +221,7 @@ portfolio-v4/
     │   │       └── index.ts          # Feature exports
     │   │
     │   ├── layout/                   # Layout components
-    │   │   ├── DesktopLayout/        # Desktop-specific layout
-    │   │   ├── MobileLayout/         # Mobile-specific layout
+    │   │   ├── LandingPage/          # Single responsive landing layout
     │   │   └── index.ts              # Layout exports
     │   │
     │   ├── ui/                       # Reusable UI components

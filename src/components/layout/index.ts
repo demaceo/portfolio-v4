@@ -1,11 +1,8 @@
 // Layout components barrel exports
-export { default as DesktopLayout } from './DesktopLayout/DesktopLayout';
-export { default as MobileLayout } from './MobileLayout/MobileLayout';
-export { default as ResponsiveLayout } from './ResponsiveLayout/ResponsiveLayout';
+export { default as LandingPage } from './LandingPage/LandingPage';
 
-// DesktopLayout components
-export * from './DesktopLayout/components';
+// LandingPage subcomponents
+export * from './LandingPage/components';
 
 // Re-export types if needed
-export type * from './DesktopLayout/DesktopLayout';
-export type * from './MobileLayout/MobileLayout';
+export type * from './LandingPage/LandingPage';
