@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -43,18 +43,20 @@ const isGifSource = (source?: string) => {
   return /\.gif($|\?)/i.test(source);
 };
 
-const slideVariants = {
+const slideVariants: Variants = {
   enter: (dir: number) => ({
     opacity: 0,
-    x: dir > 0 ? 56 : -56,
+    x: dir > 0 ? 40 : -40,
   }),
   center: {
     opacity: 1,
     x: 0,
+    transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
   },
   exit: (dir: number) => ({
     opacity: 0,
-    x: dir > 0 ? -56 : 56,
+    x: dir > 0 ? -28 : 28,
+    transition: { duration: 0.16, ease: "easeIn" },
   }),
 };
 
@@ -193,7 +195,6 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="gallery-card"
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
@@ -313,15 +314,18 @@ const ProjectsModal: React.FC<ModalProps> = ({ onClose }) => {
         </div>
       </ModalFrame>
 
-      {showResumeHighlights && (
-        <ResumeHighlightsModal
-          onClose={() => {
-            setShowResumeHighlights(false);
-            setResumeHighlightsProjectKey(undefined);
-          }}
-          initialProjectKey={resumeHighlightsProjectKey}
-        />
-      )}
+      <AnimatePresence>
+        {showResumeHighlights && (
+          <ResumeHighlightsModal
+            key="resume-highlights"
+            onClose={() => {
+              setShowResumeHighlights(false);
+              setResumeHighlightsProjectKey(undefined);
+            }}
+            initialProjectKey={resumeHighlightsProjectKey}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
