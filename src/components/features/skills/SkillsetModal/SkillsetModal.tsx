@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   faChevronLeft,
   faChevronRight,
@@ -40,10 +40,18 @@ const serviceOutcomes: Record<string, string> = {
 // Tools shown larger as the "signature stack" rail.
 const signatureStack = ["React", "TypeScript", "Next.js", "Node.js", "AWS"];
 
-const plateVariants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 56 : -56 }),
-  center: { opacity: 1, x: 0 },
-  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -56 : 56 }),
+const plateVariants: Variants = {
+  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
+  center: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
+  },
+  exit: (dir: number) => ({
+    opacity: 0,
+    x: dir > 0 ? -28 : 28,
+    transition: { duration: 0.16, ease: "easeIn" },
+  }),
 };
 
 const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
@@ -198,7 +206,6 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="service-plate"
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}

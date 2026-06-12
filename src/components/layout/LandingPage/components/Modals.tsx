@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import { AnimatePresence } from "framer-motion";
 
 const LoadingModal = () => {
   return <></>;
@@ -82,19 +83,36 @@ const Modals: React.FC<ModalsProps> = ({
 }) => {
   return (
     <>
-      {showContactForm && (
-        <ContactForm onClose={() => setShowContactForm(false)} />
-      )}
-      {showAboutMe && (
-        <AboutMeModal
-          onClose={() => setShowAboutMe(false)}
-          onOpenContact={() => setShowContactForm(true)}
-          onOpenResume={() => setShowResume(true)}
-        />
-      )}
-      {showResume && <InteractiveResume onClose={() => setShowResume(false)} />}
-      {showSkillset && <SkillsetModal onClose={() => setShowSkillset(false)} />}
-      {showProjects && <ProjectsModal onClose={() => setShowProjects(false)} />}
+      <AnimatePresence>
+        {showContactForm && (
+          <ContactForm key="contact" onClose={() => setShowContactForm(false)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showAboutMe && (
+          <AboutMeModal
+            key="about"
+            onClose={() => setShowAboutMe(false)}
+            onOpenContact={() => setShowContactForm(true)}
+            onOpenResume={() => setShowResume(true)}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showResume && (
+          <InteractiveResume key="resume" onClose={() => setShowResume(false)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showSkillset && (
+          <SkillsetModal key="skillset" onClose={() => setShowSkillset(false)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showProjects && (
+          <ProjectsModal key="projects" onClose={() => setShowProjects(false)} />
+        )}
+      </AnimatePresence>
       {/* {showDocumentary && ( */}
       {/* <DocumentaryPlayer onClose={() => setShowDocumentary(false)} /> */}
       {/* )} */}

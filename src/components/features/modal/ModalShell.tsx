@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ModalShellProps } from "@/lib/types";
 
 let bodyScrollLockCount = 0;
@@ -46,6 +47,7 @@ const ModalShell: React.FC<ModalShellProps> = ({
   dialogClassName,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     lockBodyScroll();
@@ -71,9 +73,47 @@ const ModalShell: React.FC<ModalShellProps> = ({
     }
   };
 
+  // Symmetric enter/exit so closing fades out instead of popping. A spring on
+  // enter gives a fluid settle; exit uses a quick tween so dismissal feels
+  // immediate. Reduced-motion users get a plain cross-fade.
+  const overlayVariants: Variants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1, transition: { duration: 0.2, ease: "easeOut" } },
+    exit: { opacity: 0, transition: { duration: 0.16, ease: "easeIn" } },
+  };
+
+  const dialogVariants: Variants = prefersReducedMotion
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1, transition: { duration: 0.15 } },
+        exit: { opacity: 0, transition: { duration: 0.12 } },
+      }
+    : {
+        initial: { opacity: 0, y: 18, scale: 0.98 },
+        animate: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: { type: "spring", stiffness: 300, damping: 30, mass: 0.9 },
+        },
+        exit: {
+          opacity: 0,
+          y: 12,
+          scale: 0.985,
+          transition: { duration: 0.16, ease: "easeIn" },
+        },
+      };
+
   return (
-    <div className={overlayClassName} onClick={handleOverlayClick}>
-      <div
+    <motion.div
+      className={overlayClassName}
+      onClick={handleOverlayClick}
+      variants={overlayVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <motion.div
         ref={dialogRef}
         className={dialogClassName}
         role="dialog"
@@ -81,10 +121,14 @@ const ModalShell: React.FC<ModalShellProps> = ({
         aria-labelledby={titleId}
         aria-label={titleId ? undefined : "Modal dialog"}
         tabIndex={-1}
+        variants={dialogVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
       >
         {children}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
