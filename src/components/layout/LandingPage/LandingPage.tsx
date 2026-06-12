@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import "./DesktopLayout.css";
-import "./DesktopLayout.menu.css";
+import "./LandingPage.css";
+import "./LandingPage.menu.css";
 import {
   MenuBar,
   DesktopIcons,
@@ -19,7 +19,7 @@ import {
 } from "@/hooks";
 import { preloadModules } from "@/lib/utils/preload";
 
-const HomeScreen = () => {
+const LandingPage = () => {
   // Initialize hooks
   const { modalState, actions: modalActions } = useModalState();
   const { dropdownState, actions: dropdownActions } = useDropdownState();
@@ -79,4 +79,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default LandingPage;

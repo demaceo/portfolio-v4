@@ -753,7 +753,7 @@
   }
 }
 
-/* Dark mode override removed — DesktopLayout is always light-themed */
+/* Dark mode override removed — LandingPage is always light-themed */
 
 /* Touch optimizations */
 @media (hover: none) and (pointer: coarse) {
@@ -1795,7 +1795,7 @@
   }
 }
 
-/* Dark mode override removed — DesktopLayout is always light-themed */
+/* Dark mode override removed — LandingPage is always light-themed */
 
 /* Touch-specific optimizations */
 @media (hover: none) and (pointer: coarse) {
