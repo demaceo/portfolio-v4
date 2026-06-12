@@ -1773,7 +1773,13 @@
   }
 
   .menu-item {
-    padding: 6px 9px;
+    /* Keep horizontal footprint compact so all items fit a narrow bar,
+       but give a full-height (>=44px) tap target — .menu-item is a span,
+       so use inline-flex to make min-height take effect. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 10px;
   }
 
   /* Make .menu-bar (position: relative) the dropdown's containing block. */
