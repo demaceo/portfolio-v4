@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 import { aboutMePills } from "@/data/aboutMePills";
 import { AboutMePill } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
@@ -11,6 +12,7 @@ interface AboutMeModalProps {
   onClose: () => void;
   onOpenContact?: () => void;
   onOpenResume?: () => void;
+  onOpenDocumentary?: () => void;
 }
 
 const profileHighlights = [
@@ -62,7 +64,8 @@ const collaborationSections = [
 type Chapter =
   | { id: string; label: string; kind: "profile" }
   | { id: string; label: string; kind: "list"; sectionIndex: number }
-  | { id: string; label: string; kind: "strengths" };
+  | { id: string; label: string; kind: "strengths" }
+  | { id: string; label: string; kind: "featured" };
 
 const chapters: Chapter[] = [
   { id: "profile", label: "Profile", kind: "profile" },
@@ -70,6 +73,7 @@ const chapters: Chapter[] = [
   { id: "work", label: "How I Work", kind: "list", sectionIndex: 1 },
   { id: "collaborate", label: "How I Collaborate", kind: "list", sectionIndex: 2 },
   { id: "strengths", label: "Strengths", kind: "strengths" },
+  { id: "featured", label: "Featured", kind: "featured" },
 ];
 
 const chapterVariants = {
@@ -78,7 +82,7 @@ const chapterVariants = {
   exit: (dir: number) => ({ opacity: 0, y: dir > 0 ? -22 : 22 }),
 };
 
-const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose }) => {
+const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary }) => {
   const [chapterIndex, setChapterIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
@@ -117,7 +121,80 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose }) => {
     setActiveTooltip(pill.label);
   };
 
+  const renderFeaturedChapter = () => (
+    <>
+      <p className="about-eyebrow">In The Press</p>
+      <h2 className="about-chapter-title">Featured Work</h2>
+      <p className="about-lede">
+        Selected appearances and speaking engagements.
+      </p>
+
+      <div className="about-featured-cards">
+        {/* Tech For Us — PBS Documentary */}
+        <div className="about-featured-card">
+          <div className="about-featured-thumbnail">
+            <Image
+              src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
+              alt="Tech For Us — Breaking Barriers on PBS"
+              width={480}
+              height={270}
+              className="about-featured-thumb-img"
+            />
+            <div className="about-featured-thumb-overlay">
+              <FontAwesomeIcon icon={faPlay} className="about-featured-play-icon" />
+            </div>
+          </div>
+          <div className="about-featured-info">
+            <div className="about-featured-badges">
+              <span className="about-featured-badge about-featured-badge--pbs">PBS</span>
+              <span className="about-featured-badge">Documentary</span>
+            </div>
+            <h3 className="about-featured-title">Tech For Us — Breaking Barriers</h3>
+            <p className="about-featured-desc">
+              Featured in a Roadtrip Nation documentary exploring technology, innovation, and career development through public interest technology stories.
+            </p>
+            <button
+              type="button"
+              className="about-featured-cta"
+              onClick={() => onOpenDocumentary?.()}
+            >
+              <FontAwesomeIcon icon={faPlay} />
+              Watch Documentary
+            </button>
+          </div>
+        </div>
+
+        {/* SXSW EDU 2025 Panel */}
+        <div className="about-featured-card">
+          <div className="about-featured-info about-featured-info--full">
+            <div className="about-featured-badges">
+              <span className="about-featured-badge about-featured-badge--sxsw">SXSW EDU</span>
+              <span className="about-featured-badge">2025 Panel</span>
+            </div>
+            <h3 className="about-featured-title">Behind the Wheel: Youth Driving Tech &amp; Media</h3>
+            <p className="about-featured-desc">
+              Panelist at SXSW EDU 2025 in Austin, TX — discussing how young people are shaping the future of technology and media.
+            </p>
+            <a
+              href="https://schedule.sxswedu.com/2025/events/PP156313"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="about-featured-cta about-featured-cta--link"
+            >
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+              View Session
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
   const renderChapter = () => {
+    if (chapter.kind === "featured") {
+      return renderFeaturedChapter();
+    }
+
     if (chapter.kind === "profile") {
       return (
         <>

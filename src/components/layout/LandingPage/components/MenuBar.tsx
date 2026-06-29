@@ -50,7 +50,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
-  const [hoveredPill, setHoveredPill] = React.useState<string | null>(null);
 
   const iconMap = {
     "fas fa-briefcase icon": faBriefcase,
@@ -217,80 +216,48 @@ const MenuBar: React.FC<MenuBarProps> = ({
                 {item.key === "about" && (
                   <div>
                     <ul className="menu-dropdown-pills">
-                      {aboutMePills.map((pill) => (
-                        <li
-                          key={pill.label}
-                          className="menu-dropdown-pill-item"
-                          onMouseEnter={() => setHoveredPill(pill.label)}
-                          onMouseLeave={() => setHoveredPill(null)}
-                        >
-                          <span
-                            className={`pill-tag-mac ${pill.label === "& more..."
-                                ? "pill-tag-clickable"
-                                : ""
-                              }`}
-                            tabIndex={0}
-                            onClick={() => {
-                              if (pill.label === "& more...") {
-                                setShowAboutMe(true);
-                                setOpenDropdown(null);
-                              } else if (pill.link) {
-                                window.open(pill.link, "_blank");
-                              }
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                if (pill.label === "& more...") {
-                                  setShowAboutMe(true);
-                                  setOpenDropdown(null);
-                                } else if (pill.link) {
-                                  window.open(pill.link, "_blank");
-                                }
-                              }
-                            }}
-                            onFocus={() => setHoveredPill(pill.label)}
-                            onBlur={() => setHoveredPill(null)}
+                      {aboutMePills.map((pill) => {
+                        const handlePillAction = () => {
+                          if (pill.label === "& more...") {
+                            setShowAboutMe(true);
+                            setOpenDropdown(null);
+                          } else if (pill.link) {
+                            window.open(pill.link, "_blank");
+                          }
+                        };
+                        return (
+                          <li
+                            key={pill.label}
+                            className="menu-dropdown-pill-item"
                           >
-                            {pill.icon && (
-                              <div className="pill-tag-icon">
-                                <Image
-                                  src={pill.icon}
-                                  alt={pill.label}
-                                  width={20}
-                                  height={20}
-                                />
-                              </div>
-                            )}
-                            <span className="pill-tag-label">{pill.label}</span>
-                          </span>
-
-                          {/* Side dropdown for pill details */}
-                          {hoveredPill === pill.label && pill.tooltip && (
-                            <div className="pill-side-dropdown">
-                              <div className="pill-side-content">
-                                {pill.icon && (
-                                  <div className="pill-side-icon">
-                                    <Image
-                                      src={pill.icon}
-                                      alt={pill.label}
-                                      width={48}
-                                      height={48}
-                                    />
-                                  </div>
-                                )}
-                                <div className="pill-side-info">
-                                  <div className="pill-side-title">
-                                    {pill.label}
-                                  </div>
-                                  <div className="pill-side-description">
-                                    {pill.tooltip}
-                                  </div>
+                            <span
+                              className={`pill-tag-mac ${pill.label === "& more..."
+                                  ? "pill-tag-clickable"
+                                  : ""
+                                }`}
+                              tabIndex={0}
+                              onMouseEnter={handlePillAction}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  handlePillAction();
+                                }
+                              }}
+                            >
+                              {pill.icon && (
+                                <div className="pill-tag-icon">
+                                  <Image
+                                    src={pill.icon}
+                                    alt={pill.label}
+                                    width={20}
+                                    height={20}
+                                  />
                                 </div>
-                              </div>
-                            </div>
-                          )}
-                        </li>
-                      ))}
+                              )}
+                              <span className="pill-tag-label">{pill.label}</span>
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}
@@ -358,8 +325,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                       src={proj.icon as string}
                                       alt={`${proj.name} icon`}
                                       className="menu-dropdown-project-img-media"
-                                      width={62}
-                                      height={62}
+                                      width={50}
+                                      height={50}
                                     />
                                   </span>
                                 );

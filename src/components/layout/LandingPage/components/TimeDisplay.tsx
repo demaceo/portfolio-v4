@@ -4,11 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 
 // Minute-based clock component to avoid re-rendering the entire desktop each second
 const TimeDisplay: React.FC = () => {
-  const [now, setNow] = useState(new Date());
+  const [now, setNow] = useState<Date | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const instant = new Date();
+    setNow(instant);
     const msUntilNextMinute =
       60000 - (instant.getSeconds() * 1000 + instant.getMilliseconds());
     const timeoutId = setTimeout(() => {
@@ -20,6 +21,15 @@ const TimeDisplay: React.FC = () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
+
+  if (!now) {
+    return (
+      <>
+        <span className="time">&nbsp;</span>
+        <span className="date">&nbsp;</span>
+      </>
+    );
+  }
 
   const time = now.toLocaleTimeString("en-US", {
     hour: "2-digit",

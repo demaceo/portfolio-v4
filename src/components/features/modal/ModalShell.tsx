@@ -125,6 +125,7 @@ const ModalShell: React.FC<ModalShellProps> = ({
         initial="initial"
         animate="animate"
         exit="exit"
+        style={{ willChange: "transform, opacity" }}
       >
         {children}
       </motion.div>
