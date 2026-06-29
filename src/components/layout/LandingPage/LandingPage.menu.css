@@ -37,16 +37,15 @@
 }
 
 .menu-dropdown-project-img {
-  width: 78px;
-  height: 78px;
-  object-fit: cover;
+  width: 62px;
+  height: 62px;
   border-radius: 10px;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   border: 2px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .menu-dropdown-project-img-icon {
@@ -54,18 +53,19 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 8px;
+  padding: 6px;
   background:
     radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.86), transparent 64%),
     linear-gradient(145deg, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.84));
 }
 
 .menu-dropdown-project-img-media {
-  width: 100%;
-  height: 100%;
+  width: 50px !important;
+  height: 50px !important;
   display: block;
   object-fit: contain;
   object-position: center center;
+  border-radius: 6px;
 }
 
 .menu-dropdown-project-icon {
@@ -129,16 +129,15 @@
 
 .menu-dropdown-project-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
-  padding: 18px 14px;
+  padding: 12px 14px;
   border-radius: 12px;
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: 2px solid transparent;
   background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
-  backdrop-filter: blur(6px);
   max-width: 360px;
   width: 100%;
   box-sizing: border-box;
@@ -1253,7 +1252,6 @@
   justify-content: center;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(8px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.02);
   position: relative;
@@ -1411,7 +1409,6 @@
   z-index: 2000;
   min-width: 300px;
   max-width: 400px;
-  backdrop-filter: blur(12px);
   animation: fadeInSideDropdown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

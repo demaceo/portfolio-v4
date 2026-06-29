@@ -168,18 +168,18 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
 
           <a
             className="skill-studio-byline"
-            href="https://www.milehighinterface.com"
+            href="https://www.anappidea.llc"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/logos/mhi-logo.png"
-              alt="Mile High Interface LLC"
+              alt="An App Idea, LLC"
               width={22}
               height={22}
               className="skill-studio-logo"
             />
-            <span>Mile High Interface LLC</span>
+            <span>An App Idea, LLC</span>
           </a>
         </div>
 

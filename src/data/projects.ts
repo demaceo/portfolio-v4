@@ -7,18 +7,17 @@ const projectData: Project[] = [
     name: "Pinpoint",
     yearRange: "2025-2026",
     description:
-      "Civic engagement platform helping people find officials, analyze policy alignment, and communicate through AI-assisted workflows.",
-    link: "https://pinpoint-flax.vercel.app/",
+      "React Native mobile app for civic engagement — find elected officials, analyze policy alignment, and communicate through AI-assisted workflows on iOS and Android.",
+    link: "https://github.com/demaceo",
     deepDiveKey: "pinpoint",
     stackPreview: ["React Native", "Expo SDK 54", "Express", "PostgreSQL"],
     highlights: [
-      "Full-stack iOS, Android, and web deployment with zero-downtime delivery.",
+      "Full-stack iOS and Android deployment with zero-downtime delivery.",
       "JWKS-based Firebase token verification without Firebase Admin SDK.",
       "Gemini SSE chat and ElevenLabs voice responses for AI official simulations.",
     ],
     icon: "/icons/projects/pinpoint.png",
-    image:
-      "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BqcHJydDE0OWlyaXBzbzIweTV4bjh2bzNidW1oenprMHdpaTRxbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e9zB7dPkmU7FUBNh8A/giphy.gif",
+    image: "/icons/projects/pinpoint.png",
   },
   {
     id: 1,

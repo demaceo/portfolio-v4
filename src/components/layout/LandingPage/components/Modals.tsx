@@ -43,7 +43,6 @@ const ProjectsModal = dynamic(
   }
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DocumentaryPlayer = dynamic(
   () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
   {
@@ -63,8 +62,8 @@ interface ModalsProps {
   setShowSkillset: (show: boolean) => void;
   showProjects: boolean;
   setShowProjects: (show: boolean) => void;
-  showDocumentary?: boolean;
-  setShowDocumentary?: (show: boolean) => void;
+  showDocumentary: boolean;
+  setShowDocumentary: (show: boolean) => void;
 }
 
 const Modals: React.FC<ModalsProps> = ({
@@ -78,8 +77,8 @@ const Modals: React.FC<ModalsProps> = ({
   setShowSkillset,
   showProjects,
   setShowProjects,
-  // showDocumentary,
-  // setShowDocumentary,
+  showDocumentary,
+  setShowDocumentary,
 }) => {
   return (
     <>
@@ -95,6 +94,7 @@ const Modals: React.FC<ModalsProps> = ({
             onClose={() => setShowAboutMe(false)}
             onOpenContact={() => setShowContactForm(true)}
             onOpenResume={() => setShowResume(true)}
+            onOpenDocumentary={() => setShowDocumentary(true)}
           />
         )}
       </AnimatePresence>
@@ -113,9 +113,11 @@ const Modals: React.FC<ModalsProps> = ({
           <ProjectsModal key="projects" onClose={() => setShowProjects(false)} />
         )}
       </AnimatePresence>
-      {/* {showDocumentary && ( */}
-      {/* <DocumentaryPlayer onClose={() => setShowDocumentary(false)} /> */}
-      {/* )} */}
+      <AnimatePresence>
+        {showDocumentary && (
+          <DocumentaryPlayer key="documentary" onClose={() => setShowDocumentary(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 };
