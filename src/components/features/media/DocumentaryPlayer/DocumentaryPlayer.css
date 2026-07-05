@@ -1807,3 +1807,34 @@
     min-width: 44px;
   }
 }
+
+/* ==========================================================================
+   Liquid Glass — dark-glass alignment for the in-player episode/info dropdowns.
+   Re-skins the light iOS-glass surfaces to the shared Dark Glass tokens so
+   these panels match the dark modal shell. Placed last so it wins over the
+   duplicated episode-selector and info-dropdown rules above; only colors and
+   surfaces are overridden (the existing backdrop blur, padding and layout
+   stand). The selected-episode blue-to-violet gradient and the video are kept.
+   ========================================================================== */
+.episode-selector,
+.info-dropdown {
+  background: var(--lg-tint);
+  border-bottom: 1px solid var(--lg-edge);
+}
+
+.episode-selector h3 {
+  color: var(--noir-text);
+}
+
+.episode-item {
+  background: var(--lg-tint-strong);
+  border-color: var(--lg-edge);
+}
+
+.episode-title {
+  color: var(--noir-text);
+}
+
+.episode-duration {
+  color: var(--noir-muted);
+}

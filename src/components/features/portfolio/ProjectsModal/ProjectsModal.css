@@ -1,17 +1,17 @@
 /* ===== PROJECTS GALLERY — LIGHT DESKTOP AESTHETIC ===== */
 
 .projects-gallery {
-  --gallery-accent: var(--light-accent);
-  --gallery-accent-soft: var(--light-accent-soft);
-  --gallery-accent-line: var(--light-accent-line);
-  --gallery-accent-glow: var(--light-accent-glow);
-  --gallery-text: var(--light-text);
-  --gallery-muted: var(--light-muted);
-  --gallery-faint: var(--light-faint);
-  --gallery-border: var(--light-border);
-  --gallery-panel: var(--light-panel);
-  --gallery-panel-strong: var(--light-panel-strong);
-  --gallery-surface: var(--light-surface);
+  --gallery-accent: var(--noir-accent);
+  --gallery-accent-soft: var(--noir-accent-soft);
+  --gallery-accent-line: var(--noir-accent-line);
+  --gallery-accent-glow: var(--noir-accent-glow);
+  --gallery-text: var(--noir-text);
+  --gallery-muted: var(--noir-muted);
+  --gallery-faint: var(--noir-faint);
+  --gallery-border: var(--noir-border);
+  --gallery-panel: var(--noir-panel);
+  --gallery-panel-strong: var(--noir-panel-strong);
+  --gallery-surface: var(--noir-surface);
 
   display: flex;
   flex-direction: column;
@@ -39,8 +39,10 @@
 .gallery-tabs {
   display: flex;
   gap: 0.28rem;
-  background: var(--gallery-surface);
-  border: 1px solid var(--gallery-border);
+  background: var(--lg-tint);
+  border: 1px solid var(--lg-edge);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
   border-radius: 999px;
   padding: 0.24rem;
 }
@@ -201,12 +203,12 @@
 }
 
 .counter-sep {
-  color: rgba(43, 42, 40, 0.25);
+  color: rgba(240, 236, 232, 0.25);
   margin: 0 0.15em;
 }
 
 .counter-total {
-  color: rgba(43, 42, 40, 0.35);
+  color: rgba(240, 236, 232, 0.35);
 }
 
 .gallery-doc-tag {
