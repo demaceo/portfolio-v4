@@ -47,6 +47,38 @@
   --light-panel: #f4f5f7;
   --light-panel-strong: #eaecef;
   --light-surface: #ffffff;
+
+  /* ===== Noir tokens missing from the base set =====
+     Referenced by modals migrated to the dark palette (Projects,
+     ResumeHighlights) which expect an accent hairline + a surface. */
+  --noir-accent-line: rgba(212, 132, 90, 0.3);
+  --noir-surface: rgba(18, 13, 10, 0.55);
+
+  /* ===== Liquid Glass tokens (Dark Glass) =====
+     Ported from the codepenz "Liquid Glass UI Kit" (Component 02 · Dark Glass).
+     Structural only — the warm --noir-accent palette supplies the color so the
+     glass reads as part of the Warm Noir identity, not the kit's aqua/violet.
+     Surfaces use low alpha so the overlay's one-time blur and the vibrant
+     desktop wallpaper read through them.
+     NOTE: the `--lg-` prefix is deliberate. InteractiveResume.css and
+     DocumentaryPlayer.css already define component-scoped `--glass-bg` /
+     `--glass-border` / `--glass-shadow`; a distinct namespace prevents these
+     global tokens from leaking into (or being shadowed by) those. */
+  --lg-tint: rgba(18, 13, 10, 0.62);
+  --lg-tint-strong: rgba(13, 10, 9, 0.74); /* title bars, item cards over glass */
+  --lg-edge: rgba(255, 220, 180, 0.16);
+  --lg-edge-bright: rgba(255, 220, 180, 0.28);
+  --lg-sheen: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  --lg-blur: blur(18px) saturate(140%);
+  --lg-blur-strong: blur(32px) saturate(140%);
+  --lg-shadow: 0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --lg-shadow-float: 0 20px 60px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Strict CSS reset for html and body */
@@ -243,5 +275,67 @@ h6 {
 @keyframes modal-loading-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   Liquid Glass — Navigation Tabs (from the codepenz "Liquid Glass UI Kit").
+   Reusable glass tab list. Drop `glass-tab-list` on the role="tablist"
+   container and `glass-tab` on each role="tab" button; the selected state
+   responds to BOTH `.active` and `aria-selected="true"` so it is drop-in with
+   either convention. The existing in-modal tab lists (Skillset, Projects,
+   ResumeHighlights) already carry the equivalent glass treatment via the same
+   tokens; use these classes for any NEW tab list.
+   ========================================================================== */
+.glass-tab-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.24rem;
+  border-radius: 999px;
+  background: var(--lg-tint);
+  border: 1px solid var(--lg-edge);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+}
+
+.glass-tab {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--noir-muted);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.34rem 0.84rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.glass-tab:hover:not(.active):not([aria-selected="true"]) {
+  color: var(--noir-text);
+}
+
+.glass-tab.active,
+.glass-tab[aria-selected="true"] {
+  background: var(--noir-accent);
+  color: #fff;
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
+}
+
+.glass-tab:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 2px;
+}
+
+.glass-tab-panel {
+  color: var(--noir-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-tab {
+    transition: none;
   }
 }

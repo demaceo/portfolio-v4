@@ -1,14 +1,14 @@
 /* ===== CONTACT — "THE INVITATION" / WARM NOIR ===== */
 
 .contact-invite {
-  --cf-accent: var(--light-accent);
-  --cf-accent-soft: var(--light-accent-soft);
-  --cf-accent-glow: var(--light-accent-glow);
-  --cf-text: var(--light-text);
-  --cf-muted: var(--light-muted);
-  --cf-faint: var(--light-faint);
-  --cf-border: var(--light-border);
-  --cf-surface: var(--light-panel);
+  --cf-accent: var(--noir-accent);
+  --cf-accent-soft: var(--noir-accent-soft);
+  --cf-accent-glow: var(--noir-accent-glow);
+  --cf-text: var(--noir-text);
+  --cf-muted: var(--noir-muted);
+  --cf-faint: var(--noir-faint);
+  --cf-border: var(--noir-border);
+  --cf-surface: var(--noir-panel);
 
   flex: 1;
   min-height: 0;
@@ -324,7 +324,7 @@
 
 .field input:hover:not(:focus),
 .field textarea:hover:not(:focus) {
-  border-color: rgba(43, 42, 40, 0.26);
+  border-color: rgba(240, 236, 232, 0.26);
 }
 
 .field input:focus + label,
