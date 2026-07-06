@@ -315,21 +315,11 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               )}
 
               <div className="icon-image" style={{ width: iconSize, height: iconSize }}>
-                <div
-                  className="icon-glass"
-                  style={
-                    isActive
-                      ? { boxShadow: `inset 0 0 0 2px ${app.color}99, 0 0 24px ${app.color}66` }
-                      : undefined
-                  }
-                >
+                <div className="icon-glass">
                   <div className="icon-glass-distortion" />
                   <div className="icon-glass-base" />
                   <div className="icon-glass-border" />
-                  <span
-                    className="icon-glass-content"
-                    style={isActive ? { color: app.color } : undefined}
-                  >
+                  <span className="icon-glass-content">
                     <FontAwesomeIcon icon={app.icon} />
                   </span>
                 </div>

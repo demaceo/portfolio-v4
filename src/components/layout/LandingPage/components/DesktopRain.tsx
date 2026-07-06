@@ -179,7 +179,7 @@ export default function DesktopRain() {
 
     // Slows the whole rain animation (fall speed + drop bobbing) relative to
     // the ported codepen, which advanced uTime by a full frame each tick.
-    const SPEED = 0.35;
+    const SPEED = 0.1;
 
     let disposed = false;
     let animationId: number;

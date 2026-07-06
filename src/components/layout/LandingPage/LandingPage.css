@@ -30,13 +30,10 @@
   height: 22px;
 }
 
-/* accessible focus ring for keyboard navigation */
 .desktop-wheel-row:focus-visible,
 .desktop-wheel-row:focus {
-  outline: 3px solid rgba(0, 122, 255, 0.16);
-  outline-offset: 4px;
-  box-shadow: 0 10px 30px rgba(0, 122, 255, 0.08),
-    0 6px 18px rgba(2, 6, 23, 0.12);
+  outline: none;
+  box-shadow: none;
 }
 
 /* adjust notification badge placement to sit over the top-right of the icon surface */
