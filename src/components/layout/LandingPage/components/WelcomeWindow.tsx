@@ -4,7 +4,7 @@ import React from "react";
 
 interface WelcomeWindowProps {
   showWelcomeWindow: boolean;
-  // handleWelcomeWindowClose: () => void;
+  onClose: () => void;
   handleAppClick: (path: string, isToggle?: boolean) => void;
   preload: {
     contact: () => void;
@@ -13,7 +13,7 @@ interface WelcomeWindowProps {
 
 const WelcomeWindow: React.FC<WelcomeWindowProps> = ({
   showWelcomeWindow,
-  // handleWelcomeWindowClose,
+  onClose,
   handleAppClick,
   preload,
 }) => {
@@ -23,11 +23,14 @@ const WelcomeWindow: React.FC<WelcomeWindowProps> = ({
     <div className="welcome-window">
       <div className="window-title-bar">
         <div className="window-controls">
-          {/* <button
+          <button
+            type="button"
             className="close-btn"
-            onClick={handleWelcomeWindowClose}
+            onClick={onClose}
             aria-label="Close welcome window"
-          ></button> */}
+          >
+            &times;
+          </button>
         </div>
         <span className="window-title">Welcome to My Portfolio</span>
       </div>

@@ -54,6 +54,7 @@ const LandingPage = () => {
 
         <WelcomeWindow
           showWelcomeWindow={modalState.showWelcomeWindow}
+          onClose={() => modalActions.setShowWelcomeWindow(false)}
           handleAppClick={handleAppClick}
           preload={preloadModules}
         />

@@ -11,14 +11,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* slightly larger on desktop for the main desktop icon set */
-.desktop-icon .icon-image {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+/* slightly larger on desktop for the main desktop icon set (JS sets the
+   actual per-row size inline; this is just the fallback/base value) */
+.desktop-wheel-row .icon-image {
+  width: 84px;
+  height: 84px;
+  border-radius: 16px;
 }
 
-.desktop-icon .icon-image svg {
+.desktop-wheel-row .icon-image svg {
   width: 58%;
   height: 58%;
 }
@@ -29,28 +30,9 @@
   height: 22px;
 }
 
-/* hover / active - subtle lift, brighten and increase contrast */
-/* .desktop-icon:hover .icon-image,
-.desktop-icon:focus-within .icon-image {
-  transform: translateY(-6px) scale(1.06);
-  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18),
-    inset 0 -6px 12px rgba(255, 255, 255, 0.03);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.09),
-    rgba(255, 255, 255, 0.03)
-  );
-  color: #071022;
-} */
-
-/* keep existing desktop-icon:hover .icon-image transform in sync */
-.desktop-icon:hover .icon-image {
-  transform: translateY(-6px) scale(1.06);
-}
-
 /* accessible focus ring for keyboard navigation */
-.desktop-icon:focus-visible,
-.desktop-icon:focus {
+.desktop-wheel-row:focus-visible,
+.desktop-wheel-row:focus {
   outline: 3px solid rgba(0, 122, 255, 0.16);
   outline-offset: 4px;
   box-shadow: 0 10px 30px rgba(0, 122, 255, 0.08),
@@ -70,9 +52,7 @@
 /* reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
   .icon-image,
-  .icon-glass,
-  .desktop-icon:hover .icon-image,
-  .desktop-icon:focus-within .icon-image {
+  .icon-glass {
     transition: none;
     transform: none;
     box-shadow: none;
@@ -81,16 +61,6 @@
 
 /* responsive tweaks */
 @media (max-width: 768px) {
-  .icon-image {
-    width: 44px;
-    height: 44px;
-  }
-
-  .desktop-icon .icon-image {
-    width: 48px;
-    height: 48px;
-  }
-
   .icon-image svg {
     width: 62%;
     height: 62%;
@@ -127,22 +97,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-/* Fix icon positioning when view is inverted */
-.inverted-view .desktop-icon {
-  transform-origin: center center;
-}
-
-.inverted-view .icon-image {
-  transform-origin: center center;
-  position: relative;
-}
-
-/* Ensure hover effects work properly when inverted */
-.inverted-view .desktop-icon:hover .icon-image {
-  transform: rotate(180deg) scale(1.1);
-  transform-origin: center center;
 }
 
 .menu-right {
@@ -190,67 +144,90 @@
   }
 }
 
+/* Curved Activity Picker wheel (tailored from the codepen of the same name):
+   the wheel spans the full height of .desktop so the app rows and the
+   decorative rail behind them share one coordinate box — the rail touches
+   the right edge at the top and bottom corners and bows inward at the
+   vertical middle, and the centered (active) row pops inward to that same
+   middle, so the rows read as strung along the rail rather than a separate
+   shape. Drag, scroll, or tap a row to bring it to center; tapping the
+   centered row launches that app. */
 .desktop-items {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   position: absolute;
+  z-index: 1;
   right: 20px;
-  top: 20px;
+  top: 0;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
 }
 
-.desktop-icon {
-  display: flex;
-  flex-direction: column;
-  border: none !important;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 12px;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-origin: center;
-  position: relative;
-  overflow: visible;
-  background: transparent;
-}
-
-.desktop-icon::before {
-  content: "";
+.desktop-wheel-rail {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
-  );
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  right: 90px;
+  height: 100%;
+  width: 130px;
+  color: rgba(255, 255, 255, 0.22);
   pointer-events: none;
 }
 
-.desktop-icon:hover {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  transform: scale(1.1) translateY(-5px);
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.1);
+.desktop-wheel-row {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 120px;
+  margin: 0;
+  padding: 0 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  border: none !important;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  will-change: transform, opacity;
 }
 
-.desktop-icon:hover::before {
-  opacity: 1;
+.desktop-wheel-label {
+  color: rgba(241, 245, 249, 0.75);
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
 }
 
-.desktop-icon:active {
-  transform: scale(0.95) translateY(-2px);
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.desktop-wheel-label-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .icon-image {
@@ -338,8 +315,8 @@
   height: 100%;
 }
 
-.desktop-icon:hover .icon-glass {
-  border-radius: 18px;
+.desktop-wheel-row:hover .icon-glass-base {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* Notification Badge */
@@ -375,27 +352,6 @@
   }
 }
 
-.desktop-icon:hover .icon-image {
-  transform: scale(1.1);
-  /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); */
-}
-
-.icon-label {
-  color: rgba(241, 245, 249, 0.96);
-  font-size: 10px;
-  text-align: center;
-  max-width: 60px;
-  word-wrap: break-word;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
-}
-
-.desktop-icon:hover .icon-label {
-  transform: translateY(-2px);
-  text-shadow: 0 3px 8px rgba(2, 6, 23, 0.82);
-  font-weight: 500;
-}
-
 .welcome-window {
   position: absolute;
   top: 50%;
@@ -405,6 +361,9 @@
   background: #ffffff;
   border: 2px solid #3b3a3a;
   box-shadow: 2px 2px 0px #3b3a3a;
+  /* Sits above the curved activity picker so it reads as a window floating
+     on top of the desktop, same as the icons it was always drawn over. */
+  z-index: 10;
 }
 
 .window-title-bar {
@@ -419,14 +378,23 @@
 
 .window-controls {
   position: absolute;
+  top: 50%;
   left: 5px;
+  transform: translateY(-50%);
 }
 
 .close-btn {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: #ffffff;
   border: 1px solid #3b3a3a;
+  color: #3b3a3a;
+  font-size: 12px;
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -515,11 +483,13 @@
 /* ==========================================================================
    Responsive adjustments
    The retro "screen" is a single layout across every device. We keep the
-   framed-screen identity at all sizes and only reflow the contents:
+   framed-screen identity — and the curved activity picker — at all sizes;
+   only the framed screen's own proportions and the picker's scale reflow:
      - monitors: the frame is capped (see .mac-screen max-width/height)
      - tablets:  the frame grows toward the viewport edges
-     - phones:   desktop icons drop into a bottom dock and the welcome card
-                 sits centered above it, so the two never overlap
+     - phones:   the picker shrinks a little and the welcome window (which
+                 the user can dismiss via its own close button) floats on
+                 top of it, same layering as on desktop
    ========================================================================== */
 
 /* Tablet — give the framed screen more breathing room */
@@ -531,7 +501,9 @@
   }
 }
 
-/* Phone — reflow the desktop into a centered card + bottom app dock */
+/* Phone — shrink the framed screen; the picker keeps its size and now sits
+   behind the welcome window (dismissible via its own close button) instead
+   of being pushed into a separate flat dock. */
 @media (max-width: 600px) {
   .mac-screen {
     width: 96vw;
@@ -541,40 +513,5 @@
 
   .desktop {
     padding: 16px;
-  }
-
-  /* App icons become a horizontal dock pinned just above the taskbar,
-     so they no longer collide with the centered welcome window. */
-  .desktop-items {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
-    right: auto;
-    top: auto;
-    left: 50%;
-    bottom: 14px;
-    transform: translateX(-50%);
-    max-width: calc(100% - 24px);
-  }
-
-  .desktop-icon .icon-image {
-    width: 46px;
-    height: 46px;
-  }
-
-  /* Lift the welcome card above the dock and let it use the full width. */
-  .welcome-window {
-    top: 44%;
-  }
-}
-
-@media (max-width: 380px) {
-  .desktop-items {
-    gap: 10px;
-  }
-
-  .welcome-window {
-    top: 42%;
   }
 }
