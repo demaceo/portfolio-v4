@@ -42,6 +42,8 @@ const CURVE_RANGE = 3; // rows over which the curve/scale/fade fully resolve
 const CURVE_AMPLITUDE = 56; // px a row swings left as it recedes from center
 const ACTIVE_ICON_SIZE = 84; // px
 const BASE_ICON_SIZE = 64; // px, before the recede scale is applied
+const WHEEL_SETTLE_MS = 140; // pause in wheel events before snapping to a row
+const FLING_PROJECTION_MS = 120; // how far a fast drag release "carries" past the drop point
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -83,12 +85,14 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isWheeling, setIsWheeling] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const dragStart = useRef({ pointerY: 0, dragY: 0 });
   const pointerActive = useRef(false);
   const dragMoved = useRef(false);
   const tapIndex = useRef<number | null>(null);
-  const lastWheelAt = useRef(0);
+  const lastMove = useRef({ time: 0, pointerY: 0, velocity: 0 });
+  const wheelSettleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,6 +135,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     tapIndex.current = rowEl ? Number(rowEl.dataset.rowIndex) : null;
     setIsDragging(true);
     dragStart.current = { pointerY: event.clientY, dragY };
+    lastMove.current = { time: performance.now(), pointerY: event.clientY, velocity: 0 };
   }
 
   function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
@@ -138,6 +143,15 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     const delta = event.clientY - dragStart.current.pointerY;
     if (Math.abs(delta) > 4) dragMoved.current = true;
     setDragY(clamp(dragStart.current.dragY + delta, bounds.min, bounds.max));
+
+    // Track recent speed (px/ms) so a fast flick can carry past the exact
+    // drop point on release, instead of stopping dead where the pointer did.
+    const now = performance.now();
+    const dt = now - lastMove.current.time;
+    if (dt > 0) {
+      const velocity = (event.clientY - lastMove.current.pointerY) / dt;
+      lastMove.current = { time: now, pointerY: event.clientY, velocity };
+    }
   }
 
   function endDrag() {
@@ -145,7 +159,15 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     pointerActive.current = false;
     setIsDragging(false);
     if (dragMoved.current) {
-      const rowsMoved = Math.round(dragY / ROW_HEIGHT);
+      // A quick release "carries" the scroll a little further in the
+      // direction it was already moving, like a native momentum scroll,
+      // rather than snapping to wherever the pointer happened to let go.
+      const projected = clamp(
+        dragY + lastMove.current.velocity * FLING_PROJECTION_MS,
+        bounds.min,
+        bounds.max,
+      );
+      const rowsMoved = Math.round(projected / ROW_HEIGHT);
       setActive((current) => clamp(current - rowsMoved, 0, DESKTOP_APPS.length - 1));
     } else if (tapIndex.current !== null) {
       pickApp(tapIndex.current);
@@ -157,21 +179,39 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   // inside a JSX onWheel prop throws a console warning and is silently
   // ignored. Attaching natively with { passive: false } lets scrolling over
   // the rail change rows instead of moving the page.
+  //
+  // Rather than jumping a whole row per throttled tick, each wheel event
+  // nudges the same offset a drag would (so a trackpad swipe tracks the
+  // gesture continuously, transition-free); once the events pause for a
+  // beat, it settles to the nearest row with the normal eased transition.
   useEffect(() => {
     const el = wheelRef.current;
     if (!el) return;
 
+    function settle() {
+      setIsWheeling(false);
+      setDragY((current) => {
+        const rowsMoved = Math.round(current / ROW_HEIGHT);
+        setActive((prevActive) => clamp(prevActive - rowsMoved, 0, DESKTOP_APPS.length - 1));
+        return 0;
+      });
+    }
+
     function onWheel(event: WheelEvent) {
       event.preventDefault();
-      const now = Date.now();
-      if (now - lastWheelAt.current < 220) return;
-      lastWheelAt.current = now;
-      setActive((current) => clamp(current + (event.deltaY > 0 ? 1 : -1), 0, DESKTOP_APPS.length - 1));
+      if (pointerActive.current) return;
+      setIsWheeling(true);
+      setDragY((current) => clamp(current - event.deltaY, bounds.min, bounds.max));
+      if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
+      wheelSettleTimer.current = setTimeout(settle, WHEEL_SETTLE_MS);
     }
 
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, []);
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
+    };
+  }, [bounds]);
 
   return (
     <div className="desktop">
@@ -254,9 +294,9 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                 transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
                 opacity,
                 transition:
-                  isDragging || prefersReducedMotion
+                  isDragging || isWheeling || prefersReducedMotion
                     ? "none"
-                    : "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease",
+                    : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
               }}
               aria-pressed={isActive}
               onClick={() => pickApp(index)}
