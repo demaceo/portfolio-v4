@@ -144,9 +144,22 @@
 }
 
 /* Curved Activity Picker wheel (tailored from the codepen of the same name):
-   a vertical rail of app rows that bows outward on the .desktop-wheel-rail
-   curve as rows recede from the centered (active) one. Drag, scroll the
-   wheel, or tap a row to bring it to center and launch that app. */
+   a decorative rail spans the full height of .desktop, corner to corner on
+   its right side, and bows inward at the vertical middle. The app rows live
+   in their own compact wheel near the top of that rail — the centered
+   (active) one pops inward to match the rail's curve, while the rest settle
+   back toward the edge. Drag, scroll, or tap a row to bring it to center;
+   tapping the centered row launches that app. */
+.desktop-wheel-rail {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  height: 100%;
+  width: 90px;
+  color: rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
 .desktop-items {
   position: absolute;
   right: 20px;
@@ -169,16 +182,6 @@
     black 88%,
     transparent
   );
-}
-
-.desktop-wheel-rail {
-  position: absolute;
-  top: 6%;
-  height: 88%;
-  right: 34px;
-  width: 60px;
-  color: rgba(255, 255, 255, 0.22);
-  pointer-events: none;
 }
 
 .desktop-wheel-row {

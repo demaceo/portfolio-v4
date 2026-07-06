@@ -53,21 +53,24 @@ function easeRound(t: number) {
   return 1 - Math.cos((t * Math.PI) / 2);
 }
 
-// Sampled points (0-100 box) for the decorative rail: closest to the right
-// edge (where the icons are anchored) at the vertical middle, drifting left
-// toward the top and bottom — mirrors the curve the rows themselves draw.
+// Sampled points (0-100 box) for the decorative rail. It's a static spine
+// spanning the full height of .desktop, independent of which app is active:
+// it touches the right edge at the top and bottom corners (y=0/100) and
+// bows inward (left) at the vertical middle — the row curve below mirrors
+// this same direction so the active row's inward pop reads as part of it.
 const RAIL_PATH = Array.from({ length: 21 }, (_, i) => {
   const y = (i / 20) * 100;
   const t = clamp(Math.abs(y - 50) / 50, 0, 1);
-  const x = 92 - 87 * easeRound(t);
+  const x = 8 + 87 * easeRound(t);
   return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
 }).join(" ");
 
 /**
  * A tailored take on the "Curved Activity Picker" codepen: the desktop
- * shortcuts sit on a vertical rail that bows outward as rows recede from the
- * centered row. Drag, scroll, or tap a row to bring it to center — tapping
- * also launches that app, same as the icon grid this replaces.
+ * shortcuts sit on a vertical rail that spans the full desktop height, with
+ * the centered row popping inward (left) while receding rows settle back
+ * toward the edge. Drag, scroll, or tap a row to bring it to center; tapping
+ * the row that's already centered launches that app.
  */
 const DesktopIcons: React.FC<DesktopIconsProps> = ({
   showContactNotification,
@@ -97,18 +100,26 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     [active],
   );
 
-  function selectApp(index: number) {
-    const app = DESKTOP_APPS[index];
-    setActive(index);
-    handleAppClick(app.path, app.isToggle);
+  // Picking a row is two-step: the first tap (on any row other than the
+  // centered one) just brings it to center as a preview; tapping the row
+  // that's already centered launches it. This mirrors the codepen's
+  // browse-then-commit feel and keeps a stray drag from accidentally
+  // opening a modal.
+  function pickApp(index: number) {
+    if (index === active) {
+      const app = DESKTOP_APPS[index];
+      handleAppClick(app.path, app.isToggle);
+    } else {
+      setActive(index);
+    }
   }
 
   // Pointer capture (needed so dragging keeps tracking once the pointer
   // leaves a row) retargets the resulting click event to the capturing
   // element, so the per-row onClick below never fires for mouse/touch —
-  // tap-to-select-and-launch is instead resolved from the row under the
-  // pointer at pointerdown time. onClick still fires for keyboard activation
-  // and assistive-tech synthesized clicks, which never go through capture.
+  // tap-to-pick is instead resolved from the row under the pointer at
+  // pointerdown time. onClick still fires for keyboard activation and
+  // assistive-tech synthesized clicks, which never go through capture.
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
     pointerActive.current = true;
@@ -134,7 +145,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
       const rowsMoved = Math.round(dragY / ROW_HEIGHT);
       setActive((current) => clamp(current - rowsMoved, 0, DESKTOP_APPS.length - 1));
     } else if (tapIndex.current !== null) {
-      selectApp(tapIndex.current);
+      pickApp(tapIndex.current);
     }
     setDragY(0);
   }
@@ -191,6 +202,21 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
       <DesktopRain />
 
+      <svg
+        className="desktop-wheel-rail"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d={RAIL_PATH}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1}
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
       <div
         ref={wheelRef}
         className="desktop-items"
@@ -201,28 +227,15 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
         onPointerLeave={endDrag}
         onPointerCancel={endDrag}
       >
-        <svg
-          className="desktop-wheel-rail"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            d={RAIL_PATH}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1}
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-
         {DESKTOP_APPS.map((app, index) => {
           const raw = index - active;
           const continuous = raw + dragY / ROW_HEIGHT;
           const translateY = continuous * ROW_HEIGHT;
           const abs = clamp(Math.abs(continuous), 0, CURVE_RANGE);
           const t = abs / CURVE_RANGE;
-          const curveX = CURVE_AMPLITUDE * easeRound(t);
+          // Inverted from a plain easeRound(t): full inward swing at t=0
+          // (active), settling back to the edge baseline as t nears 1.
+          const curveX = CURVE_AMPLITUDE * (1 - easeRound(t));
           const scale = 1 - 0.4 * t;
           const opacity = clamp(1 - 0.65 * t, 0.35, 1);
           const isActive = index === active;
@@ -243,7 +256,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                     : "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease",
               }}
               aria-pressed={isActive}
-              onClick={() => selectApp(index)}
+              onClick={() => pickApp(index)}
               onMouseEnter={() => maybePreloadByPath(app.path)}
               onTouchStart={() => maybePreloadByPath(app.path)}
             >
