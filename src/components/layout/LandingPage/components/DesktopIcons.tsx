@@ -9,6 +9,7 @@ import {
   // faFilm,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import DesktopRain from "./DesktopRain";
 
 interface DesktopIconsProps {
   showContactNotification: boolean;
@@ -31,6 +32,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
   return (
     <div className="desktop">
+      <DesktopRain />
       <div className="desktop-items">
         {desktopApps.map((app) => (
           <button

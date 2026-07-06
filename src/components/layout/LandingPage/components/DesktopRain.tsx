@@ -1,0 +1,209 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { Renderer, Program, Mesh, Triangle, Texture } from "ogl";
+
+// Ported from the "Rain Displacement" codepen (curtainsjs) to this project's
+// existing WebGL library (ogl, already used by BackgroundBit/Iridescence) so
+// the Desktop's frosted-glass surface gets an animated rain-on-glass look
+// instead of adding a second WebGL dependency.
+const vertexShader = `
+attribute vec2 uv;
+attribute vec2 position;
+
+varying vec2 vUv;
+
+void main() {
+  vUv = uv;
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const fragmentShader = `
+precision highp float;
+
+#define PI2 6.28318530718
+#define S(a,b,n) smoothstep(a,b,n)
+
+varying vec2 vUv;
+
+uniform float uTime;
+uniform sampler2D tMap;
+uniform vec2 uResolution;
+uniform vec2 uImageResolution;
+
+float N12(vec2 p){
+  p = fract(p * vec2(123.34, 345.45));
+  p += dot(p, p + 34.345);
+  return fract(p.x * p.y);
+}
+
+vec3 Layer(vec2 uv0, float t){
+  vec2 asp = vec2(2., 1.);
+  vec2 uv1 = uv0 * 3. * asp;
+  uv1.y += t * .25;
+
+  vec2 gv = fract(uv1) - .5;
+  vec2 id = floor(uv1);
+
+  float n = N12(id);
+  t += n * PI2;
+
+  float w = uv0.y * 10.;
+  float x = (n - .5) * .8;
+  x += (.4 - abs(x)) * sin(3. * w) * pow(sin(w), 6.) * .45;
+  float y = -sin(t + sin(t + sin(t) * .5)) * (.5 - .06);
+  y -= (gv.x - x) * (gv.x - x);
+
+  vec2 dropPos = (gv - vec2(x, y)) / asp;
+  float drop = S(.03, .02, length(dropPos));
+
+  vec2 trailPos = (gv - vec2(x, t * .25)) / asp;
+  trailPos.y = (fract(trailPos.y * 8.) - .5) / 8.;
+  float trail = S(.02, .015, length(trailPos));
+
+  float fogTrail = S(-.05, .05, dropPos.y);
+  fogTrail *= S(.5, y, gv.y);
+  trail *= fogTrail;
+  fogTrail *= S(.03, .015, abs(dropPos.x));
+
+  vec2 off = drop * dropPos + trail * trailPos;
+  return vec3(off, fogTrail);
+}
+
+void main() {
+  // "background-size: cover" style UV fit so the source photo isn't stretched
+  // to the container's aspect ratio.
+  vec2 ratio = vec2(
+    min((uResolution.x / uResolution.y) / (uImageResolution.x / uImageResolution.y), 1.0),
+    min((uResolution.y / uResolution.x) / (uImageResolution.y / uImageResolution.x), 1.0)
+  );
+  vec2 uv = vec2(
+    vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
+    vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
+  );
+
+  float dist = 5.;
+  float t = mod(uTime * .03, 7200.);
+  vec3 drops = Layer(uv, t);
+  drops += Layer(uv * 1.25 + 7.54, t);
+  drops += Layer(uv * 1.35 + 1.54, t);
+  drops += Layer(uv * 1.57 - 7.54, t);
+
+  float blur = 5. * 7. * (1. - drops.z) * .0005;
+  vec2 rippled = uv + drops.xy * dist;
+
+  vec4 col = vec4(0.);
+  float a = N12(uv) * PI2;
+  int numSamples = 16;
+  for (int n = 0; n < 16; n++) {
+    vec2 off = vec2(sin(a), cos(a)) * blur;
+    float d = fract(sin((float(n) + 1.) * 546.) * 5424.);
+    d = sqrt(d);
+    off *= d;
+    col += texture2D(tMap, rippled + off);
+    a++;
+  }
+  col /= float(numSamples);
+
+  gl_FragColor = col;
+}
+`;
+
+/**
+ * Animated rain-on-glass background for the `.desktop` surface, sampling the
+ * same photo the frosted glass already blurs behind it. Renders nothing (and
+ * leaves the existing CSS frosted-glass background untouched) when WebGL is
+ * unavailable or the user prefers reduced motion.
+ */
+export default function DesktopRain() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const container = containerRef.current;
+
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ alpha: true });
+    } catch (err) {
+      console.error("[desktop-rain] WebGL init failed", err);
+      return;
+    }
+
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+
+    const geometry = new Triangle(gl);
+    const texture = new Texture(gl, {
+      generateMipmaps: false,
+      minFilter: gl.LINEAR,
+    });
+
+    const program = new Program(gl, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      transparent: true,
+      uniforms: {
+        uTime: { value: 0 },
+        tMap: { value: texture },
+        uResolution: { value: [container.clientWidth, container.clientHeight] },
+        uImageResolution: { value: [1, 1] },
+      },
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+
+    const image = new Image();
+    image.onload = () => {
+      texture.image = image;
+      program.uniforms.uImageResolution.value = [
+        image.naturalWidth,
+        image.naturalHeight,
+      ];
+    };
+    image.src = "/images/palmtreeleaves-5.jpg";
+
+    function resize() {
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      program.uniforms.uResolution.value = [
+        container.clientWidth,
+        container.clientHeight,
+      ];
+    }
+    window.addEventListener("resize", resize, false);
+    resize();
+
+    container.appendChild(gl.canvas);
+
+    // Slows the whole rain animation (fall speed + drop bobbing) relative to
+    // the ported codepen, which advanced uTime by a full frame each tick.
+    const SPEED = 0.35;
+
+    let disposed = false;
+    let animationId: number;
+    let frame = 0;
+    function update() {
+      if (disposed) return;
+      animationId = requestAnimationFrame(update);
+      frame += SPEED;
+      program.uniforms.uTime.value = frame;
+      renderer.render({ scene: mesh });
+    }
+    animationId = requestAnimationFrame(update);
+
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
+      image.onload = null;
+      if (gl.canvas.parentNode === container) {
+        container.removeChild(gl.canvas);
+      }
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    };
+  }, []);
+
+  return <div ref={containerRef} className="desktop-rain" aria-hidden="true" />;
+}
