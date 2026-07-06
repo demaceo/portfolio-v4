@@ -2,6 +2,44 @@ import { Project } from "@/lib/types";
 
 const projectData: Project[] = [
   {
+    id: 4,
+    slug: "yap-united",
+    name: "Yap United",
+    yearRange: "2025-2026",
+    description:
+      "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
+    link: "https://github.com/demaceo",
+    deepDiveKey: "yap-united",
+    stackPreview: [
+      "React Native",
+      "Gemini Live API",
+      "ElevenLabs",
+      "Firebase",
+    ],
+    highlights: [
+      "Hands-free live mode with reconnect and backoff resilience.",
+      "Bidirectional STT translation and multilingual TTS for 15 languages.",
+      "Geo-zoned chat with moderation controls and per-user voice profiles.",
+    ],
+    icon: "/icons/projects/yap.png",
+  },
+  {
+    id: 16,
+    slug: "the-reckoning",
+    name: "The Reckoning",
+    yearRange: "2025-2026",
+    description:
+      "An eleven-part roundtable debate site pitting fourteen recurring personas against each other on the promise and peril of AI, with every claim traceable to a source and a build-time pipeline that can turn any part into a voiced podcast episode.",
+    link: "https://github.com/demaceo/DeusEx",
+    stackPreview: ["React", "TypeScript", "Vite", "Recharts"],
+    highlights: [
+      "Content-as-data architecture: typed schemas, data files, and one shared component kit render every part.",
+      "Referential integrity checks catch any dangling claim or source reference at dev time.",
+      "Claude-scripted, ElevenLabs-voiced podcast generation pipeline for any roundtable part.",
+    ],
+    icon: "fas fa-scroll icon",
+  },
+  {
     id: 0,
     slug: "pinpoint",
     name: "Pinpoint",
@@ -17,7 +55,17 @@ const projectData: Project[] = [
       "Gemini SSE chat and ElevenLabs voice responses for AI official simulations.",
     ],
     icon: "/icons/projects/pinpoint.png",
-    image: "/icons/projects/pinpoint.png",
+  },
+  {
+    id: 17,
+    slug: "stlmnt",
+    name: "STLMNT",
+    yearRange: "2025-2026",
+    description:
+      "Settlement and dispute-resolution platform in active development.",
+    link: "https://github.com/demaceo/stlmnt",
+    stackPreview: ["React Native", "TypeScript"],
+    icon: "fas fa-gavel icon",
   },
   {
     id: 1,
@@ -69,28 +117,6 @@ const projectData: Project[] = [
       "Animated AI rearrangement previews with score comparisons before apply.",
     ],
     icon: "/icons/projects/fengshui.png",
-  },
-  {
-    id: 4,
-    slug: "yap-united",
-    name: "Yap United",
-    yearRange: "2025-2026",
-    description:
-      "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
-    link: "https://github.com/demaceo",
-    deepDiveKey: "yap-united",
-    stackPreview: [
-      "React Native",
-      "Gemini Live API",
-      "ElevenLabs",
-      "Firebase",
-    ],
-    highlights: [
-      "Hands-free live mode with reconnect and backoff resilience.",
-      "Bidirectional STT translation and multilingual TTS for 15 languages.",
-      "Geo-zoned chat with moderation controls and per-user voice profiles.",
-    ],
-    icon: "/icons/projects/yap.png",
   },
   {
     id: 8,
