@@ -12,13 +12,13 @@
 }
 
 /* slightly larger on desktop for the main desktop icon set */
-.desktop-icon .icon-image {
+.desktop-wheel-row .icon-image {
   width: 56px;
   height: 56px;
   border-radius: 12px;
 }
 
-.desktop-icon .icon-image svg {
+.desktop-wheel-row .icon-image svg {
   width: 58%;
   height: 58%;
 }
@@ -29,28 +29,9 @@
   height: 22px;
 }
 
-/* hover / active - subtle lift, brighten and increase contrast */
-/* .desktop-icon:hover .icon-image,
-.desktop-icon:focus-within .icon-image {
-  transform: translateY(-6px) scale(1.06);
-  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18),
-    inset 0 -6px 12px rgba(255, 255, 255, 0.03);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.09),
-    rgba(255, 255, 255, 0.03)
-  );
-  color: #071022;
-} */
-
-/* keep existing desktop-icon:hover .icon-image transform in sync */
-.desktop-icon:hover .icon-image {
-  transform: translateY(-6px) scale(1.06);
-}
-
 /* accessible focus ring for keyboard navigation */
-.desktop-icon:focus-visible,
-.desktop-icon:focus {
+.desktop-wheel-row:focus-visible,
+.desktop-wheel-row:focus {
   outline: 3px solid rgba(0, 122, 255, 0.16);
   outline-offset: 4px;
   box-shadow: 0 10px 30px rgba(0, 122, 255, 0.08),
@@ -70,9 +51,7 @@
 /* reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
   .icon-image,
-  .icon-glass,
-  .desktop-icon:hover .icon-image,
-  .desktop-icon:focus-within .icon-image {
+  .icon-glass {
     transition: none;
     transform: none;
     box-shadow: none;
@@ -81,16 +60,6 @@
 
 /* responsive tweaks */
 @media (max-width: 768px) {
-  .icon-image {
-    width: 44px;
-    height: 44px;
-  }
-
-  .desktop-icon .icon-image {
-    width: 48px;
-    height: 48px;
-  }
-
   .icon-image svg {
     width: 62%;
     height: 62%;
@@ -127,22 +96,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-/* Fix icon positioning when view is inverted */
-.inverted-view .desktop-icon {
-  transform-origin: center center;
-}
-
-.inverted-view .icon-image {
-  transform-origin: center center;
-  position: relative;
-}
-
-/* Ensure hover effects work properly when inverted */
-.inverted-view .desktop-icon:hover .icon-image {
-  transform: rotate(180deg) scale(1.1);
-  transform-origin: center center;
 }
 
 .menu-right {
@@ -190,67 +143,84 @@
   }
 }
 
+/* Curved Activity Picker wheel (tailored from the codepen of the same name):
+   a vertical rail of app rows that bows outward on the .desktop-wheel-rail
+   curve as rows recede from the centered (active) one. Drag, scroll the
+   wheel, or tap a row to bring it to center and launch that app. */
 .desktop-items {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   position: absolute;
   right: 20px;
   top: 20px;
-}
-
-.desktop-icon {
-  display: flex;
-  flex-direction: column;
-  border: none !important;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 12px;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-origin: center;
-  position: relative;
-  overflow: visible;
-  background: transparent;
-}
-
-.desktop-icon::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
+  width: 220px;
+  height: 340px;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
   );
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+
+.desktop-wheel-rail {
+  position: absolute;
+  top: 6%;
+  height: 88%;
+  right: 34px;
+  width: 60px;
+  color: rgba(255, 255, 255, 0.22);
   pointer-events: none;
 }
 
-.desktop-icon:hover {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  transform: scale(1.1) translateY(-5px);
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.1);
+.desktop-wheel-row {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 70px;
+  margin: 0;
+  padding: 0 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  border: none !important;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  will-change: transform, opacity;
 }
 
-.desktop-icon:hover::before {
-  opacity: 1;
+.desktop-wheel-label {
+  color: rgba(241, 245, 249, 0.75);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
 }
 
-.desktop-icon:active {
-  transform: scale(0.95) translateY(-2px);
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.desktop-wheel-label-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .icon-image {
@@ -338,8 +308,8 @@
   height: 100%;
 }
 
-.desktop-icon:hover .icon-glass {
-  border-radius: 18px;
+.desktop-wheel-row:hover .icon-glass-base {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* Notification Badge */
@@ -373,27 +343,6 @@
   100% {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 59, 48, 0);
   }
-}
-
-.desktop-icon:hover .icon-image {
-  transform: scale(1.1);
-  /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); */
-}
-
-.icon-label {
-  color: rgba(241, 245, 249, 0.96);
-  font-size: 10px;
-  text-align: center;
-  max-width: 60px;
-  word-wrap: break-word;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
-}
-
-.desktop-icon:hover .icon-label {
-  transform: translateY(-2px);
-  text-shadow: 0 3px 8px rgba(2, 6, 23, 0.82);
-  font-weight: 500;
 }
 
 .welcome-window {
@@ -543,24 +492,60 @@
     padding: 16px;
   }
 
-  /* App icons become a horizontal dock pinned just above the taskbar,
-     so they no longer collide with the centered welcome window. */
+  /* The curved wheel doesn't have room to bow outward on a phone screen, so
+     app icons fall back to a flat horizontal dock pinned just above the
+     taskbar, same as the wheel it replaced. */
   .desktop-items {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: 14px;
     right: auto;
     top: auto;
     left: 50%;
     bottom: 14px;
     transform: translateX(-50%);
+    width: auto;
+    height: auto;
     max-width: calc(100% - 24px);
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
-  .desktop-icon .icon-image {
-    width: 46px;
-    height: 46px;
+  .desktop-wheel-rail {
+    display: none;
+  }
+
+  .desktop-wheel-row {
+    position: static !important;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 4px;
+    height: auto;
+    padding: 0;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .desktop-wheel-row .icon-image {
+    width: 46px !important;
+    height: 46px !important;
+  }
+
+  .desktop-wheel-label,
+  .desktop-wheel-label-active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    font-size: 10px !important;
+    font-weight: 500;
+    color: rgba(241, 245, 249, 0.96);
   }
 
   /* Lift the welcome card above the dock and let it use the full width. */
