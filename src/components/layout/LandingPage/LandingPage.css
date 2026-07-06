@@ -158,7 +158,36 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
     inset 0 -1px 0 rgba(0, 0, 0, 0.05), 0 4px 20px rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: hidden;
   padding: 20px;
+}
+
+/* Animated rain-on-glass layer (see DesktopRain.tsx). Painted before
+   .desktop-items in the DOM so it sits behind the icons with no z-index
+   needed; a milky film keeps the existing frosted-glass read intact. */
+.desktop-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.desktop-rain canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.desktop-rain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktop-rain canvas {
+    display: none;
+  }
 }
 
 .desktop-items {
