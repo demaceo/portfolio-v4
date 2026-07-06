@@ -37,7 +37,7 @@ const projectData: Project[] = [
       "Referential integrity checks catch any dangling claim or source reference at dev time.",
       "Claude-scripted, ElevenLabs-voiced podcast generation pipeline for any roundtable part.",
     ],
-    icon: "fas fa-scroll icon",
+    icon: "/icons/projects/reckoning.png",
   },
   {
     id: 0,
