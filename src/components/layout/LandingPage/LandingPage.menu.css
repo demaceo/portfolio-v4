@@ -1809,3 +1809,17 @@
     max-width: 100%;
   }
 }
+
+/* ==========================================================================
+   Phone & tablet — drop the MenuBar entirely.
+   Its content (About/Services/Projects) is already reachable from the
+   desktop icons and the welcome window's quick links, and a mac-style top
+   menu bar doesn't translate well to a touch layout. Kept as the last rule
+   in this file so it wins the cascade over the unconditional `.menu-bar`
+   rule above (same selector specificity, so source order decides).
+   ========================================================================== */
+@media (max-width: 768px) {
+  .menu-bar {
+    display: none;
+  }
+}
