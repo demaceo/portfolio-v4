@@ -62,9 +62,14 @@ const projectData: Project[] = [
     name: "STLMNT",
     yearRange: "2025-2026",
     description:
-      "Settlement and dispute-resolution platform in active development.",
+      "Free React Native app that surfaces verified, open US class action settlements, checks user eligibility, and helps fill the official claim form, never auto-submitting on a user's behalf.",
     link: "https://github.com/demaceo/stlmnt",
-    stackPreview: ["React Native", "TypeScript"],
+    stackPreview: ["React Native", "Expo", "Firebase", "TypeScript"],
+    highlights: [
+      "Ingestion workers scrape FTC, JND, Atticus, Simpluris, and Kroll feeds into a curation queue.",
+      "Default-deny Firestore rules with an admin-gated AI drafting pipeline for settlement curation.",
+      "Field-level encryption via Cloud KMS envelope encryption for sensitive profile data.",
+    ],
     icon: "fas fa-gavel icon",
   },
   {
