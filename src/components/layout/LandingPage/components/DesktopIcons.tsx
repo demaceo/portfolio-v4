@@ -31,6 +31,34 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
   return (
     <div className="desktop">
+      {/* Shared displacement filter (ported from the "Liquid Glass Button"
+          codepen) that gives the icon surfaces their liquid refraction. */}
+      <svg className="desktop-glass-filter" aria-hidden="true">
+        <filter
+          id="desktop-icon-glass-distortion"
+          x="-20%"
+          y="-20%"
+          width="140%"
+          height="140%"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.02 0.03"
+            numOctaves="2"
+            seed="92"
+            result="noise"
+          />
+          <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="blurred"
+            scale="25"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </svg>
+
       <div className="desktop-items">
         {desktopApps.map((app) => (
           <button
@@ -49,7 +77,14 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
             }}
           >
             <div className="icon-image">
-              <FontAwesomeIcon icon={app.icon} />
+              <div className="icon-glass">
+                <div className="icon-glass-distortion" />
+                <div className="icon-glass-base" />
+                <div className="icon-glass-border" />
+                <span className="icon-glass-content">
+                  <FontAwesomeIcon icon={app.icon} />
+                </span>
+              </div>
               {app.name === "Contact" && showContactNotification && (
                 <div className="notification-badge">!</div>
               )}
