@@ -177,13 +177,17 @@ export default function DesktopRain() {
 
     container.appendChild(gl.canvas);
 
+    // Slows the whole rain animation (fall speed + drop bobbing) relative to
+    // the ported codepen, which advanced uTime by a full frame each tick.
+    const SPEED = 0.35;
+
     let disposed = false;
     let animationId: number;
     let frame = 0;
     function update() {
       if (disposed) return;
       animationId = requestAnimationFrame(update);
-      frame++;
+      frame += SPEED;
       program.uniforms.uTime.value = frame;
       renderer.render({ scene: mesh });
     }
