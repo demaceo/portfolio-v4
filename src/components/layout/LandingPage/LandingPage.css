@@ -85,6 +85,18 @@
   align-items: center;
   padding: 0;
   margin: 0;
+  position: relative;
+}
+
+/* Painted before .mac-screen (see FlyingBirds.tsx), so it sits over the
+   wallpaper and behind the framed screen with no z-index needed. */
+.flying-birds-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
 }
 
 .mac-screen {

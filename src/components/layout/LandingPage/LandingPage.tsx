@@ -10,6 +10,7 @@ import {
   Taskbar,
   Modals,
   TimeDisplay,
+  FlyingBirds,
 } from "./components";
 import {
   useModalState,
@@ -32,6 +33,8 @@ const LandingPage = () => {
 
   return (
     <div className="macintosh-container">
+      <FlyingBirds />
+
       <div className="mac-screen">
         <MenuBar
           openDropdown={dropdownState.openDropdown}
