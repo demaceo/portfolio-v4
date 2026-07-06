@@ -162,6 +162,7 @@
 
 .desktop-items {
   position: absolute;
+  z-index: 1;
   right: 20px;
   top: 20px;
   width: 220px;
@@ -357,6 +358,9 @@
   background: #ffffff;
   border: 2px solid #3b3a3a;
   box-shadow: 2px 2px 0px #3b3a3a;
+  /* Sits above the curved activity picker so it reads as a window floating
+     on top of the desktop, same as the icons it was always drawn over. */
+  z-index: 10;
 }
 
 .window-title-bar {
@@ -371,14 +375,23 @@
 
 .window-controls {
   position: absolute;
+  top: 50%;
   left: 5px;
+  transform: translateY(-50%);
 }
 
 .close-btn {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: #ffffff;
   border: 1px solid #3b3a3a;
+  color: #3b3a3a;
+  font-size: 12px;
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -467,11 +480,13 @@
 /* ==========================================================================
    Responsive adjustments
    The retro "screen" is a single layout across every device. We keep the
-   framed-screen identity at all sizes and only reflow the contents:
+   framed-screen identity — and the curved activity picker — at all sizes;
+   only the framed screen's own proportions and the picker's scale reflow:
      - monitors: the frame is capped (see .mac-screen max-width/height)
      - tablets:  the frame grows toward the viewport edges
-     - phones:   desktop icons drop into a bottom dock and the welcome card
-                 sits centered above it, so the two never overlap
+     - phones:   the picker shrinks a little and the welcome window (which
+                 the user can dismiss via its own close button) floats on
+                 top of it, same layering as on desktop
    ========================================================================== */
 
 /* Tablet — give the framed screen more breathing room */
@@ -483,7 +498,9 @@
   }
 }
 
-/* Phone — reflow the desktop into a centered card + bottom app dock */
+/* Phone — shrink the framed screen; the picker keeps its size and now sits
+   behind the welcome window (dismissible via its own close button) instead
+   of being pushed into a separate flat dock. */
 @media (max-width: 600px) {
   .mac-screen {
     width: 96vw;
@@ -493,76 +510,5 @@
 
   .desktop {
     padding: 16px;
-  }
-
-  /* The curved wheel doesn't have room to bow outward on a phone screen, so
-     app icons fall back to a flat horizontal dock pinned just above the
-     taskbar, same as the wheel it replaced. */
-  .desktop-items {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
-    right: auto;
-    top: auto;
-    left: 50%;
-    bottom: 14px;
-    transform: translateX(-50%);
-    width: auto;
-    height: auto;
-    max-width: calc(100% - 24px);
-    overflow: visible;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .desktop-wheel-rail {
-    display: none;
-  }
-
-  .desktop-wheel-row {
-    position: static !important;
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 4px;
-    height: auto;
-    padding: 0;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  .desktop-wheel-row .icon-image {
-    width: 46px !important;
-    height: 46px !important;
-  }
-
-  .desktop-wheel-label,
-  .desktop-wheel-label-active {
-    background: none;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: 0;
-    font-size: 10px !important;
-    font-weight: 500;
-    color: rgba(241, 245, 249, 0.96);
-  }
-
-  /* Lift the welcome card above the dock and let it use the full width. */
-  .welcome-window {
-    top: 44%;
-  }
-}
-
-@media (max-width: 380px) {
-  .desktop-items {
-    gap: 10px;
-  }
-
-  .welcome-window {
-    top: 42%;
   }
 }
