@@ -11,7 +11,6 @@ import {
   faCookieBite,
   faFilm,
   faScroll,
-  faGavel,
   faExternalLinkAlt,
   faChevronLeft,
   faChevronRight,
@@ -31,7 +30,6 @@ const iconMap: Record<string, typeof faBriefcase> = {
   "fas fa-cookie-bite icon": faCookieBite,
   "fas fa-film icon": faFilm,
   "fas fa-scroll icon": faScroll,
-  "fas fa-gavel icon": faGavel,
 };
 
 const isImageIcon = (icon?: string) => {

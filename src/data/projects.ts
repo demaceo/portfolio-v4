@@ -70,7 +70,7 @@ const projectData: Project[] = [
       "Default-deny Firestore rules with an admin-gated AI drafting pipeline for settlement curation.",
       "Field-level encryption via Cloud KMS envelope encryption for sensitive profile data.",
     ],
-    icon: "fas fa-gavel icon",
+    icon: "/icons/projects/stlmnt.png",
   },
   {
     id: 1,
