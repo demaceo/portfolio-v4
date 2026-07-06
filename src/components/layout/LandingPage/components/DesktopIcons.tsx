@@ -37,9 +37,11 @@ const DESKTOP_APPS: DesktopApp[] = [
 ];
 
 const DEFAULT_ACTIVE = 1; // Skillset — keeps every row on-screen at rest
-const ROW_HEIGHT = 70; // px
+const ROW_HEIGHT = 120; // px between rows, so icons read as spaced out
 const CURVE_RANGE = 3; // rows over which the curve/scale/fade fully resolve
-const CURVE_AMPLITUDE = 32; // px a row swings left as it recedes from center
+const CURVE_AMPLITUDE = 56; // px a row swings left as it recedes from center
+const ACTIVE_ICON_SIZE = 84; // px
+const BASE_ICON_SIZE = 64; // px, before the recede scale is applied
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -53,11 +55,12 @@ function easeRound(t: number) {
   return 1 - Math.cos((t * Math.PI) / 2);
 }
 
-// Sampled points (0-100 box) for the decorative rail. It's a static spine
-// spanning the full height of .desktop, independent of which app is active:
-// it touches the right edge at the top and bottom corners (y=0/100) and
-// bows inward (left) at the vertical middle — the row curve below mirrors
-// this same direction so the active row's inward pop reads as part of it.
+// Sampled points (0-100 box) for the decorative rail, drawn in the same
+// full-height wheel box the rows live in: it touches the right edge at the
+// top and bottom corners (y=0/100) and bows inward (left) at the vertical
+// middle — sharing that box's own 50% mark is what keeps the rows reading
+// as if they're strung along this exact line, since the active row (t=0)
+// pops inward at that same middle point.
 const RAIL_PATH = Array.from({ length: 21 }, (_, i) => {
   const y = (i / 20) * 100;
   const t = clamp(Math.abs(y - 50) / 50, 0, 1);
@@ -67,10 +70,10 @@ const RAIL_PATH = Array.from({ length: 21 }, (_, i) => {
 
 /**
  * A tailored take on the "Curved Activity Picker" codepen: the desktop
- * shortcuts sit on a vertical rail that spans the full desktop height, with
- * the centered row popping inward (left) while receding rows settle back
- * toward the edge. Drag, scroll, or tap a row to bring it to center; tapping
- * the row that's already centered launches that app.
+ * shortcuts are strung along a vertical rail spanning the full desktop
+ * height, with the centered row popping inward (left) while receding rows
+ * settle back toward the edge. Drag, scroll, or tap a row to bring it to
+ * center; tapping the row that's already centered launches that app.
  */
 const DesktopIcons: React.FC<DesktopIconsProps> = ({
   showContactNotification,
@@ -202,21 +205,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
       <DesktopRain />
 
-      <svg
-        className="desktop-wheel-rail"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d={RAIL_PATH}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1}
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-
       <div
         ref={wheelRef}
         className="desktop-items"
@@ -227,6 +215,21 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
         onPointerLeave={endDrag}
         onPointerCancel={endDrag}
       >
+        <svg
+          className="desktop-wheel-rail"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            d={RAIL_PATH}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1}
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+
         {DESKTOP_APPS.map((app, index) => {
           const raw = index - active;
           const continuous = raw + dragY / ROW_HEIGHT;
@@ -239,7 +242,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           const scale = 1 - 0.4 * t;
           const opacity = clamp(1 - 0.65 * t, 0.35, 1);
           const isActive = index === active;
-          const iconSize = isActive ? 56 : Math.round(42 * scale);
+          const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
 
           return (
             <button
@@ -265,7 +268,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               ) : (
                 <span
                   className="desktop-wheel-label"
-                  style={{ fontSize: `${13 + 4 * (1 - t)}px` }}
+                  style={{ fontSize: `${16 + 6 * (1 - t)}px` }}
                 >
                   {app.name}
                 </span>
@@ -276,7 +279,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                   className="icon-glass"
                   style={
                     isActive
-                      ? { boxShadow: `inset 0 0 0 1.5px ${app.color}99, 0 0 16px ${app.color}66` }
+                      ? { boxShadow: `inset 0 0 0 2px ${app.color}99, 0 0 24px ${app.color}66` }
                       : undefined
                   }
                 >
