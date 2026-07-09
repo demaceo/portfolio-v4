@@ -6,9 +6,11 @@ import "./LandingPage.menu.css";
 import {
   MenuBar,
   DesktopIcons,
+  AppSwitcher,
   WelcomeWindow,
   Taskbar,
   Modals,
+  AppViews,
   TimeDisplay,
   FlyingBirds,
 } from "./components";
@@ -35,7 +37,7 @@ const LandingPage = () => {
     <div className="macintosh-container">
       <FlyingBirds />
 
-      <div className="mac-screen">
+      <div className={`mac-screen${modalState.showAboutMe ? " mac-screen--app-view-open" : ""}`}>
         <MenuBar
           openDropdown={dropdownState.openDropdown}
           setOpenDropdown={dropdownActions.setOpenDropdown}
@@ -55,6 +57,12 @@ const LandingPage = () => {
           maybePreloadByPath={maybePreloadByPath}
         />
 
+        <AppSwitcher
+          showContactNotification={modalState.showContactNotification}
+          handleAppClick={handleAppClick}
+          maybePreloadByPath={maybePreloadByPath}
+        />
+
         <WelcomeWindow
           showWelcomeWindow={modalState.showWelcomeWindow}
           onClose={() => modalActions.setShowWelcomeWindow(false)}
@@ -63,13 +71,17 @@ const LandingPage = () => {
         />
 
         <Taskbar />
+
+        <AppViews
+          showAboutMe={modalState.showAboutMe}
+          setShowAboutMe={modalActions.setShowAboutMe}
+          onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
+        />
       </div>
 
       <Modals
         showContactForm={modalState.showContactForm}
         setShowContactForm={modalActions.setShowContactForm}
-        showAboutMe={modalState.showAboutMe}
-        setShowAboutMe={modalActions.setShowAboutMe}
         showResume={modalState.showResume}
         setShowResume={modalActions.setShowResume}
         showSkillset={modalState.showSkillset}

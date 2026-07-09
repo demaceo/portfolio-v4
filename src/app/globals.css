@@ -66,6 +66,7 @@
      global tokens from leaking into (or being shadowed by) those. */
   --lg-tint: rgba(18, 13, 10, 0.62);
   --lg-tint-strong: rgba(13, 10, 9, 0.74); /* title bars, item cards over glass */
+  --lg-tint-solid: rgba(13, 10, 9, 0.94); /* full-bleed AppView takeovers — no separate blur scrim behind them */
   --lg-edge: rgba(255, 220, 180, 0.16);
   --lg-edge-bright: rgba(255, 220, 180, 0.28);
   --lg-sheen: linear-gradient(

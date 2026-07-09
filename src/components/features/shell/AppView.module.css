@@ -1,0 +1,177 @@
+.appView {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  background: var(--lg-tint-solid);
+  outline: none;
+  overflow: hidden;
+}
+
+/* 135deg white->transparent sheen, matching ModalFrame's ".frame::before" —
+   same liquid-glass identity, just on a full-bleed surface instead of a
+   floating card. */
+.appView::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--lg-sheen);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.titleBar,
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--lg-edge);
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(13, 10, 9, 0.62) 0%, rgba(13, 10, 9, 0.48) 100%);
+}
+
+.titleBar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 132, 90, 0.32) 25%,
+    rgba(212, 132, 90, 0.5) 50%,
+    rgba(212, 132, 90, 0.32) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.backButton {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--lg-edge-bright);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(240, 236, 232, 0.4);
+  font-size: 12px;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.backButton:hover {
+  transform: scale(1.08);
+  background: rgba(212, 132, 90, 0.18);
+  border-color: rgba(212, 132, 90, 0.45);
+  color: #d4845a;
+}
+
+.backButton:active {
+  transform: scale(0.93);
+}
+
+.backButton:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.6);
+  outline-offset: 2px;
+}
+
+.titleText {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(240, 236, 232, 0.45);
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 28px;
+  min-height: 28px;
+  flex-shrink: 0;
+}
+
+.headerSpacer {
+  width: 28px;
+  height: 28px;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .titleBar {
+    min-height: 46px;
+    padding: 0 12px;
+  }
+
+  .titleText {
+    font-size: 9px;
+  }
+}
+
+/* Touch devices need a hit target closer to the ~44px accessibility minimum
+   regardless of viewport width — same reasoning/precedent as ModalFrame's
+   close button. */
+@media (pointer: coarse) {
+  .headerControls,
+  .backButton,
+  .headerSpacer {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .appView {
+    background: rgba(13, 10, 9, 0.98);
+  }
+
+  .titleBar {
+    background: linear-gradient(180deg, rgba(13, 10, 9, 0.98) 0%, rgba(16, 12, 10, 0.96) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backButton {
+    transition: none;
+  }
+}

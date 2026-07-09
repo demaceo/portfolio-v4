@@ -149,6 +149,88 @@
   max-width: 56ch;
 }
 
+/* ── Hero ("I build ___") — scroll-timeline word highlight ───
+   Adapted from codepenz's scroll-timeline-word-highlight: each word's own
+   animation-timeline: view() brightens/scales it as it crosses the visual
+   center of the scrollable list, independent of any shared scroll position. */
+
+.about-hero {
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+  min-height: 8rem;
+  margin: -0.2rem 0 0.4rem;
+}
+
+.about-hero-phrase {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, calc(1rem + 1.4vw), 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--about-text);
+  white-space: nowrap;
+}
+
+.about-hero-scroll {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%);
+  scrollbar-width: none;
+}
+
+.about-hero-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.about-hero-pad {
+  height: calc(50% - 1.1rem);
+}
+
+.about-hero-word {
+  scroll-snap-align: center;
+  padding: 0.4rem 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, calc(0.95rem + 1.2vw), 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: oklch(72% 0.14 calc(35deg + var(--i) * 6deg));
+  opacity: 0.2;
+  filter: brightness(0.4);
+  transform: scale(0.92);
+}
+
+@supports (animation-timeline: scroll()) {
+  .about-hero-word {
+    animation: about-hero-word-focus linear both;
+    animation-timeline: view(y);
+    animation-range: cover;
+  }
+}
+
+@keyframes about-hero-word-focus {
+  0%,
+  100% {
+    opacity: 0.2;
+    filter: brightness(0.4);
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.15);
+    transform: scale(1);
+  }
+}
+
 /* ── Profile highlights ───────────────────────────────── */
 
 .about-highlight-grid {
@@ -517,7 +599,10 @@
 
 /* ── Responsive ───────────────────────────────────────── */
 
-@media (max-width: 720px) {
+/* AppView gives About the full .mac-screen width (up to 1500px) instead of a
+   floating card's constrained width, so the rail can stay vertical down to a
+   narrower breakpoint than the old modal used (720px). */
+@media (max-width: 580px) {
   .about-dossier {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
@@ -568,6 +653,16 @@
   .about-highlight-grid {
     grid-template-columns: 1fr;
   }
+
+  .about-hero {
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 7rem;
+  }
+
+  .about-hero-scroll {
+    height: 6rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -588,5 +683,12 @@
   .about-pill,
   .about-prog-arrow {
     transition: none;
+  }
+
+  .about-hero-word {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
   }
 }

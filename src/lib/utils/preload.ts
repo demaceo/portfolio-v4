@@ -14,7 +14,7 @@ const idle: RequestIdleCallback = (cb) => {
 // Dynamic import preloaders for code splitting
 export const preloadModules = {
     contact: () => import("@/components/features/contact/ContactForm/ContactForm"),
-    about: () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
+    about: () => import("@/components/features/about/AboutAppView/AboutAppView"),
     skillset: () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
     projects: () =>
         import("@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"),

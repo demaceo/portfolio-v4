@@ -1,0 +1,134 @@
+/* ===== Mobile App Switcher (≤480px) =====
+   Adapted from codepenz's "Apple Liquid Glass Switcher": a glass-refraction
+   pill with a sliding capsule indicator. The pen hardcodes exactly 3 option
+   positions via one CSS selector block per option; here the pill's position
+   is driven generically for any N by two custom properties set from JS
+   (--n-options, --active-index) — translateX(<active-index> * 100%) moves
+   the indicator by exactly its own width per step, since percentage
+   `transform` values resolve against the element's own box, not its parent's. */
+
+.app-switcher-svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.app-switcher-dock {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 4;
+}
+
+@media (max-width: 480px) {
+  .app-switcher-dock {
+    display: flex;
+  }
+}
+
+.app-switcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid var(--lg-edge);
+  border-radius: 999px;
+  background: var(--lg-tint);
+  box-shadow: var(--lg-shadow);
+  box-sizing: border-box;
+}
+
+.app-switcher-legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  overflow: hidden;
+}
+
+/* Sliding capsule indicator — one generic rule instead of one per option. */
+.app-switcher::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / var(--n-options));
+  border-radius: 999px;
+  background: var(--noir-accent);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
+  transform: translateX(calc(var(--active-index) * 100%));
+  transform-origin: var(--pill-origin, center);
+  transition: transform 0.4s cubic-bezier(1, 0, 0.4, 1);
+  z-index: 0;
+}
+
+.app-switcher-option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  color: var(--noir-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.app-switcher-option:has(.app-switcher-input:checked) {
+  color: #fff;
+}
+
+.app-switcher-option:hover:not(:has(.app-switcher-input:checked)) {
+  color: var(--app-accent, var(--noir-text));
+}
+
+.app-switcher-input {
+  position: absolute;
+  clip-path: inset(100%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.app-switcher-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  overflow: hidden;
+}
+
+.app-switcher-icon-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.app-switcher-icon-image .icon-glass-content {
+  font-size: 0.9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-switcher::after,
+  .app-switcher-option {
+    transition: none;
+  }
+}

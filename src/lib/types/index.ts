@@ -81,6 +81,14 @@ export interface ModalFrameProps {
     variant?: ModalVariant;
 }
 
+export interface AppViewProps {
+    onClose: () => void;
+    title: string;
+    children: ReactNode;
+    headerActions?: ReactNode;
+    titleId?: string;
+}
+
 export interface ModalState {
     isOpen: boolean;
     message: string;

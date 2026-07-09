@@ -108,6 +108,18 @@
   position: relative;
 }
 
+/* While a full-screen AppView (e.g. About) is open, the desktop chrome
+   behind it is visually hidden — visibility (not display) so DesktopIcons'
+   wheel position and other internal state survive the open/close cycle. */
+.mac-screen--app-view-open > .menu-bar,
+.mac-screen--app-view-open > .desktop,
+.mac-screen--app-view-open > .app-switcher-dock,
+.mac-screen--app-view-open > .welcome-window,
+.mac-screen--app-view-open > .taskbar {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .menu-right {
   display: flex;
   gap: 10px;
@@ -522,5 +534,15 @@
 
   .desktop {
     padding: 16px;
+  }
+}
+
+/* Phone-only — the curved wheel picker gives way to the Liquid Glass App
+   Switcher dock (see AppSwitcher.css), a touch-first pill switcher instead
+   of a tall vertical wheel. Both components always mount; CSS alone decides
+   which renders, mirroring the MenuBar-hide precedent below. */
+@media (max-width: 480px) {
+  .desktop {
+    display: none;
   }
 }

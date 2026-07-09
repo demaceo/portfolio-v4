@@ -1,19 +1,35 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { aboutMePills } from "@/data/aboutMePills";
 import { AboutMePill } from "@/lib/types";
-import { ModalFrame } from "@/components/features/modal";
-import "./AboutMeModal.css";
+import { AppView } from "@/components/features/shell";
+import "./AboutAppView.css";
 
-interface AboutMeModalProps {
+interface AboutAppViewProps {
   onClose: () => void;
-  onOpenContact?: () => void;
-  onOpenResume?: () => void;
   onOpenDocumentary?: () => void;
 }
+
+// "I build ___" hero — see codepenz's scroll-timeline-word-highlight for the
+// underlying CSS mechanism (animation-timeline: view()). Words are pulled
+// from the actual services/project domains, not the pen's placeholders.
+const ABOUT_HERO_WORDS = [
+  "Websites",
+  "Mobile Apps",
+  "APIs",
+  "Dashboards",
+  "Pipelines",
+  "Platforms",
+  "Systems",
+  "Experiences",
+  "Automations",
+  "Products",
+  "Interfaces",
+];
+const ABOUT_HERO_START_INDEX = 5;
 
 const profileHighlights = [
   {
@@ -82,10 +98,11 @@ const chapterVariants = {
   exit: (dir: number) => ({ opacity: 0, y: dir > 0 ? -22 : 22 }),
 };
 
-const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary }) => {
+const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary }) => {
   const [chapterIndex, setChapterIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const heroListRef = useRef<HTMLUListElement>(null);
 
   const chapter = chapters[chapterIndex];
 
@@ -94,6 +111,13 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary 
       acc[pill.label] = pill;
       return acc;
     }, {});
+  }, []);
+
+  useEffect(() => {
+    const target = heroListRef.current?.querySelector<HTMLLIElement>(
+      `[data-index="${ABOUT_HERO_START_INDEX}"]`
+    );
+    target?.scrollIntoView({ block: "center" });
   }, []);
 
   const goToChapter = (index: number) => {
@@ -198,6 +222,24 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary 
     if (chapter.kind === "profile") {
       return (
         <>
+          <div className="about-hero">
+            <div className="about-hero-phrase">I build</div>
+            <ul className="about-hero-scroll" ref={heroListRef}>
+              <li className="about-hero-pad" aria-hidden="true" />
+              {ABOUT_HERO_WORDS.map((word, i) => (
+                <li
+                  key={word}
+                  data-index={i}
+                  className="about-hero-word"
+                  style={{ "--i": i } as CSSProperties}
+                >
+                  {word}
+                </li>
+              ))}
+              <li className="about-hero-pad" aria-hidden="true" />
+            </ul>
+          </div>
+
           <p className="about-eyebrow">Profile</p>
           <h2 className="about-chapter-title">Hello, I&apos;m Demaceo Vincent</h2>
           <p className="about-lede">
@@ -294,14 +336,7 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary 
   };
 
   return (
-    <ModalFrame
-      onClose={onClose}
-      title="About"
-      size="lg"
-      variant="light"
-      titleId="about-title"
-      closeAriaLabel="Close about modal"
-    >
+    <AppView onClose={onClose} title="About" titleId="about-title">
       <div className="about-dossier">
         {/* ── Chapter rail (table of contents) ─────────── */}
         <nav className="about-rail" aria-label="About chapters">
@@ -373,8 +408,8 @@ const AboutMeModal: React.FC<AboutMeModalProps> = ({ onClose, onOpenDocumentary 
           </div>
         </div>
       </div>
-    </ModalFrame>
+    </AppView>
   );
 };
 
-export default AboutMeModal;
+export default AboutAppView;
