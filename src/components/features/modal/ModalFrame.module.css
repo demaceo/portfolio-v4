@@ -214,16 +214,23 @@
   .windowTitle {
     font-size: 9px;
   }
+}
 
+/* Touch devices need a hit target closer to the ~44px accessibility
+   minimum regardless of viewport width — a mouse-sized 28px close button is
+   hard to tap reliably, and tablets in particular are touch-only while
+   often sitting above the 768px width breakpoint above (e.g. iPad portrait
+   at 820-834px), so a width-only rule would miss them. */
+@media (pointer: coarse) {
   .closeButton,
   .windowControls,
   .headerSpacer {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
   }
 
   .closeButton::after {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 

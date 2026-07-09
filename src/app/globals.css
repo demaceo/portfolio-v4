@@ -389,3 +389,15 @@ h6 {
     transition: none;
   }
 }
+
+/* Their compact mouse-tuned padding (~25px tall) falls well short of the
+   ~44px touch-target minimum; on touch devices, size up without touching
+   the desktop/mouse layout. */
+@media (pointer: coarse) {
+  .glass-tab,
+  .glass-chip {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
