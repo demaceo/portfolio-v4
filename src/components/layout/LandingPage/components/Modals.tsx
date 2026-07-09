@@ -36,8 +36,11 @@ const SkillsetModal = dynamic(
   }
 );
 
-const ProjectsModal = dynamic(
-  () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
+const ProjectsGalleryModal = dynamic(
+  () =>
+    import(
+      "@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"
+    ),
   {
     loading: () => <LoadingModal />,
   }
@@ -110,7 +113,7 @@ const Modals: React.FC<ModalsProps> = ({
       </AnimatePresence>
       <AnimatePresence>
         {showProjects && (
-          <ProjectsModal key="projects" onClose={() => setShowProjects(false)} />
+          <ProjectsGalleryModal key="projects" onClose={() => setShowProjects(false)} />
         )}
       </AnimatePresence>
       <AnimatePresence>

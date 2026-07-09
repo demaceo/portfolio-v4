@@ -2,20 +2,15 @@
 
 import React, { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLaptopCode,
-  faBriefcase,
-  faPaw,
-  faTheaterMasks,
-  faRobot,
-  faMusic,
-  faCookieBite,
-  faFilm,
-} from "@fortawesome/free-solid-svg-icons";
 import { aboutMePills } from "@/data/aboutMePills";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import { projectsData } from "@/data/projects";
 import services from "@/data/services";
+import {
+  PROJECT_ICON_MAP,
+  PROJECT_ICON_FALLBACK,
+  isImageIcon,
+} from "@/lib/constants/projectIcons";
 // import tools from "@/data/toolbelt";
 import Image from "next/image";
 
@@ -50,24 +45,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
-
-  const iconMap = {
-    "fas fa-briefcase icon": faBriefcase,
-    "fa fa-paw icon": faPaw,
-    "fas fa-theater-masks icon": faTheaterMasks,
-    "fas fa-robot icon": faRobot,
-    "fas fa-music icon": faMusic,
-    "fas fa-cookie-bite icon": faCookieBite,
-    "fas fa-film icon": faFilm,
-  };
-
-  const isImageIcon = (icon?: string) => {
-    if (!icon) return false;
-    return (
-      (icon.startsWith("/") || icon.startsWith("http")) &&
-      /\.(png|jpe?g|webp|svg)$/i.test(icon)
-    );
-  };
 
   const getServicePreview = (description: string) => {
     const normalizedDescription = description.replace(/\s+/g, " ").trim();
@@ -343,9 +320,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                   >
                                     <FontAwesomeIcon
                                       icon={
-                                        iconMap[
-                                        proj.icon as keyof typeof iconMap
-                                        ] || faLaptopCode
+                                        PROJECT_ICON_MAP[proj.icon as string] ||
+                                        PROJECT_ICON_FALLBACK
                                       }
                                     />
                                   </span>

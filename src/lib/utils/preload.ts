@@ -16,7 +16,8 @@ export const preloadModules = {
     contact: () => import("@/components/features/contact/ContactForm/ContactForm"),
     about: () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
     skillset: () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
-    projects: () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
+    projects: () =>
+        import("@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"),
     documentary: () =>
         import("@/components/features/media").then((m) => m.DocumentaryPlayer),
     resume: () => import("@/components/features/resume/InteractiveResume/InteractiveResume"),

@@ -8,6 +8,11 @@ let bodyScrollLockCount = 0;
 let previousBodyOverflow = "";
 let previousBodyPaddingRight = "";
 
+// Tracks mounted ModalShell instances in open order so Escape/overlay-click
+// only dismisses the topmost one when modals are stacked (e.g. a project
+// detail view opened on top of the projects gallery).
+let modalStack: symbol[] = [];
+
 const lockBodyScroll = () => {
   if (typeof document === "undefined") return;
 
@@ -47,13 +52,16 @@ const ModalShell: React.FC<ModalShellProps> = ({
   dialogClassName,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const instanceId = useRef(Symbol("modal")).current;
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    modalStack.push(instanceId);
     lockBodyScroll();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      const isTopmost = modalStack[modalStack.length - 1] === instanceId;
+      if (event.key === "Escape" && isTopmost) {
         onClose();
       }
     };
@@ -62,13 +70,15 @@ const ModalShell: React.FC<ModalShellProps> = ({
     dialogRef.current?.focus();
 
     return () => {
+      modalStack = modalStack.filter((id) => id !== instanceId);
       document.removeEventListener("keydown", handleKeyDown);
       unlockBodyScroll();
     };
-  }, [onClose]);
+  }, [onClose, instanceId]);
 
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
+    const isTopmost = modalStack[modalStack.length - 1] === instanceId;
+    if (event.target === event.currentTarget && isTopmost) {
       onClose();
     }
   };
