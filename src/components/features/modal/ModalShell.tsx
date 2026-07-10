@@ -19,6 +19,9 @@ const ModalShell: React.FC<ModalShellProps> = ({
   useEffect(() => {
     pushOverlay(instanceId);
     lockBodyScroll();
+    // Return focus here (the trigger) when this overlay closes, so keyboard
+    // users don't get dropped to <body>.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isTopmostOverlay(instanceId)) {
@@ -33,6 +36,7 @@ const ModalShell: React.FC<ModalShellProps> = ({
       popOverlay(instanceId);
       document.removeEventListener("keydown", handleKeyDown);
       unlockBodyScroll();
+      previouslyFocused?.focus?.();
     };
   }, [onClose, instanceId]);
 

@@ -28,6 +28,8 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
   useEffect(() => {
     pushOverlay(instanceId);
     lockBodyScroll();
+    // Return focus to the trigger (desktop icon / app switcher) on close.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isTopmostOverlay(instanceId)) {
@@ -42,6 +44,7 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
       popOverlay(instanceId);
       document.removeEventListener("keydown", handleKeyDown);
       unlockBodyScroll();
+      previouslyFocused?.focus?.();
     };
   }, [onClose, instanceId]);
 
@@ -86,9 +89,9 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
           </button>
         </div>
 
-        <span id={resolvedTitleId} className={styles.titleText}>
+        <h1 id={resolvedTitleId} className={styles.titleText}>
           {title}
-        </span>
+        </h1>
 
         <div className={styles.headerActions}>
           {headerActions ?? <div className={styles.headerSpacer} aria-hidden="true" />}
