@@ -125,20 +125,16 @@ const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
           </a>
         </div>
 
-        <AnimatePresence mode="wait">
-          {/* ── Services: capability plates carousel ───── */}
-          {activeTab === "services" && (
-            <motion.section
-              key="services"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
-              className="skill-services"
-              role="tabpanel"
-              id="services-panel"
-              aria-labelledby="services-tab"
-            >
+        {/* Both panels stay mounted so the Toolbelt graph keeps its
+            expanded / dragged / search state across tab switches. The inactive
+            panel is hidden — see .skill-services[hidden] / .skill-tools[hidden]. */}
+        <section
+          className="skill-services"
+          role="tabpanel"
+          id="services-panel"
+          aria-labelledby="services-tab"
+          hidden={activeTab !== "services"}
+        >
               <div className="plate-stage" aria-live="polite">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.article
@@ -223,30 +219,23 @@ const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
                   <FontAwesomeIcon icon={faChevronRight} />
                 </button>
               </div>
-            </motion.section>
-          )}
+        </section>
 
-          {/* ── Toolbelt: collapsible force-directed graph ─ */}
-          {activeTab === "tools" && (
-            <motion.section
-              key="tools"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
-              className="skill-tools"
-              role="tabpanel"
-              id="tools-panel"
-              aria-labelledby="tools-tab"
-            >
-              <ToolbeltGraph
-                tools={tools}
-                orderedCategories={orderedCategories}
-                signatureStack={signatureStack}
-              />
-            </motion.section>
-          )}
-        </AnimatePresence>
+        {/* ── Toolbelt: collapsible force-directed graph ─ */}
+        <section
+          className="skill-tools"
+          role="tabpanel"
+          id="tools-panel"
+          aria-labelledby="tools-tab"
+          hidden={activeTab !== "tools"}
+        >
+          <ToolbeltGraph
+            tools={tools}
+            orderedCategories={orderedCategories}
+            signatureStack={signatureStack}
+            active={activeTab === "tools"}
+          />
+        </section>
       </div>
     </AppView>
   );

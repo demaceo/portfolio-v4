@@ -292,6 +292,14 @@
   min-height: 0;
 }
 
+/* Both tab panels stay mounted (to preserve Toolbelt graph state); the
+   inactive one is hidden. Needed because the panels' own `display: flex`
+   would otherwise override the UA `[hidden] { display: none }` rule. */
+.skill-services[hidden],
+.skill-tools[hidden] {
+  display: none;
+}
+
 /* ── Responsive ───────────────────────────────────────── */
 
 @media (max-width: 640px) {
