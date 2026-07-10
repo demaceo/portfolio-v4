@@ -37,7 +37,11 @@ const LandingPage = () => {
     <div className="macintosh-container">
       <FlyingBirds />
 
-      <div className={`mac-screen${modalState.showAboutMe ? " mac-screen--app-view-open" : ""}`}>
+      <div
+        className={`mac-screen${
+          modalState.showAboutMe || modalState.showSkillset ? " mac-screen--app-view-open" : ""
+        }`}
+      >
         <MenuBar
           openDropdown={dropdownState.openDropdown}
           setOpenDropdown={dropdownActions.setOpenDropdown}
@@ -75,6 +79,8 @@ const LandingPage = () => {
         <AppViews
           showAboutMe={modalState.showAboutMe}
           setShowAboutMe={modalActions.setShowAboutMe}
+          showSkillset={modalState.showSkillset}
+          setShowSkillset={modalActions.setShowSkillset}
           onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
         />
       </div>
@@ -84,8 +90,6 @@ const LandingPage = () => {
         setShowContactForm={modalActions.setShowContactForm}
         showResume={modalState.showResume}
         setShowResume={modalActions.setShowResume}
-        showSkillset={modalState.showSkillset}
-        setShowSkillset={modalActions.setShowSkillset}
         showProjects={modalState.showProjects}
         setShowProjects={modalActions.setShowProjects}
         showDocumentary={modalState.showDocumentary}

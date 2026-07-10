@@ -1,5 +1,5 @@
 // Skills feature components barrel exports
-export { default as SkillsetModal } from './SkillsetModal/SkillsetModal';
+export { default as SkillsetAppView } from './SkillsetAppView/SkillsetAppView';
 
 // Re-export types if needed
-export type * from './SkillsetModal/SkillsetModal';
+export type * from './SkillsetAppView/SkillsetAppView';

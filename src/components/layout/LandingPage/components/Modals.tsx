@@ -22,13 +22,6 @@ const InteractiveResume = dynamic(
   }
 );
 
-const SkillsetModal = dynamic(
-  () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
-  {
-    loading: () => <LoadingModal />,
-  }
-);
-
 const ProjectsGalleryModal = dynamic(
   () =>
     import(
@@ -52,8 +45,6 @@ interface ModalsProps {
   setShowContactForm: (show: boolean) => void;
   showResume: boolean;
   setShowResume: (show: boolean) => void;
-  showSkillset: boolean;
-  setShowSkillset: (show: boolean) => void;
   showProjects: boolean;
   setShowProjects: (show: boolean) => void;
   showDocumentary: boolean;
@@ -65,8 +56,6 @@ const Modals: React.FC<ModalsProps> = ({
   setShowContactForm,
   showResume,
   setShowResume,
-  showSkillset,
-  setShowSkillset,
   showProjects,
   setShowProjects,
   showDocumentary,
@@ -82,11 +71,6 @@ const Modals: React.FC<ModalsProps> = ({
       <AnimatePresence>
         {showResume && (
           <InteractiveResume key="resume" onClose={() => setShowResume(false)} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showSkillset && (
-          <SkillsetModal key="skillset" onClose={() => setShowSkillset(false)} />
         )}
       </AnimatePresence>
       <AnimatePresence>

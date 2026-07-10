@@ -1,4 +1,4 @@
-/* ===== SKILLSET — WARM NOIR: PLATES + PROFICIENCY WALL ===== */
+/* ===== SKILLSET — WARM NOIR: PLATES + TOOLBELT GRAPH ===== */
 
 .skillset {
   --skill-accent: var(--noir-accent);
@@ -68,8 +68,6 @@
 .skill-tab:focus-visible,
 .plate-arrow:focus-visible,
 .plate-dot:focus-visible,
-.wall-chip:focus-visible,
-.wall-search input:focus-visible,
 .skill-studio-byline:focus-visible {
   outline: 2px solid rgba(182, 95, 56, 0.55);
   outline-offset: 2px;
@@ -285,222 +283,13 @@
   background: rgba(43, 42, 40, 0.38);
 }
 
-/* ── Toolbelt: proficiency wall ───────────────────────── */
+/* ── Toolbelt: force-directed graph ───────────────────── */
 
 .skill-tools {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
-}
-
-.wall-toolbar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--skill-border);
-  background: var(--skill-panel);
-  flex-shrink: 0;
-}
-
-.wall-search {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(240, 236, 232, 0.14);
-  border-radius: 0.66rem;
-  background: var(--skill-panel);
-  padding: 0.5rem 0.7rem;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.wall-search:focus-within {
-  border-color: rgba(182, 95, 56, 0.42);
-  background: rgba(182, 95, 56, 0.05);
-}
-
-.wall-search-icon {
-  color: var(--skill-faint);
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-.wall-search input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  background: transparent;
-  color: var(--skill-text);
-  font-family: inherit;
-  font-size: 0.84rem;
-  outline: none;
-}
-
-.wall-search input::placeholder {
-  color: rgba(240, 236, 232, 0.28);
-}
-
-.wall-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.36rem;
-}
-
-.wall-chip {
-  border: 1px solid rgba(240, 236, 232, 0.13);
-  border-radius: 999px;
-  background: var(--skill-panel);
-  color: rgba(240, 236, 232, 0.45);
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.3rem 0.62rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-
-.wall-chip:hover:not(.active) {
-  border-color: rgba(182, 95, 56, 0.32);
-  color: rgba(240, 236, 232, 0.75);
-}
-
-.wall-chip.active {
-  border-color: rgba(182, 95, 56, 0.55);
-  color: #fff;
-  background: var(--skill-accent);
-  box-shadow: 0 2px 8px var(--skill-accent-glow);
-}
-
-.wall-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-
-.wall-group-head {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin-bottom: 0.6rem;
-}
-
-.wall-group-head h3 {
-  margin: 0;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--skill-muted);
-}
-
-.wall-group-head::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: rgba(43, 42, 40, 0.1);
-}
-
-.wall-group-count {
-  min-width: 1.3rem;
-  height: 1.3rem;
-  padding: 0 0.35rem;
-  border-radius: 999px;
-  border: 1px solid rgba(240, 236, 232, 0.14);
-  display: grid;
-  place-items: center;
-  font-size: 0.66rem;
-  font-weight: 700;
-  color: var(--skill-faint);
-  background: var(--skill-panel);
-}
-
-.wall-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
-  gap: 0.5rem;
-}
-
-.wall-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.85rem 0.6rem;
-  border-radius: 0.7rem;
-  border: 1px solid var(--skill-border);
-  background: var(--skill-panel);
-  text-align: center;
-  cursor: default;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.wall-tile:hover {
-  transform: translateY(-2px);
-  border-color: rgba(182, 95, 56, 0.3);
-  background: rgba(182, 95, 56, 0.06);
-  box-shadow: 0 6px 18px rgba(22, 20, 18, 0.12);
-}
-
-.wall-tile-icon {
-  font-size: 1.35rem;
-  color: rgba(182, 95, 56, 0.62);
-  transition: color 0.2s ease;
-}
-
-.wall-tile:hover .wall-tile-icon {
-  color: var(--skill-accent);
-}
-
-.wall-tile-label {
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: rgba(240, 236, 232, 0.62);
-  line-height: 1.2;
-}
-
-.wall-tile.signature {
-  border-color: rgba(182, 95, 56, 0.28);
-  background: rgba(182, 95, 56, 0.07);
-}
-
-.wall-tile.signature .wall-tile-icon {
-  color: var(--skill-accent);
-}
-
-.wall-tile.signature .wall-tile-label {
-  color: var(--skill-text);
-}
-
-/* ── Empty state ──────────────────────────────────────── */
-
-.wall-empty {
-  border: 1px dashed rgba(240, 236, 232, 0.18);
-  border-radius: 0.88rem;
-  background: var(--skill-panel);
-  padding: 1.6rem;
-  text-align: center;
-}
-
-.wall-empty h3 {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--skill-text);
-}
-
-.wall-empty p {
-  margin: 0.4rem 0 0;
-  color: var(--skill-muted);
-  font-size: 0.82rem;
-  line-height: 1.46;
 }
 
 /* ── Responsive ───────────────────────────────────────── */
@@ -530,24 +319,12 @@
   .plate-description {
     font-size: 0.84rem;
   }
-
-  .wall-grid {
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-  }
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .wall-search input {
-    font-size: 16px; /* prevent iOS zoom-on-focus */
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .service-plate,
   .plate-dot,
-  .plate-arrow,
-  .wall-tile,
-  .wall-tile-icon {
+  .plate-arrow {
     transition: none;
   }
 }
