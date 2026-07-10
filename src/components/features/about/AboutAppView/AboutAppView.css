@@ -96,7 +96,7 @@
 .about-rail-item:focus-visible,
 .about-prog-arrow:focus-visible,
 .about-pill:focus-visible {
-  outline: 2px solid rgba(182, 95, 56, 0.55);
+  outline: 2px solid var(--noir-accent);
   outline-offset: 2px;
 }
 
@@ -249,9 +249,9 @@
 }
 
 .about-highlight-card:hover {
-  border-color: rgba(182, 95, 56, 0.24);
+  border-color: var(--noir-accent-line);
   transform: translateY(-2px);
-  background: rgba(182, 95, 56, 0.05);
+  background: var(--noir-accent-soft);
 }
 
 .about-highlight-card h3 {
@@ -327,18 +327,18 @@
 }
 
 .about-pill.clickable {
-  border-color: rgba(182, 95, 56, 0.24);
+  border-color: var(--noir-accent-line);
 }
 
 .about-pill:hover {
-  border-color: rgba(182, 95, 56, 0.4);
+  border-color: var(--noir-accent-line);
   color: rgba(240, 236, 232, 0.9);
   transform: translateY(-1px);
 }
 
 .about-pill.active {
   color: #fff;
-  border-color: rgba(182, 95, 56, 0.8);
+  border-color: var(--noir-accent);
   background: var(--about-accent);
   box-shadow: 0 3px 12px var(--about-accent-glow);
 }
@@ -350,12 +350,12 @@
 
 .about-strength-detail {
   margin-top: 0.5rem;
-  border: 1px solid rgba(182, 95, 56, 0.2);
+  border: 1px solid var(--noir-accent-line);
   border-radius: 0.78rem;
   padding: 0.75rem 0.85rem;
   background:
-    radial-gradient(circle at 0% 0%, rgba(182, 95, 56, 0.08), transparent 60%),
-    rgba(255, 255, 255, 0.03);
+    radial-gradient(circle at 0% 0%, rgba(212, 132, 90, 0.08), transparent 60%),
+    var(--noir-panel);
   box-shadow: 0 8px 24px rgba(22, 20, 18, 0.12);
 }
 
@@ -411,8 +411,8 @@
 }
 
 .about-prog-arrow:hover:not(:disabled) {
-  background: rgba(182, 95, 56, 0.14);
-  border-color: rgba(182, 95, 56, 0.38);
+  background: var(--noir-accent-soft);
+  border-color: var(--noir-accent-line);
   color: var(--about-accent);
   transform: scale(1.05);
 }
@@ -434,7 +434,7 @@
 }
 
 .about-prog-current {
-  color: rgba(182, 95, 56, 0.75);
+  color: var(--noir-accent);
 }
 
 .about-prog-sep {
@@ -464,7 +464,7 @@
 }
 
 .about-featured-card:hover {
-  border-color: rgba(182, 95, 56, 0.24);
+  border-color: var(--noir-accent-line);
   transform: translateY(-2px);
 }
 
@@ -602,10 +602,6 @@
   background: var(--about-accent);
   color: #fff;
   transform: translateY(-1px);
-}
-
-.about-featured-cta--link {
-  /* inherits the same styles, rendered as <a> */
 }
 
 /* ── Responsive ───────────────────────────────────────── */

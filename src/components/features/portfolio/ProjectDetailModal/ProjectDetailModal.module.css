@@ -68,9 +68,9 @@
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #0f9d6b;
-  border: 1px solid rgba(15, 157, 107, 0.32);
-  background: rgba(15, 157, 107, 0.08);
+  color: var(--noir-doc);
+  border: 1px solid var(--noir-doc-line);
+  background: var(--noir-doc-soft);
   border-radius: 999px;
   padding: 0.18rem 0.48rem;
   width: fit-content;

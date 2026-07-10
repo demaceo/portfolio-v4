@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import services from "@/data/services";
@@ -37,28 +37,34 @@ const serviceOutcomes: Record<string, string> = {
 // Tools highlighted with the signature stroke/glow in the toolbelt graph.
 const signatureStack = ["React", "JavaScript", "Next.js", "Node.js", "AWS"];
 
-const plateVariants: Variants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
-  center: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
-  },
-  exit: (dir: number) => ({
-    opacity: 0,
-    x: dir > 0 ? -28 : 28,
-    transition: { duration: 0.16, ease: "easeIn" },
-  }),
-};
-
 const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<SkillsetTab>("services");
 
   // Services carousel state
   const [serviceIndex, setServiceIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const reduceMotion = useReducedMotion();
 
   const service = services[serviceIndex];
+
+  // Plate slide timings collapse to instant under prefers-reduced-motion; the
+  // enter/exit offsets stay so AnimatePresence still swaps plates correctly.
+  const plateVariants: Variants = useMemo(
+    () => ({
+      enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
+      center: {
+        opacity: 1,
+        x: 0,
+        transition: reduceMotion ? { duration: 0 } : { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
+      },
+      exit: (dir: number) => ({
+        opacity: 0,
+        x: dir > 0 ? -28 : 28,
+        transition: reduceMotion ? { duration: 0 } : { duration: 0.16, ease: "easeIn" },
+      }),
+    }),
+    [reduceMotion]
+  );
 
   const navigateService = (dir: 1 | -1) => {
     if (services.length <= 1) return;
@@ -127,7 +133,7 @@ const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
               className="skill-services"
               role="tabpanel"
               id="services-panel"
@@ -158,7 +164,6 @@ const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
                         width={72}
                         height={72}
                         className="plate-icon"
-                        priority
                       />
                     </div>
 
@@ -228,7 +233,7 @@ const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
               className="skill-tools"
               role="tabpanel"
               id="tools-panel"

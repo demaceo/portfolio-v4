@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useCallback, useMemo, useState, type CSSProperties } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -102,7 +102,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
   const [chapterIndex, setChapterIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
-  const heroListRef = useRef<HTMLUListElement>(null);
+  const reduceMotion = useReducedMotion();
 
   const chapter = chapters[chapterIndex];
 
@@ -113,11 +113,17 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
     }, {});
   }, []);
 
-  useEffect(() => {
-    const target = heroListRef.current?.querySelector<HTMLLIElement>(
+  // Center the "start" word within the hero list itself (not the page) each
+  // time the list mounts — including when the Profile chapter is revisited.
+  // A callback ref (not a mount-only effect) is used because AnimatePresence
+  // unmounts and remounts the chapter, so the old `[]`-deps effect never re-ran.
+  const centerHeroList = useCallback((node: HTMLUListElement | null) => {
+    if (!node) return;
+    const target = node.querySelector<HTMLLIElement>(
       `[data-index="${ABOUT_HERO_START_INDEX}"]`
     );
-    target?.scrollIntoView({ block: "center" });
+    if (!target) return;
+    node.scrollTop = target.offsetTop - (node.clientHeight - target.clientHeight) / 2;
   }, []);
 
   const goToChapter = (index: number) => {
@@ -229,7 +235,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
         <>
           <div className="about-hero">
             <div className="about-hero-phrase">I build</div>
-            <ul className="about-hero-scroll" ref={heroListRef}>
+            <ul className="about-hero-scroll" ref={centerHeroList}>
               <li className="about-hero-pad" aria-hidden="true" />
               {ABOUT_HERO_WORDS.map((word, i) => (
                 <li
@@ -324,7 +330,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
             >
               <p className="about-strength-detail-title">{activeTooltip}</p>
               <p className="about-strength-detail-copy">
@@ -370,7 +376,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="about-chapter"
                 aria-labelledby="about-title"
               >

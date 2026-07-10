@@ -50,7 +50,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {facets && facets.length > 0 && onFacetToggle && (
-        <div className="glass-chip-list" aria-label={facetListLabel}>
+        <div className="glass-chip-list" role="group" aria-label={facetListLabel}>
           {facets.map((facet) => (
             <Chip
               key={facet}

@@ -82,7 +82,7 @@ const ProjectsAppView: React.FC<ModalProps> = ({ onClose }) => {
 
           <div className={styles.stage}>
             {visibleProjects.length > 0 ? (
-              <Grid minItemWidth="200px" gap="md" className={styles.grid}>
+              <Grid minItemWidth="200px" gap="md" fill="fit" className={styles.grid}>
                 {visibleProjects.map((project) => (
                   <ProjectTile
                     key={project.id}

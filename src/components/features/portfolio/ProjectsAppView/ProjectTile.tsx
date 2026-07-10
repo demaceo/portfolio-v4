@@ -14,8 +14,12 @@ interface ProjectTileProps {
 
 const ProjectTile: React.FC<ProjectTileProps> = ({ project, onOpen }) => {
   return (
-    <Card as="button" className={styles.tile} onClick={() => onOpen(project.id)}>
-      <motion.div layoutId={`project-media-${project.id}`} className={styles.media}>
+    <Card as="button" variant="flat" className={styles.tile} onClick={() => onOpen(project.id)}>
+      <motion.div
+        layoutId={`project-media-${project.id}`}
+        className={styles.media}
+        aria-hidden="true"
+      >
         <ProjectMedia
           project={project}
           iconImageClassName={styles.iconImg}
