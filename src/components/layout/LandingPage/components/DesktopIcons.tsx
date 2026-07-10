@@ -84,6 +84,12 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     [active],
   );
 
+  // The native wheel listener is attached once (see the effect below); reading
+  // the current bounds through a ref keeps that listener from tearing down and
+  // re-subscribing on every row change.
+  const boundsRef = useRef(bounds);
+  boundsRef.current = bounds;
+
   // Picking a row is two-step: the first tap (on any row other than the
   // centered one) just brings it to center as a preview; tapping the row
   // that's already centered launches it. This mirrors the codepen's
@@ -152,6 +158,38 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     setDragY(0);
   }
 
+  // Keyboard control mirrors the wheel: arrow keys move the centered row (and
+  // move focus with it, via the roving tabindex on the rows), and Enter/Space
+  // on the centered row launches it through the button's native onClick.
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    let next: number;
+    switch (event.key) {
+      case "ArrowUp":
+      case "ArrowLeft":
+        next = clamp(active - 1, 0, DESKTOP_APPS.length - 1);
+        break;
+      case "ArrowDown":
+      case "ArrowRight":
+        next = clamp(active + 1, 0, DESKTOP_APPS.length - 1);
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = DESKTOP_APPS.length - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    if (next === active) return;
+    setActive(next);
+    maybePreloadByPath(DESKTOP_APPS[next].path);
+    wheelRef.current
+      ?.querySelector<HTMLElement>(`[data-row-index="${next}"]`)
+      ?.focus();
+  }
+
   // React attaches "wheel" as a passive listener by default, so preventDefault
   // inside a JSX onWheel prop throws a console warning and is silently
   // ignored. Attaching natively with { passive: false } lets scrolling over
@@ -165,20 +203,27 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     const el = wheelRef.current;
     if (!el) return;
 
+    // The wheel gesture accumulates its offset locally so settling can snap to
+    // the nearest row without nesting one state setter inside another's
+    // updater (which double-applies under StrictMode / concurrent re-renders).
+    let offset = 0;
+
     function settle() {
       setIsWheeling(false);
-      setDragY((current) => {
-        const rowsMoved = Math.round(current / ROW_HEIGHT);
+      const rowsMoved = Math.round(offset / ROW_HEIGHT);
+      offset = 0;
+      setDragY(0);
+      if (rowsMoved !== 0) {
         setActive((prevActive) => clamp(prevActive - rowsMoved, 0, DESKTOP_APPS.length - 1));
-        return 0;
-      });
+      }
     }
 
     function onWheel(event: WheelEvent) {
       event.preventDefault();
       if (pointerActive.current) return;
       setIsWheeling(true);
-      setDragY((current) => clamp(current - event.deltaY, bounds.min, bounds.max));
+      offset = clamp(offset - event.deltaY, boundsRef.current.min, boundsRef.current.max);
+      setDragY(offset);
       if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
       wheelSettleTimer.current = setTimeout(settle, WHEEL_SETTLE_MS);
     }
@@ -188,7 +233,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
       el.removeEventListener("wheel", onWheel);
       if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
     };
-  }, [bounds]);
+  }, []);
 
   return (
     <div className="desktop">
@@ -231,6 +276,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
         onPointerCancel={endDrag}
+        onKeyDown={handleKeyDown}
       >
         <svg
           className="desktop-wheel-rail"
@@ -266,6 +312,10 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               key={app.name}
               type="button"
               data-row-index={index}
+              // Roving tabindex: only the centered row is a tab stop; arrow
+              // keys move between rows (see handleKeyDown), so Tab doesn't
+              // cycle through every off-screen row.
+              tabIndex={isActive ? 0 : -1}
               className="desktop-wheel-row"
               style={{
                 transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
