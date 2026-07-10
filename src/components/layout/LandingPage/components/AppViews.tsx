@@ -36,6 +36,10 @@ interface AppViewsProps {
   setShowSkillset: (show: boolean) => void;
   showProjects: boolean;
   setShowProjects: (show: boolean) => void;
+  selectedServiceId: string | null;
+  setSelectedServiceId: (id: string | null) => void;
+  selectedProjectId: number | null;
+  setSelectedProjectId: (id: number | null) => void;
   onOpenDocumentary: () => void;
 }
 
@@ -50,6 +54,10 @@ const AppViews: React.FC<AppViewsProps> = ({
   setShowSkillset,
   showProjects,
   setShowProjects,
+  selectedServiceId,
+  setSelectedServiceId,
+  selectedProjectId,
+  setSelectedProjectId,
   onOpenDocumentary,
 }) => {
   return (
@@ -65,12 +73,26 @@ const AppViews: React.FC<AppViewsProps> = ({
       </AnimatePresence>
       <AnimatePresence>
         {showSkillset && (
-          <SkillsetAppView key="skillset" onClose={() => setShowSkillset(false)} />
+          <SkillsetAppView
+            key="skillset"
+            onClose={() => {
+              setShowSkillset(false);
+              setSelectedServiceId(null);
+            }}
+            initialServiceId={selectedServiceId ?? undefined}
+          />
         )}
       </AnimatePresence>
       <AnimatePresence>
         {showProjects && (
-          <ProjectsAppView key="projects" onClose={() => setShowProjects(false)} />
+          <ProjectsAppView
+            key="projects"
+            onClose={() => {
+              setShowProjects(false);
+              setSelectedProjectId(null);
+            }}
+            initialProjectId={selectedProjectId ?? undefined}
+          />
         )}
       </AnimatePresence>
     </>

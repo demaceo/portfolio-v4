@@ -16,7 +16,6 @@ import {
 } from "./components";
 import {
   useModalState,
-  useDropdownState,
   useAppActions,
   // useDesktopInitialization,
 } from "@/hooks";
@@ -25,7 +24,6 @@ import { preloadModules } from "@/lib/utils/preload";
 const LandingPage = () => {
   // Initialize hooks
   const { modalState, actions: modalActions } = useModalState();
-  const { dropdownState, actions: dropdownActions } = useDropdownState();
   const { handleAppClick, maybePreloadByPath } = useAppActions({
     modalActions,
   });
@@ -45,12 +43,11 @@ const LandingPage = () => {
         }`}
       >
         <MenuBar
-          openDropdown={dropdownState.openDropdown}
-          setOpenDropdown={dropdownActions.setOpenDropdown}
           setShowAboutMe={modalActions.setShowAboutMe}
           setShowProjects={modalActions.setShowProjects}
           setShowSkillset={modalActions.setShowSkillset}
-          // setShowContactForm={modalActions.setShowContactForm}
+          setSelectedServiceId={modalActions.setSelectedServiceId}
+          setSelectedProjectId={modalActions.setSelectedProjectId}
           preload={preloadModules}
           TimeDisplay={TimeDisplay}
         />
@@ -83,6 +80,10 @@ const LandingPage = () => {
           setShowSkillset={modalActions.setShowSkillset}
           showProjects={modalState.showProjects}
           setShowProjects={modalActions.setShowProjects}
+          selectedServiceId={modalState.selectedServiceId}
+          setSelectedServiceId={modalActions.setSelectedServiceId}
+          selectedProjectId={modalState.selectedProjectId}
+          setSelectedProjectId={modalActions.setSelectedProjectId}
           onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
         />
       </div>

@@ -1,8 +1,15 @@
 /* ==========================================================================
    MenuBar (mac-style top bar) + its dropdowns: About, Services, Projects.
+   Built entirely from the app's Warm Noir Liquid Glass tokens (globals.css)
+   so it reads as part of the same UI as ModalFrame/Card/ProjectDetailModal,
+   not a bespoke sub-theme.
    ========================================================================== */
 
-/* Menu Bar Root */
+/* Menu Bar Root — the only element in this file that carries a
+   backdrop-filter. It's static chrome that never animates, so blurring it
+   is cheap. `.menu-dropdown` below deliberately carries NO backdrop-filter
+   of its own — see its comment — mirroring ModalFrame.module.css's
+   overlay-blurs/frame-doesn't split. */
 .menu-bar {
   max-width: 100%;
   background: linear-gradient(180deg,
@@ -13,16 +20,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: var(--lg-shadow);
   border-bottom: 1px solid var(--lg-edge);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-primary);
   position: relative;
   z-index: 1000;
   backdrop-filter: var(--lg-blur);
   -webkit-backdrop-filter: var(--lg-blur);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .menu-left {
@@ -58,17 +62,13 @@
   cursor: pointer;
   padding: 8px 16px;
   border-radius: 8px;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   position: relative;
   z-index: 2;
   user-select: none;
   appearance: none;
   background: transparent;
-  color: rgba(240, 236, 232, 0.78);
+  color: var(--noir-muted);
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
@@ -81,45 +81,30 @@
   background: var(--lg-tint-strong);
   color: var(--noir-text);
   border-color: var(--lg-edge);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  transform: translateY(-1px);
-}
-
-.menu-item:focus-visible {
-  outline: 2px solid var(--noir-accent);
-  outline-offset: 2px;
 }
 
 .menu-item-active {
-  background: linear-gradient(135deg,
-    rgba(212, 132, 90, 0.92) 0%,
-    rgba(191, 111, 71, 0.92) 100%);
+  background: var(--noir-accent);
   color: #fff;
   border-color: var(--noir-accent);
-  box-shadow: 0 4px 12px rgba(212, 132, 90, 0.3),
-    0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
+/* --- Dropdown shell --- */
 .menu-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
   min-width: 240px;
-  background: var(--lg-tint);
-  backdrop-filter: var(--lg-blur-strong);
-  -webkit-backdrop-filter: var(--lg-blur-strong);
+  background: var(--lg-tint-strong);
   color: var(--noir-text);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 8px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: var(--lg-shadow-float);
   border: 1px solid var(--lg-edge);
-  border-radius: 12px;
-  padding: 8px;
+  border-radius: 14px;
+  padding: 10px;
   z-index: 1011;
   animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: visible;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-primary);
   font-size: 14px;
   box-sizing: border-box;
 }
@@ -127,7 +112,7 @@
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-8px) scale(0.95);
+    transform: translateY(-8px) scale(0.97);
   }
 
   to {
@@ -143,213 +128,117 @@
   left: 24px;
   width: 12px;
   height: 12px;
-  background: var(--lg-tint);
+  background: var(--lg-tint-strong);
   border-left: 1px solid var(--lg-edge);
   border-top: 1px solid var(--lg-edge);
   transform: rotate(45deg);
   z-index: -1;
 }
 
-/* --- About Dropdown (personality pills) --- */
-.menu-dropdown-pills {
-  margin: 0;
-  width: 100%;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 280px;
-  max-width: 420px;
-  box-sizing: border-box;
+/* Shared row treatment — every interactive dropdown row (Services, Projects)
+   uses this instead of each dropdown inventing its own hover/shadow scale.
+   Mirrors Card.module.css's `.interactive`. */
+.menu-dropdown-row {
+  background: var(--noir-panel);
+  border: 1px solid var(--noir-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
-.menu-dropdown-pill-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 52px;
-  border-radius: 12px;
-  background: var(--lg-tint-strong);
-  border: 1px solid var(--lg-edge);
-  padding: 14px 16px;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
+.menu-dropdown-row:hover,
+.menu-dropdown-row:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--lg-shadow-float);
+  border-color: var(--lg-edge-bright);
 }
 
-.menu-dropdown-pill-item:hover {
-  background: var(--lg-tint);
-  border-color: var(--noir-accent-line);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.menu-dropdown-row:active {
   transform: translateY(-1px);
 }
 
-.pill-tag-mac {
+/* --- About Dropdown: short bio + a single action --- */
+.menu-dropdown-about {
+  width: min(320px, 82vw);
+  padding: 12px 10px 10px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.pill-tag-label {
-  flex: 1 1 auto;
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.4;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--noir-text);
-  letter-spacing: 0.02em;
-  max-width: calc(100% - 50px);
+.menu-dropdown-about-bio {
+  margin: 0;
+  color: var(--noir-muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
-.pill-tag-icon {
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  border-radius: 8px;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(248, 250, 252, 0.8) 50%,
-      rgba(241, 245, 249, 0.7) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(0, 0, 0, 0.02);
-}
-
-.pill-tag-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 6px;
-  filter: saturate(0.9) brightness(1.02);
-}
-
-/* Clickable pills (e.g. "& more...") */
-.pill-tag-clickable {
+.menu-dropdown-about-link {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--noir-accent);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  user-select: none;
+  transition: color 0.2s ease;
 }
 
-.pill-tag-clickable:hover .pill-tag-label {
-  background: var(--noir-accent-soft);
+.menu-dropdown-about-link:hover {
   color: var(--noir-text);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.pill-tag-clickable:focus-visible {
-  outline: none;
 }
 
 /* --- Services Dropdown --- */
 .menu-dropdown-services {
   margin: 0;
-  padding: 4px;
-  max-width: 380px;
+  padding: 2px;
+  width: min(360px, 88vw);
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   max-height: 440px;
-  min-width: 320px;
   overflow-y: auto;
-  border-radius: 12px;
-  position: relative;
 }
 
 .menu-dropdown-service-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  border-radius: 10px;
-  padding: 16px;
-  margin: 0;
-  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  border: 1px solid transparent;
-  position: relative;
-  background: var(--lg-tint-strong);
-  box-sizing: border-box;
-}
-
-.menu-dropdown-service-item:hover {
-  background: var(--lg-tint);
-  border-color: rgba(16, 185, 129, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-/* Emerald accent bar on hover */
-.menu-dropdown-service-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 3px;
-  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-  border-radius: 2px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.menu-dropdown-service-item:hover::before {
-  opacity: 1;
+  gap: 14px;
+  padding: 12px;
 }
 
 .menu-dropdown-service-icon {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: 1px solid rgba(233, 236, 239, 0.8);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 8px;
   flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--noir-panel-strong);
+  border: 1px solid var(--noir-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.menu-dropdown-service-item:hover .menu-dropdown-service-icon {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.15), 0 3px 8px rgba(0, 0, 0, 0.08);
-  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-  border-color: rgba(16, 185, 129, 0.2);
+.menu-dropdown-service-icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
 }
 
 .menu-dropdown-service-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
   flex: 1;
 }
 
 .menu-dropdown-service-title {
-  margin: 0;
   color: var(--noir-text);
   font-size: 14px;
   font-weight: 700;
@@ -358,7 +247,6 @@
 }
 
 .menu-dropdown-service-desc {
-  margin: 0;
   color: var(--noir-muted);
   font-size: 12px;
   line-height: 1.45;
@@ -372,54 +260,53 @@
 /* --- Projects Dropdown --- */
 .menu-dropdown-projects {
   margin: 0;
+  padding: 2px;
   width: fit-content;
   max-width: 90vw;
   max-height: 480px;
   overflow-y: auto;
-  border-radius: 12px;
-  padding: 4px;
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   list-style: none;
 }
 
+.menu-dropdown-project-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  max-width: 340px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 .menu-dropdown-project-img {
-  width: 62px;
-  height: 62px;
+  width: 52px;
+  height: 52px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  background: var(--noir-panel-strong);
+  border: 1px solid var(--noir-border);
   flex-shrink: 0;
 }
 
-.menu-dropdown-project-img-icon {
+.menu-dropdown-project-img-icon,
+.menu-dropdown-project-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  padding: 6px;
-  background:
-    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.86), transparent 64%),
-    linear-gradient(145deg, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.84));
+  font-size: 22px;
+  color: var(--noir-muted);
 }
 
 .menu-dropdown-project-img-media {
-  width: 50px !important;
-  height: 50px !important;
+  width: 34px !important;
+  height: 34px !important;
   display: block;
   object-fit: contain;
-  object-position: center center;
   border-radius: 6px;
-}
-
-.menu-dropdown-project-icon {
-  line-height: 1;
-  font-size: 28px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
 }
 
 .menu-dropdown-project-icon .svg-inline--fa {
@@ -430,16 +317,15 @@
 .menu-dropdown-project-info {
   flex: 1;
   min-width: 0;
-  padding-left: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .menu-dropdown-project-title {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--noir-text);
   white-space: nowrap;
   overflow: hidden;
@@ -451,44 +337,10 @@
 .menu-dropdown-project-desc {
   font-size: 12px;
   color: var(--noir-muted);
-  line-height: 1.5;
-  max-width: 280px;
+  line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-weight: 400;
-}
-
-.menu-dropdown-project-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  position: relative;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  border: 2px solid transparent;
-  background: var(--lg-tint-strong);
-  max-width: 360px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.menu-dropdown-project-item:hover {
-  background: var(--lg-tint);
-  border-color: var(--noir-accent-line);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35),
-    0 6px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
-}
-
-.menu-dropdown-project-item:active {
-  transform: translateY(-1px);
 }
 
 .menu-right {
@@ -496,11 +348,11 @@
   align-items: center;
 }
 
-/* --- Custom scrollbars for scrollable dropdowns --- */
+/* --- Scrollbars (token-based) --- */
 .menu-dropdown-projects,
 .menu-dropdown-services {
   scrollbar-width: thin;
-  scrollbar-color: #94a3b8 rgba(243, 244, 246, 0.5);
+  scrollbar-color: var(--noir-muted) var(--lg-tint);
 }
 
 .menu-dropdown-projects::-webkit-scrollbar,
@@ -510,23 +362,25 @@
 
 .menu-dropdown-projects::-webkit-scrollbar-track,
 .menu-dropdown-services::-webkit-scrollbar-track {
-  background: rgba(248, 250, 252, 0.5);
+  background: var(--lg-tint);
   border-radius: 3px;
 }
 
 .menu-dropdown-projects::-webkit-scrollbar-thumb,
 .menu-dropdown-services::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  background: var(--noir-faint);
   border-radius: 3px;
 }
 
 .menu-dropdown-projects::-webkit-scrollbar-thumb:hover,
 .menu-dropdown-services::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+  background: var(--noir-muted);
 }
 
 /* ==========================================================================
-   Responsive
+   Responsive — fine-pointer only. `.menu-bar` is hidden below 768px and on
+   any coarse pointer (see the final rule in this file), so no styling
+   narrower/coarser than that can ever paint and none is defined here.
    ========================================================================== */
 @media (max-width: 1024px) {
   .menu-bar {
@@ -550,208 +404,31 @@
   }
 }
 
-@media (max-width: 768px) {
-  .menu-item {
-    padding: 6px 10px;
-    font-size: 12px;
-    border-radius: 6px;
-  }
-
-  .menu-dropdown,
-  .menu-dropdown-projects,
-  .menu-dropdown-services {
-    max-width: 90vw;
-    border-radius: 8px;
-    padding: 12px;
-  }
-
-  .menu-dropdown {
-    backdrop-filter: blur(6px) saturate(110%);
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-  }
-
-  .menu-dropdown-project-item,
-  .menu-dropdown-service-item {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  }
-
-  .menu-dropdown-project-item {
-    padding: 12px 10px;
-  }
-
-  .menu-dropdown-service-item {
-    padding: 14px 12px;
-    gap: 12px;
-  }
-
-  .menu-dropdown-service-title {
-    font-size: 14px;
-  }
-
-  .menu-dropdown-service-desc {
-    font-size: 12px;
-  }
-
-  .menu-dropdown-pills {
-    min-width: 320px;
-    max-width: 360px;
-  }
-
-  .menu-dropdown-pill-item {
-    min-height: 48px;
-    padding: 12px 14px;
-  }
-
-  .pill-tag-label {
-    font-size: 13px;
-    padding: 5px 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .menu-dropdown-pills {
-    min-width: 280px;
-    max-width: 320px;
-    gap: 8px;
-  }
-
-  .menu-dropdown-pill-item {
-    min-height: 44px;
-    padding: 10px 12px;
-  }
-
-  .pill-tag-label {
-    font-size: 12px;
-    padding: 4px 6px;
-    line-height: 1.3;
-  }
-
-  .menu-dropdown-services {
-    min-width: 300px;
-    max-width: 340px;
-    gap: 8px;
-  }
-
-  .menu-dropdown-service-item {
-    padding: 12px 10px;
-    gap: 10px;
-  }
-
-  .menu-dropdown-service-title {
-    font-size: 13px;
-  }
-
-  .menu-dropdown-service-desc {
-    font-size: 11px;
-  }
-}
-
-/* ==========================================================================
-   Phone — keep dropdowns inside the viewport.
-   On desktop each dropdown is anchored to its menu item (which sits at an
-   arbitrary x), so on a narrow screen a left-aligned dropdown overflows the
-   right edge. We neutralize the item as the positioning context so the
-   dropdown anchors to the full-width .menu-bar instead, then pin it edge to
-   edge below the bar. This needs no JS and no per-item coordinates.
-   ========================================================================== */
-@media (max-width: 600px) {
-  .menu-bar {
-    padding: 6px 10px;
-  }
-
-  .menu-item {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 6px 10px;
-  }
-
-  /* Make .menu-bar (position: relative) the dropdown's containing block. */
-  .menu-item-wrapper {
-    position: static;
-  }
-
-  .menu-dropdown {
-    left: 10px;
-    right: 10px;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-  }
-
-  /* The little arrow points at the item; meaningless once detached. */
-  .menu-dropdown::before {
-    display: none;
-  }
-
-  /* Inner lists must not force the dropdown wider than the screen. */
-  .menu-dropdown-pills,
-  .menu-dropdown-services,
-  .menu-dropdown-projects,
-  .menu-dropdown-project-item {
-    min-width: 0;
-    max-width: 100%;
-  }
-}
-
 /* ==========================================================================
    Accessibility & motion
    ========================================================================== */
-
-/* Respect reduced motion: disable non-essential animations/transforms */
 @media (prefers-reduced-motion: reduce) {
   .menu-dropdown {
     animation: none !important;
   }
 
-  .menu-dropdown-project-img,
-  .menu-dropdown-project-item,
-  .menu-dropdown-service-item,
-  .menu-dropdown-pill-item,
-  .pill-tag-clickable,
-  .menu-item {
+  .menu-dropdown-row,
+  .my-logo {
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
     transform: none !important;
   }
 }
 
-/* Keyboard focus rings without layout shift */
-:where(.menu-item,
-  .menu-dropdown-project-item,
-  .menu-dropdown-service-item,
-  .menu-dropdown-pill-item,
-  .pill-tag-clickable):focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 0 0 1.5px #2563eb inset;
-  border-radius: 8px;
+:where(.menu-item, .menu-dropdown-row, .menu-dropdown-about-link):focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 2px;
 }
 
-/* Touch-friendly targets on coarse pointers */
-@media (pointer: coarse) {
-  :where(.menu-dropdown-project-item,
-    .menu-dropdown-service-item,
-    .menu-dropdown-pill-item) {
-    min-height: 44px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
+@media (prefers-contrast: more), (forced-colors: active) {
 
-  /* Avoid hover-only motion on touch devices */
-  .menu-dropdown-project-item:hover,
-  .menu-dropdown-service-item:hover,
-  .pill-tag-clickable:hover {
-    transform: none;
-  }
-}
-
-/* High contrast / forced-colors friendly fallbacks */
-@media (prefers-contrast: more),
-(forced-colors: active) {
   .menu-dropdown,
-  .menu-dropdown-project-item,
-  .menu-dropdown-service-item,
-  .menu-dropdown-pill-item {
+  .menu-dropdown-row {
     background: Canvas !important;
     color: CanvasText !important;
     border-color: ButtonBorder !important;
@@ -759,10 +436,7 @@
     backdrop-filter: none !important;
   }
 
-  :where(.menu-item,
-    .menu-dropdown-project-item,
-    .menu-dropdown-service-item,
-    .menu-dropdown-pill-item):focus-visible {
+  :where(.menu-item, .menu-dropdown-row, .menu-dropdown-about-link):focus-visible {
     outline: 2px solid Highlight !important;
     outline-offset: 2px;
     box-shadow: none !important;
@@ -774,8 +448,9 @@
    Its content (About/Services/Projects) is already reachable from the
    desktop icons and the welcome window's quick links, and a mac-style top
    menu bar doesn't translate well to a touch layout. `(pointer: coarse)`
-   catches real tablets in portrait that sit above the 768px width check.
-   Kept last so it wins the cascade over the unconditional `.menu-bar` rule.
+   catches real tablets in portrait that sit above the 768px width check —
+   and, deliberately, ANY coarse pointer regardless of width, which is why
+   no width- or pointer-scoped mobile styling exists anywhere above.
    ========================================================================== */
 @media (max-width: 768px), (pointer: coarse) {
   .menu-bar {

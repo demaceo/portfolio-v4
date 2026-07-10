@@ -26,11 +26,20 @@ function useStackFacets(projects: Project[]): string[] {
   }, [projects]);
 }
 
-const ProjectsAppView: React.FC<ModalProps> = ({ onClose }) => {
+interface ProjectsAppViewProps extends ModalProps {
+  initialProjectId?: number;
+}
+
+const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
+  onClose,
+  initialProjectId,
+}) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
   const [activeFacet, setActiveFacet] = useState<string | null>(null);
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    initialProjectId ?? null
+  );
   const [showResumeHighlights, setShowResumeHighlights] = useState(false);
   const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
     string | undefined
