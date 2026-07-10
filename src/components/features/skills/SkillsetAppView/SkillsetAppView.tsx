@@ -37,11 +37,21 @@ const serviceOutcomes: Record<string, string> = {
 // Tools highlighted with the signature stroke/glow in the toolbelt graph.
 const signatureStack = ["React", "JavaScript", "Next.js", "Node.js", "AWS"];
 
-const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
+interface SkillsetAppViewProps extends ModalProps {
+  initialServiceId?: string;
+}
+
+const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
+  onClose,
+  initialServiceId,
+}) => {
   const [activeTab, setActiveTab] = useState<SkillsetTab>("services");
 
-  // Services carousel state
-  const [serviceIndex, setServiceIndex] = useState(0);
+  // Services carousel state — seeded once from a MenuBar deep link, if any.
+  const [serviceIndex, setServiceIndex] = useState(() => {
+    const idx = services.findIndex((s) => s.id === initialServiceId);
+    return idx === -1 ? 0 : idx;
+  });
   const [direction, setDirection] = useState<1 | -1>(1);
   const reduceMotion = useReducedMotion();
 

@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { aboutMePills } from "@/data/aboutMePills";
 import { ASSET_PATHS } from "@/lib/constants/paths";
-import { projectsData } from "@/data/projects";
 import services from "@/data/services";
+import { useProjects } from "@/hooks";
 import {
   PROJECT_ICON_MAP,
   PROJECT_ICON_FALLBACK,
@@ -14,11 +13,11 @@ import {
 import Image from "next/image";
 
 interface MenuBarProps {
-  openDropdown: string | null;
-  setOpenDropdown: (dropdown: string | null) => void;
   setShowAboutMe: (show: boolean) => void;
   setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
+  setSelectedServiceId: (id: string | null) => void;
+  setSelectedProjectId: (id: number | null) => void;
   preload: {
     about: () => void;
     contact: () => void;
@@ -34,6 +33,9 @@ const MENU_ITEMS = [
   { label: "Projects", key: "projects" },
 ] as const;
 
+const ABOUT_BIO =
+  "Product-minded software engineer who bridges strategy, design, and implementation — calm execution, high ownership, and a focus on human-centered systems with measurable outcomes.";
+
 const getServicePreview = (description: string) => {
   const normalizedDescription = description.replace(/\s+/g, " ").trim();
   const firstSentence =
@@ -43,20 +45,17 @@ const getServicePreview = (description: string) => {
 };
 
 const MenuBar: React.FC<MenuBarProps> = ({
-  openDropdown,
-  setOpenDropdown,
   setShowAboutMe,
   setShowProjects,
   setShowSkillset,
+  setSelectedServiceId,
+  setSelectedProjectId,
   preload,
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
-
-  const activeProjects = useMemo(
-    () => projectsData.filter((p) => !p.archived),
-    []
-  );
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const { activeProjects } = useProjects();
 
   const toggleDropdown = (key: string) =>
     setOpenDropdown(openDropdown === key ? null : key);
@@ -80,7 +79,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
-  }, [openDropdown, setOpenDropdown]);
+  }, [openDropdown]);
 
   // Close dropdown on Escape from anywhere within the bar
   useEffect(() => {
@@ -90,7 +89,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [openDropdown, setOpenDropdown]);
+  }, [openDropdown]);
 
   return (
     <div className="menu-bar" ref={menuBarRef}>
@@ -124,103 +123,59 @@ const MenuBar: React.FC<MenuBarProps> = ({
               </button>
               {isOpen && (
                 <div
-                  className="menu-dropdown menu-dropdown-mac"
+                  className="menu-dropdown"
                   role="menu"
                   aria-label={item.label}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {item.key === "about" && (
-                    <ul className="menu-dropdown-pills">
-                      {aboutMePills.map((pill) => {
-                        const isAction =
-                          pill.label === "& more..." || Boolean(pill.link);
-                        const handleAction = () => {
-                          if (pill.label === "& more...") {
-                            setShowAboutMe(true);
-                            setOpenDropdown(null);
-                          } else if (pill.link) {
-                            window.open(
-                              pill.link,
-                              "_blank",
-                              "noopener,noreferrer"
-                            );
-                          }
-                        };
-                        return (
-                          <li
-                            key={pill.label}
-                            className="menu-dropdown-pill-item"
-                          >
-                            <span
-                              className={`pill-tag-mac${
-                                isAction ? " pill-tag-clickable" : ""
-                              }`}
-                              title={pill.tooltip}
-                              {...(isAction
-                                ? {
-                                    role: "menuitem",
-                                    tabIndex: 0,
-                                    onClick: handleAction,
-                                    onKeyDown: (
-                                      e: React.KeyboardEvent
-                                    ) => {
-                                      if (e.key === "Enter" || e.key === " ") {
-                                        e.preventDefault();
-                                        handleAction();
-                                      }
-                                    },
-                                  }
-                                : {})}
-                            >
-                              {pill.icon && (
-                                <div className="pill-tag-icon">
-                                  <Image
-                                    src={pill.icon}
-                                    alt=""
-                                    width={20}
-                                    height={20}
-                                  />
-                                </div>
-                              )}
-                              <span className="pill-tag-label">
-                                {pill.label}
-                              </span>
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <div className="menu-dropdown-about">
+                      <p className="menu-dropdown-about-bio">{ABOUT_BIO}</p>
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="menu-dropdown-about-link"
+                        onClick={() => {
+                          setShowAboutMe(true);
+                          setOpenDropdown(null);
+                        }}
+                      >
+                        Learn more →
+                      </button>
+                    </div>
                   )}
 
                   {item.key === "services" && (
                     <ul className="menu-dropdown-services">
                       {services.map((service) => {
-                        const openSkillset = () => {
+                        const openService = () => {
+                          setSelectedServiceId(service.id);
                           setShowSkillset(true);
                           setOpenDropdown(null);
                         };
                         return (
                           <li
                             key={service.id}
-                            className="menu-dropdown-service-item"
+                            className="menu-dropdown-service-item menu-dropdown-row"
                             role="menuitem"
                             tabIndex={0}
-                            onClick={openSkillset}
+                            onClick={openService}
                             onKeyDown={(e) => {
                               if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
-                                openSkillset();
+                                openService();
                               }
                             }}
                           >
                             {service.icon && (
-                              <Image
-                                src={service.icon}
-                                alt=""
-                                className="menu-dropdown-service-icon"
-                                width={38}
-                                height={38}
-                              />
+                              <span className="menu-dropdown-service-icon">
+                                <Image
+                                  src={service.icon}
+                                  alt=""
+                                  width={26}
+                                  height={26}
+                                />
+                              </span>
                             )}
                             <div className="menu-dropdown-service-info">
                               <div className="menu-dropdown-service-title">
@@ -242,7 +197,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                   {item.key === "projects" && (
                     <ul className="menu-dropdown-projects">
                       {activeProjects.map((proj) => {
-                        const openProjects = () => {
+                        const openProject = () => {
+                          setSelectedProjectId(proj.id);
                           setShowProjects(true);
                           setOpenDropdown(null);
                         };
@@ -254,8 +210,8 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                 src={proj.icon as string}
                                 alt=""
                                 className="menu-dropdown-project-img-media"
-                                width={50}
-                                height={50}
+                                width={34}
+                                height={34}
                               />
                             </span>
                           );
@@ -276,22 +232,22 @@ const MenuBar: React.FC<MenuBarProps> = ({
                               src={proj.image}
                               alt=""
                               className="menu-dropdown-project-img"
-                              width={78}
-                              height={78}
+                              width={52}
+                              height={52}
                             />
                           );
                         }
                         return (
                           <li
                             key={proj.id}
-                            className="menu-dropdown-project-item"
+                            className="menu-dropdown-project-item menu-dropdown-row"
                             role="menuitem"
                             tabIndex={0}
-                            onClick={openProjects}
+                            onClick={openProject}
                             onKeyDown={(e) => {
                               if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
-                                openProjects();
+                                openProject();
                               }
                             }}
                           >

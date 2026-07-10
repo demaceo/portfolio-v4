@@ -13,6 +13,8 @@ const initialModalState: ModalsState = {
     showProjects: false,
     showDocumentary: false,
     showContactNotification: true,
+    selectedServiceId: null,
+    selectedProjectId: null,
 };
 
 export function useModalState() {
@@ -50,6 +52,14 @@ export function useModalState() {
         setModalState(prev => ({ ...prev, showContactNotification: show }));
     }, []);
 
+    const setSelectedServiceId = useCallback((id: string | null) => {
+        setModalState(prev => ({ ...prev, selectedServiceId: id }));
+    }, []);
+
+    const setSelectedProjectId = useCallback((id: number | null) => {
+        setModalState(prev => ({ ...prev, selectedProjectId: id }));
+    }, []);
+
     const toggleContactForm = useCallback(() => {
         setModalState(prev => ({
             ...prev,
@@ -67,6 +77,8 @@ export function useModalState() {
             showSkillset: false,
             showProjects: false,
             showDocumentary: false,
+            selectedServiceId: null,
+            selectedProjectId: null,
         }));
     }, []);
 
@@ -79,6 +91,8 @@ export function useModalState() {
         setShowProjects,
         setShowDocumentary,
         setShowContactNotification,
+        setSelectedServiceId,
+        setSelectedProjectId,
         toggleContactForm,
         closeAllModals,
     };

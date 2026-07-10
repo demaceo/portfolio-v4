@@ -105,6 +105,8 @@ export interface ModalsState {
     showProjects: boolean;
     showDocumentary: boolean;
     showContactNotification: boolean;
+    selectedServiceId: string | null;
+    selectedProjectId: number | null;
 }
 
 export interface ModalActions {
@@ -116,19 +118,10 @@ export interface ModalActions {
     setShowProjects: (show: boolean) => void;
     setShowDocumentary: (show: boolean) => void;
     setShowContactNotification: (show: boolean) => void;
+    setSelectedServiceId: (id: string | null) => void;
+    setSelectedProjectId: (id: number | null) => void;
     toggleContactForm: () => void;
     closeAllModals: () => void;
-}
-
-export interface DropdownState {
-    openDropdown: string | null;
-    hoveredTechCategory: string | null;
-}
-
-export interface DropdownActions {
-    setOpenDropdown: (dropdown: string | null) => void;
-    setHoveredTechCategory: (category: string | null) => void;
-    closeAllDropdowns: () => void;
 }
 
 export interface UseAppActionsProps {
