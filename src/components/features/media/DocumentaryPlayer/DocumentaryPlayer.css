@@ -1,1840 +1,467 @@
-/* ===== DOCUMENTARY PLAYER - CLEANED STYLES ===== */
-
-/* Light Glass Design Variables — scoped to prevent global leakage */
-.documentary-player-content {
-  --glass-bg: rgba(255, 255, 255, 0.88);
-  --glass-bg-dark: rgba(0, 0, 0, 0.15);
-  --glass-border: rgba(148, 163, 184, 0.18);
-  --backdrop-blur: blur(32px);
-  --backdrop-saturate: saturate(120%);
-}
+/* ===== DOCUMENTARY PLAYER =====
+   Content styles for the "Watch Documentary" modal, rendered inside
+   ModalFrame's Warm Noir / Liquid Glass shell. Colors alias the shared
+   --noir- and --lg- tokens from globals.css so this content reads as part
+   of the same dark glass system as every other modal (ContactForm,
+   Projects, ResumeHighlights, InteractiveResume). */
 
 .documentary-player-content {
   display: flex;
   flex-direction: column;
+  color: var(--noir-text);
 }
 
+/* === Header action buttons (info / episode-list toggles) === */
 .documentary-frame-actions {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .documentary-frame-button {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
   border-radius: 50%;
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  background: linear-gradient(135deg,
-      rgba(248, 250, 252, 0.95),
-      rgba(226, 232, 240, 0.90));
-  color: #0f172a;
+  border: 1px solid var(--lg-edge);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--noir-muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
+  transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease,
+    border-color 0.16s ease;
 }
 
 .documentary-frame-button:hover {
+  color: var(--noir-text);
+  background: rgba(255, 255, 255, 0.1);
   transform: scale(1.06);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .documentary-frame-button:active {
-  transform: scale(0.97);
+  transform: scale(0.94);
 }
 
 .documentary-frame-button.active {
-  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
-  color: #ffffff;
-  border-color: #3b82f6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background: var(--noir-accent);
+  border-color: var(--noir-accent);
+  color: #fff;
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
-.documentary-frame-button:focus-visible {
-  outline: 2px solid rgba(59, 130, 246, 0.5);
-  outline-offset: 2px;
-}
-
-/* === Header (single authoritative definition) === */
-.documentary-player-header {
-  display: grid;
-  grid-template-columns: 56px 1fr auto;
-  align-items: center;
-  gap: var(--space-4);
-  height: 64px;
-  padding: 0 var(--space-6);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  background: linear-gradient(180deg,
-      rgba(248, 250, 252, 0.96),
-      rgba(248, 250, 252, 0.90));
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: border-color 180ms ease, box-shadow 180ms ease,
-    background 180ms ease;
-}
-
-.documentary-player-header:hover {
-  border-bottom-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
-}
-
-.documentary-player-header>button.control-button {
-  justify-self: start;
-}
-
-/* Central badge - concise, consistent rules */
-.documentary-badge {
-  justify-self: center;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2, 8px);
-  padding: var(--space-2, 8px) var(--space-4, 12px);
-  background: linear-gradient(135deg,
-      var(--ios-green, #2ecc71) 0%,
-      #28c840 100%);
-  border-radius: var(--radius-lg, 999px);
-  font-size: var(--text-base, 15px);
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.01em;
-  box-shadow: 0 6px 18px rgba(48, 209, 88, 0.24);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-
-.documentary-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(48, 209, 88, 0.28);
-}
-
-.documentary-badge .badge-icon {
-  font-size: var(--text-sm, 14px);
-  line-height: 1;
-}
-
-/* Controls container */
-.header-controls {
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  position: relative;
-  z-index: 10;
-}
-
-/* === Control Buttons (single consistent definition) === */
-.control-button {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,
-      rgba(248, 250, 252, 0.95),
-      rgba(226, 232, 240, 0.90));
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-base);
-  color: var(--ios-text-primary);
-  cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Close / primary action button */
-.control-button:first-child {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
-  border: none;
-  color: white;
-  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
-}
-
-.control-button:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
-}
-
-.control-button:active {
-  transform: translateY(-1px) scale(0.99);
-}
-
-.control-button:focus-visible {
-  outline: 3px solid rgba(59, 130, 246, 0.14);
-  outline-offset: 4px;
-}
-
-.control-button.active {
-  background: linear-gradient(135deg,
-      #3b82f6 0%,
-      #0ea5e9 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  border-color: #3b82f6;
-  transform: scale(1.02);
-}
-
-.control-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: rgba(59, 130, 246, 0.08);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.control-button:not(:first-child):hover::before {
-  opacity: 0.08;
-}
-
-/* Info button variations (kept compact) */
-.header-controls .control-button.info {
-  background: linear-gradient(135deg,
-      rgba(52, 199, 89, 0.08),
-      rgba(248, 250, 252, 0.90));
-  border: 1px solid rgba(52, 199, 89, 0.12);
-  color: #34c759;
-}
-
-.header-controls .control-button.info:hover {
-  transform: scale(1.06);
-}
-
-/* === Episode selector, list, video and content sections (unchanged behavior, cleaned duplicates) === */
+/* === Episode selector ("Choose Episode") === */
 .episode-selector {
-  background: var(--ios-surface-secondary);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  padding: var(--space-6);
-  animation: episodeSelectorSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0;
   max-height: 300px;
+  padding: 1.5rem;
   overflow-y: auto;
-}
-
-.episode-selector h3 {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--ios-text-primary);
-  text-align: center;
-  margin: 0 0 var(--space-5) 0;
-}
-
-.episode-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.episode-item {
-  background: var(--ios-surface);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-4) var(--space-5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.episode-item::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-      var(--ios-blue-light),
-      rgba(175, 82, 222, 0.1));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.episode-item:hover::before {
-  opacity: 1;
-}
-
-.episode-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--ios-blue);
-}
-
-.episode-item.selected {
-  background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
-  border-color: var(--ios-blue);
-  box-shadow: var(--shadow-lg);
-  transform: scale(1.02);
-}
-
-.episode-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  z-index: 2;
-}
-
-.episode-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--ios-text-primary);
-  line-height: 1.3;
-  flex: 1;
-  margin-right: var(--space-4);
-}
-
-.episode-item.selected .episode-title {
-  color: white;
-}
-
-.episode-duration {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--ios-text-secondary);
-}
-
-.episode-item.selected .episode-duration {
-  color: rgba(248, 250, 252, 0.80);
-}
-
-/* Info Dropdown */
-.info-dropdown {
-  background: var(--ios-surface-secondary);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  animation: infoDropdownSlide 0.4s ease;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.info-dropdown-content {
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.info-dropdown .documentary-header {
-  margin-bottom: 0;
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--glass-border);
-}
-
-/* Video Section */
-.documentary-video-section {
-  flex: 1 1 auto;
-  background: #000;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.documentary-iframe-container {
-  position: relative;
-  background: #000;
-  flex: 1 1 auto;
-  width: 100%;
-}
-
-.pbs-viral-player-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.pbs-viral-player-wrapper iframe {
-  border: none;
-}
-
-/* Content Section */
-.documentary-content {
-  flex: 1;
-  padding: var(--space-6);
-  background: rgba(248, 250, 252, 0.6);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-top: 1px solid rgba(148, 163, 184, 0.15);
-  overflow-y: auto;
-  max-height: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.documentary-content.expanded {
-  max-height: 600px;
-  padding: var(--space-8);
-}
-
-/* Header inside content */
-.documentary-header {
-  margin-bottom: 0;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
-
-.documentary-title-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.documentary-title {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  background: linear-gradient(135deg, var(--ios-text-primary), var(--ios-blue));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.documentary-subtitle {
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: var(--ios-text-secondary);
-  margin: 0;
-}
-
-.content-expand-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,
-      rgba(248, 250, 252, 0.90),
-      rgba(245, 245, 247, 0.8));
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.documentary-description {
-  text-align: left;
-  flex: 1;
-  overflow: hidden;
-}
-
-.description-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.documentary-description p {
-  font-size: var(--text-sm);
-  line-height: 1.7;
-  color: var(--ios-text-primary);
-  margin: 0;
-}
-
-.extended-description {
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--glass-border);
-}
-
-.episode-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background: rgba(241, 245, 249, 0.85);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.detail-label {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--ios-text-secondary);
-  text-transform: uppercase;
-}
-
-.detail-value {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--ios-text-primary);
-}
-
-/* Actions */
-.documentary-actions {
-  display: flex;
-  gap: var(--space-3);
-  align-items: center;
-  justify-content: center;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--glass-border);
-}
-
-.action-button {
-  max-width: 200px;
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  border: none;
-  position: relative;
-  min-height: 44px;
-}
-
-.action-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent);
-  transition: left 0.5s ease;
-}
-
-.action-button:hover::before {
-  left: 100%;
-}
-
-.action-button.secondary {
-  background: var(--ios-surface);
-  color: var(--ios-blue);
-  border: 1px solid var(--glass-border);
-}
-
-.action-button.donate {
-  background: linear-gradient(135deg, var(--ios-red), var(--ios-pink));
-  color: white;
-}
-
-.donate-message {
-  font-size: var(--text-xs);
-  color: var(--ios-text-secondary);
-  padding: var(--space-2) var(--space-3);
-  background: var(--ios-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-}
-
-/* Animations */
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-
-  to {
-    opacity: 1;
-    backdrop-filter: var(--backdrop-blur);
-  }
-}
-
-@keyframes documentarySlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes expandContent {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes episodeSelectorSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes infoDropdownSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive and accessibility rules kept, duplicates removed and sizes harmonized */
-@media (max-width: 1024px) {
-  .documentary-player-container {
-    max-width: 90vw;
-  }
-}
-
-@media (max-width: 768px) {
-  .documentary-player-overlay {
-    padding: var(--space-4);
-    --backdrop-blur: blur(24px);
-  }
-
-  .documentary-player-container {
-    max-width: 100%;
-    max-height: 95vh;
-    border-radius: var(--radius-2xl);
-    box-shadow: var(--shadow-lg);
-    --backdrop-blur: blur(24px);
-  }
-
-  .documentary-player-header {
-    height: 56px;
-    padding: 0 var(--space-5);
-    background: linear-gradient(180deg,
-        rgba(248, 250, 252, 0.90),
-        rgba(255, 255, 255, 0.85));
-  }
-
-  .documentary-badge {
-    font-size: var(--text-sm);
-    padding: var(--space-1) var(--space-3);
-  }
-
-  .control-button {
-    width: 30px;
-    height: 30px;
-    box-shadow: 0 1px 4px rgba(148, 163, 184, 0.12);
-  }
-}
-
-@media (max-width: 480px) {
-  .documentary-player-header {
-    height: 52px;
-    padding: 0 var(--space-4);
-    background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.88),
-        rgba(255, 255, 255, 0.82));
-  }
-
-  .control-button {
-    width: 36px;
-    height: 36px;
-  }
-
-  .documentary-header {
-    flex-direction: column;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .content-expand-button {
-    position: static;
-    transform: none;
-    order: 2;
-    width: 32px;
-    height: 32px;
-  }
-}
-
-@media (max-height: 600px) and (orientation: landscape) {
-  .documentary-player-container {
-    max-height: 95vh;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .documentary-player-container,
-  .documentary-badge,
-  .action-button,
-  .control-button,
-  .episode-item {
-    box-shadow: var(--shadow-md) !important;
-  }
-
-  .documentary-player-overlay,
-  .documentary-player-header,
-  .episode-selector,
-  .info-dropdown,
-  .documentary-content {
-    --backdrop-blur: blur(16px);
-  }
-}
-
-/* Focus states */
-.control-button:focus-visible,
-.episode-item:focus-visible,
-.action-button:focus-visible {
-  outline: 2px solid var(--ios-blue);
-  outline-offset: 2px;
-}
-
-@media (prefers-contrast: high) {
-  .documentary-player-content {
-    --glass-border: rgba(0, 0, 0, 0.4);
-  }
-
-  .documentary-player-overlay,
-  .documentary-player-header,
-  .episode-selector,
-  .info-dropdown,
-  .documentary-content {
-    --backdrop-blur: blur(18px);
-  }
-
-  .control-button,
-  .episode-item,
-  .action-button {
-    border-width: 2px;
-  }
-}
-
-/* Dark mode override removed — LandingPage is always light-themed */
-
-/* Touch optimizations */
-@media (hover: none) and (pointer: coarse) {
-
-  .control-button,
-  .episode-item,
-  .action-button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Episode Selector */
-.episode-selector {
-  background: var(--ios-surface-secondary);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  padding: var(--space-6);
-  animation: episodeSelectorSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  flex-shrink: 0;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.episode-selector h3 {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--ios-text-primary);
-  text-align: center;
-  margin: 0 0 var(--space-5) 0;
-  letter-spacing: -0.02em;
-}
-
-.episode-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.episode-item {
-  background: var(--ios-surface);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-4) var(--space-5);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.episode-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg,
-      var(--ios-blue-light) 0%,
-      rgba(175, 82, 222, 0.1) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.episode-item:hover::before {
-  opacity: 1;
-}
-
-.episode-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--ios-blue);
-}
-
-.episode-item:active {
-  transform: translateY(0) scale(0.98);
-  transition: transform 0.1s ease;
-}
-
-.episode-item.selected {
-  background: linear-gradient(135deg,
-      var(--ios-blue) 0%,
-      var(--ios-purple) 100%);
-  border-color: var(--ios-blue);
-  box-shadow: var(--shadow-lg);
-  transform: scale(1.02);
-}
-
-.episode-item.selected::before {
-  opacity: 0;
-}
-
-.episode-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  z-index: 2;
-}
-
-.episode-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--ios-text-primary);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  flex: 1;
-  margin-right: var(--space-4);
-}
-
-.episode-item.selected .episode-title {
-  color: white;
-}
-
-.episode-duration {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--ios-text-secondary);
-  flex-shrink: 0;
-}
-
-.episode-item.selected .episode-duration {
-  color: rgba(248, 250, 252, 0.80);
-}
-
-/* Info Dropdown */
-.info-dropdown {
-  background: var(--ios-surface-secondary);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  animation: infoDropdownSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  flex-shrink: 0;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.info-dropdown-content {
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.info-dropdown .documentary-header {
-  margin-bottom: 0;
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--glass-border);
-}
-
-.info-dropdown .documentary-description {
-  flex: 1;
-  max-height: none;
-  overflow: visible;
-}
-
-.info-dropdown .documentary-actions {
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--glass-border);
-}
-
-/* Video Section */
-.documentary-video-section {
-  flex: 1 1 auto;
-  background: #000;
-  position: relative;
-  border-radius: 0;
-  overflow: hidden;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.documentary-iframe-container {
-  position: relative;
-  background: #000;
-  flex: 1 1 auto;
-  width: 100%;
-  min-height: 0;
-}
-
-.pbs-viral-player-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-.pbs-viral-player-wrapper iframe {
-  border: none;
-  border-radius: 0;
-}
-
-/* New: Video skeleton overlay to smooth initial load */
-/* .pbs-viral-player-wrapper {
-  position: relative;
-}
-.video-skeleton {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.04),
-    rgba(255, 255, 255, 0.08)
-  );
-}
-.video-spinner {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.25);
-  border-top-color: rgba(255, 255, 255, 0.85);
-  animation: modal-loading-spin 1s linear infinite;
-}
-@keyframes modal-loading-spin {
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-/* Content Section */
-.documentary-content {
-  flex: 1;
-  padding: var(--space-6);
-  background: rgba(248, 250, 252, 0.6);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  border-top: 1px solid rgba(148, 163, 184, 0.15);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
-  max-height: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    padding 0.3s ease;
-  position: relative;
-}
-
-.documentary-content.expanded {
-  max-height: 600px;
-  padding: var(--space-8);
-}
-
-.documentary-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.documentary-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-.documentary-content::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.4);
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-.documentary-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.6);
-}
-
-.documentary-header {
-  margin-bottom: 0;
-  text-align: center;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
-
-.documentary-title-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.documentary-title {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  color: var(--ios-text-primary);
-  margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  background: linear-gradient(135deg,
-      var(--ios-text-primary) 0%,
-      var(--ios-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: center;
-}
-
-.documentary-subtitle {
-  font-size: var(--text-base);
-  font-weight: 500;
-  color: var(--ios-text-secondary);
-  margin: 0;
-  letter-spacing: -0.01em;
-  text-align: center;
-}
-
-.content-expand-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,
-      rgba(248, 250, 252, 0.90) 0%,
-      rgba(245, 245, 247, 0.8) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-sm);
-  color: var(--ios-text-primary);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.content-expand-button:hover {
-  transform: translateY(-50%) scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: var(--ios-blue);
-  background: linear-gradient(135deg,
-      rgba(59, 130, 246, 0.1) 0%,
-      rgba(248, 250, 252, 0.90) 100%);
-}
-
-.content-expand-button:active {
-  transform: translateY(-50%) scale(0.95);
-  transition: transform 0.1s ease;
-}
-
-.documentary-description {
-  margin-bottom: 0;
-  text-align: left;
-  flex: 1;
-  overflow: hidden;
-}
-
-.description-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.documentary-description p {
-  font-size: var(--text-sm);
-  line-height: 1.7;
-  color: var(--ios-text-primary);
-  margin: 0;
-  max-width: none;
-}
-
-.extended-description {
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--glass-border);
-  animation: expandContent 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.extended-description p {
-  font-size: var(--text-sm);
-  line-height: 1.7;
-  color: var(--ios-text-secondary);
-  margin-bottom: var(--space-5);
-}
-
-.episode-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background: rgba(241, 245, 249, 0.85);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.detail-label {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--ios-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.detail-value {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--ios-text-primary);
-  line-height: 1.4;
-}
-
-/* Actions Section */
-.documentary-actions {
-  display: flex;
-  flex-direction: row;
-  gap: var(--space-3);
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--glass-border);
-}
-
-.action-button {
-  width: auto;
-  max-width: 200px;
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  border: none;
-  letter-spacing: -0.01em;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  min-height: 44px;
-}
-
-.action-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent);
-  transition: left 0.5s ease;
-}
-
-.action-button:hover::before {
-  left: 100%;
-}
-
-.action-button.secondary {
-  background: var(--ios-surface);
-  color: var(--ios-blue);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--glass-border);
-}
-
-.action-button.secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--ios-blue);
-}
-
-.action-button.secondary:active {
-  transform: translateY(0);
-  transition: transform 0.1s ease;
-}
-
-.action-button.donate {
-  background: linear-gradient(135deg, var(--ios-red) 0%, var(--ios-pink) 100%);
-  color: white;
-  box-shadow: var(--shadow-lg);
-}
-
-.action-button.donate:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(255, 45, 146, 0.3), var(--shadow-xl);
-}
-
-.action-button.donate:active {
-  transform: translateY(0);
-  transition: transform 0.1s ease;
-}
-
-.donate-message {
-  font-size: var(--text-xs);
-  color: var(--ios-text-secondary);
-  text-align: center;
-  max-width: 100%;
-  line-height: 1.4;
-  margin: 0;
-  padding: var(--space-2) var(--space-3);
-  background: var(--ios-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  backdrop-filter: var(--backdrop-blur);
-  flex-basis: 90%;
-  order: -1;
-}
-
-/* Animations */
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-  }
-
-  to {
-    opacity: 1;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-  }
-}
-
-@keyframes documentarySlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes expandContent {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes episodeSelectorSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes infoDropdownSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .documentary-player-container {
-    max-width: 90vw;
-  }
-}
-
-@media (max-width: 768px) {
-  .documentary-player-overlay {
-    padding: var(--space-4);
-    /* Lower blur strength for mobile to reduce GPU cost */
-    --backdrop-blur: blur(24px);
-  }
-
-  .documentary-player-container {
-    max-width: 100%;
-    max-height: 95vh;
-    border-radius: var(--radius-2xl);
-    /* Reduce heavy long-range shadows on mobile */
-    box-shadow: var(--shadow-lg);
-    /* Slightly lower blur strength to cut GPU cost */
-    --backdrop-blur: blur(24px);
-  }
-
-  /* Apply lower blur to other glass sections on mobile */
-  .documentary-player-header,
-  .episode-selector,
-  .info-dropdown,
-  .documentary-content,
-  .action-button,
-  .episode-item {
-    --backdrop-blur: blur(24px);
-  }
-
-  .documentary-player-header {
-    height: 56px;
-    padding: 0 var(--space-5);
-    background: linear-gradient(180deg,
-        rgba(248, 250, 252, 0.90) 0%,
-        rgba(255, 255, 255, 0.85) 100%);
-  }
-
-  .documentary-badge {
-    font-size: var(--text-sm);
-    padding: var(--space-1) var(--space-3);
-    box-shadow: 0 1px 6px rgba(48, 209, 88, 0.25);
-  }
-
-  .documentary-badge .badge-icon {
-    font-size: 11px;
-  }
-
-  .control-button {
-    width: 30px;
-    height: 30px;
-    box-shadow: 0 1px 4px rgba(148, 163, 184, 0.12);
-  }
-
-  .control-button:first-child {
-    box-shadow: 0 1px 6px rgba(255, 82, 82, 0.25);
-  }
-
-  .control-button.active {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
-  }
-
-  .header-controls .control-button:first-child {
-    box-shadow: 0 1px 6px rgba(52, 199, 89, 0.12);
-  }
-
-  .header-controls .control-button:first-child:hover {
-    box-shadow: 0 3px 12px rgba(52, 199, 89, 0.2);
-  }
-
-  .header-controls .control-button:first-child.active {
-    box-shadow: 0 3px 12px rgba(52, 199, 89, 0.3);
-  }
-
-  .info-dropdown {
-    max-height: 400px;
-  }
-
-  .info-dropdown-content {
-    padding: var(--space-5);
-    gap: var(--space-4);
-  }
-
-  .episode-selector {
-    padding: var(--space-5);
-    max-height: 250px;
-  }
-
-  .episode-selector h3 {
-    font-size: var(--text-xl);
-  }
-
-  .episode-item {
-    padding: var(--space-3) var(--space-4);
-  }
-
-  .episode-title {
-    font-size: var(--text-sm);
-  }
-
-  .episode-duration {
-    font-size: var(--text-xs);
-  }
-
-  .documentary-video-section {
-    flex: 1 1 auto;
-    min-height: 200px;
-  }
-
-  .documentary-iframe-container {
-    min-height: 200px;
-  }
-
-  .documentary-content {
-    padding: var(--space-4);
-    max-height: 300px;
-    gap: var(--space-4);
-  }
-
-  .documentary-content.expanded {
-    max-height: 500px;
-    padding: var(--space-6);
-  }
-
-  .content-expand-button {
-    width: 36px;
-    height: 36px;
-    font-size: 12px;
-  }
-
-  .episode-details {
-    grid-template-columns: 1fr;
-    gap: var(--space-2);
-    padding: var(--space-3);
-  }
-
-  .detail-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .detail-label {
-    font-size: 10px;
-  }
-
-  .detail-value {
-    font-size: var(--text-xs);
-    text-align: right;
-  }
-
-  .documentary-title {
-    font-size: var(--text-2xl);
-  }
-
-  .documentary-subtitle {
-    font-size: var(--text-sm);
-  }
-
-  .documentary-description p {
-    font-size: var(--text-xs);
-  }
-
-  .documentary-actions {
-    flex-direction: column;
-    gap: var(--space-2);
-    padding-top: var(--space-3);
-  }
-
-  .action-button {
-    max-width: 100%;
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-xs);
-    min-height: 40px;
-  }
-
-  .donate-message {
-    font-size: 10px;
-    padding: var(--space-2);
-    order: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .documentary-player-overlay {
-    padding: var(--space-3);
-  }
-
-  .documentary-player-container {
-    border-radius: var(--radius-xl);
-  }
-
-  .documentary-player-header {
-    height: 52px;
-    padding: 0 var(--space-4);
-    background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.88) 0%,
-        rgba(255, 255, 255, 0.82) 100%);
-  }
-
-  .documentary-badge {
-    font-size: var(--text-xs);
-    padding: var(--space-1) var(--space-2);
-    box-shadow: 0 1px 4px rgba(48, 209, 88, 0.2);
-  }
-
-  .documentary-badge .badge-icon {
-    font-size: 10px;
-  }
-
-  .control-button {
-    width: 36px;
-    height: 36px;
-    font-size: var(--text-sm);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  }
-
-  .control-button:first-child {
-    box-shadow: 0 1px 4px rgba(255, 82, 82, 0.2);
-  }
-
-  .control-button.active {
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
-  }
-
-  .header-controls .control-button:first-child {
-    box-shadow: 0 1px 4px rgba(52, 199, 89, 0.1);
-  }
-
-  .header-controls .control-button:first-child:hover {
-    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.18);
-  }
-
-  .header-controls .control-button:first-child.active {
-    box-shadow: 0 2px 8px rgba(52, 199, 89, 0.25);
-  }
-
-  .info-dropdown {
-    max-height: 350px;
-  }
-
-  .info-dropdown-content {
-    padding: var(--space-4);
-    gap: var(--space-3);
-  }
-
-  .episode-selector {
-    padding: var(--space-4);
-    max-height: 200px;
-  }
-
-  .episode-selector h3 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-4);
-  }
-
-  .episode-item {
-    padding: var(--space-3);
-    border-radius: var(--radius-lg);
-  }
-
-  .episode-title {
-    font-size: var(--text-xs);
-  }
-
-  .episode-duration {
-    font-size: 10px;
-  }
-
-  .documentary-content {
-    padding: var(--space-5);
-  }
-
-  .documentary-content.expanded {
-    max-height: 450px;
-    padding: var(--space-6);
-  }
-
-  .documentary-header {
-    flex-direction: column;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .documentary-title-section {
-    order: 1;
-  }
-
-  .content-expand-button {
-    position: static;
-    transform: none;
-    order: 2;
-    width: 32px;
-    height: 32px;
-    font-size: 11px;
-  }
-
-  .content-expand-button:hover {
-    transform: scale(1.05);
-  }
-
-  .episode-details {
-    grid-template-columns: 1fr;
-    gap: var(--space-2);
-    padding: var(--space-3);
-  }
-
-  .detail-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .detail-label {
-    font-size: 10px;
-  }
-
-  .detail-value {
-    font-size: 11px;
-    text-align: right;
-    max-width: 60%;
-  }
-
-  .documentary-title {
-    font-size: var(--text-2xl);
-  }
-
-  .documentary-subtitle {
-    font-size: var(--text-sm);
-  }
-
-  .documentary-description p {
-    font-size: var(--text-xs);
-  }
-
-  .action-button {
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--text-xs);
-    min-height: 44px;
-    border-radius: var(--radius-lg);
-  }
-
-  .donate-message {
-    font-size: 10px;
-    padding: var(--space-2);
-  }
-
-  .documentary-video-section {
-    min-height: 180px;
-  }
-
-  .documentary-iframe-container {
-    min-height: 180px;
-  }
-}
-
-/* Landscape Orientation */
-@media (max-height: 600px) and (orientation: landscape) {
-  .documentary-player-container {
-    max-height: 95vh;
-  }
-
-  .episode-selector {
-    max-height: 150px;
-  }
-
-  .documentary-content {
-    padding: var(--space-4);
-  }
-
-  .documentary-actions {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .action-button {
-    max-width: 200px;
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  /* Also dial down heavy shadows and backdrop work */
-  .documentary-player-container,
-  .documentary-badge,
-  .action-button,
-  .control-button,
-  .episode-item {
-    box-shadow: var(--shadow-md) !important;
-  }
-
-  .documentary-player-overlay,
-  .documentary-player-header,
-  .episode-selector,
-  .info-dropdown,
-  .documentary-content {
-    --backdrop-blur: blur(16px);
-  }
-}
-
-/* Focus States for Accessibility */
-.control-button:focus-visible,
-.episode-item:focus-visible,
-.action-button:focus-visible {
-  outline: 2px solid var(--ios-blue);
-  outline-offset: 2px;
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .documentary-player-content {
-    --glass-border: rgba(0, 0, 0, 0.4);
-    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.18);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.26);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.32);
-  }
-
-  .documentary-player-overlay,
-  .documentary-player-header,
-  .episode-selector,
-  .info-dropdown,
-  .documentary-content {
-    --backdrop-blur: blur(18px);
-  }
-
-  .control-button,
-  .episode-item,
-  .action-button {
-    border-width: 2px;
-  }
-}
-
-/* Dark mode override removed — LandingPage is always light-themed */
-
-/* Touch-specific optimizations */
-@media (hover: none) and (pointer: coarse) {
-
-  .control-button,
-  .episode-item,
-  .action-button {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* ==========================================================================
-   Liquid Glass — dark-glass alignment for the in-player episode/info dropdowns.
-   Re-skins the light iOS-glass surfaces to the shared Dark Glass tokens so
-   these panels match the dark modal shell. Placed last so it wins over the
-   duplicated episode-selector and info-dropdown rules above; only colors and
-   surfaces are overridden (the existing backdrop blur, padding and layout
-   stand). The selected-episode blue-to-violet gradient and the video are kept.
-   ========================================================================== */
-.episode-selector,
-.info-dropdown {
   background: var(--lg-tint);
+  border-bottom: 1px solid var(--lg-edge);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  animation: docSlideDown 0.3s ease;
+}
+
+.episode-selector h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--noir-text);
+  text-align: center;
+}
+
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.episode-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--lg-edge);
+  background: var(--lg-tint-strong);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.episode-item:hover {
+  border-color: var(--noir-accent-line);
+  transform: translateY(-1px);
+}
+
+.episode-item.selected {
+  background: var(--noir-accent);
+  border-color: var(--noir-accent);
+  box-shadow: 0 4px 16px var(--noir-accent-glow);
+}
+
+.episode-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.episode-title {
+  flex: 1;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--noir-text);
+}
+
+.episode-item.selected .episode-title {
+  color: #fff;
+}
+
+.episode-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--noir-muted);
+}
+
+.episode-item.selected .episode-duration {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* === Info dropdown (episode description + actions) === */
+.info-dropdown {
+  flex-shrink: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--lg-tint);
+  border-bottom: 1px solid var(--lg-edge);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  animation: docSlideDown 0.3s ease;
+}
+
+.info-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+.documentary-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
   border-bottom: 1px solid var(--lg-edge);
 }
 
-.episode-selector h3 {
+.documentary-title-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.documentary-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--noir-text);
 }
 
-.episode-item {
-  background: var(--lg-tint-strong);
-  border-color: var(--lg-edge);
-}
-
-.episode-title {
-  color: var(--noir-text);
-}
-
-.episode-duration {
+.documentary-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--noir-muted);
+}
+
+.content-expand-button {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--lg-edge);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--noir-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.content-expand-button:hover {
+  color: var(--noir-text);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.documentary-description {
+  text-align: left;
+}
+
+.description-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.documentary-description p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--noir-text);
+}
+
+.extended-description {
+  padding-top: 1rem;
+  border-top: 1px solid var(--lg-edge);
+  animation: docExpand 0.3s ease;
+}
+
+.extended-description p {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--noir-muted);
+}
+
+.episode-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.9rem;
+  background: var(--lg-tint-strong);
+  border: 1px solid var(--lg-edge);
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.detail-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--noir-faint);
+}
+
+.detail-value {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--noir-text);
+}
+
+/* === Actions (View on PBS / Donate) === */
+.documentary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lg-edge);
+}
+
+.action-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease,
+    box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.action-button.secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--lg-edge);
+  color: var(--noir-text);
+}
+
+.action-button.secondary:hover {
+  border-color: var(--noir-accent-line);
+  transform: translateY(-1px);
+}
+
+.action-button.donate {
+  background: linear-gradient(135deg, #e0526b 0%, var(--noir-accent) 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(224, 82, 107, 0.28);
+}
+
+.action-button.donate:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(224, 82, 107, 0.36);
+}
+
+.donate-message {
+  flex-basis: 100%;
+  order: -1;
+  margin: 0;
+  padding: 0.5rem 0.85rem;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--noir-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--lg-edge);
+  border-radius: 0.7rem;
+}
+
+/* === Video === */
+.documentary-video-section {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 60vh;
+  flex-shrink: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+.documentary-iframe-container {
+  position: absolute;
+  inset: 0;
+}
+
+.pbs-viral-player-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.pbs-viral-player-wrapper iframe {
+  border: none;
+}
+
+/* === Animations === */
+@keyframes docSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes docExpand {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .episode-selector,
+  .info-dropdown-content {
+    padding: 1.1rem;
+  }
+
+  .documentary-title {
+    font-size: 1.25rem;
+  }
+
+  .episode-details {
+    grid-template-columns: 1fr;
+  }
+
+  .documentary-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .documentary-video-section {
+    max-height: 42vh;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .episode-selector,
+  .info-dropdown {
+    max-height: 40vh;
+  }
+
+  .documentary-video-section {
+    aspect-ratio: auto;
+    height: 40vh;
+    max-height: 40vh;
+  }
+}
+
+/* === Accessibility === */
+@media (prefers-reduced-motion: reduce) {
+  .episode-selector,
+  .info-dropdown,
+  .extended-description {
+    animation: none;
+  }
+}
+
+.documentary-frame-button:focus-visible,
+.episode-item:focus-visible,
+.content-expand-button:focus-visible,
+.action-button:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 2px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .documentary-frame-button,
+  .content-expand-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .episode-item,
+  .action-button {
+    min-height: 44px;
+  }
 }
