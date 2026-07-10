@@ -30,18 +30,14 @@
   height: 22px;
 }
 
-/* Suppress the default focus ring only for pointer focus; keyboard focus
-   (:focus-visible) gets a clear ring around the icon surface so the roving
-   selection is always visible. */
-.desktop-wheel-row:focus {
+/* The wheel is an ARIA listbox: focus lives on the container and
+   aria-activedescendant tracks the centered option, so the keyboard focus
+   ring is drawn on the selected option's icon rather than the container. */
+.desktop-items:focus {
   outline: none;
 }
 
-.desktop-wheel-row:focus-visible {
-  outline: none;
-}
-
-.desktop-wheel-row:focus-visible .icon-image {
+.desktop-items:focus-visible .desktop-wheel-row[aria-selected="true"] .icon-image {
   outline: 2px solid rgba(255, 255, 255, 0.95);
   outline-offset: 3px;
 }
@@ -214,16 +210,17 @@
   left: 0;
   right: 0;
   height: 120px;
-  margin: 0;
   padding: 0 12px 0 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 18px;
-  border: none !important;
-  background: transparent;
-  font: inherit;
   cursor: pointer;
+}
+
+/* Promote the rows to their own layer only while a gesture is actively moving
+   them, rather than compositing all four rows permanently at rest. */
+.desktop-items.is-animating .desktop-wheel-row {
   will-change: transform, opacity;
 }
 

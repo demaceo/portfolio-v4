@@ -108,8 +108,9 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   // leaves a row) retargets the resulting click event to the capturing
   // element, so the per-row onClick below never fires for mouse/touch —
   // tap-to-pick is instead resolved from the row under the pointer at
-  // pointerdown time. onClick still fires for keyboard activation and
-  // assistive-tech synthesized clicks, which never go through capture.
+  // pointerdown time. onClick still fires for assistive-tech synthesized
+  // clicks on an option (which never go through capture); keyboard
+  // activation is handled separately in handleKeyDown.
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
     pointerActive.current = true;
@@ -158,10 +159,16 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     setDragY(0);
   }
 
-  // Keyboard control mirrors the wheel: arrow keys move the centered row (and
-  // move focus with it, via the roving tabindex on the rows), and Enter/Space
-  // on the centered row launches it through the button's native onClick.
+  // Keyboard control follows the ARIA listbox pattern: focus stays on the
+  // wheel container while aria-activedescendant tracks the centered option.
+  // Arrow keys move the selection (and preload its route like pointer hover
+  // does); Enter/Space launches the selected app.
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      pickApp(active);
+      return;
+    }
     let next: number;
     switch (event.key) {
       case "ArrowUp":
@@ -185,9 +192,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     if (next === active) return;
     setActive(next);
     maybePreloadByPath(DESKTOP_APPS[next].path);
-    wheelRef.current
-      ?.querySelector<HTMLElement>(`[data-row-index="${next}"]`)
-      ?.focus();
   }
 
   // React attaches "wheel" as a passive listener by default, so preventDefault
@@ -269,8 +273,13 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
       <div
         ref={wheelRef}
-        className="desktop-items"
+        className={`desktop-items${isDragging || isWheeling ? " is-animating" : ""}`}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        role="listbox"
+        aria-label="Desktop apps"
+        aria-orientation="vertical"
+        aria-activedescendant={`desktop-app-${active}`}
+        tabIndex={0}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}
@@ -308,14 +317,12 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
 
           return (
-            <button
+            <div
               key={app.name}
-              type="button"
+              id={`desktop-app-${index}`}
               data-row-index={index}
-              // Roving tabindex: only the centered row is a tab stop; arrow
-              // keys move between rows (see handleKeyDown), so Tab doesn't
-              // cycle through every off-screen row.
-              tabIndex={isActive ? 0 : -1}
+              role="option"
+              aria-selected={isActive}
               className="desktop-wheel-row"
               style={{
                 transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
@@ -325,7 +332,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                     ? "none"
                     : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
               }}
-              aria-pressed={isActive}
               onClick={() => pickApp(index)}
               onMouseEnter={() => maybePreloadByPath(app.path)}
               onTouchStart={() => maybePreloadByPath(app.path)}
@@ -354,7 +360,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                   <div className="notification-badge">!</div>
                 )}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
