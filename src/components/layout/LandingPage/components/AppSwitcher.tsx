@@ -96,6 +96,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
         <legend className="app-switcher-legend">Launch an app</legend>
         {DESKTOP_APPS.map((app, index) => {
           const isActive = index === activeIndex;
+          const hasNotification = app.name === "Contact" && showContactNotification;
           return (
             <label
               key={app.name}
@@ -112,7 +113,9 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
                 onChange={() => setVisualIndex(index)}
                 onClick={() => handleTap(index)}
               />
-              <span className="app-switcher-sr-only">{app.name}</span>
+              <span className="app-switcher-sr-only">
+                {hasNotification ? `${app.name}, new notification` : app.name}
+              </span>
               <span className="icon-image app-switcher-icon-image">
                 <span className="icon-glass">
                   <span
@@ -125,8 +128,10 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
                     <FontAwesomeIcon icon={app.icon} />
                   </span>
                 </span>
-                {app.name === "Contact" && showContactNotification && (
-                  <span className="notification-badge">!</span>
+                {hasNotification && (
+                  <span className="notification-badge" aria-hidden="true">
+                    !
+                  </span>
                 )}
               </span>
             </label>
