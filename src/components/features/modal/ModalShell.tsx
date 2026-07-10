@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ModalShellProps } from "@/lib/types";
 import { pushOverlay, popOverlay, isTopmostOverlay, lockBodyScroll, unlockBodyScroll } from "@/lib/utils/overlayStack";
+import { trapTabKey } from "@/lib/utils/focusTrap";
 
 const ModalShell: React.FC<ModalShellProps> = ({
   onClose,
@@ -24,8 +25,11 @@ const ModalShell: React.FC<ModalShellProps> = ({
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isTopmostOverlay(instanceId)) {
+      if (!isTopmostOverlay(instanceId)) return;
+      if (event.key === "Escape") {
         onClose();
+      } else if (event.key === "Tab" && dialogRef.current) {
+        trapTabKey(event, dialogRef.current);
       }
     };
 
