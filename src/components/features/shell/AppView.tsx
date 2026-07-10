@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { AppViewProps } from "@/lib/types";
 import { pushOverlay, popOverlay, isTopmostOverlay, lockBodyScroll, unlockBodyScroll } from "@/lib/utils/overlayStack";
+import { trapTabKey } from "@/lib/utils/focusTrap";
 import styles from "./AppView.module.css";
 
 /**
@@ -32,8 +33,11 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isTopmostOverlay(instanceId)) {
+      if (!isTopmostOverlay(instanceId)) return;
+      if (event.key === "Escape") {
         onClose();
+      } else if (event.key === "Tab" && containerRef.current) {
+        trapTabKey(event, containerRef.current);
       }
     };
 
