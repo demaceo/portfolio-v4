@@ -22,11 +22,20 @@ const SkillsetAppView = dynamic(
   }
 );
 
+const ProjectsAppView = dynamic(
+  () => import("@/components/features/portfolio/ProjectsAppView/ProjectsAppView"),
+  {
+    loading: () => <LoadingView />,
+  }
+);
+
 interface AppViewsProps {
   showAboutMe: boolean;
   setShowAboutMe: (show: boolean) => void;
   showSkillset: boolean;
   setShowSkillset: (show: boolean) => void;
+  showProjects: boolean;
+  setShowProjects: (show: boolean) => void;
   onOpenDocumentary: () => void;
 }
 
@@ -39,6 +48,8 @@ const AppViews: React.FC<AppViewsProps> = ({
   setShowAboutMe,
   showSkillset,
   setShowSkillset,
+  showProjects,
+  setShowProjects,
   onOpenDocumentary,
 }) => {
   return (
@@ -55,6 +66,11 @@ const AppViews: React.FC<AppViewsProps> = ({
       <AnimatePresence>
         {showSkillset && (
           <SkillsetAppView key="skillset" onClose={() => setShowSkillset(false)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showProjects && (
+          <ProjectsAppView key="projects" onClose={() => setShowProjects(false)} />
         )}
       </AnimatePresence>
     </>

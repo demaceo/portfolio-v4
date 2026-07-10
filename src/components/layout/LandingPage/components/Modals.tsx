@@ -22,16 +22,6 @@ const InteractiveResume = dynamic(
   }
 );
 
-const ProjectsGalleryModal = dynamic(
-  () =>
-    import(
-      "@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"
-    ),
-  {
-    loading: () => <LoadingModal />,
-  }
-);
-
 const DocumentaryPlayer = dynamic(
   () => import("@/components/features/media").then((m) => m.DocumentaryPlayer),
   {
@@ -45,8 +35,6 @@ interface ModalsProps {
   setShowContactForm: (show: boolean) => void;
   showResume: boolean;
   setShowResume: (show: boolean) => void;
-  showProjects: boolean;
-  setShowProjects: (show: boolean) => void;
   showDocumentary: boolean;
   setShowDocumentary: (show: boolean) => void;
 }
@@ -56,8 +44,6 @@ const Modals: React.FC<ModalsProps> = ({
   setShowContactForm,
   showResume,
   setShowResume,
-  showProjects,
-  setShowProjects,
   showDocumentary,
   setShowDocumentary,
 }) => {
@@ -71,11 +57,6 @@ const Modals: React.FC<ModalsProps> = ({
       <AnimatePresence>
         {showResume && (
           <InteractiveResume key="resume" onClose={() => setShowResume(false)} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showProjects && (
-          <ProjectsGalleryModal key="projects" onClose={() => setShowProjects(false)} />
         )}
       </AnimatePresence>
       <AnimatePresence>
