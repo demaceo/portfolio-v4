@@ -12,6 +12,9 @@ interface ToolbeltGraphProps {
   tools: ToolbeltToolDatum[];
   orderedCategories: string[];
   signatureStack: string[];
+  /** Whether the Toolbelt tab is currently shown. The graph only lays out /
+   *  simulates while visible; hidden it pauses to spare CPU on the Services tab. */
+  active: boolean;
 }
 
 interface SimNode extends d3.SimulationNodeDatum {
@@ -53,8 +56,21 @@ function truncateLabel(name: string, depth: number): string {
   return name.length > max ? `${name.slice(0, max)}…` : name;
 }
 
+interface NodeDatum {
+  id: string;
+  name: string;
+  depth: number;
+  rootIndex: number;
+  hasChildren: boolean;
+  isSignature?: boolean;
+  icon?: IconDefinition;
+}
+
+// Flatten the tree into node descriptors + links (by id). Collapsed roots don't
+// recurse into their children. Positions are NOT set here — the update effect
+// reconciles these descriptors against persistent SimNode objects.
 function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
-  const nodes: SimNode[] = [];
+  const nodes: NodeDatum[] = [];
   const links: SimLink[] = [];
 
   function visit(item: ToolbeltTreeNode, path: string[], depth: number, rootIndex: number) {
@@ -102,27 +118,58 @@ function rootColor(index: number, count: number): string {
   return d3.hsl(hue, ROOT_SATURATION, ROOT_LIGHTNESS).formatHex();
 }
 
+function radiusFor(depth: number): number {
+  return RADIUS_BY_DEPTH[Math.min(depth, RADIUS_BY_DEPTH.length - 1)];
+}
+
+function linkKey(d: SimLink): string {
+  const s = typeof d.source === "string" ? d.source : d.source.id;
+  const t = typeof d.target === "string" ? d.target : d.target.id;
+  return `${s}->${t}`;
+}
+
 /**
  * Collapsible force-directed graph replacing the Toolbelt tab's old
- * search+filter+grid, adapted from codepenz's "force-directed-node-tree"
- * pen. Categories are root nodes (pinned, collapsed by default); tools are
+ * search+filter+grid, adapted from codepenz's "force-directed-node-tree" pen.
+ * Categories are root nodes (pinned, collapsed by default); tools are
  * free-simulated leaf children revealed on click.
+ *
+ * The simulation, layers and drag/tick handlers are created once on mount; data
+ * changes (search, expand/collapse, resize) flow through an incremental update
+ * that reuses persistent SimNode objects — so existing nodes keep their
+ * positions/velocities and only the changed nodes animate, instead of the whole
+ * graph tearing down and re-heating on every keystroke.
  */
-const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories, signatureStack }) => {
+const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
+  tools,
+  orderedCategories,
+  signatureStack,
+  active,
+}) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const positionsRef = useRef(new Map<string, { x: number; y: number }>());
+
+  const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
+  const linkLayerRef = useRef<d3.Selection<SVGGElement, unknown, null, undefined> | null>(null);
+  const nodeLayerRef = useRef<d3.Selection<SVGGElement, unknown, null, undefined> | null>(null);
+  const linkSelRef = useRef<d3.Selection<SVGLineElement, SimLink, SVGGElement, unknown> | null>(null);
+  const nodeSelRef = useRef<d3.Selection<SVGGElement, SimNode, SVGGElement, unknown> | null>(null);
+  // Persistent node objects keyed by id — the crux of incremental updates:
+  // reusing the same object across updates carries d3's mutated x/y/vx/vy over.
+  const nodesRef = useRef(new Map<string, SimNode>());
 
   const [toolQuery, setToolQuery] = useState("");
   const [collapsed, setCollapsed] = useState<Set<string>>(
     () => new Set(buildToolbeltTree(tools, orderedCategories, signatureStack).map((root) => root.name))
   );
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  // Read synchronously so there is no post-mount state flip (which used to force
+  // an extra full rebuild).
+  const [prefersReducedMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
   const [resizeTick, setResizeTick] = useState(0);
-
-  useEffect(() => {
-    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -161,19 +208,17 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
     [isSearching, collapsed]
   );
 
+  // ── Mount-once: create svg layers, simulation, and the tick/drag handlers ──
   useEffect(() => {
     const svgEl = svgRef.current;
-    const wrapEl = wrapRef.current;
-    if (!svgEl || !wrapEl) return;
+    if (!svgEl) return;
 
-    const width = wrapEl.clientWidth;
-    const height = wrapEl.clientHeight;
-    const svg = d3.select(svgEl).attr("viewBox", `0 0 ${width} ${height}`);
-
-    // Organizational group layers; the per-child .link/.node classes carry the
-    // actual styling, so these wrappers need no class of their own.
+    const svg = d3.select(svgEl);
     const linkLayer = svg.append("g");
     const nodeLayer = svg.append("g");
+    const nodesMap = nodesRef.current;
+    linkLayerRef.current = linkLayer;
+    nodeLayerRef.current = nodeLayer;
 
     const simulation = d3
       .forceSimulation<SimNode>()
@@ -183,23 +228,95 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
         d3.forceLink<SimNode, SimLink>().id((d) => d.id).distance(90).strength(0.7)
       )
       .force("charge", d3.forceManyBody().strength(-90))
-      .force(
-        "collide",
-        d3.forceCollide<SimNode>((d) => RADIUS_BY_DEPTH[Math.min(d.depth, RADIUS_BY_DEPTH.length - 1)] + 6)
-      )
-      .force("x", d3.forceX(width / 2).strength(0.03))
-      .force("y", d3.forceY(height / 2).strength(0.03));
+      .force("collide", d3.forceCollide<SimNode>((d) => radiusFor(d.depth) + 6))
+      // Centers are set to the real half-width/height in the update effect.
+      .force("x", d3.forceX<SimNode>(0).strength(0.03))
+      .force("y", d3.forceY<SimNode>(0).strength(0.03))
+      .stop();
+    simulationRef.current = simulation;
+
+    simulation.on("tick", () => {
+      const link = linkSelRef.current;
+      const node = nodeSelRef.current;
+      link
+        ?.attr("x1", (d) => (d.source as SimNode).x ?? 0)
+        .attr("y1", (d) => (d.source as SimNode).y ?? 0)
+        .attr("x2", (d) => (d.target as SimNode).x ?? 0)
+        .attr("y2", (d) => (d.target as SimNode).y ?? 0);
+      node?.attr("transform", (d) => `translate(${d.x ?? 0},${d.y ?? 0})`);
+    });
+
+    return () => {
+      simulation.on("tick", null);
+      simulation.stop();
+      svg.selectAll("*").remove();
+      simulationRef.current = null;
+      linkLayerRef.current = null;
+      nodeLayerRef.current = null;
+      linkSelRef.current = null;
+      nodeSelRef.current = null;
+      nodesMap.clear();
+    };
+  }, [prefersReducedMotion]);
+
+  // ── Incremental update: reconcile nodes/links, re-join, gently re-heat ──
+  useEffect(() => {
+    const svgEl = svgRef.current;
+    const wrapEl = wrapRef.current;
+    const simulation = simulationRef.current;
+    const linkLayer = linkLayerRef.current;
+    const nodeLayer = nodeLayerRef.current;
+    if (!svgEl || !wrapEl || !simulation || !linkLayer || !nodeLayer) return;
+
+    const width = wrapEl.clientWidth;
+    const height = wrapEl.clientHeight;
+    // Hidden panel (or not yet laid out) — pause the sim and wait for the
+    // ResizeObserver / `active` to report real dimensions.
+    if (!active || width === 0 || height === 0) {
+      simulation.stop();
+      return;
+    }
+
+    d3.select(svgEl).attr("viewBox", `0 0 ${width} ${height}`);
+    (simulation.force("x") as d3.ForceX<SimNode>).x(width / 2);
+    (simulation.force("y") as d3.ForceY<SimNode>).y(height / 2);
 
     const rootPositions = computeRootPositions(tree.length, width, height);
+    const { nodes: descriptors, links } = flatten(tree, effectiveCollapsed);
 
-    const { nodes, links } = flatten(tree, effectiveCollapsed);
-
-    nodes.forEach((n) => {
-      const saved = positionsRef.current.get(n.id);
-      if (saved) {
-        n.x = saved.x;
-        n.y = saved.y;
+    // Reconcile descriptors against persistent node objects.
+    const map = nodesRef.current;
+    const nextIds = new Set(descriptors.map((d) => d.id));
+    for (const id of Array.from(map.keys())) {
+      if (!nextIds.has(id)) map.delete(id);
+    }
+    const nodes: SimNode[] = descriptors.map((desc: NodeDatum) => {
+      const existing = map.get(desc.id);
+      if (existing) {
+        // Refresh mutable display fields (stable per id, but cheap to sync).
+        existing.name = desc.name;
+        existing.depth = desc.depth;
+        existing.rootIndex = desc.rootIndex;
+        existing.hasChildren = desc.hasChildren;
+        existing.isSignature = desc.isSignature;
+        existing.icon = desc.icon;
+        return existing;
       }
+      // New node: seed near its category root so it fans out rather than flying
+      // in from the origin.
+      const root = rootPositions[desc.rootIndex] ?? { x: width / 2, y: height / 2 };
+      const jitter = () => (Math.random() - 0.5) * 40;
+      const created: SimNode = {
+        ...desc,
+        x: root.x + (desc.depth === 0 ? 0 : jitter()),
+        y: root.y + (desc.depth === 0 ? 0 : jitter()),
+      };
+      map.set(desc.id, created);
+      return created;
+    });
+
+    // Re-pin roots to their computed slots; free leaves.
+    nodes.forEach((n) => {
       if (n.depth === 0) {
         n.fx = rootPositions[n.rootIndex]?.x ?? width / 2;
         n.fy = rootPositions[n.rootIndex]?.y ?? height / 2;
@@ -208,21 +325,18 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
 
     simulation.nodes(nodes);
     (simulation.force("link") as d3.ForceLink<SimNode, SimLink>).links(links);
-    simulation.alpha(0.7).restart();
 
-    const link = linkLayer
+    // Links join (keyed by id-pair so lines persist across updates).
+    const linkSel = linkLayer
       .selectAll<SVGLineElement, SimLink>("line")
-      .data(
-        links,
-        (d) =>
-          `${typeof d.source === "string" ? d.source : d.source.id}->${
-            typeof d.target === "string" ? d.target : d.target.id
-          }`
-      )
+      .data(links, linkKey)
       .join("line")
       .attr("class", styles.link);
+    linkSelRef.current = linkSel;
 
-    const node = nodeLayer
+    // Nodes join (keyed by id). Enter builds the sub-tree and binds click/drag
+    // once; updates keep their handlers.
+    const nodeSel = nodeLayer
       .selectAll<SVGGElement, SimNode>("g")
       .data(nodes, (d) => d.id)
       .join((enter) => {
@@ -231,25 +345,54 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
         g.append("svg").attr("class", styles.nodeIcon).append("path");
         g.append("title");
         g.append("text").attr("text-anchor", "middle");
+
+        g.on("click", (_event, d) => {
+          if (!d.hasChildren) return;
+          setCollapsed((prev) => {
+            const next = new Set(prev);
+            if (next.has(d.id)) next.delete(d.id);
+            else next.add(d.id);
+            return next;
+          });
+        });
+
+        g.call(
+          d3
+            .drag<SVGGElement, SimNode>()
+            .on("start", (event, d) => {
+              if (!prefersReducedMotion && !event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", (event, d) => {
+              d.fx = event.x;
+              d.fy = event.y;
+            })
+            .on("end", (event, d) => {
+              if (!prefersReducedMotion && !event.active) simulation.alphaTarget(0);
+              if (d.depth !== 0) {
+                d.fx = null;
+                d.fy = null;
+              }
+            })
+        );
         return g;
       });
+    nodeSelRef.current = nodeSel;
 
-    node.classed(
-      styles.signature,
-      (d) => Boolean(d.isSignature)
-    );
-    node.classed(styles.hasHiddenChildren, (d) => effectiveCollapsed.has(d.id));
+    nodeSel.classed(styles.signature, (d) => Boolean(d.isSignature));
+    nodeSel.classed(styles.hasHiddenChildren, (d) => effectiveCollapsed.has(d.id));
 
-    node
-      .select("circle")
-      .attr("r", (d) => RADIUS_BY_DEPTH[Math.min(d.depth, RADIUS_BY_DEPTH.length - 1)])
+    nodeSel
+      .select<SVGCircleElement>("circle")
+      .attr("r", (d) => radiusFor(d.depth))
       .attr("fill", (d) => {
         const base = d3.hsl(rootColor(d.rootIndex, tree.length));
         base.l = Math.min(0.85, base.l + d.depth * 0.14);
         return base.formatHex();
       });
 
-    const iconSvg = node.select<SVGSVGElement>("svg");
+    const iconSvg = nodeSel.select<SVGSVGElement>("svg");
     iconSvg
       .attr("x", -8)
       .attr("y", -8)
@@ -257,71 +400,21 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
       .attr("height", 16)
       .attr("viewBox", (d) => (d.icon ? `0 0 ${d.icon.icon[0]} ${d.icon.icon[1]}` : "0 0 1 1"))
       .style("display", (d) => (d.icon ? null : "none"));
-
     iconSvg
       .select("path")
       .attr("d", (d) => (d.icon ? iconPathData(d.icon) : ""))
       .attr("fill", "currentColor");
 
-    node.select("title").text((d) => d.name);
-
-    node
+    nodeSel.select("title").text((d) => d.name);
+    nodeSel
       .select("text")
       .text((d) => truncateLabel(d.name, d.depth))
-      .attr("dy", (d) => RADIUS_BY_DEPTH[Math.min(d.depth, RADIUS_BY_DEPTH.length - 1)] + 10);
+      .attr("dy", (d) => radiusFor(d.depth) + 10);
 
-    node.on("click", (_event, d) => {
-      if (!d.hasChildren) return;
-      setCollapsed((prev) => {
-        const next = new Set(prev);
-        if (next.has(d.id)) next.delete(d.id);
-        else next.add(d.id);
-        return next;
-      });
-    });
-
-    node.call(
-      d3
-        .drag<SVGGElement, SimNode>()
-        .on("start", (event, d) => {
-          if (!prefersReducedMotion && !event.active) simulation.alphaTarget(0.3).restart();
-          d.fx = d.x;
-          d.fy = d.y;
-        })
-        .on("drag", (event, d) => {
-          d.fx = event.x;
-          d.fy = event.y;
-        })
-        .on("end", (event, d) => {
-          if (!prefersReducedMotion && !event.active) simulation.alphaTarget(0);
-          if (d.depth !== 0) {
-            d.fx = null;
-            d.fy = null;
-          }
-        })
-    );
-
-    simulation.on("tick", () => {
-      link
-        .attr("x1", (d) => (d.source as SimNode).x ?? 0)
-        .attr("y1", (d) => (d.source as SimNode).y ?? 0)
-        .attr("x2", (d) => (d.target as SimNode).x ?? 0)
-        .attr("y2", (d) => (d.target as SimNode).y ?? 0);
-
-      node.attr("transform", (d) => `translate(${d.x ?? 0},${d.y ?? 0})`);
-
-      nodes.forEach((n) => {
-        if (n.x !== undefined && n.y !== undefined) {
-          positionsRef.current.set(n.id, { x: n.x, y: n.y });
-        }
-      });
-    });
-
-    return () => {
-      simulation.stop();
-      svg.selectAll("*").remove();
-    };
-  }, [tree, effectiveCollapsed, prefersReducedMotion, resizeTick]);
+    // Gentle re-heat: existing nodes are already near equilibrium so they barely
+    // move; only new/changed nodes settle. alphaDecay makes reduced-motion snap.
+    simulation.alpha(0.3).restart();
+  }, [tree, effectiveCollapsed, resizeTick, active, prefersReducedMotion]);
 
   return (
     <div ref={wrapRef} className={styles.stage}>
