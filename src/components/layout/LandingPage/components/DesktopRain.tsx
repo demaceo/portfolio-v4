@@ -182,20 +182,52 @@ export default function DesktopRain() {
     const SPEED = 0.1;
 
     let disposed = false;
-    let animationId: number;
+    let animationId: number | null = null;
     let frame = 0;
     function update() {
-      if (disposed) return;
       animationId = requestAnimationFrame(update);
       frame += SPEED;
       program.uniforms.uTime.value = frame;
       renderer.render({ scene: mesh });
     }
-    animationId = requestAnimationFrame(update);
+
+    // Only animate while the tab is visible AND the desktop surface is on
+    // screen. There's no reason to run a full-screen 16-tap blur every frame
+    // when the canvas can't be seen — a background tab, or the ≤480px layout
+    // where `.desktop` is `display: none` and this container collapses to zero
+    // size (so the IntersectionObserver reports it as off-screen).
+    let tabVisible = document.visibilityState === "visible";
+    let onScreen = true;
+
+    function sync() {
+      const shouldRun = !disposed && tabVisible && onScreen;
+      if (shouldRun && animationId === null) {
+        animationId = requestAnimationFrame(update);
+      } else if (!shouldRun && animationId !== null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+
+    function onVisibilityChange() {
+      tabVisible = document.visibilityState === "visible";
+      sync();
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const observer = new IntersectionObserver((entries) => {
+      onScreen = entries.some((entry) => entry.isIntersecting);
+      sync();
+    });
+    observer.observe(container);
+
+    sync();
 
     return () => {
       disposed = true;
-      cancelAnimationFrame(animationId);
+      if (animationId !== null) cancelAnimationFrame(animationId);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       image.onload = null;
       if (gl.canvas.parentNode === container) {

@@ -84,6 +84,12 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     [active],
   );
 
+  // The native wheel listener is attached once (see the effect below); reading
+  // the current bounds through a ref keeps that listener from tearing down and
+  // re-subscribing on every row change.
+  const boundsRef = useRef(bounds);
+  boundsRef.current = bounds;
+
   // Picking a row is two-step: the first tap (on any row other than the
   // centered one) just brings it to center as a preview; tapping the row
   // that's already centered launches it. This mirrors the codepen's
@@ -102,8 +108,9 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   // leaves a row) retargets the resulting click event to the capturing
   // element, so the per-row onClick below never fires for mouse/touch —
   // tap-to-pick is instead resolved from the row under the pointer at
-  // pointerdown time. onClick still fires for keyboard activation and
-  // assistive-tech synthesized clicks, which never go through capture.
+  // pointerdown time. onClick still fires for assistive-tech synthesized
+  // clicks on an option (which never go through capture); keyboard
+  // activation is handled separately in handleKeyDown.
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
     pointerActive.current = true;
@@ -152,6 +159,41 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     setDragY(0);
   }
 
+  // Keyboard control follows the ARIA listbox pattern: focus stays on the
+  // wheel container while aria-activedescendant tracks the centered option.
+  // Arrow keys move the selection (and preload its route like pointer hover
+  // does); Enter/Space launches the selected app.
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      pickApp(active);
+      return;
+    }
+    let next: number;
+    switch (event.key) {
+      case "ArrowUp":
+      case "ArrowLeft":
+        next = clamp(active - 1, 0, DESKTOP_APPS.length - 1);
+        break;
+      case "ArrowDown":
+      case "ArrowRight":
+        next = clamp(active + 1, 0, DESKTOP_APPS.length - 1);
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = DESKTOP_APPS.length - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    if (next === active) return;
+    setActive(next);
+    maybePreloadByPath(DESKTOP_APPS[next].path);
+  }
+
   // React attaches "wheel" as a passive listener by default, so preventDefault
   // inside a JSX onWheel prop throws a console warning and is silently
   // ignored. Attaching natively with { passive: false } lets scrolling over
@@ -165,20 +207,27 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     const el = wheelRef.current;
     if (!el) return;
 
+    // The wheel gesture accumulates its offset locally so settling can snap to
+    // the nearest row without nesting one state setter inside another's
+    // updater (which double-applies under StrictMode / concurrent re-renders).
+    let offset = 0;
+
     function settle() {
       setIsWheeling(false);
-      setDragY((current) => {
-        const rowsMoved = Math.round(current / ROW_HEIGHT);
+      const rowsMoved = Math.round(offset / ROW_HEIGHT);
+      offset = 0;
+      setDragY(0);
+      if (rowsMoved !== 0) {
         setActive((prevActive) => clamp(prevActive - rowsMoved, 0, DESKTOP_APPS.length - 1));
-        return 0;
-      });
+      }
     }
 
     function onWheel(event: WheelEvent) {
       event.preventDefault();
       if (pointerActive.current) return;
       setIsWheeling(true);
-      setDragY((current) => clamp(current - event.deltaY, bounds.min, bounds.max));
+      offset = clamp(offset - event.deltaY, boundsRef.current.min, boundsRef.current.max);
+      setDragY(offset);
       if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
       wheelSettleTimer.current = setTimeout(settle, WHEEL_SETTLE_MS);
     }
@@ -188,7 +237,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
       el.removeEventListener("wheel", onWheel);
       if (wheelSettleTimer.current) clearTimeout(wheelSettleTimer.current);
     };
-  }, [bounds]);
+  }, []);
 
   return (
     <div className="desktop">
@@ -224,13 +273,19 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
       <div
         ref={wheelRef}
-        className="desktop-items"
+        className={`desktop-items${isDragging || isWheeling ? " is-animating" : ""}`}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        role="listbox"
+        aria-label="Desktop apps"
+        aria-orientation="vertical"
+        aria-activedescendant={`desktop-app-${active}`}
+        tabIndex={0}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
         onPointerCancel={endDrag}
+        onKeyDown={handleKeyDown}
       >
         <svg
           className="desktop-wheel-rail"
@@ -262,10 +317,12 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
 
           return (
-            <button
+            <div
               key={app.name}
-              type="button"
+              id={`desktop-app-${index}`}
               data-row-index={index}
+              role="option"
+              aria-selected={isActive}
               className="desktop-wheel-row"
               style={{
                 transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
@@ -275,7 +332,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                     ? "none"
                     : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
               }}
-              aria-pressed={isActive}
               onClick={() => pickApp(index)}
               onMouseEnter={() => maybePreloadByPath(app.path)}
               onTouchStart={() => maybePreloadByPath(app.path)}
@@ -304,7 +360,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                   <div className="notification-badge">!</div>
                 )}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>

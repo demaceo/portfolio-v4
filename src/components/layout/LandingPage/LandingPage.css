@@ -30,29 +30,24 @@
   height: 22px;
 }
 
-.desktop-wheel-row:focus-visible,
-.desktop-wheel-row:focus {
+/* The wheel is an ARIA listbox: focus lives on the container and
+   aria-activedescendant tracks the centered option, so the keyboard focus
+   ring is drawn on the selected option's icon rather than the container. */
+.desktop-items:focus {
   outline: none;
-  box-shadow: none;
 }
 
-/* adjust notification badge placement to sit over the top-right of the icon surface */
-/* .notification-badge {
-  top: -6px;
-  right: 0px;
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-} */
+.desktop-items:focus-visible .desktop-wheel-row[aria-selected="true"] .icon-image {
+  outline: 2px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 3px;
+}
 
 /* reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
   .icon-image,
-  .icon-glass {
+  .icon-glass,
+  .icon-glass-base {
     transition: none;
-    transform: none;
-    box-shadow: none;
   }
 }
 
@@ -215,16 +210,17 @@
   left: 0;
   right: 0;
   height: 120px;
-  margin: 0;
   padding: 0 12px 0 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 18px;
-  border: none !important;
-  background: transparent;
-  font: inherit;
   cursor: pointer;
+}
+
+/* Promote the rows to their own layer only while a gesture is actively moving
+   them, rather than compositing all four rows permanently at rest. */
+.desktop-items.is-animating .desktop-wheel-row {
   will-change: transform, opacity;
 }
 
@@ -258,24 +254,15 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  /* background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0.02)
-  );
-  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.12),
-    inset 0 -6px 12px rgba(255, 255, 255, 0.02); */
-  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1),
-    box-shadow 220ms ease, background 220ms ease;
   position: relative;
   overflow: visible;
 }
 
 /* Liquid Glass icon surface (ported from the "Liquid Glass Button" codepen):
-   a frosted, distorted panel behind the glyph that swells and softens on
-   hover with a springy easing curve. The distortion/base/border layers live
-   inside their own overflow-hidden wrapper so the notification badge (which
-   needs to poke outside the rounded surface) is unaffected. */
+   a frosted, distorted panel behind the glyph. The distortion/base/border
+   layers live inside their own overflow-hidden wrapper so the notification
+   badge (which needs to poke outside the rounded surface) is unaffected;
+   the hover feedback lives on .icon-glass-base below. */
 .desktop-glass-filter {
   position: absolute;
   width: 0;
@@ -292,7 +279,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: border-radius 500ms cubic-bezier(0.175, 0.885, 0.32, 2.2);
 }
 
 .icon-glass-distortion {
@@ -313,6 +299,7 @@
   z-index: 1;
   border-radius: inherit;
   background: rgba(255, 255, 255, 0.16);
+  transition: background 200ms ease;
   pointer-events: none;
 }
 
