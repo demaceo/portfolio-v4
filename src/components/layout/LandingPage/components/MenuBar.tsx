@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { aboutMePills } from "@/data/aboutMePills";
 import { ASSET_PATHS } from "@/lib/constants/paths";
@@ -11,18 +11,14 @@ import {
   PROJECT_ICON_FALLBACK,
   isImageIcon,
 } from "@/lib/constants/projectIcons";
-// import tools from "@/data/toolbelt";
 import Image from "next/image";
 
 interface MenuBarProps {
   openDropdown: string | null;
   setOpenDropdown: (dropdown: string | null) => void;
-  hoveredTechCategory: string | null;
-  setHoveredTechCategory: (category: string | null) => void;
   setShowAboutMe: (show: boolean) => void;
   setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
-  // setShowContactForm: (show: boolean) => void;
   preload: {
     about: () => void;
     contact: () => void;
@@ -32,93 +28,46 @@ interface MenuBarProps {
   TimeDisplay: React.ComponentType;
 }
 
+const MENU_ITEMS = [
+  { label: "About", key: "about" },
+  { label: "Services", key: "services" },
+  { label: "Projects", key: "projects" },
+] as const;
+
+const getServicePreview = (description: string) => {
+  const normalizedDescription = description.replace(/\s+/g, " ").trim();
+  const firstSentence =
+    normalizedDescription.match(/[^.!?]+[.!?]/)?.[0] ?? normalizedDescription;
+  if (firstSentence.length <= 110) return firstSentence;
+  return `${firstSentence.slice(0, 107).trimEnd()}...`;
+};
+
 const MenuBar: React.FC<MenuBarProps> = ({
   openDropdown,
   setOpenDropdown,
-  // hoveredTechCategory,
-  // setHoveredTechCategory,
   setShowAboutMe,
   setShowProjects,
   setShowSkillset,
-  // setShowContactForm,
   preload,
   TimeDisplay,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
 
-  const getServicePreview = (description: string) => {
-    const normalizedDescription = description.replace(/\s+/g, " ").trim();
-    const firstSentence =
-      normalizedDescription.match(/[^.!?]+[.!?]/)?.[0] ?? normalizedDescription;
-    if (firstSentence.length <= 110) return firstSentence;
-    return `${firstSentence.slice(0, 107).trimEnd()}...`;
+  const activeProjects = useMemo(
+    () => projectsData.filter((p) => !p.archived),
+    []
+  );
+
+  const toggleDropdown = (key: string) =>
+    setOpenDropdown(openDropdown === key ? null : key);
+
+  const preloadFor = (key: string) => {
+    if (key === "about") preload.about();
+    else if (key === "projects") preload.projects();
+    else if (key === "services") preload.skillset();
   };
 
-  // Define category order and display names for tech stack
-  // const techStackCategories = [
-  //   { key: "Frontend", name: "Frontend Development" },
-  //   { key: "Backend", name: "Backend Development" },
-  //   { key: "DevOps", name: "DevOps & Version Control" },
-  //   { key: "Cloud", name: "Cloud & Infrastructure" },
-  //   { key: "Design", name: "Design Tools" },
-  //   { key: "Package Management", name: "Package Management" },
-  //   { key: "Collaboration", name: "Collaboration" },
-  //   { key: "Project Management", name: "Project Management" },
-  //   { key: "Documentation", name: "Documentation & Testing" },
-  // ];
-
-  // Memoized grouping of tools by category
-  // const groupedTools = React.useMemo(() => {
-  //   return tools.reduce((acc, tool) => {
-  //     if (!acc[tool.category]) acc[tool.category] = [];
-  //     acc[tool.category].push(tool);
-  //     return acc;
-  //   }, {} as Record<string, typeof tools>);
-  // }, []);
-
-  // Helper function to render category item
-  // const renderCategoryItem = (category: { key: string; name: string }) => {
-  //   const categoryTools = groupedTools[category.key] || [];
-
-  //   if (categoryTools.length === 0) return null;
-
-  //   return (
-  //     <div
-  //       key={category.key}
-  //       className="tech-category-item"
-  //       onMouseEnter={() => setHoveredTechCategory(category.key)}
-  //       onMouseLeave={() => setHoveredTechCategory(null)}
-  //     >
-  //       <div className="tech-category-main">
-  //         <span className="tech-category-name">{category.name}</span>
-  //         <span className="tech-category-count">({categoryTools.length})</span>
-  //       </div>
-
-  //       {hoveredTechCategory === category.key && (
-  //         <div className="tech-tools-submenu">
-  //           <div className="tech-tools-grid">
-  //             {categoryTools.map((tool, index) => (
-  //               <div
-  //                 key={`${category.key}-${index}`}
-  //                 className="tech-tool-item"
-  //                 title={tool.tooltip}
-  //               >
-  //                 <FontAwesomeIcon
-  //                   icon={tool.icon}
-  //                   className="tech-tool-icon"
-  //                 />
-  //                 <span className="tech-tool-name">{tool.tooltip}</span>
-  //               </div>
-  //             ))}
-  //           </div>
-  //         </div>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
-  // Close dropdown on outside click
-
+  // Close dropdown on outside click (listener only attached while open)
   useEffect(() => {
     if (!openDropdown) return;
     const handleClick = (e: MouseEvent) => {
@@ -133,6 +82,16 @@ const MenuBar: React.FC<MenuBarProps> = ({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [openDropdown, setOpenDropdown]);
 
+  // Close dropdown on Escape from anywhere within the bar
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenDropdown(null);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [openDropdown, setOpenDropdown]);
+
   return (
     <div className="menu-bar" ref={menuBarRef}>
       <div className="menu-left">
@@ -143,63 +102,48 @@ const MenuBar: React.FC<MenuBarProps> = ({
           width={24}
           height={24}
         />
-        {[
-          { label: "About", key: "about" },
-          { label: "Services", key: "services" },
-          // { label: "Tech Stack", key: "tech" },
-          { label: "Projects", key: "projects" },
-          // { label: "Contact", key: "contact" },
-        ].map((item, idx, arr) => (
-          <div
-            key={item.key}
-            className={`menu-item-wrapper${openDropdown === item.key ? " menu-item-wrapper-active" : ""
+        {MENU_ITEMS.map((item) => {
+          const isOpen = openDropdown === item.key;
+          return (
+            <div
+              key={item.key}
+              className={`menu-item-wrapper${
+                isOpen ? " menu-item-wrapper-active" : ""
               }`}
-            data-menu-index={idx}
-            style={{
-              zIndex: openDropdown === item.key ? 1010 : 1,
-              marginRight: idx < arr.length - 1 ? 16 : 0,
-            }}
-          >
-            <span
-              className={`menu-item${openDropdown === item.key ? " menu-item-active" : ""
-                }`}
-              tabIndex={0}
-              onMouseEnter={() => {
-                if (item.key === "about") preload.about();
-                if (item.key === "projects") preload.projects();
-                if (item.key === "contact") preload.contact();
-                if (item.key === "tech" || item.key === "services")
-                  preload.skillset();
-              }}
-              onClick={() =>
-                setOpenDropdown(openDropdown === item.key ? null : item.key)
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ")
-                  setOpenDropdown(openDropdown === item.key ? null : item.key);
-                if (e.key === "Escape") setOpenDropdown(null);
-              }}
-              aria-haspopup="true"
-              aria-expanded={openDropdown === item.key}
             >
-              {item.label}
-            </span>
-            {openDropdown === item.key && (
-              <div
-                className={`menu-dropdown menu-dropdown-mac${openDropdown === item.key ? " menu-dropdown-mac-active" : ""
-                  }`}
-                onClick={(e) => e.stopPropagation()}
+              <button
+                type="button"
+                className={`menu-item${isOpen ? " menu-item-active" : ""}`}
+                onMouseEnter={() => preloadFor(item.key)}
+                onFocus={() => preloadFor(item.key)}
+                onClick={() => toggleDropdown(item.key)}
+                aria-haspopup="menu"
+                aria-expanded={isOpen}
               >
-                {item.key === "about" && (
-                  <div>
+                {item.label}
+              </button>
+              {isOpen && (
+                <div
+                  className="menu-dropdown menu-dropdown-mac"
+                  role="menu"
+                  aria-label={item.label}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {item.key === "about" && (
                     <ul className="menu-dropdown-pills">
                       {aboutMePills.map((pill) => {
-                        const handlePillAction = () => {
+                        const isAction =
+                          pill.label === "& more..." || Boolean(pill.link);
+                        const handleAction = () => {
                           if (pill.label === "& more...") {
                             setShowAboutMe(true);
                             setOpenDropdown(null);
                           } else if (pill.link) {
-                            window.open(pill.link, "_blank");
+                            window.open(
+                              pill.link,
+                              "_blank",
+                              "noopener,noreferrer"
+                            );
                           }
                         };
                         return (
@@ -208,55 +152,71 @@ const MenuBar: React.FC<MenuBarProps> = ({
                             className="menu-dropdown-pill-item"
                           >
                             <span
-                              className={`pill-tag-mac ${pill.label === "& more..."
-                                  ? "pill-tag-clickable"
-                                  : ""
-                                }`}
-                              tabIndex={0}
-                              onMouseEnter={handlePillAction}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  handlePillAction();
-                                }
-                              }}
+                              className={`pill-tag-mac${
+                                isAction ? " pill-tag-clickable" : ""
+                              }`}
+                              title={pill.tooltip}
+                              {...(isAction
+                                ? {
+                                    role: "menuitem",
+                                    tabIndex: 0,
+                                    onClick: handleAction,
+                                    onKeyDown: (
+                                      e: React.KeyboardEvent
+                                    ) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        handleAction();
+                                      }
+                                    },
+                                  }
+                                : {})}
                             >
                               {pill.icon && (
                                 <div className="pill-tag-icon">
                                   <Image
                                     src={pill.icon}
-                                    alt={pill.label}
+                                    alt=""
                                     width={20}
                                     height={20}
                                   />
                                 </div>
                               )}
-                              <span className="pill-tag-label">{pill.label}</span>
+                              <span className="pill-tag-label">
+                                {pill.label}
+                              </span>
                             </span>
                           </li>
                         );
                       })}
                     </ul>
-                  </div>
-                )}
+                  )}
 
-                {item.key === "services" && (
-                  <div>
+                  {item.key === "services" && (
                     <ul className="menu-dropdown-services">
                       {services.map((service) => {
-                        const servicePreview = getServicePreview(service.description);
+                        const openSkillset = () => {
+                          setShowSkillset(true);
+                          setOpenDropdown(null);
+                        };
                         return (
                           <li
                             key={service.id}
                             className="menu-dropdown-service-item"
-                            onClick={() => {
-                              setShowSkillset(true);
-                              setOpenDropdown(null);
+                            role="menuitem"
+                            tabIndex={0}
+                            onClick={openSkillset}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                openSkillset();
+                              }
                             }}
                           >
                             {service.icon && (
                               <Image
                                 src={service.icon}
-                                alt={service.title}
+                                alt=""
                                 className="menu-dropdown-service-icon"
                                 width={38}
                                 height={38}
@@ -270,75 +230,72 @@ const MenuBar: React.FC<MenuBarProps> = ({
                                 className="menu-dropdown-service-desc"
                                 title={service.description}
                               >
-                                {servicePreview}
+                                {getServicePreview(service.description)}
                               </div>
                             </div>
                           </li>
                         );
                       })}
                     </ul>
-                  </div>
-                )}
-                {item.key === "projects" && (
-                  <div>
+                  )}
+
+                  {item.key === "projects" && (
                     <ul className="menu-dropdown-projects">
-                      {projectsData
-                        .filter((p) => !p.archived)
-                        .map((proj) => (
+                      {activeProjects.map((proj) => {
+                        const openProjects = () => {
+                          setShowProjects(true);
+                          setOpenDropdown(null);
+                        };
+                        let projectVisual: React.ReactNode = null;
+                        if (isImageIcon(proj.icon)) {
+                          projectVisual = (
+                            <span className="menu-dropdown-project-img menu-dropdown-project-img-icon">
+                              <Image
+                                src={proj.icon as string}
+                                alt=""
+                                className="menu-dropdown-project-img-media"
+                                width={50}
+                                height={50}
+                              />
+                            </span>
+                          );
+                        } else if (proj.icon) {
+                          projectVisual = (
+                            <span className="menu-dropdown-project-img menu-dropdown-project-icon">
+                              <FontAwesomeIcon
+                                icon={
+                                  PROJECT_ICON_MAP[proj.icon as string] ||
+                                  PROJECT_ICON_FALLBACK
+                                }
+                              />
+                            </span>
+                          );
+                        } else if (proj.image) {
+                          projectVisual = (
+                            <Image
+                              src={proj.image}
+                              alt=""
+                              className="menu-dropdown-project-img"
+                              width={78}
+                              height={78}
+                            />
+                          );
+                        }
+                        return (
                           <li
                             key={proj.id}
                             className="menu-dropdown-project-item"
-                            onClick={() => {
-                              setShowProjects(true);
-                              setOpenDropdown(null);
+                            role="menuitem"
+                            tabIndex={0}
+                            onClick={openProjects}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                openProjects();
+                              }
                             }}
                           >
-                            {(() => {
-                              let projectVisual = null;
-                              if (isImageIcon(proj.icon)) {
-                                projectVisual = (
-                                  <span className="menu-dropdown-project-img menu-dropdown-project-img-icon">
-                                    <Image
-                                      src={proj.icon as string}
-                                      alt={`${proj.name} icon`}
-                                      className="menu-dropdown-project-img-media"
-                                      width={50}
-                                      height={50}
-                                    />
-                                  </span>
-                                );
-                              } else if (proj.icon) {
-                                projectVisual = (
-                                  <span
-                                    className="menu-dropdown-project-img menu-dropdown-project-icon"
-                                    style={{
-                                      fontSize: 28,
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                    }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={
-                                        PROJECT_ICON_MAP[proj.icon as string] ||
-                                        PROJECT_ICON_FALLBACK
-                                      }
-                                    />
-                                  </span>
-                                );
-                              } else if (proj.image) {
-                                projectVisual = (
-                                  <Image
-                                    src={proj.image}
-                                    alt={proj.name}
-                                    className="menu-dropdown-project-img"
-                                    width={78}
-                                    height={78}
-                                  />
-                                );
-                              }
-                              return projectVisual;
-                            })()}
+                            {projectVisual}
                             <div className="menu-dropdown-project-info">
                               <div className="menu-dropdown-project-title">
                                 {proj.name}
@@ -346,61 +303,17 @@ const MenuBar: React.FC<MenuBarProps> = ({
                               <div className="menu-dropdown-project-desc">
                                 {proj.description}
                               </div>
-                              {/* <a
-                                href={proj.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="menu-dropdown-project-link"
-                              >
-                                Visit
-                              </a> */}
                             </div>
                           </li>
-                        ))}
+                        );
+                      })}
                     </ul>
-                  </div>
-                )}
-                {/* {item.key === "tech" && (
-                  <div>
-                    <div className="menu-dropdown-tech-categories">
-                      {techStackCategories.map((category) =>
-                        renderCategoryItem(category)
-                      )}
-                      <div className="tech-view-all">
-                        <button
-                          className="tech-view-all-btn"
-                          onClick={() => {
-                            setShowSkillset(true);
-                            setOpenDropdown(null);
-                          }}
-                          title="View complete tech stack"
-                        >
-                          View All Tools & Skills
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-                {/* {item.key === "contact" && (
-                  <div className="menu-dropdown-contact-info">
-                    <div className="contact-info-text">
-                      <p>Ready to connect? Let&apos;s start a conversation!</p>
-                    </div>
-                    <button
-                      className="contact-trigger-btn"
-                      onClick={() => {
-                        setShowContactForm(true);
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      Open Contact Form
-                    </button>
-                  </div>
-                )} */}
-              </div>
-            )}
-          </div>
-        ))}
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       <div className="menu-right">
         <TimeDisplay />
