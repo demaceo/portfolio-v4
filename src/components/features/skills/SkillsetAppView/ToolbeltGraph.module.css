@@ -105,6 +105,16 @@
   stroke: var(--noir-accent-line);
 }
 
+/* Keyboard focus ring on category nodes (SVG <g> is focusable via tabindex). */
+.node:focus {
+  outline: none;
+}
+
+.node:focus-visible circle {
+  stroke: var(--noir-accent);
+  stroke-width: 3px;
+}
+
 .node title {
   pointer-events: none;
 }

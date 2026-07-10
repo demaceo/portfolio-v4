@@ -77,10 +77,16 @@ const ProjectsAppView: React.FC<ModalProps> = ({ onClose }) => {
               onFacetToggle={handleFacetToggle}
               tabListLabel="Project categories"
               facetListLabel="Filter by technology"
+              panelId="projects-panel"
             />
           </div>
 
-          <div className={styles.stage}>
+          <div
+            className={styles.stage}
+            role="tabpanel"
+            id="projects-panel"
+            aria-labelledby={`projects-panel-tab-${activeTab}`}
+          >
             {visibleProjects.length > 0 ? (
               <Grid minItemWidth="200px" gap="md" fill="fit" className={styles.grid}>
                 {visibleProjects.map((project) => (

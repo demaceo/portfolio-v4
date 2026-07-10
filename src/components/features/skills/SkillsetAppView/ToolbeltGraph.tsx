@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -208,6 +208,16 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     [isSearching, collapsed]
   );
 
+  // Shared by pointer click and keyboard (Enter/Space) on category nodes.
+  const toggleCategory = useCallback((id: string) => {
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
   // ── Mount-once: create svg layers, simulation, and the tick/drag handlers ──
   useEffect(() => {
     const svgEl = svgRef.current;
@@ -347,13 +357,14 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
         g.append("text").attr("text-anchor", "middle");
 
         g.on("click", (_event, d) => {
+          if (d.hasChildren) toggleCategory(d.id);
+        });
+        g.on("keydown", (event, d) => {
           if (!d.hasChildren) return;
-          setCollapsed((prev) => {
-            const next = new Set(prev);
-            if (next.has(d.id)) next.delete(d.id);
-            else next.add(d.id);
-            return next;
-          });
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleCategory(d.id);
+          }
         });
 
         g.call(
@@ -382,6 +393,16 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
 
     nodeSel.classed(styles.signature, (d) => Boolean(d.isSignature));
     nodeSel.classed(styles.hasHiddenChildren, (d) => effectiveCollapsed.has(d.id));
+
+    // Category nodes are keyboard-operable buttons; leaves stay non-focusable
+    // (exposed via their <title>). aria-expanded refreshes on every update.
+    nodeSel
+      .attr("tabindex", (d) => (d.hasChildren ? 0 : null))
+      .attr("role", (d) => (d.hasChildren ? "button" : null))
+      .attr("aria-label", (d) => (d.hasChildren ? d.name : null))
+      .attr("aria-expanded", (d) =>
+        d.hasChildren ? String(!effectiveCollapsed.has(d.id)) : null
+      );
 
     nodeSel
       .select<SVGCircleElement>("circle")
@@ -414,7 +435,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     // Gentle re-heat: existing nodes are already near equilibrium so they barely
     // move; only new/changed nodes settle. alphaDecay makes reduced-motion snap.
     simulation.alpha(0.3).restart();
-  }, [tree, effectiveCollapsed, resizeTick, active, prefersReducedMotion]);
+  }, [tree, effectiveCollapsed, resizeTick, active, prefersReducedMotion, toggleCategory]);
 
   return (
     <div ref={wrapRef} className={styles.stage}>
@@ -444,7 +465,12 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
         ))}
       </div>
 
-      <svg ref={svgRef} className={styles.svg} />
+      <svg
+        ref={svgRef}
+        className={styles.svg}
+        role="group"
+        aria-label="Toolbelt skills graph"
+      />
     </div>
   );
 };

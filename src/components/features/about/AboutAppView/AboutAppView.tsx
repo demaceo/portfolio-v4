@@ -304,7 +304,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                 }`}
                 onClick={() => handlePillClick(pill)}
                 aria-expanded={isActive}
-                aria-controls="about-strength-detail"
+                aria-controls={isActive ? "about-strength-detail" : undefined}
               >
                 <span>{pill.label}</span>
                 {pill.link && (
@@ -367,7 +367,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
 
         {/* ── Stage ────────────────────────────────────── */}
         <div className="about-stage-wrap">
-          <div className="about-stage" aria-live="polite">
+          <div className="about-stage">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.section
                 key={chapter.id}
