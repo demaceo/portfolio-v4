@@ -1,0 +1,13 @@
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 480px) {
+  .filterBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

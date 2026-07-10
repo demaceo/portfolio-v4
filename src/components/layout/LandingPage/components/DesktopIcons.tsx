@@ -4,37 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type React from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBrain,
-  faToolbox,
-  faLaptopCode,
-  // faFilm,
-  faEnvelope,
-  type IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
 import DesktopRain from "./DesktopRain";
+import { DESKTOP_APPS } from "@/lib/constants/desktopApps";
 
 interface DesktopIconsProps {
   showContactNotification: boolean;
   handleAppClick: (path: string, isToggle?: boolean) => void;
   maybePreloadByPath: (path: string) => void;
 }
-
-interface DesktopApp {
-  name: string;
-  icon: IconDefinition;
-  path: string;
-  isToggle?: boolean;
-  color: string;
-}
-
-const DESKTOP_APPS: DesktopApp[] = [
-  { name: "Mindset", icon: faBrain, path: "/mindset", color: "#8b7dfb" },
-  { name: "Skillset", icon: faToolbox, path: "/skillset", color: "#f0ab1b" },
-  { name: "Projects", icon: faLaptopCode, path: "/projects", color: "#2f9be0" },
-  // { name: "Docuseries", icon: faFilm, path: "/documentary", color: "#3ecf8e" },
-  { name: "Contact", icon: faEnvelope, path: "/contact", isToggle: true, color: "#ef4a5f" },
-];
 
 const DEFAULT_ACTIVE = 1; // Skillset — keeps every row on-screen at rest
 const ROW_HEIGHT = 120; // px between rows, so icons read as spaced out

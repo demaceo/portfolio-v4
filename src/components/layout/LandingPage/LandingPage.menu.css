@@ -1814,11 +1814,16 @@
    Phone & tablet — drop the MenuBar entirely.
    Its content (About/Services/Projects) is already reachable from the
    desktop icons and the welcome window's quick links, and a mac-style top
-   menu bar doesn't translate well to a touch layout. Kept as the last rule
-   in this file so it wins the cascade over the unconditional `.menu-bar`
-   rule above (same selector specificity, so source order decides).
+   menu bar doesn't translate well to a touch layout. The width check alone
+   only catches phones — real tablets in portrait (iPad Mini/Air at
+   768-820px, iPad Pro at 834-1024px) sit above 768px and were rendering
+   the MenuBar *and* the touch-oriented desktop icon wheel at once, so
+   `(pointer: coarse)` is included to catch touch devices regardless of
+   width. Kept as the last rule in this file so it wins the cascade over
+   the unconditional `.menu-bar` rule above (same selector specificity, so
+   source order decides).
    ========================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 768px), (pointer: coarse) {
   .menu-bar {
     display: none;
   }

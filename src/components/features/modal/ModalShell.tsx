@@ -3,41 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ModalShellProps } from "@/lib/types";
-
-let bodyScrollLockCount = 0;
-let previousBodyOverflow = "";
-let previousBodyPaddingRight = "";
-
-const lockBodyScroll = () => {
-  if (typeof document === "undefined") return;
-
-  if (bodyScrollLockCount === 0) {
-    previousBodyOverflow = document.body.style.overflow;
-    previousBodyPaddingRight = document.body.style.paddingRight;
-
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.overflow = "hidden";
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-  }
-
-  bodyScrollLockCount += 1;
-};
-
-const unlockBodyScroll = () => {
-  if (typeof document === "undefined") return;
-  if (bodyScrollLockCount === 0) return;
-
-  bodyScrollLockCount -= 1;
-
-  if (bodyScrollLockCount === 0) {
-    document.body.style.overflow = previousBodyOverflow;
-    document.body.style.paddingRight = previousBodyPaddingRight;
-  }
-};
+import { pushOverlay, popOverlay, isTopmostOverlay, lockBodyScroll, unlockBodyScroll } from "@/lib/utils/overlayStack";
 
 const ModalShell: React.FC<ModalShellProps> = ({
   onClose,
@@ -47,13 +13,15 @@ const ModalShell: React.FC<ModalShellProps> = ({
   dialogClassName,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const instanceId = useRef(Symbol("modal")).current;
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    pushOverlay(instanceId);
     lockBodyScroll();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && isTopmostOverlay(instanceId)) {
         onClose();
       }
     };
@@ -62,13 +30,14 @@ const ModalShell: React.FC<ModalShellProps> = ({
     dialogRef.current?.focus();
 
     return () => {
+      popOverlay(instanceId);
       document.removeEventListener("keydown", handleKeyDown);
       unlockBodyScroll();
     };
-  }, [onClose]);
+  }, [onClose, instanceId]);
 
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
+    if (event.target === event.currentTarget && isTopmostOverlay(instanceId)) {
       onClose();
     }
   };

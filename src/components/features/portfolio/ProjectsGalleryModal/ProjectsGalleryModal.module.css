@@ -1,0 +1,51 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
+  color: var(--noir-text);
+  outline: none;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--noir-border);
+  flex-shrink: 0;
+  background: var(--noir-panel);
+}
+
+.stage {
+  flex: 1;
+  min-height: 320px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+}
+
+.grid {
+  align-content: start;
+}
+
+.empty {
+  margin: 2rem 0 0;
+  text-align: center;
+  color: var(--noir-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .stage {
+    padding: 0.75rem;
+  }
+}

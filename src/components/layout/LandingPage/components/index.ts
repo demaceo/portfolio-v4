@@ -5,4 +5,6 @@ export { default as FlyingBirds } from './FlyingBirds';
 export { default as WelcomeWindow } from './WelcomeWindow';
 export { default as Taskbar } from './Taskbar';
 export { default as Modals } from './Modals';
+export { default as AppViews } from './AppViews';
+export { default as AppSwitcher } from './AppSwitcher';
 export { default as TimeDisplay } from './TimeDisplay';

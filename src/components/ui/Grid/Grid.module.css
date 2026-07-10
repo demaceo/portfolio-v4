@@ -1,0 +1,9 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 30vw, var(--grid-min-item, 220px)), 1fr));
+  width: 100%;
+}
+
+.gapSm { gap: 0.5rem; }
+.gapMd { gap: 1rem; }
+.gapLg { gap: 1.5rem; }

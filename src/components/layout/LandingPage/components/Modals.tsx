@@ -22,13 +22,6 @@ const InteractiveResume = dynamic(
   }
 );
 
-const AboutMeModal = dynamic(
-  () => import("@/components/features/about/AboutMeModal/AboutMeModal"),
-  {
-    loading: () => <LoadingModal />,
-  }
-);
-
 const SkillsetModal = dynamic(
   () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
   {
@@ -36,8 +29,11 @@ const SkillsetModal = dynamic(
   }
 );
 
-const ProjectsModal = dynamic(
-  () => import("@/components/features/portfolio/ProjectsModal/ProjectsModal"),
+const ProjectsGalleryModal = dynamic(
+  () =>
+    import(
+      "@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"
+    ),
   {
     loading: () => <LoadingModal />,
   }
@@ -54,8 +50,6 @@ const DocumentaryPlayer = dynamic(
 interface ModalsProps {
   showContactForm: boolean;
   setShowContactForm: (show: boolean) => void;
-  showAboutMe: boolean;
-  setShowAboutMe: (show: boolean) => void;
   showResume: boolean;
   setShowResume: (show: boolean) => void;
   showSkillset: boolean;
@@ -69,8 +63,6 @@ interface ModalsProps {
 const Modals: React.FC<ModalsProps> = ({
   showContactForm,
   setShowContactForm,
-  showAboutMe,
-  setShowAboutMe,
   showResume,
   setShowResume,
   showSkillset,
@@ -88,17 +80,6 @@ const Modals: React.FC<ModalsProps> = ({
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {showAboutMe && (
-          <AboutMeModal
-            key="about"
-            onClose={() => setShowAboutMe(false)}
-            onOpenContact={() => setShowContactForm(true)}
-            onOpenResume={() => setShowResume(true)}
-            onOpenDocumentary={() => setShowDocumentary(true)}
-          />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
         {showResume && (
           <InteractiveResume key="resume" onClose={() => setShowResume(false)} />
         )}
@@ -110,7 +91,7 @@ const Modals: React.FC<ModalsProps> = ({
       </AnimatePresence>
       <AnimatePresence>
         {showProjects && (
-          <ProjectsModal key="projects" onClose={() => setShowProjects(false)} />
+          <ProjectsGalleryModal key="projects" onClose={() => setShowProjects(false)} />
         )}
       </AnimatePresence>
       <AnimatePresence>
