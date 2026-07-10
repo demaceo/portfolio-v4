@@ -15,7 +15,7 @@ const idle: RequestIdleCallback = (cb) => {
 export const preloadModules = {
     contact: () => import("@/components/features/contact/ContactForm/ContactForm"),
     about: () => import("@/components/features/about/AboutAppView/AboutAppView"),
-    skillset: () => import("@/components/features/skills/SkillsetModal/SkillsetModal"),
+    skillset: () => import("@/components/features/skills/SkillsetAppView/SkillsetAppView"),
     projects: () =>
         import("@/components/features/portfolio/ProjectsGalleryModal/ProjectsGalleryModal"),
     documentary: () =>

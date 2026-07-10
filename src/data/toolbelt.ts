@@ -43,7 +43,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const tools = [
-    // Design Tools (5 tools)
+    // Design Tools (4 tools)
     { icon: faFigma, tooltip: "Figma", category: "Design" },
     { icon: faWebflow, tooltip: "Webflow", category: "Design" },
     { icon: faWordpress, tooltip: "WordPress", category: "Design" },
@@ -74,7 +74,7 @@ const tools = [
     { icon: faDocker, tooltip: "Docker", category: "DevOps" },
     { icon: faLinux, tooltip: "Linux", category: "DevOps" },
 
-    // Cloud & Infrastructure (5 tools)
+    // Cloud & Infrastructure (4 tools)
     { icon: faAws, tooltip: "AWS", category: "Cloud" },
     { icon: faGoogle, tooltip: "Google Cloud", category: "Cloud" },
     { icon: faMicrosoft, tooltip: "Azure", category: "Cloud" },

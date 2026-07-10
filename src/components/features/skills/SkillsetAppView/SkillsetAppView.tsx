@@ -1,17 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import {
-  faChevronLeft,
-  faChevronRight,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import services from "@/data/services";
 import tools from "@/data/toolbelt";
 import { ModalProps } from "@/lib/types";
-import { ModalFrame } from "@/components/features/modal";
-import "./SkillsetModal.css";
+import { AppView } from "@/components/features/shell";
+import ToolbeltGraph from "./ToolbeltGraph";
+import "./SkillsetAppView.css";
 
 type SkillsetTab = "services" | "tools";
 
@@ -37,8 +34,8 @@ const serviceOutcomes: Record<string, string> = {
   sb7: "Less manual overhead through targeted automation and scripting.",
 };
 
-// Tools shown larger as the "signature stack" rail.
-const signatureStack = ["React", "TypeScript", "Next.js", "Node.js", "AWS"];
+// Tools highlighted with the signature stroke/glow in the toolbelt graph.
+const signatureStack = ["React", "JavaScript", "Next.js", "Node.js", "AWS"];
 
 const plateVariants: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
@@ -54,16 +51,12 @@ const plateVariants: Variants = {
   }),
 };
 
-const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
+const SkillsetAppView: React.FC<ModalProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<SkillsetTab>("services");
 
   // Services carousel state
   const [serviceIndex, setServiceIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-
-  // Toolbelt state
-  const [toolQuery, setToolQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const service = services[serviceIndex];
 
@@ -79,65 +72,8 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
     setServiceIndex(index);
   };
 
-  const categories = useMemo(() => {
-    const discovered = Array.from(new Set(tools.map((tool) => tool.category)));
-
-    const prioritized = orderedCategories.filter((category) =>
-      discovered.includes(category)
-    );
-
-    const remaining = discovered
-      .filter((category) => !prioritized.includes(category))
-      .sort((a, b) => a.localeCompare(b));
-
-    return [...prioritized, ...remaining];
-  }, []);
-
-  const filteredTools = useMemo(() => {
-    const normalizedQuery = toolQuery.trim().toLowerCase();
-
-    return tools.filter((tool) => {
-      const categoryMatches =
-        selectedCategory === "All" || tool.category === selectedCategory;
-
-      const queryMatches =
-        normalizedQuery.length === 0 ||
-        tool.tooltip.toLowerCase().includes(normalizedQuery) ||
-        tool.category.toLowerCase().includes(normalizedQuery);
-
-      return categoryMatches && queryMatches;
-    });
-  }, [selectedCategory, toolQuery]);
-
-  const toolsByCategory = useMemo(() => {
-    return filteredTools.reduce((acc, tool) => {
-      if (!acc[tool.category]) acc[tool.category] = [];
-      acc[tool.category].push(tool);
-      return acc;
-    }, {} as Record<string, typeof tools>);
-  }, [filteredTools]);
-
-  const visibleCategories = useMemo(() => {
-    return Object.keys(toolsByCategory).sort((a, b) => {
-      const aIndex = categories.indexOf(a);
-      const bIndex = categories.indexOf(b);
-
-      if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
-      if (aIndex === -1) return 1;
-      if (bIndex === -1) return -1;
-      return aIndex - bIndex;
-    });
-  }, [categories, toolsByCategory]);
-
   return (
-    <ModalFrame
-      onClose={onClose}
-      title="Skillset"
-      size="lg"
-      variant="light"
-      titleId="skillset-title"
-      closeAriaLabel="Close skillset modal"
-    >
+    <AppView onClose={onClose} title="Skillset" titleId="skillset-title">
       <div className="skillset">
         {/* ── Tabs ─────────────────────────────────────── */}
         <div className="skill-topbar">
@@ -285,7 +221,7 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
             </motion.section>
           )}
 
-          {/* ── Toolbelt: proficiency wall ─────────────── */}
+          {/* ── Toolbelt: collapsible force-directed graph ─ */}
           {activeTab === "tools" && (
             <motion.section
               key="tools"
@@ -298,103 +234,17 @@ const SkillsetModal: React.FC<ModalProps> = ({ onClose }) => {
               id="tools-panel"
               aria-labelledby="tools-tab"
             >
-              <div className="wall-toolbar">
-                <label className="wall-search" htmlFor="tools-query">
-                  <FontAwesomeIcon
-                    icon={faMagnifyingGlass}
-                    className="wall-search-icon"
-                    aria-hidden="true"
-                  />
-                  <input
-                    id="tools-query"
-                    type="search"
-                    value={toolQuery}
-                    onChange={(event) => setToolQuery(event.target.value)}
-                    placeholder="Search tools or categories"
-                    aria-label="Search tools or categories"
-                  />
-                </label>
-
-                <div className="wall-chips" role="group" aria-label="Tool categories">
-                  <button
-                    type="button"
-                    className={`wall-chip ${selectedCategory === "All" ? "active" : ""}`}
-                    onClick={() => setSelectedCategory("All")}
-                  >
-                    All
-                  </button>
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      type="button"
-                      className={`wall-chip ${selectedCategory === category ? "active" : ""}`}
-                      onClick={() => setSelectedCategory(category)}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="wall-scroll">
-                {visibleCategories.length === 0 ? (
-                  <div className="wall-empty">
-                    <h3>No matching tools</h3>
-                    <p>Try a different search term or switch category filters.</p>
-                  </div>
-                ) : (
-                  visibleCategories.map((category) => (
-                    <section key={category} className="wall-group">
-                      <header className="wall-group-head">
-                        <h3>{category}</h3>
-                        <span className="wall-group-count">
-                          {toolsByCategory[category].length}
-                        </span>
-                      </header>
-
-                      <motion.div
-                        className="wall-grid"
-                        role="list"
-                        aria-label={`${category} tools`}
-                        initial="hidden"
-                        animate="show"
-                        variants={{
-                          hidden: {},
-                          show: { transition: { staggerChildren: 0.025 } },
-                        }}
-                      >
-                        {toolsByCategory[category].map((tool, index) => {
-                          const isSignature = signatureStack.includes(tool.tooltip);
-                          return (
-                            <motion.div
-                              key={`${category}-${tool.tooltip}-${index}`}
-                              className={`wall-tile ${isSignature ? "signature" : ""}`}
-                              role="listitem"
-                              title={tool.tooltip}
-                              variants={{
-                                hidden: { opacity: 0, y: 10 },
-                                show: { opacity: 1, y: 0 },
-                              }}
-                            >
-                              <FontAwesomeIcon
-                                className="wall-tile-icon"
-                                icon={tool.icon}
-                              />
-                              <span className="wall-tile-label">{tool.tooltip}</span>
-                            </motion.div>
-                          );
-                        })}
-                      </motion.div>
-                    </section>
-                  ))
-                )}
-              </div>
+              <ToolbeltGraph
+                tools={tools}
+                orderedCategories={orderedCategories}
+                signatureStack={signatureStack}
+              />
             </motion.section>
           )}
         </AnimatePresence>
       </div>
-    </ModalFrame>
+    </AppView>
   );
 };
 
-export default SkillsetModal;
+export default SkillsetAppView;

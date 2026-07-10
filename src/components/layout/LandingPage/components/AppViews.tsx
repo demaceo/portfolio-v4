@@ -15,9 +15,18 @@ const AboutAppView = dynamic(
   }
 );
 
+const SkillsetAppView = dynamic(
+  () => import("@/components/features/skills/SkillsetAppView/SkillsetAppView"),
+  {
+    loading: () => <LoadingView />,
+  }
+);
+
 interface AppViewsProps {
   showAboutMe: boolean;
   setShowAboutMe: (show: boolean) => void;
+  showSkillset: boolean;
+  setShowSkillset: (show: boolean) => void;
   onOpenDocumentary: () => void;
 }
 
@@ -25,17 +34,30 @@ interface AppViewsProps {
 // counterpart to Modals.tsx. Rendered *inside* .mac-screen (not as a sibling
 // of it like Modals.tsx) so AppView takeovers stay within the monitor bezel
 // instead of covering the real browser viewport.
-const AppViews: React.FC<AppViewsProps> = ({ showAboutMe, setShowAboutMe, onOpenDocumentary }) => {
+const AppViews: React.FC<AppViewsProps> = ({
+  showAboutMe,
+  setShowAboutMe,
+  showSkillset,
+  setShowSkillset,
+  onOpenDocumentary,
+}) => {
   return (
-    <AnimatePresence>
-      {showAboutMe && (
-        <AboutAppView
-          key="about"
-          onClose={() => setShowAboutMe(false)}
-          onOpenDocumentary={onOpenDocumentary}
-        />
-      )}
-    </AnimatePresence>
+    <>
+      <AnimatePresence>
+        {showAboutMe && (
+          <AboutAppView
+            key="about"
+            onClose={() => setShowAboutMe(false)}
+            onOpenDocumentary={onOpenDocumentary}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showSkillset && (
+          <SkillsetAppView key="skillset" onClose={() => setShowSkillset(false)} />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

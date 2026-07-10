@@ -16,6 +16,7 @@
     "@use-gesture/react": "^10.3.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "d3": "^7.9.0",
     "framer-motion": "^12.23.6",
     "gsap": "^3.13.0",
     "html2canvas": "^1.4.1",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/d3": "^7.4.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
