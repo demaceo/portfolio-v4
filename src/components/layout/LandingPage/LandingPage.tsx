@@ -39,7 +39,9 @@ const LandingPage = () => {
 
       <div
         className={`mac-screen${
-          modalState.showAboutMe || modalState.showSkillset ? " mac-screen--app-view-open" : ""
+          modalState.showAboutMe || modalState.showSkillset || modalState.showProjects
+            ? " mac-screen--app-view-open"
+            : ""
         }`}
       >
         <MenuBar
@@ -81,6 +83,8 @@ const LandingPage = () => {
           setShowAboutMe={modalActions.setShowAboutMe}
           showSkillset={modalState.showSkillset}
           setShowSkillset={modalActions.setShowSkillset}
+          showProjects={modalState.showProjects}
+          setShowProjects={modalActions.setShowProjects}
           onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
         />
       </div>
@@ -90,8 +94,6 @@ const LandingPage = () => {
         setShowContactForm={modalActions.setShowContactForm}
         showResume={modalState.showResume}
         setShowResume={modalActions.setShowResume}
-        showProjects={modalState.showProjects}
-        setShowProjects={modalActions.setShowProjects}
         showDocumentary={modalState.showDocumentary}
         setShowDocumentary={modalActions.setShowDocumentary}
       />

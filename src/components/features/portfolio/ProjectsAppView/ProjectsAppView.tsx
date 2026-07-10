@@ -3,13 +3,13 @@
 import React, { useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { ModalProps, Project } from "@/lib/types";
-import { ModalFrame } from "@/components/features/modal";
+import { AppView } from "@/components/features/shell";
 import { Grid, FilterBar } from "@/components/ui";
 import { useProjects } from "@/hooks";
 import ProjectTile from "./ProjectTile";
 import ProjectDetailModal from "../ProjectDetailModal/ProjectDetailModal";
 import ResumeHighlightsModal from "../ResumeHighlightsModal/ResumeHighlightsModal";
-import styles from "./ProjectsGalleryModal.module.css";
+import styles from "./ProjectsAppView.module.css";
 
 const MAX_FACETS = 6;
 
@@ -26,7 +26,7 @@ function useStackFacets(projects: Project[]): string[] {
   }, [projects]);
 }
 
-const ProjectsGalleryModal: React.FC<ModalProps> = ({ onClose }) => {
+const ProjectsAppView: React.FC<ModalProps> = ({ onClose }) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
   const [activeFacet, setActiveFacet] = useState<string | null>(null);
@@ -62,14 +62,7 @@ const ProjectsGalleryModal: React.FC<ModalProps> = ({ onClose }) => {
 
   return (
     <>
-      <ModalFrame
-        onClose={onClose}
-        title="Projects"
-        size="lg"
-        variant="light"
-        titleId="projects-title"
-        closeAriaLabel="Close projects modal"
-      >
+      <AppView onClose={onClose} title="Projects" titleId="projects-title">
         <div className={styles.gallery}>
           <div className={styles.topbar}>
             <FilterBar
@@ -103,7 +96,7 @@ const ProjectsGalleryModal: React.FC<ModalProps> = ({ onClose }) => {
             )}
           </div>
         </div>
-      </ModalFrame>
+      </AppView>
 
       <AnimatePresence>
         {selectedProject && (
@@ -132,4 +125,4 @@ const ProjectsGalleryModal: React.FC<ModalProps> = ({ onClose }) => {
   );
 };
 
-export default ProjectsGalleryModal;
+export default ProjectsAppView;
