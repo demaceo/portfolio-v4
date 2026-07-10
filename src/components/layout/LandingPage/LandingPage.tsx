@@ -47,8 +47,6 @@ const LandingPage = () => {
         <MenuBar
           openDropdown={dropdownState.openDropdown}
           setOpenDropdown={dropdownActions.setOpenDropdown}
-          hoveredTechCategory={dropdownState.hoveredTechCategory}
-          setHoveredTechCategory={dropdownActions.setHoveredTechCategory}
           setShowAboutMe={modalActions.setShowAboutMe}
           setShowProjects={modalActions.setShowProjects}
           setShowSkillset={modalActions.setShowSkillset}
