@@ -1,9 +1,9 @@
 /* ===== DOCUMENTARY PLAYER =====
    Content styles for the "Watch Documentary" modal, rendered inside
    ModalFrame's Warm Noir / Liquid Glass shell. Colors alias the shared
-   --noir-*/--lg-* tokens from globals.css so this content reads as part of
-   the same dark glass system as every other modal (ContactForm, Projects,
-   ResumeHighlights, InteractiveResume). */
+   --noir- and --lg- tokens from globals.css so this content reads as part
+   of the same dark glass system as every other modal (ContactForm,
+   Projects, ResumeHighlights, InteractiveResume). */
 
 .documentary-player-content {
   display: flex;
