@@ -11,11 +11,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* slightly larger on desktop for the main desktop icon set (JS sets the
-   actual per-row size inline; this is just the fallback/base value) */
+/* The per-row icon size is set inline by JS; only the rounding is styled here. */
 .desktop-wheel-row .icon-image {
-  width: 84px;
-  height: 84px;
   border-radius: 16px;
 }
 

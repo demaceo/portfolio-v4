@@ -73,8 +73,21 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
   const wheelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+    const onChange = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
   }, []);
+
+  // Preload the centered app's route whenever the selection changes, so a
+  // launch is instant no matter how the row was centered (drag, wheel, or
+  // keyboard). Hover/touch still preload eagerly for rows the pointer passes
+  // over without centering. preloadByPath is idempotent (dynamic-import cache)
+  // and maybePreloadByPath is stable, so this is cheap to run on every change.
+  useEffect(() => {
+    maybePreloadByPath(DESKTOP_APPS[active].path);
+  }, [active, maybePreloadByPath]);
 
   const bounds = useMemo(
     () => ({
@@ -161,8 +174,8 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
   // Keyboard control follows the ARIA listbox pattern: focus stays on the
   // wheel container while aria-activedescendant tracks the centered option.
-  // Arrow keys move the selection (and preload its route like pointer hover
-  // does); Enter/Space launches the selected app.
+  // Arrow keys move the selection (its route is preloaded by the active-change
+  // effect above); Enter/Space launches the selected app.
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -191,7 +204,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     event.preventDefault();
     if (next === active) return;
     setActive(next);
-    maybePreloadByPath(DESKTOP_APPS[next].path);
   }
 
   // React attaches "wheel" as a passive listener by default, so preventDefault
@@ -315,6 +327,7 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           const opacity = clamp(1 - 0.65 * t, 0.35, 1);
           const isActive = index === active;
           const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
+          const hasNotification = app.name === "Contact" && showContactNotification;
 
           return (
             <div
@@ -323,6 +336,9 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               data-row-index={index}
               role="option"
               aria-selected={isActive}
+              // Surface the otherwise purely-visual "!" badge to assistive
+              // tech by folding it into the option's accessible name.
+              aria-label={hasNotification ? `${app.name}, new notification` : undefined}
               className="desktop-wheel-row"
               style={{
                 transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
@@ -356,8 +372,10 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                     <FontAwesomeIcon icon={app.icon} />
                   </span>
                 </div>
-                {app.name === "Contact" && showContactNotification && (
-                  <div className="notification-badge">!</div>
+                {hasNotification && (
+                  <div className="notification-badge" aria-hidden="true">
+                    !
+                  </div>
                 )}
               </div>
             </div>
