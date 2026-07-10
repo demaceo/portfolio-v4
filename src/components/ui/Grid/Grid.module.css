@@ -4,6 +4,12 @@
   width: 100%;
 }
 
+/* auto-fit collapses empty tracks so a few items expand to fill the row,
+   instead of auto-fill's phantom trailing columns on wide viewports. */
+.fit {
+  grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 30vw, var(--grid-min-item, 220px)), 1fr));
+}
+
 .gapSm { gap: 0.5rem; }
 .gapMd { gap: 1rem; }
 .gapLg { gap: 1.5rem; }

@@ -54,6 +54,12 @@
   --noir-accent-line: rgba(212, 132, 90, 0.3);
   --noir-surface: rgba(18, 13, 10, 0.55);
 
+  /* Documentary accent — the one non-warm hue, used by the "Documentary" tag
+     on media projects. Tokenized so the green isn't a bare literal. */
+  --noir-doc: #0f9d6b;
+  --noir-doc-soft: rgba(15, 157, 107, 0.08);
+  --noir-doc-line: rgba(15, 157, 107, 0.32);
+
   /* ===== Liquid Glass tokens (Dark Glass) =====
      Ported from the codepenz "Liquid Glass UI Kit" (Component 02 · Dark Glass).
      Structural only — the warm --noir-accent palette supplies the color so the

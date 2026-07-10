@@ -170,8 +170,10 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({ tools, orderedCategories,
     const height = wrapEl.clientHeight;
     const svg = d3.select(svgEl).attr("viewBox", `0 0 ${width} ${height}`);
 
-    const linkLayer = svg.append("g").attr("class", styles.links);
-    const nodeLayer = svg.append("g").attr("class", styles.nodesLayer);
+    // Organizational group layers; the per-child .link/.node classes carry the
+    // actual styling, so these wrappers need no class of their own.
+    const linkLayer = svg.append("g");
+    const nodeLayer = svg.append("g");
 
     const simulation = d3
       .forceSimulation<SimNode>()

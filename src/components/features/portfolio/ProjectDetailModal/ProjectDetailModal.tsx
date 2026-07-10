@@ -30,7 +30,11 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
       closeAriaLabel="Back to projects"
     >
       <div className={styles.detail}>
-        <motion.div layoutId={`project-media-${project.id}`} className={styles.media}>
+        <motion.div
+          layoutId={`project-media-${project.id}`}
+          className={styles.media}
+          aria-hidden="true"
+        >
           <ProjectMedia
             project={project}
             iconImageClassName={styles.iconImg}
