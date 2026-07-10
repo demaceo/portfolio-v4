@@ -164,9 +164,14 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               height={270}
               className="about-featured-thumb-img"
             />
-            <div className="about-featured-thumb-overlay">
+            <button
+              type="button"
+              className="about-featured-thumb-overlay"
+              onClick={() => onOpenDocumentary?.()}
+              aria-label="Play Tech For Us — Breaking Barriers documentary"
+            >
               <FontAwesomeIcon icon={faPlay} className="about-featured-play-icon" />
-            </div>
+            </button>
           </div>
           <div className="about-featured-info">
             <div className="about-featured-badges">

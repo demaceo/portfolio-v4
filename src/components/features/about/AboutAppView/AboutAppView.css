@@ -489,9 +489,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
   background: rgba(0, 0, 0, 0.35);
   transition: background 0.2s ease;
   cursor: pointer;
+}
+
+.about-featured-thumb-overlay:focus-visible {
+  background: rgba(0, 0, 0, 0.22);
+  outline: 2px solid var(--noir-accent, #d4845a);
+  outline-offset: -2px;
 }
 
 .about-featured-card:hover .about-featured-thumb-overlay {
