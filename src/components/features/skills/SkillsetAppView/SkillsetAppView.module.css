@@ -20,7 +20,7 @@
 
 /* ── Top bar: tabs + studio byline ────────────────────── */
 
-.skill-topbar {
+.skillTopbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   flex-shrink: 0;
 }
 
-.skill-tabs {
+.skillTabs {
   display: flex;
   gap: 0.28rem;
   background: var(--lg-tint);
@@ -42,7 +42,7 @@
   padding: 0.24rem;
 }
 
-.skill-tab {
+.skillTab {
   border: 0;
   border-radius: 999px;
   background: transparent;
@@ -55,25 +55,25 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.skill-tab.active {
+.skillTab.active {
   background: var(--skill-accent);
   color: #fff;
   box-shadow: 0 2px 10px var(--skill-accent-glow);
 }
 
-.skill-tab:hover:not(.active) {
+.skillTab:hover:not(.active) {
   color: rgba(240, 236, 232, 0.7);
 }
 
-.skill-tab:focus-visible,
-.plate-arrow:focus-visible,
-.plate-dot:focus-visible,
-.skill-studio-byline:focus-visible {
+.skillTab:focus-visible,
+.plateArrow:focus-visible,
+.plateDot:focus-visible,
+.skillStudioByline:focus-visible {
   outline: 2px solid var(--noir-accent);
   outline-offset: 2px;
 }
 
-.skill-studio-byline {
+.skillStudioByline {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -89,27 +89,27 @@
   transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.skill-studio-byline:hover {
+.skillStudioByline:hover {
   color: var(--skill-accent);
   border-color: var(--noir-accent-line);
   background: var(--skill-accent-soft);
 }
 
-.skill-studio-logo {
+.skillStudioLogo {
   border-radius: 6px;
   background: var(--skill-panel);
 }
 
 /* ── Services: capability plates ──────────────────────── */
 
-.skill-services {
+.skillServices {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
 }
 
-.plate-stage {
+.plateStage {
   flex: 1;
   min-height: 300px;
   position: relative;
@@ -118,7 +118,7 @@
   overflow: hidden;
 }
 
-.service-plate {
+.servicePlate {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -130,7 +130,7 @@
   width: 100%;
 }
 
-.plate-icon-halo {
+.plateIconHalo {
   position: relative;
   display: grid;
   place-items: center;
@@ -146,7 +146,7 @@
   margin-bottom: 0.2rem;
 }
 
-.plate-icon-halo::after {
+.plateIconHalo::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -154,34 +154,34 @@
   border: 1px solid var(--noir-accent-line);
 }
 
-.plate-icon {
+.plateIcon {
   width: 72px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 24px rgba(212, 132, 90, 0.28));
 }
 
-.plate-counter {
+.plateCounter {
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   line-height: 1;
 }
 
-.counter-current {
+.counterCurrent {
   color: var(--noir-accent);
 }
 
-.counter-sep {
+.counterSep {
   color: rgba(240, 236, 232, 0.18);
   margin: 0 0.15em;
 }
 
-.counter-total {
+.counterTotal {
   color: rgba(240, 236, 232, 0.25);
 }
 
-.plate-title {
+.plateTitle {
   margin: 0;
   font-size: 1.6rem;
   font-weight: 800;
@@ -190,7 +190,7 @@
   color: var(--skill-text);
 }
 
-.plate-outcome {
+.plateOutcome {
   margin: 0;
   font-size: 0.78rem;
   font-weight: 700;
@@ -200,7 +200,7 @@
   max-width: 40ch;
 }
 
-.plate-description {
+.plateDescription {
   margin: 0.2rem 0 0;
   font-size: 0.88rem;
   line-height: 1.62;
@@ -210,7 +210,7 @@
 
 /* ── Plate nav ────────────────────────────────────────── */
 
-.plate-nav {
+.plateNav {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,7 +221,7 @@
   flex-shrink: 0;
 }
 
-.plate-arrow {
+.plateArrow {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -238,24 +238,24 @@
   flex-shrink: 0;
 }
 
-.plate-arrow:hover {
+.plateArrow:hover {
   background: var(--noir-accent-soft);
   border-color: var(--noir-accent-line);
   color: var(--skill-accent);
   transform: scale(1.05);
 }
 
-.plate-arrow:active {
+.plateArrow:active {
   transform: scale(0.94);
 }
 
-.plate-dots {
+.plateDots {
   display: flex;
   align-items: center;
   gap: 0.44rem;
 }
 
-.plate-dot {
+.plateDot {
   position: relative;
   height: 6px;
   width: 6px;
@@ -268,24 +268,24 @@
 }
 
 /* Keep the 6px visual but expand the tap target to ~24x20px for touch. */
-.plate-dot::after {
+.plateDot::after {
   content: "";
   position: absolute;
   inset: -9px -7px;
 }
 
-.plate-dot.active {
+.plateDot.active {
   background: var(--skill-accent);
   width: 22px;
 }
 
-.plate-dot:hover:not(.active) {
+.plateDot:hover:not(.active) {
   background: var(--noir-muted);
 }
 
 /* ── Toolbelt: force-directed graph ───────────────────── */
 
-.skill-tools {
+.skillTools {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -295,44 +295,44 @@
 /* Both tab panels stay mounted (to preserve Toolbelt graph state); the
    inactive one is hidden. Needed because the panels' own `display: flex`
    would otherwise override the UA `[hidden] { display: none }` rule. */
-.skill-services[hidden],
-.skill-tools[hidden] {
+.skillServices[hidden],
+.skillTools[hidden] {
   display: none;
 }
 
 /* ── Responsive ───────────────────────────────────────── */
 
 @media (max-width: 640px) {
-  .skill-studio-byline span {
+  .skillStudioByline span {
     display: none;
   }
 
-  .service-plate {
+  .servicePlate {
     padding: 1.4rem 1.25rem;
   }
 
-  .plate-icon-halo {
+  .plateIconHalo {
     width: 92px;
     height: 92px;
   }
 
-  .plate-icon {
+  .plateIcon {
     width: 56px;
   }
 
-  .plate-title {
+  .plateTitle {
     font-size: 1.3rem;
   }
 
-  .plate-description {
+  .plateDescription {
     font-size: 0.84rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-plate,
-  .plate-dot,
-  .plate-arrow {
+  .servicePlate,
+  .plateDot,
+  .plateArrow {
     transition: none;
   }
 }

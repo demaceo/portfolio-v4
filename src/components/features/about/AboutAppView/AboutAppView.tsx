@@ -6,7 +6,7 @@ import Image from "next/image";
 import { aboutMePills } from "@/data/aboutMePills";
 import { AboutMePill } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
-import "./AboutAppView.css";
+import styles from "./AboutAppView.module.css";
 
 interface AboutAppViewProps {
   onClose: () => void;
@@ -153,44 +153,44 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
 
   const renderFeaturedChapter = () => (
     <>
-      <p className="about-eyebrow">In The Press</p>
-      <h2 className="about-chapter-title">Featured Work</h2>
-      <p className="about-lede">
+      <p className={styles.aboutEyebrow}>In The Press</p>
+      <h2 className={styles.aboutChapterTitle}>Featured Work</h2>
+      <p className={styles.aboutLede}>
         Selected appearances and speaking engagements.
       </p>
 
-      <div className="about-featured-cards">
+      <div className={styles.aboutFeaturedCards}>
         {/* Tech For Us — PBS Documentary */}
-        <div className="about-featured-card">
-          <div className="about-featured-thumbnail">
+        <div className={styles.aboutFeaturedCard}>
+          <div className={styles.aboutFeaturedThumbnail}>
             <Image
               src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
               alt="Tech For Us — Breaking Barriers on PBS"
               width={480}
               height={270}
-              className="about-featured-thumb-img"
+              className={styles.aboutFeaturedThumbImg}
             />
             <button
               type="button"
-              className="about-featured-thumb-overlay"
+              className={styles.aboutFeaturedThumbOverlay}
               onClick={() => onOpenDocumentary?.()}
               aria-label="Play Tech For Us — Breaking Barriers documentary"
             >
-              <FontAwesomeIcon icon={faPlay} className="about-featured-play-icon" />
+              <FontAwesomeIcon icon={faPlay} className={styles.aboutFeaturedPlayIcon} />
             </button>
           </div>
-          <div className="about-featured-info">
-            <div className="about-featured-badges">
-              <span className="about-featured-badge about-featured-badge--pbs">PBS</span>
-              <span className="about-featured-badge">Documentary</span>
+          <div className={styles.aboutFeaturedInfo}>
+            <div className={styles.aboutFeaturedBadges}>
+              <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgePbs}`}>PBS</span>
+              <span className={styles.aboutFeaturedBadge}>Documentary</span>
             </div>
-            <h3 className="about-featured-title">Tech For Us — Breaking Barriers</h3>
-            <p className="about-featured-desc">
+            <h3 className={styles.aboutFeaturedTitle}>Tech For Us — Breaking Barriers</h3>
+            <p className={styles.aboutFeaturedDesc}>
               Featured in a Roadtrip Nation documentary exploring technology, innovation, and career development through public interest technology stories.
             </p>
             <button
               type="button"
-              className="about-featured-cta"
+              className={styles.aboutFeaturedCta}
               onClick={() => onOpenDocumentary?.()}
             >
               <FontAwesomeIcon icon={faPlay} />
@@ -200,21 +200,21 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
         </div>
 
         {/* SXSW EDU 2025 Panel */}
-        <div className="about-featured-card">
-          <div className="about-featured-info about-featured-info--full">
-            <div className="about-featured-badges">
-              <span className="about-featured-badge about-featured-badge--sxsw">SXSW EDU</span>
-              <span className="about-featured-badge">2025 Panel</span>
+        <div className={styles.aboutFeaturedCard}>
+          <div className={`${styles.aboutFeaturedInfo} ${styles.aboutFeaturedInfoFull}`}>
+            <div className={styles.aboutFeaturedBadges}>
+              <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgeSxsw}`}>SXSW EDU</span>
+              <span className={styles.aboutFeaturedBadge}>2025 Panel</span>
             </div>
-            <h3 className="about-featured-title">Behind the Wheel: Youth Driving Tech &amp; Media</h3>
-            <p className="about-featured-desc">
+            <h3 className={styles.aboutFeaturedTitle}>Behind the Wheel: Youth Driving Tech &amp; Media</h3>
+            <p className={styles.aboutFeaturedDesc}>
               Panelist at SXSW EDU 2025 in Austin, TX — discussing how young people are shaping the future of technology and media.
             </p>
             <a
               href="https://schedule.sxswedu.com/2025/events/PP156313"
               target="_blank"
               rel="noopener noreferrer"
-              className="about-featured-cta about-featured-cta--link"
+              className={styles.aboutFeaturedCta}
             >
               <FontAwesomeIcon icon={faExternalLinkAlt} />
               View Session
@@ -233,32 +233,32 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
     if (chapter.kind === "profile") {
       return (
         <>
-          <div className="about-hero">
-            <div className="about-hero-phrase">I build</div>
-            <ul className="about-hero-scroll" ref={centerHeroList}>
-              <li className="about-hero-pad" aria-hidden="true" />
+          <div className={styles.aboutHero}>
+            <div className={styles.aboutHeroPhrase}>I build</div>
+            <ul className={styles.aboutHeroScroll} ref={centerHeroList}>
+              <li className={styles.aboutHeroPad} aria-hidden="true" />
               {ABOUT_HERO_WORDS.map((word, i) => (
                 <li
                   key={word}
                   data-index={i}
-                  className="about-hero-word"
+                  className={styles.aboutHeroWord}
                   style={{ "--i": i } as CSSProperties}
                 >
                   {word}
                 </li>
               ))}
-              <li className="about-hero-pad" aria-hidden="true" />
+              <li className={styles.aboutHeroPad} aria-hidden="true" />
             </ul>
           </div>
 
-          <p className="about-eyebrow">Profile</p>
-          <h2 className="about-chapter-title">Hello, I&apos;m Demaceo Vincent</h2>
-          <p className="about-lede">
+          <p className={styles.aboutEyebrow}>Profile</p>
+          <h2 className={styles.aboutChapterTitle}>Hello, I&apos;m Demaceo Vincent</h2>
+          <p className={styles.aboutLede}>
             Software Engineer, Designer, and systems-minded problem solver.
           </p>
-          <div className="about-highlight-grid">
+          <div className={styles.aboutHighlightGrid}>
             {profileHighlights.map((item) => (
-              <article key={item.label} className="about-highlight-card">
+              <article key={item.label} className={styles.aboutHighlightCard}>
                 <h3>{item.label}</h3>
                 <p>{item.value}</p>
               </article>
@@ -272,9 +272,9 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
       const section = collaborationSections[chapter.sectionIndex];
       return (
         <>
-          <p className="about-eyebrow">Working Style</p>
-          <h2 className="about-chapter-title">{section.title}</h2>
-          <ul className="about-points">
+          <p className={styles.aboutEyebrow}>Working Style</p>
+          <h2 className={styles.aboutChapterTitle}>{section.title}</h2>
+          <ul className={styles.aboutPoints}>
             {section.points.map((point) => (
               <li key={point}>{point}</li>
             ))}
@@ -286,21 +286,21 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
     // strengths
     return (
       <>
-        <p className="about-eyebrow">What I Bring</p>
-        <h2 className="about-chapter-title">Core Strengths</h2>
-        <p className="about-lede">
+        <p className={styles.aboutEyebrow}>What I Bring</p>
+        <h2 className={styles.aboutChapterTitle}>Core Strengths</h2>
+        <p className={styles.aboutLede}>
           Select a strength for detail. Click again to open external links.
         </p>
 
-        <div className="about-pills">
+        <div className={styles.aboutPills}>
           {aboutMePills.map((pill) => {
             const isActive = activeTooltip === pill.label;
             return (
               <button
                 key={pill.label}
                 type="button"
-                className={`about-pill ${pill.link ? "clickable" : ""} ${
-                  isActive ? "active" : ""
+                className={`${styles.aboutPill} ${pill.link ? styles.clickable : ""} ${
+                  isActive ? styles.active : ""
                 }`}
                 onClick={() => handlePillClick(pill)}
                 aria-expanded={isActive}
@@ -310,7 +310,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                 {pill.link && (
                   <FontAwesomeIcon
                     icon={faArrowUpRightFromSquare}
-                    className="about-pill-link-icon"
+                    className={styles.aboutPillLinkIcon}
                     aria-hidden="true"
                   />
                 )}
@@ -324,7 +324,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
             <motion.div
               key={activeTooltip}
               id="about-strength-detail"
-              className="about-strength-detail"
+              className={styles.aboutStrengthDetail}
               role="status"
               aria-live="polite"
               initial={{ opacity: 0, y: 8 }}
@@ -332,11 +332,11 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               exit={{ opacity: 0, y: -8 }}
               transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
             >
-              <p className="about-strength-detail-title">{activeTooltip}</p>
-              <p className="about-strength-detail-copy">
+              <p className={styles.aboutStrengthDetailTitle}>{activeTooltip}</p>
+              <p className={styles.aboutStrengthDetailCopy}>
                 {pillsByLabel[activeTooltip]?.tooltip}
                 {pillsByLabel[activeTooltip]?.link && (
-                  <span className="about-link-hint"> Click again to open.</span>
+                  <span className={styles.aboutLinkHint}> Click again to open.</span>
                 )}
               </p>
             </motion.div>
@@ -348,26 +348,26 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
 
   return (
     <AppView onClose={onClose} title="About" titleId="about-title">
-      <div className="about-dossier">
+      <div className={styles.aboutDossier}>
         {/* ── Chapter rail (table of contents) ─────────── */}
-        <nav className="about-rail" aria-label="About chapters">
+        <nav className={styles.aboutRail} aria-label="About chapters">
           {chapters.map((c, i) => (
             <button
               key={c.id}
               type="button"
-              className={`about-rail-item ${i === chapterIndex ? "active" : ""}`}
+              className={`${styles.aboutRailItem} ${i === chapterIndex ? styles.active : ""}`}
               onClick={() => goToChapter(i)}
               aria-current={i === chapterIndex ? "true" : undefined}
             >
-              <span className="about-rail-num">{String(i + 1).padStart(2, "0")}</span>
-              <span className="about-rail-label">{c.label}</span>
+              <span className={styles.aboutRailNum}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.aboutRailLabel}>{c.label}</span>
             </button>
           ))}
         </nav>
 
         {/* ── Stage ────────────────────────────────────── */}
-        <div className="about-stage-wrap">
-          <div className="about-stage">
+        <div className={styles.aboutStageWrap}>
+          <div className={styles.aboutStage}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.section
                 key={chapter.id}
@@ -377,7 +377,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                 animate="center"
                 exit="exit"
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="about-chapter"
+                className={styles.aboutChapter}
                 aria-labelledby="about-title"
               >
                 {renderChapter()}
@@ -386,10 +386,10 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
           </div>
 
           {/* ── Progress footer ────────────────────────── */}
-          <div className="about-progress">
+          <div className={styles.aboutProgress}>
             <button
               type="button"
-              className="about-prog-arrow"
+              className={styles.aboutProgArrow}
               onClick={() => navigate(-1)}
               disabled={chapterIndex === 0}
               aria-label="Previous chapter"
@@ -397,19 +397,19 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
 
-            <span className="about-prog-counter" aria-hidden="true">
-              <span className="about-prog-current">
+            <span className={styles.aboutProgCounter} aria-hidden="true">
+              <span className={styles.aboutProgCurrent}>
                 {String(chapterIndex + 1).padStart(2, "0")}
               </span>
-              <span className="about-prog-sep"> / </span>
-              <span className="about-prog-total">
+              <span className={styles.aboutProgSep}> / </span>
+              <span className={styles.aboutProgTotal}>
                 {String(chapters.length).padStart(2, "0")}
               </span>
             </span>
 
             <button
               type="button"
-              className="about-prog-arrow"
+              className={styles.aboutProgArrow}
               onClick={() => navigate(1)}
               disabled={chapterIndex === chapters.length - 1}
               aria-label="Next chapter"

@@ -8,7 +8,7 @@ import tools from "@/data/toolbelt";
 import { ModalProps } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
 import ToolbeltGraph from "./ToolbeltGraph";
-import "./SkillsetAppView.css";
+import styles from "./SkillsetAppView.module.css";
 
 type SkillsetTab = "services" | "tools";
 
@@ -90,12 +90,12 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
 
   return (
     <AppView onClose={onClose} title="Skillset" titleId="skillset-title">
-      <div className="skillset">
+      <div className={styles.skillset}>
         {/* ── Tabs ─────────────────────────────────────── */}
-        <div className="skill-topbar">
-          <div className="skill-tabs" role="tablist" aria-label="Skillset sections">
+        <div className={styles.skillTopbar}>
+          <div className={styles.skillTabs} role="tablist" aria-label="Skillset sections">
             <button
-              className={`skill-tab ${activeTab === "services" ? "active" : ""}`}
+              className={`${styles.skillTab} ${activeTab === "services" ? styles.active : ""}`}
               onClick={() => setActiveTab("services")}
               role="tab"
               id="services-tab"
@@ -106,7 +106,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
               Services
             </button>
             <button
-              className={`skill-tab ${activeTab === "tools" ? "active" : ""}`}
+              className={`${styles.skillTab} ${activeTab === "tools" ? styles.active : ""}`}
               onClick={() => setActiveTab("tools")}
               role="tab"
               id="tools-tab"
@@ -119,7 +119,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
           </div>
 
           <a
-            className="skill-studio-byline"
+            className={styles.skillStudioByline}
             href="https://www.anappidea.llc"
             target="_blank"
             rel="noopener noreferrer"
@@ -129,7 +129,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
               alt="An App Idea, LLC"
               width={22}
               height={22}
-              className="skill-studio-logo"
+              className={styles.skillStudioLogo}
             />
             <span>An App Idea, LLC</span>
           </a>
@@ -139,13 +139,13 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
             expanded / dragged / search state across tab switches. The inactive
             panel is hidden — see .skill-services[hidden] / .skill-tools[hidden]. */}
         <section
-          className="skill-services"
+          className={styles.skillServices}
           role="tabpanel"
           id="services-panel"
           aria-labelledby="services-tab"
           hidden={activeTab !== "services"}
         >
-              <div className="plate-stage" aria-live="polite">
+              <div className={styles.plateStage} aria-live="polite">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.article
                     key={serviceIndex}
@@ -154,7 +154,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    className="service-plate"
+                    className={styles.servicePlate}
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.08}
@@ -163,56 +163,56 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                       if (power > 70) navigateService(offset.x > 0 ? -1 : 1);
                     }}
                   >
-                    <div className="plate-icon-halo" aria-hidden="true">
+                    <div className={styles.plateIconHalo} aria-hidden="true">
                       <Image
                         src={service.icon}
                         alt={service.title}
                         width={72}
                         height={72}
-                        className="plate-icon"
+                        className={styles.plateIcon}
                       />
                     </div>
 
                     <span
-                      className="plate-counter"
+                      className={styles.plateCounter}
                       aria-label={`Service ${serviceIndex + 1} of ${services.length}`}
                     >
-                      <span className="counter-current">
+                      <span className={styles.counterCurrent}>
                         {String(serviceIndex + 1).padStart(2, "0")}
                       </span>
-                      <span className="counter-sep"> / </span>
-                      <span className="counter-total">
+                      <span className={styles.counterSep}> / </span>
+                      <span className={styles.counterTotal}>
                         {String(services.length).padStart(2, "0")}
                       </span>
                     </span>
 
-                    <h2 className="plate-title">{service.title}</h2>
+                    <h2 className={styles.plateTitle}>{service.title}</h2>
 
                     {serviceOutcomes[service.id] && (
-                      <p className="plate-outcome">{serviceOutcomes[service.id]}</p>
+                      <p className={styles.plateOutcome}>{serviceOutcomes[service.id]}</p>
                     )}
 
-                    <p className="plate-description">{service.description}</p>
+                    <p className={styles.plateDescription}>{service.description}</p>
                   </motion.article>
                 </AnimatePresence>
               </div>
 
-              <div className="plate-nav">
+              <div className={styles.plateNav}>
                 <button
                   type="button"
-                  className="plate-arrow"
+                  className={styles.plateArrow}
                   onClick={() => navigateService(-1)}
                   aria-label="Previous service"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
 
-                <div className="plate-dots" aria-label="Service navigation">
+                <div className={styles.plateDots} aria-label="Service navigation">
                   {services.map((s, i) => (
                     <button
                       key={s.id}
                       type="button"
-                      className={`plate-dot ${i === serviceIndex ? "active" : ""}`}
+                      className={`${styles.plateDot} ${i === serviceIndex ? styles.active : ""}`}
                       aria-current={i === serviceIndex ? "true" : undefined}
                       aria-label={`Go to ${s.title}`}
                       onClick={() => goToService(i)}
@@ -222,7 +222,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
 
                 <button
                   type="button"
-                  className="plate-arrow"
+                  className={styles.plateArrow}
                   onClick={() => navigateService(1)}
                   aria-label="Next service"
                 >
@@ -233,7 +233,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
 
         {/* ── Toolbelt: collapsible force-directed graph ─ */}
         <section
-          className="skill-tools"
+          className={styles.skillTools}
           role="tabpanel"
           id="tools-panel"
           aria-labelledby="tools-tab"
