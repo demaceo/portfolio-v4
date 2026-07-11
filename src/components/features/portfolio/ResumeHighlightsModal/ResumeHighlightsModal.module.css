@@ -1,40 +1,29 @@
 /* ===== RESUME HIGHLIGHTS — LIGHT DESKTOP GALLERY GRAMMAR ===== */
 
-.resume-highlights-content {
-  --resume-accent: var(--noir-accent);
-  --resume-accent-soft: var(--noir-accent-soft);
-  --resume-accent-line: var(--noir-accent-line);
-  --resume-accent-glow: var(--noir-accent-glow);
-  --resume-text: var(--noir-text);
-  --resume-muted: var(--noir-muted);
-  --resume-faint: var(--noir-faint);
-  --resume-border: var(--noir-border);
-  --resume-panel: var(--noir-panel);
-  --resume-panel-strong: var(--noir-panel-strong);
-  --resume-surface: var(--noir-surface);
+.resumeHighlightsContent {
 
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  color: var(--resume-text);
+  color: var(--noir-text);
   font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
 }
 
 /* ── Top bar: tabs + byline ───────────────────────────── */
 
-.resume-highlights-topbar {
+.resumeHighlightsTopbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.6rem 1rem;
-  border-bottom: 1px solid var(--resume-border);
-  background: var(--resume-panel);
+  border-bottom: 1px solid var(--noir-border);
+  background: var(--noir-panel);
   flex-shrink: 0;
 }
 
-.resume-highlights-tabs {
+.resumeHighlightsTabs {
   display: flex;
   gap: 0.28rem;
   background: var(--lg-tint);
@@ -45,11 +34,11 @@
   padding: 0.24rem;
 }
 
-.resume-highlights-tab {
+.resumeHighlightsTab {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--resume-faint);
+  color: var(--noir-faint);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -59,28 +48,28 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.resume-highlights-tab:hover:not(.active) {
-  color: var(--resume-text);
+.resumeHighlightsTab:hover:not(.active) {
+  color: var(--noir-text);
 }
 
-.resume-highlights-tab.active {
+.resumeHighlightsTab.active {
   color: #fff;
-  background: var(--resume-accent);
-  box-shadow: 0 2px 10px var(--resume-accent-glow);
+  background: var(--noir-accent);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
-.resume-highlights-byline {
+.resumeHighlightsByline {
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--resume-faint);
+  color: var(--noir-faint);
   white-space: nowrap;
 }
 
 /* ── Scrolling body ───────────────────────────────────── */
 
-.resume-highlights-body {
+.resumeHighlightsBody {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -89,14 +78,20 @@
   padding: 1.25rem 1.4rem;
 }
 
-.resume-highlights-panel {
+.resumeHighlightsPanel {
   display: flex;
   flex-direction: column;
 }
 
-.resume-highlights-panel-intro {
+/* Inactive tab panels stay mounted (so aria-controls always resolves) but
+   hidden; needed because the panel keeps its own display:flex. */
+.resumeHighlightsPanel[hidden] {
+  display: none;
+}
+
+.resumeHighlightsPanelIntro {
   margin: 0;
-  color: var(--resume-muted);
+  color: var(--noir-muted);
   font-size: 0.86rem;
   line-height: 1.5;
   max-width: 70ch;
@@ -104,30 +99,30 @@
 
 /* ── Role groups ─────────────────────────────────────── */
 
-.resume-role-groups {
+.resumeRoleGroups {
   margin-top: 0.85rem;
   display: grid;
   gap: 0.5rem;
 }
 
-.resume-role-group {
-  border: 1px solid var(--resume-border);
+.resumeRoleGroup {
+  border: 1px solid var(--noir-border);
   border-radius: 0.82rem;
-  background: var(--resume-panel);
+  background: var(--noir-panel);
   padding: 0.72rem 0.8rem;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.resume-role-group:hover {
-  border-color: var(--resume-accent-line);
+.resumeRoleGroup:hover {
+  border-color: var(--noir-accent-line);
 }
 
-.resume-role-group:has(.resume-role-group-trigger[aria-expanded="true"]) {
-  background: var(--resume-panel-strong);
-  border-color: var(--resume-accent-line);
+.resumeRoleGroup:has(.resumeRoleGroupTrigger[aria-expanded="true"]) {
+  background: var(--noir-panel-strong);
+  border-color: var(--noir-accent-line);
 }
 
-.resume-role-group-trigger {
+.resumeRoleGroupTrigger {
   width: 100%;
   border: 0;
   background: transparent;
@@ -138,37 +133,37 @@
   cursor: pointer;
   padding: 0;
   text-align: left;
-  color: var(--resume-text);
+  color: var(--noir-text);
 }
 
-.resume-role-heading {
+.resumeRoleHeading {
   display: flex;
   flex-direction: column;
   gap: 0.22rem;
   min-width: 0;
 }
 
-.resume-role-group h3 {
+.resumeRoleGroup h3 {
   margin: 0;
   font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--resume-text);
+  color: var(--noir-text);
 }
 
 /* One-line summary shown while the role is collapsed (summary-first view). */
-.resume-role-summary {
+.resumeRoleSummary {
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.4;
-  color: var(--resume-muted);
+  color: var(--noir-muted);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.resume-role-meta {
+.resumeRoleMeta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -176,32 +171,32 @@
 }
 
 /* Chevron points down when collapsed, flips up when expanded. */
-.resume-role-chevron {
+.resumeRoleChevron {
   width: 8px;
   height: 8px;
-  border-right: 2px solid var(--resume-faint);
-  border-bottom: 2px solid var(--resume-faint);
+  border-right: 2px solid var(--noir-faint);
+  border-bottom: 2px solid var(--noir-faint);
   transform: rotate(45deg);
   margin-top: 2px;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.resume-role-group-trigger:hover .resume-role-chevron {
-  border-color: var(--resume-accent);
+.resumeRoleGroupTrigger:hover .resumeRoleChevron {
+  border-color: var(--noir-accent);
 }
 
-.resume-role-group-trigger[aria-expanded="true"] .resume-role-chevron {
+.resumeRoleGroupTrigger[aria-expanded="true"] .resumeRoleChevron {
   transform: rotate(225deg);
   margin-top: 5px;
 }
 
-.resume-role-count {
+.resumeRoleCount {
   min-width: 1.4rem;
   height: 1.4rem;
   border-radius: 999px;
-  border: 1px solid var(--resume-accent-line);
-  background: var(--resume-accent-soft);
-  color: var(--resume-accent);
+  border: 1px solid var(--noir-accent-line);
+  background: var(--noir-accent-soft);
+  color: var(--noir-accent);
   display: grid;
   place-items: center;
   font-size: 0.68rem;
@@ -209,35 +204,35 @@
   flex-shrink: 0;
 }
 
-.resume-role-group ul,
-.resume-project-section ul {
+.resumeRoleGroup ul,
+.resumeProjectSection ul {
   margin: 0.7rem 0 0 0;
   padding-left: 1.1rem;
   display: grid;
   gap: 0.5rem;
 }
 
-.resume-role-group li,
-.resume-project-section li {
-  color: var(--resume-muted);
+.resumeRoleGroup li,
+.resumeProjectSection li {
+  color: var(--noir-muted);
   line-height: 1.5;
   font-size: 0.84rem;
 }
 
-.resume-role-group li::marker,
-.resume-project-section li::marker {
-  color: var(--resume-accent);
+.resumeRoleGroup li::marker,
+.resumeProjectSection li::marker {
+  color: var(--noir-accent);
 }
 
 /* ── Bullet project tags ─────────────────────────────── */
 
-.resume-bullet-project {
+.resumeBulletProject {
   display: inline-block;
   margin-right: 0.4rem;
   margin-bottom: 0.16rem;
-  border: 1px solid var(--resume-accent-line);
-  background: var(--resume-accent-soft);
-  color: var(--resume-accent);
+  border: 1px solid var(--noir-accent-line);
+  background: var(--noir-accent-soft);
+  color: var(--noir-accent);
   border-radius: 999px;
   padding: 0.1rem 0.44rem;
   font-size: 0.64rem;
@@ -248,18 +243,18 @@
 
 /* ── Project picker ──────────────────────────────────── */
 
-.resume-project-picker {
+.resumeProjectPicker {
   margin-top: 0.85rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.36rem;
 }
 
-.resume-project-picker-btn {
-  border: 1px solid var(--resume-border);
+.resumeProjectPickerBtn {
+  border: 1px solid var(--noir-border);
   border-radius: 999px;
-  background: var(--resume-surface);
-  color: var(--resume-muted);
+  background: var(--noir-surface);
+  color: var(--noir-muted);
   font-size: 0.74rem;
   font-weight: 700;
   padding: 0.34rem 0.66rem;
@@ -268,32 +263,32 @@
     background 0.2s ease;
 }
 
-.resume-project-picker-btn:hover:not(.active) {
-  border-color: var(--resume-accent-line);
-  color: var(--resume-text);
+.resumeProjectPickerBtn:hover:not(.active) {
+  border-color: var(--noir-accent-line);
+  color: var(--noir-text);
   transform: translateY(-1px);
 }
 
-.resume-project-picker-btn.active {
+.resumeProjectPickerBtn.active {
   color: #fff;
-  border-color: var(--resume-accent);
-  background: var(--resume-accent);
-  box-shadow: 0 2px 10px var(--resume-accent-glow);
+  border-color: var(--noir-accent);
+  background: var(--noir-accent);
+  box-shadow: 0 2px 10px var(--noir-accent-glow);
 }
 
 /* ── Project detail ──────────────────────────────────── */
 
-.resume-project-detail {
+.resumeProjectDetail {
   margin-top: 0.85rem;
-  border: 1px solid var(--resume-border);
+  border: 1px solid var(--noir-border);
   border-radius: 0.9rem;
-  background: var(--resume-panel-strong);
+  background: var(--noir-panel-strong);
   padding: 1rem;
   position: relative;
   overflow: hidden;
 }
 
-.resume-project-detail::before {
+.resumeProjectDetail::before {
   content: "";
   position: absolute;
   top: 0;
@@ -303,67 +298,67 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--resume-accent-line) 50%,
+    var(--noir-accent-line) 50%,
     transparent 100%
   );
 }
 
-.resume-project-detail-header h3 {
+.resumeProjectDetailHeader h3 {
   margin: 0;
   font-size: 1.18rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--resume-text);
+  color: var(--noir-text);
 }
 
-.resume-project-detail-header p {
+.resumeProjectDetailHeader p {
   margin: 0.28rem 0 0 0;
-  color: var(--resume-muted);
+  color: var(--noir-muted);
   font-size: 0.84rem;
   line-height: 1.5;
 }
 
-.resume-project-section {
+.resumeProjectSection {
   margin-top: 0.9rem;
 }
 
-.resume-project-section h4 {
+.resumeProjectSection h4 {
   margin: 0;
   font-size: 0.66rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--resume-accent);
+  color: var(--noir-accent);
   font-weight: 700;
 }
 
-.resume-project-section pre {
+.resumeProjectSection pre {
   margin: 0.5rem 0 0 0;
   white-space: pre-wrap;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   font-size: 0.72rem;
   line-height: 1.46;
-  color: var(--resume-muted);
-  border: 1px solid var(--resume-border);
+  color: var(--noir-muted);
+  border: 1px solid var(--noir-border);
   border-radius: 0.72rem;
-  background: var(--resume-surface);
+  background: var(--noir-surface);
   padding: 0.7rem;
 }
 
 /* ── Chip grid ───────────────────────────────────────── */
 
-.resume-chip-grid {
+.resumeChipGrid {
   margin-top: 0.5rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.32rem;
 }
 
-.resume-chip {
-  border: 1px solid var(--resume-border);
+.resumeChip {
+  border: 1px solid var(--noir-border);
   border-radius: 999px;
-  background: var(--resume-panel);
-  color: var(--resume-muted);
+  background: var(--noir-panel);
+  color: var(--noir-muted);
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.18rem 0.5rem;
@@ -371,59 +366,59 @@
 
 /* ── Patterns table ──────────────────────────────────── */
 
-.resume-patterns-table-wrap {
+.resumePatternsTableWrap {
   margin-top: 0.85rem;
   overflow-x: auto;
-  border: 1px solid var(--resume-border);
+  border: 1px solid var(--noir-border);
   border-radius: 0.82rem;
-  background: var(--resume-panel);
+  background: var(--noir-panel);
 }
 
-.resume-patterns-table-wrap table {
+.resumePatternsTableWrap table {
   width: 100%;
   min-width: 560px;
   border-collapse: collapse;
 }
 
-.resume-patterns-table-wrap th,
-.resume-patterns-table-wrap td {
+.resumePatternsTableWrap th,
+.resumePatternsTableWrap td {
   text-align: left;
   vertical-align: top;
   padding: 0.62rem 0.7rem;
-  border-bottom: 1px solid var(--resume-border);
+  border-bottom: 1px solid var(--noir-border);
   font-size: 0.8rem;
   line-height: 1.46;
-  color: var(--resume-text);
+  color: var(--noir-text);
 }
 
-.resume-patterns-table-wrap tbody tr:last-child td {
+.resumePatternsTableWrap tbody tr:last-child td {
   border-bottom: none;
 }
 
-.resume-patterns-table-wrap tbody tr:hover td {
-  background: var(--resume-accent-soft);
+.resumePatternsTableWrap tbody tr:hover td {
+  background: var(--noir-accent-soft);
 }
 
-.resume-patterns-table-wrap td:first-child {
+.resumePatternsTableWrap td:first-child {
   font-weight: 700;
-  color: var(--resume-accent);
+  color: var(--noir-accent);
 }
 
-.resume-patterns-table-wrap th {
+.resumePatternsTableWrap th {
   font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--resume-muted);
-  background: var(--resume-panel-strong);
+  color: var(--noir-muted);
+  background: var(--noir-panel-strong);
 }
 
 /* ── Focus states ────────────────────────────────────── */
 
-.resume-highlights-tab:focus-visible,
-.resume-role-group-trigger:focus-visible,
-.resume-project-picker-btn:focus-visible {
-  outline: 2px solid var(--resume-accent);
+.resumeHighlightsTab:focus-visible,
+.resumeRoleGroupTrigger:focus-visible,
+.resumeProjectPickerBtn:focus-visible {
+  outline: 2px solid var(--noir-accent);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -431,48 +426,50 @@
 /* ── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 900px) {
-  .resume-highlights-topbar {
+  .resumeHighlightsTopbar {
     flex-wrap: wrap;
     gap: 0.45rem;
   }
 
-  .resume-highlights-tabs {
+  .resumeHighlightsTabs {
     flex: 1;
   }
 
-  .resume-highlights-tab {
+  .resumeHighlightsTab {
     flex: 1;
     text-align: center;
   }
 
-  .resume-highlights-byline {
+  .resumeHighlightsByline {
     display: none;
   }
 }
 
 @media (max-width: 640px) {
-  .resume-highlights-body {
+  .resumeHighlightsBody {
     padding: 1rem;
   }
 
-  .resume-project-detail-header h3 {
+  .resumeProjectDetailHeader h3 {
     font-size: 1.05rem;
   }
 
-  .resume-highlights-panel-intro,
-  .resume-role-group li,
-  .resume-project-section li {
+  .resumeHighlightsPanelIntro,
+  .resumeRoleGroup li,
+  .resumeProjectSection li {
     font-size: 0.8rem;
   }
 
-  .resume-patterns-table-wrap table {
+  .resumePatternsTableWrap table {
     min-width: 500px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .resume-role-group,
-  .resume-project-picker-btn {
+  .resumeHighlightsTab,
+  .resumeRoleGroup,
+  .resumeRoleChevron,
+  .resumeProjectPickerBtn {
     transition: none;
   }
 }

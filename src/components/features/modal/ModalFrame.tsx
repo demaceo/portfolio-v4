@@ -43,9 +43,9 @@ const ModalFrame: React.FC<ModalFrameProps> = ({
           />
         </div>
 
-        <span id={resolvedTitleId} className={styles.windowTitle}>
+        <h2 id={resolvedTitleId} className={styles.windowTitle}>
           {title}
-        </span>
+        </h2>
 
         <div className={styles.headerActions}>
           {headerActions ?? <div className={styles.headerSpacer} aria-hidden="true" />}
