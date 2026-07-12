@@ -1,7 +1,10 @@
 /* ===== Mobile App Switcher (≤480px) =====
-   Adapted from codepenz's "Apple Liquid Glass Switcher": a glass-refraction
-   pill with a sliding capsule indicator. The pen hardcodes exactly 3 option
-   positions via one CSS selector block per option; here the pill's position
+   A labeled, full-width bottom tab bar — not the small icon-only floating
+   pill this used to be. Spans the framed screen edge-to-edge (minus a small
+   margin) so each of the 4 tabs gets a real touch target and a visible name,
+   instead of 4 unlabeled glyphs squeezed into an auto-width pill. Still
+   built on the same "Apple Liquid Glass Switcher" codepen technique for the
+   glass-refraction pill and sliding capsule indicator — the pill's position
    is driven generically for any N by two custom properties set from JS
    (--n-options, --active-index) — translateX(<active-index> * 100%) moves
    the indicator by exactly its own width per step, since percentage
@@ -17,9 +20,9 @@
 .app-switcher-dock {
   display: none;
   position: absolute;
-  left: 50%;
-  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%);
+  left: 14px;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   z-index: 4;
 }
 
@@ -32,12 +35,13 @@
 .app-switcher {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
   gap: 4px;
   margin: 0;
-  padding: 4px;
+  padding: 8px;
   border: 1px solid var(--lg-edge);
-  border-radius: 999px;
+  border-radius: 22px;
   background: var(--lg-tint);
   box-shadow: var(--lg-shadow);
   box-sizing: border-box;
@@ -55,15 +59,18 @@
   overflow: hidden;
 }
 
-/* Sliding capsule indicator — one generic rule instead of one per option. */
+/* Sliding capsule indicator — one generic rule instead of one per option.
+   Rounded-rect (not a stadium) so it matches each tab cell's own footprint;
+   a stadium capsule behind a taller icon+label cell would overshoot the
+   cell's corners the same way the old undersized icon tile did. */
 .app-switcher::after {
   content: "";
   position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc((100% - 8px) / var(--n-options));
-  border-radius: 999px;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: calc((100% - 16px) / var(--n-options));
+  border-radius: 16px;
   background: var(--noir-accent);
   box-shadow: 0 2px 8px var(--noir-accent-glow);
   transform: translateX(calc(var(--active-index) * 100%));
@@ -76,12 +83,15 @@
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 1 1 0;
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 999px;
+  min-width: 0;
+  min-height: 52px;
+  gap: 3px;
+  padding: 6px 2px;
+  border-radius: 16px;
   color: var(--noir-muted);
   cursor: pointer;
   transition: color 0.2s ease, transform 0.15s ease;
@@ -120,21 +130,27 @@
   overflow: hidden;
 }
 
-/* Matches .app-switcher-option's own 44px box exactly, so the icon tile and
-   the sliding accent capsule underneath it share the same circular footprint
-   — a smaller/squarer tile floating inside the larger pill-shaped capsule
-   read as a mismatched, blown-out glow around the active icon. Scoped through
-   the parent option because LandingPage.css's ".icon-image" base rule (48px,
-   10px radius) ties this class on specificity, so cascade order alone can't
-   be trusted to pick this override. */
+/* Sized to sit above the label within the option's 52px cell, with room
+   left for the sliding capsule's own padding. Scoped through the parent
+   option because LandingPage.css's ".icon-image" base rule (48px, 10px
+   radius) ties this class on specificity, so cascade order alone can't be
+   trusted to pick this override. */
 .app-switcher-option .app-switcher-icon-image {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
 }
 
 .app-switcher-icon-image .icon-glass-content {
-  font-size: 1.1rem;
+  font-size: 1rem;
+}
+
+.app-switcher-label {
+  font-family: var(--font-secondary);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 /* LandingPage.css's shared ".icon-image svg" rule hardcodes a dark navy

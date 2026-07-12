@@ -134,6 +134,9 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
                   </span>
                 )}
               </span>
+              <span className="app-switcher-label" aria-hidden="true">
+                {app.name}
+              </span>
             </label>
           );
         })}
