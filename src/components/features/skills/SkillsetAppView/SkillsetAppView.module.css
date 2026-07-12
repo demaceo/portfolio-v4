@@ -298,11 +298,11 @@
   background: var(--lg-tint);
   border: 1px solid var(--lg-edge);
   border-radius: 999px;
-  padding: 0.24rem 0.62rem;
+  padding: 0.2rem 0.58rem;
 }
 
 .panelTagIcon {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: var(--skill-text);
   flex-shrink: 0;
 }
@@ -488,22 +488,25 @@
     display: none;
   }
 
-  /* Extra right padding keeps body text clear of the vertical rail. */
+  /* Extra right padding keeps body text clear of the vertical rail. Padding
+     and gap are trimmed further here (vs. the pre-icon values) to make room
+     for the larger Tech & tools icons within the fixed plate height. */
   .servicePlate {
-    padding: 1.4rem 2.2rem;
+    padding: 1rem 2.2rem;
+    gap: 0.45rem;
   }
 
   .plateIconHalo {
-    width: 92px;
-    height: 92px;
+    width: 80px;
+    height: 80px;
   }
 
   .plateIcon {
-    width: 56px;
+    width: 48px;
   }
 
   .plateTitle {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
   }
 
   .plateDescription {
@@ -512,6 +515,10 @@
 
   .panelViewport {
     min-height: 120px;
+  }
+
+  .panelSlide {
+    gap: 0.4rem;
   }
 
   .plateVRail {
