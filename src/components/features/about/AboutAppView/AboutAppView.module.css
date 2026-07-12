@@ -675,6 +675,13 @@
   }
 
   .aboutHeroScroll {
+    /* The base rule's `flex: 1` (flex-basis: 0%) still applies here, and in a
+       column-direction flex item a definite flex-basis overrides `height` for
+       main-axis sizing — so `height: 6rem` alone was silently ignored and the
+       list grew to its full content height instead of clipping. `flex: none`
+       makes flex-basis resolve to `auto`, restoring `height` as authoritative
+       so overflow/scroll-snap/the mask-gradient peek window work again. */
+    flex: none;
     height: 6rem;
     width: 100%;
     align-self: stretch;
