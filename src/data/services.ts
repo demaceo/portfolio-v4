@@ -25,7 +25,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["React", "Next.js", "TypeScript", "Tailwind", "Vercel"],
+        points: [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "JavaScript",
+          "HTML5",
+          "CSS3",
+          "Tailwind CSS",
+          "Figma",
+          "Vercel",
+          "Analytics",
+        ],
       },
       {
         label: "Ideal for",
@@ -57,7 +68,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["Figma", "Framer", "Prototyping", "Design Systems"],
+        points: [
+          "Figma",
+          "Framer",
+          "Prototyping",
+          "Wireframing",
+          "Design Systems",
+          "User Testing",
+          "iOS Guidelines",
+          "Material Design",
+          "Motion Design",
+          "Accessibility",
+        ],
       },
       {
         label: "Ideal for",
@@ -89,7 +111,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["React", "Next.js", "TypeScript", "CSS", "Framer Motion"],
+        points: [
+          "React",
+          "Vue.js",
+          "Next.js",
+          "TypeScript",
+          "JavaScript",
+          "HTML5",
+          "CSS3",
+          "Tailwind CSS",
+          "Framer Motion",
+          "Accessibility",
+        ],
       },
       {
         label: "Ideal for",
@@ -121,7 +154,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["Node.js", "Express", "REST", "GraphQL", "PostgreSQL"],
+        points: [
+          "Node.js",
+          "Express",
+          "REST",
+          "GraphQL",
+          "PostgreSQL",
+          "Redis",
+          "Docker",
+          "JWT Auth",
+          "Swagger",
+          "Webhooks",
+        ],
       },
       {
         label: "Ideal for",
@@ -153,7 +197,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["AWS", "Docker", "GitHub Actions", "Terraform", "CI/CD"],
+        points: [
+          "AWS",
+          "Google Cloud",
+          "Docker",
+          "Kubernetes",
+          "GitHub Actions",
+          "Terraform",
+          "CI/CD",
+          "Linux",
+          "Nginx",
+          "Monitoring",
+        ],
       },
       {
         label: "Ideal for",
@@ -185,7 +240,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["PostgreSQL", "MongoDB", "SQL", "Prisma", "Redis"],
+        points: [
+          "PostgreSQL",
+          "MongoDB",
+          "SQL",
+          "Prisma",
+          "Redis",
+          "Neon",
+          "Data Modeling",
+          "Query Optimization",
+          "Migrations",
+          "Backups",
+        ],
       },
       {
         label: "Ideal for",
@@ -217,7 +283,18 @@ const services: Service[] = [
       {
         label: "Tech & tools",
         kind: "tags",
-        points: ["Python", "Bash", "Node.js", "Cron", "GitHub Actions"],
+        points: [
+          "Python",
+          "Bash",
+          "Node.js",
+          "Cron",
+          "GitHub Actions",
+          "CLI Tools",
+          "Shell Scripting",
+          "Web Scraping",
+          "Task Scheduling",
+          "APIs",
+        ],
       },
       {
         label: "Ideal for",
