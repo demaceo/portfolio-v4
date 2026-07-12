@@ -149,6 +149,13 @@
   .hint {
     display: none;
   }
+
+  /* Smaller labels so category names (e.g. "Package Management" and
+     "Project Management") clear their neighbours in the tighter, narrower
+     columns used on phones. */
+  .node text {
+    font-size: 8px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

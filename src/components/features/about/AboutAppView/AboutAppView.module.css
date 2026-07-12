@@ -606,10 +606,12 @@
 
 /* ── Responsive ───────────────────────────────────────── */
 
-/* AppView gives About the full .macScreen width (up to 1500px) instead of a
-   floating card's constrained width, so the rail can stay vertical down to a
-   narrower breakpoint than the old modal used (720px). */
-@media (max-width: 580px) {
+/* Collapse the fixed 210px rail + 1fr content to a single column across the
+   whole tablet/phone band. Kept at two columns, the 581–768px band left the
+   short, left-aligned hero cascade and the 56ch lede stranded beside a wide
+   empty right gutter; going single-column (rail as a top strip) lets the
+   content use the full width and closes that gutter. */
+@media (max-width: 768px) {
   .aboutDossier {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
@@ -657,18 +659,37 @@
     font-size: 1.4rem;
   }
 
-  .aboutHighlightGrid {
-    grid-template-columns: 1fr;
-  }
-
+  /* Stack "I build" above the word cascade and center both, so the words sit in
+     the middle of the screen instead of hugging the left edge with a dead right
+     half (visible on phones in the original left-aligned layout). */
   .aboutHero {
     flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
     min-height: 7rem;
+    text-align: center;
+  }
+
+  .aboutHeroPhrase {
+    justify-content: center;
   }
 
   .aboutHeroScroll {
     height: 6rem;
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .aboutHeroWord {
+    text-align: center;
+  }
+}
+
+/* Highlight cards stay two-up through the tablet band and only go single-column
+   on phones, so tablets don't get over-wide stretched cards. */
+@media (max-width: 580px) {
+  .aboutHighlightGrid {
+    grid-template-columns: 1fr;
   }
 }
 
