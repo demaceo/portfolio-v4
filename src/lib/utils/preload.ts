@@ -1,4 +1,6 @@
 // Idle and intent-based preloading to improve INP on first open
+import { recoverFromChunkError } from "./chunkErrorRecovery";
+
 type RequestIdleCallback = (cb: () => void) => number | undefined;
 
 const idle: RequestIdleCallback = (cb) => {
@@ -11,16 +13,28 @@ const idle: RequestIdleCallback = (cb) => {
     return window.setTimeout(cb, 1);
 };
 
+// Callers fire these on hover/focus and never await the result, so an
+// uncaught rejection (e.g. a stale chunk 404ing after a new deploy) would
+// otherwise surface only as an unhandled promise rejection in the console.
+// Catch it here, and hand chunk load failures to the reload recovery so the
+// tab self-heals instead of leaving preloading permanently broken.
+const withRecovery = <T>(loader: () => Promise<T>) => (): Promise<T | void> =>
+    loader().catch((error) => {
+        if (!recoverFromChunkError(error)) throw error;
+    });
+
 // Dynamic import preloaders for code splitting
 export const preloadModules = {
-    contact: () => import("@/components/features/contact/ContactForm/ContactForm"),
-    about: () => import("@/components/features/about/AboutAppView/AboutAppView"),
-    skillset: () => import("@/components/features/skills/SkillsetAppView/SkillsetAppView"),
-    projects: () =>
-        import("@/components/features/portfolio/ProjectsAppView/ProjectsAppView"),
-    documentary: () =>
-        import("@/components/features/media").then((m) => m.DocumentaryPlayer),
-    resume: () => import("@/components/features/resume/InteractiveResume/InteractiveResume"),
+    contact: withRecovery(() => import("@/components/features/contact/ContactForm/ContactForm")),
+    about: withRecovery(() => import("@/components/features/about/AboutAppView/AboutAppView")),
+    skillset: withRecovery(() => import("@/components/features/skills/SkillsetAppView/SkillsetAppView")),
+    projects: withRecovery(() =>
+        import("@/components/features/portfolio/ProjectsAppView/ProjectsAppView")
+    ),
+    documentary: withRecovery(() =>
+        import("@/components/features/media").then((m) => m.DocumentaryPlayer)
+    ),
+    resume: withRecovery(() => import("@/components/features/resume/InteractiveResume/InteractiveResume")),
 };
 
 // On-intent network warmup for PBS iframe origin

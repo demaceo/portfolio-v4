@@ -135,35 +135,49 @@ export default function DesktopRain() {
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
 
-    const geometry = new Triangle(gl);
-    const texture = new Texture(gl, {
-      generateMipmaps: false,
-      minFilter: gl.LINEAR,
-    });
-
-    const program = new Program(gl, {
-      vertex: vertexShader,
-      fragment: fragmentShader,
-      transparent: true,
-      uniforms: {
-        uTime: { value: 0 },
-        tMap: { value: texture },
-        uResolution: { value: [container.clientWidth, container.clientHeight] },
-        uImageResolution: { value: [1, 1] },
-      },
-    });
-
-    const mesh = new Mesh(gl, { geometry, program });
-
     const image = new Image();
+    image.src = "/images/palmtreeleaves-5.jpg";
+
+    // GPU-side objects (buffers, textures, compiled programs) don't survive
+    // a WebGL context loss — everything here gets rebuilt from scratch both
+    // on first mount and again after "webglcontextrestored".
+    let program: Program;
+    let mesh: Mesh;
+    function setupScene() {
+      const geometry = new Triangle(gl);
+      const texture = new Texture(gl, {
+        generateMipmaps: false,
+        minFilter: gl.LINEAR,
+      });
+      if (image.complete && image.naturalWidth) texture.image = image;
+
+      program = new Program(gl, {
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        transparent: true,
+        uniforms: {
+          uTime: { value: 0 },
+          tMap: { value: texture },
+          uResolution: { value: [container.clientWidth, container.clientHeight] },
+          uImageResolution: {
+            value: image.complete
+              ? [image.naturalWidth, image.naturalHeight]
+              : [1, 1],
+          },
+        },
+      });
+
+      mesh = new Mesh(gl, { geometry, program });
+    }
+    setupScene();
+
     image.onload = () => {
-      texture.image = image;
+      (program.uniforms.tMap.value as Texture).image = image;
       program.uniforms.uImageResolution.value = [
         image.naturalWidth,
         image.naturalHeight,
       ];
     };
-    image.src = "/images/palmtreeleaves-5.jpg";
 
     function resize() {
       renderer.setSize(container.clientWidth, container.clientHeight);
@@ -198,9 +212,10 @@ export default function DesktopRain() {
     // size (so the IntersectionObserver reports it as off-screen).
     let tabVisible = document.visibilityState === "visible";
     let onScreen = true;
+    let contextLost = false;
 
     function sync() {
-      const shouldRun = !disposed && tabVisible && onScreen;
+      const shouldRun = !disposed && !contextLost && tabVisible && onScreen;
       if (shouldRun && animationId === null) {
         animationId = requestAnimationFrame(update);
       } else if (!shouldRun && animationId !== null) {
@@ -221,6 +236,24 @@ export default function DesktopRain() {
     });
     observer.observe(container);
 
+    // A lost context (GPU driver reset, tab backgrounded a long time, too
+    // many WebGL contexts open) is unrecoverable unless the loss event is
+    // told to allow restoration — without this, "webglcontextrestored"
+    // never fires and the canvas stays blank for the rest of the session.
+    function onContextLost(event: Event) {
+      event.preventDefault();
+      contextLost = true;
+      sync();
+    }
+    function onContextRestored() {
+      contextLost = false;
+      setupScene();
+      resize();
+      sync();
+    }
+    gl.canvas.addEventListener("webglcontextlost", onContextLost, false);
+    gl.canvas.addEventListener("webglcontextrestored", onContextRestored, false);
+
     sync();
 
     return () => {
@@ -229,6 +262,8 @@ export default function DesktopRain() {
       document.removeEventListener("visibilitychange", onVisibilityChange);
       observer.disconnect();
       window.removeEventListener("resize", resize);
+      gl.canvas.removeEventListener("webglcontextlost", onContextLost);
+      gl.canvas.removeEventListener("webglcontextrestored", onContextRestored);
       image.onload = null;
       if (gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
