@@ -1,11 +1,16 @@
 import React, { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faChevronUp,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import services from "@/data/services";
 import tools from "@/data/toolbelt";
-import { ModalProps } from "@/lib/types";
+import { ModalProps, type Service } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
 import ToolbeltGraph from "./ToolbeltGraph";
 import styles from "./SkillsetAppView.module.css";
@@ -24,15 +29,21 @@ const orderedCategories = [
   "Documentation",
 ];
 
-const serviceOutcomes: Record<string, string> = {
-  sb1: "Conversion-focused web experiences with production analytics.",
-  sb2: "App flows that feel native, fast, and easy to learn.",
-  sb3: "Accessible, responsive interfaces that scale in codebase and team size.",
-  sb4: "Predictable integrations and stable system-to-system communication.",
-  sb5: "Repeatable releases with deployment confidence and lower operational drag.",
-  sb6: "Clean domain models, faster queries, and durable data governance.",
-  sb7: "Less manual overhead through targeted automation and scripting.",
+// A service renders as a vertical stack of panels. Panel 0 ("Overview") is
+// synthesized from the service's outcome + description; any extra panels defined
+// in the data follow it and are reached by swiping vertically.
+type RenderPanel = {
+  label: string;
+  outcome?: string;
+  body?: string;
+  points?: string[];
+  kind?: "list" | "tags";
 };
+
+const buildPanels = (s: Service): RenderPanel[] => [
+  { label: "Overview", outcome: s.outcome, body: s.description },
+  ...(s.panels ?? []),
+];
 
 // Tools highlighted with the signature stroke/glow in the toolbelt graph.
 const signatureStack = ["React", "JavaScript", "Next.js", "Node.js", "AWS"];
@@ -53,9 +64,17 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
     return idx === -1 ? 0 : idx;
   });
   const [direction, setDirection] = useState<1 | -1>(1);
+
+  // Vertical carousel state — which info panel within the current service.
+  const [panelIndex, setPanelIndex] = useState(0);
+  const [vDirection, setVDirection] = useState<1 | -1>(1);
+
   const reduceMotion = useReducedMotion();
 
   const service = services[serviceIndex];
+  const panels = useMemo(() => buildPanels(service), [service]);
+  const panelCount = panels.length;
+  const panel = panels[panelIndex] ?? panels[0];
 
   // Plate slide timings collapse to instant under prefers-reduced-motion; the
   // enter/exit offsets stay so AnimatePresence still swaps plates correctly.
@@ -76,16 +95,73 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
     [reduceMotion]
   );
 
+  // Vertical panel slide — the y-axis mirror of plateVariants.
+  const panelVariants: Variants = useMemo(
+    () => ({
+      enter: (dir: number) => ({ opacity: 0, y: dir > 0 ? 24 : -24 }),
+      center: {
+        opacity: 1,
+        y: 0,
+        transition: reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
+      },
+      exit: (dir: number) => ({
+        opacity: 0,
+        y: dir > 0 ? -20 : 20,
+        transition: reduceMotion ? { duration: 0 } : { duration: 0.14, ease: "easeIn" },
+      }),
+    }),
+    [reduceMotion]
+  );
+
   const navigateService = (dir: 1 | -1) => {
     if (services.length <= 1) return;
     setDirection(dir);
     setServiceIndex((prev) => (prev + dir + services.length) % services.length);
+    // Reset the vertical axis whenever the service changes.
+    setPanelIndex(0);
+    setVDirection(1);
   };
 
   const goToService = (index: number) => {
     if (index === serviceIndex) return;
     setDirection(index > serviceIndex ? 1 : -1);
     setServiceIndex(index);
+    setPanelIndex(0);
+    setVDirection(1);
+  };
+
+  const navigatePanel = (dir: 1 | -1) => {
+    const next = panelIndex + dir;
+    if (next < 0 || next > panelCount - 1) return; // clamp — no wrap
+    setVDirection(dir);
+    setPanelIndex(next);
+  };
+
+  const goToPanel = (index: number) => {
+    if (index === panelIndex) return;
+    setVDirection(index > panelIndex ? 1 : -1);
+    setPanelIndex(index);
+  };
+
+  const onStageKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowLeft":
+        e.preventDefault();
+        navigateService(-1);
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        navigateService(1);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        navigatePanel(-1);
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        navigatePanel(1);
+        break;
+    }
   };
 
   return (
@@ -145,7 +221,15 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
           aria-labelledby="services-tab"
           hidden={activeTab !== "services"}
         >
-              <div className={styles.plateStage} aria-live="polite">
+              <div
+                className={styles.plateStage}
+                aria-live="polite"
+                tabIndex={0}
+                role="group"
+                aria-roledescription="carousel"
+                aria-label="Services — swipe or use arrow keys: left/right to change service, up/down for details"
+                onKeyDown={onStageKeyDown}
+              >
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.article
                     key={serviceIndex}
@@ -155,12 +239,20 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                     animate="center"
                     exit="exit"
                     className={styles.servicePlate}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
+                    drag
+                    dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
                     dragElastic={0.08}
+                    dragDirectionLock
                     onDragEnd={(_, { offset, velocity }) => {
-                      const power = Math.abs(offset.x) + Math.abs(velocity.x) * 0.25;
-                      if (power > 70) navigateService(offset.x > 0 ? -1 : 1);
+                      // dragDirectionLock keeps the off-axis offset ~0, so the
+                      // larger absolute offset tells us which axis the user meant.
+                      if (Math.abs(offset.x) >= Math.abs(offset.y)) {
+                        const power = Math.abs(offset.x) + Math.abs(velocity.x) * 0.25;
+                        if (power > 70) navigateService(offset.x > 0 ? -1 : 1);
+                      } else {
+                        const power = Math.abs(offset.y) + Math.abs(velocity.y) * 0.25;
+                        if (power > 70) navigatePanel(offset.y > 0 ? -1 : 1);
+                      }
                     }}
                   >
                     <div className={styles.plateIconHalo} aria-hidden="true">
@@ -188,13 +280,95 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
 
                     <h2 className={styles.plateTitle}>{service.title}</h2>
 
-                    {serviceOutcomes[service.id] && (
-                      <p className={styles.plateOutcome}>{serviceOutcomes[service.id]}</p>
-                    )}
+                    {/* Vertical panel viewport — pinned header stays above this. */}
+                    <div className={styles.panelViewport}>
+                      <AnimatePresence mode="wait" custom={vDirection} initial={false}>
+                        <motion.div
+                          key={panelIndex}
+                          custom={vDirection}
+                          variants={panelVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          className={styles.panelSlide}
+                          role="group"
+                          aria-roledescription="slide"
+                          aria-label={`Panel ${panelIndex + 1} of ${panelCount}: ${panel.label}`}
+                        >
+                          {panelIndex > 0 && (
+                            <span className={styles.panelEyebrow}>{panel.label}</span>
+                          )}
 
-                    <p className={styles.plateDescription}>{service.description}</p>
+                          {panel.outcome && (
+                            <p className={styles.plateOutcome}>{panel.outcome}</p>
+                          )}
+
+                          {panel.body && (
+                            <p className={styles.plateDescription}>{panel.body}</p>
+                          )}
+
+                          {panel.points &&
+                            (panel.kind === "tags" ? (
+                              <ul className={styles.panelTags}>
+                                {panel.points.map((pt) => (
+                                  <li key={pt} className={styles.panelTag}>
+                                    {pt}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <ul className={styles.panelPoints}>
+                                {panel.points.map((pt) => (
+                                  <li key={pt} className={styles.panelPoint}>
+                                    {pt}
+                                  </li>
+                                ))}
+                              </ul>
+                            ))}
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
                   </motion.article>
                 </AnimatePresence>
+
+                {/* Vertical rail — sibling of the draggable article to avoid
+                    tap-vs-drag conflicts. Hidden when a service has only Overview. */}
+                {panelCount > 1 && (
+                  <div className={styles.plateVRail} aria-label="Service details">
+                    <button
+                      type="button"
+                      className={styles.plateVArrow}
+                      onClick={() => navigatePanel(-1)}
+                      disabled={panelIndex === 0}
+                      aria-label="Previous detail"
+                    >
+                      <FontAwesomeIcon icon={faChevronUp} />
+                    </button>
+
+                    <div className={styles.plateVDots}>
+                      {panels.map((p, i) => (
+                        <button
+                          key={p.label}
+                          type="button"
+                          className={`${styles.plateVDot} ${i === panelIndex ? styles.active : ""}`}
+                          aria-current={i === panelIndex ? "true" : undefined}
+                          aria-label={`Show ${p.label}`}
+                          onClick={() => goToPanel(i)}
+                        />
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      className={styles.plateVArrow}
+                      onClick={() => navigatePanel(1)}
+                      disabled={panelIndex === panelCount - 1}
+                      aria-label="Next detail"
+                    >
+                      <FontAwesomeIcon icon={faChevronDown} />
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className={styles.plateNav}>

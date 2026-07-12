@@ -68,9 +68,18 @@
 .skillTab:focus-visible,
 .plateArrow:focus-visible,
 .plateDot:focus-visible,
+.plateVArrow:focus-visible,
+.plateVDot:focus-visible,
 .skillStudioByline:focus-visible {
   outline: 2px solid var(--noir-accent);
   outline-offset: 2px;
+}
+
+/* The stage itself is keyboard-focusable (arrow-key nav); draw the ring inset
+   so it isn't clipped by the panel edges or the top/bottom bars. */
+.plateStage:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: -2px;
 }
 
 .skillStudioByline {
@@ -208,6 +217,89 @@
   max-width: 52ch;
 }
 
+/* ── Vertical info panels ─────────────────────────────── */
+
+/* Fixed-height viewport so the pinned header never shifts as panels of
+   different heights swap; clips the vertical slide. */
+.panelViewport {
+  position: relative;
+  width: 100%;
+  max-width: 52ch;
+  min-height: 138px;
+  margin-top: 0.1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.panelSlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.panelEyebrow {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--noir-faint);
+}
+
+.panelPoints {
+  margin: 0.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.42rem;
+  text-align: left;
+  max-width: 46ch;
+}
+
+.panelPoint {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--skill-muted);
+}
+
+.panelPoint::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--skill-accent);
+}
+
+.panelTags {
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  max-width: 44ch;
+}
+
+.panelTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--skill-text);
+  background: var(--lg-tint);
+  border: 1px solid var(--lg-edge);
+  border-radius: 999px;
+  padding: 0.26rem 0.66rem;
+}
+
 /* ── Plate nav ────────────────────────────────────────── */
 
 .plateNav {
@@ -283,6 +375,88 @@
   background: var(--noir-muted);
 }
 
+/* ── Vertical rail (info-panel nav, right edge of the stage) ──── */
+
+.plateVRail {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  z-index: 2;
+}
+
+.plateVArrow {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--skill-panel);
+  border: 1px solid rgba(240, 236, 232, 0.14);
+  color: rgba(240, 236, 232, 0.45);
+  font-size: 0.68rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    transform 0.15s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.plateVArrow:hover:not(:disabled) {
+  background: var(--noir-accent-soft);
+  border-color: var(--noir-accent-line);
+  color: var(--skill-accent);
+  transform: scale(1.05);
+}
+
+.plateVArrow:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.plateVArrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.plateVDots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.44rem;
+}
+
+.plateVDot {
+  position: relative;
+  height: 6px;
+  width: 6px;
+  border-radius: 999px;
+  background: var(--noir-faint);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.22s ease, height 0.22s ease;
+}
+
+/* Keep the 6px visual but expand the tap target for touch. */
+.plateVDot::after {
+  content: "";
+  position: absolute;
+  inset: -7px -9px;
+}
+
+.plateVDot.active {
+  background: var(--skill-accent);
+  height: 22px;
+}
+
+.plateVDot:hover:not(.active) {
+  background: var(--noir-muted);
+}
+
 /* ── Toolbelt: force-directed graph ───────────────────── */
 
 .skillTools {
@@ -307,8 +481,9 @@
     display: none;
   }
 
+  /* Extra right padding keeps body text clear of the vertical rail. */
   .servicePlate {
-    padding: 1.4rem 1.25rem;
+    padding: 1.4rem 2.2rem;
   }
 
   .plateIconHalo {
@@ -327,12 +502,29 @@
   .plateDescription {
     font-size: 0.84rem;
   }
+
+  .panelViewport {
+    min-height: 120px;
+  }
+
+  .plateVRail {
+    right: 0.35rem;
+    gap: 0.5rem;
+  }
+
+  .plateVArrow {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .servicePlate,
   .plateDot,
-  .plateArrow {
+  .plateArrow,
+  .plateVArrow,
+  .plateVDot,
+  .panelSlide {
     transition: none;
   }
 }

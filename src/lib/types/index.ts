@@ -27,13 +27,21 @@ export interface Project {
     gif?: string; // Optional field for GIFs
 }
 
+export interface ServicePanel {
+    label: string;              // eyebrow heading, e.g. "What you get"
+    body?: string;              // paragraph copy
+    points?: string[];          // bullet list / chip list
+    kind?: "list" | "tags";     // "tags" renders points as inline chips (used by Tech & tools)
+}
+
 export interface Service {
     id: string;
     title: string;
-    subtitle: string;
+    subtitle?: string;
     description: string;
     icon: string;
-    details?: string[];
+    outcome?: string;           // accent one-liner shown on the Overview panel
+    panels?: ServicePanel[];    // extra vertical panels; the "Overview" panel is synthesized from outcome + description
 }
 
 export interface TimelineItem {
