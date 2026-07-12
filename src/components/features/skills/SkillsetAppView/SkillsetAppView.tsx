@@ -6,10 +6,12 @@ import {
   faChevronRight,
   faChevronUp,
   faChevronDown,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import services from "@/data/services";
 import tools from "@/data/toolbelt";
+import { TECH_ICON_MAP, TECH_ICON_FALLBACK } from "@/lib/constants/techIcons";
 import { ModalProps, type Service } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
 import ToolbeltGraph from "./ToolbeltGraph";
@@ -312,6 +314,11 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                               <ul className={styles.panelTags}>
                                 {panel.points.map((pt) => (
                                   <li key={pt} className={styles.panelTag}>
+                                    <FontAwesomeIcon
+                                      icon={TECH_ICON_MAP[pt] ?? TECH_ICON_FALLBACK}
+                                      className={styles.panelTagIcon}
+                                      aria-hidden="true"
+                                    />
                                     {pt}
                                   </li>
                                 ))}
@@ -320,7 +327,12 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                               <ul className={styles.panelPoints}>
                                 {panel.points.map((pt) => (
                                   <li key={pt} className={styles.panelPoint}>
-                                    {pt}
+                                    <FontAwesomeIcon
+                                      icon={faCheck}
+                                      className={styles.panelPointIcon}
+                                      aria-hidden="true"
+                                    />
+                                    <span>{pt}</span>
                                   </li>
                                 ))}
                               </ul>
