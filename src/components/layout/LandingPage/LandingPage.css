@@ -389,6 +389,7 @@
 }
 
 .close-btn {
+  position: relative;
   width: 14px;
   height: 14px;
   display: flex;
@@ -438,18 +439,46 @@
   display: flex;
   gap: 10px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .quick-links button {
   padding: 5px 10px;
   border: 1px solid #3b3a3a;
   background: #e0e0e0;
+  /* Native <button> doesn't inherit color/font-family, so without these iOS
+     falls back to its default control look (blue link-style text). Pin them to
+     keep the intended retro grayscale button with dark ink. */
+  color: #3b3a3a;
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
   cursor: pointer;
   font-size: 10px;
 }
 
 .quick-links button:hover {
   background: #d0d0d0;
+}
+
+/* Touch devices: the retro buttons are far below the ~44px tap minimum. Size
+   them up (and the close control's hit area) without touching the mouse look. */
+@media (pointer: coarse) {
+  .quick-links button {
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+  }
 }
 
 .taskbar {
@@ -518,6 +547,14 @@
 
   .desktop {
     padding: 16px;
+  }
+
+  /* On phones the MenuBar and desktop icons are hidden and the glass
+     AppSwitcher dock takes over navigation, so the retro taskbar has no
+     siblings above it and collapses into a stray light-gray strip at the top.
+     Hide it here — same precedent as the MenuBar hide in LandingPage.menu.css. */
+  .taskbar {
+    display: none;
   }
 }
 

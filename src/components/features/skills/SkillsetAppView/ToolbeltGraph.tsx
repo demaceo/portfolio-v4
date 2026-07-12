@@ -96,18 +96,51 @@ function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
   return { nodes, links };
 }
 
-// Roots pinned in two staggered rows instead of the pen's single line of 4 —
-// 9 categories crowd badly on one line. Generalizes to any N.
+// Minimum horizontal room (px) a pinned category root needs so its full label
+// clears its neighbour's. Below this per-column budget we shed a column and add
+// a row instead. `forceCollide` only knows circle radii, so column spacing is
+// the only thing keeping the (wider) labels from colliding.
+const MIN_ROOT_SLOT = 116;
+
+// Roots are pinned into a grid. Wide screens keep the original balanced two-row
+// layout; narrow screens (phones / small tablets) get more rows and fewer
+// columns so labels stop overlapping and the rows fill the height instead of
+// clustering into two thin bands with an empty gap between them. Generalizes to
+// any N.
 function computeRootPositions(count: number, width: number, height: number) {
-  const topCount = Math.ceil(count / 2);
   const positions: { x: number; y: number }[] = [];
+  const fitCols = Math.max(2, Math.floor(width / MIN_ROOT_SLOT));
+
+  // Enough width for the original two-row split → keep desktop exactly as-is.
+  if (fitCols >= Math.ceil(count / 2)) {
+    const topCount = Math.ceil(count / 2);
+    for (let i = 0; i < count; i++) {
+      const inTopRow = i < topCount;
+      const row = inTopRow ? topCount : count - topCount;
+      const indexInRow = inTopRow ? i : i - topCount;
+      positions.push({
+        x: ((indexInRow + 1) / (row + 1)) * width,
+        y: height * (inTopRow ? 0.32 : 0.72),
+      });
+    }
+    return positions;
+  }
+
+  // Narrow: balanced multi-row grid (e.g. 9 → 3/3/3, not 4/4/1), spread down the
+  // full height so each label gets width/(itemsInRow+1) of room and no dead band
+  // is left below the bubbles.
+  const cols = Math.min(count, fitCols);
+  const rows = Math.ceil(count / cols);
+  const perRow = Math.ceil(count / rows);
   for (let i = 0; i < count; i++) {
-    const inTopRow = i < topCount;
-    const row = inTopRow ? topCount : count - topCount;
-    const indexInRow = inTopRow ? i : i - topCount;
+    const row = Math.floor(i / perRow);
+    const startOfRow = row * perRow;
+    const itemsInRow = Math.min(perRow, count - startOfRow);
+    const indexInRow = i - startOfRow;
+    const yFrac = rows === 1 ? 0.5 : 0.16 + (0.66 * row) / (rows - 1);
     positions.push({
-      x: ((indexInRow + 1) / (row + 1)) * width,
-      y: height * (inTopRow ? 0.32 : 0.72),
+      x: ((indexInRow + 1) / (itemsInRow + 1)) * width,
+      y: yFrac * height,
     });
   }
   return positions;

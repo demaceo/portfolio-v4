@@ -195,7 +195,10 @@
 @media (max-width: 768px) {
   .overlay {
     padding: max(10px, env(safe-area-inset-top)) clamp(8px, 4vw, 14px) max(10px, env(safe-area-inset-bottom));
-    background: rgba(8, 5, 3, 0.72);
+    /* Blur is off on mobile (perf), so lean on a near-opaque scrim instead:
+       masks the wallpaper — and any modal stacked underneath (e.g. the Project
+       Detail behind Resume Highlights) — so nothing bleeds through the frame. */
+    background: rgba(8, 5, 3, 0.9);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
@@ -204,6 +207,12 @@
     width: min(calc(100svw - 20px), var(--modal-max-width));
     max-height: min(96svh, 96vh);
     border-radius: 14px;
+    /* The overlay blur is disabled on mobile (above), so a 62%-opaque frame
+       lets the busy wallpaper read straight through — and again through any
+       translucent inner panel (e.g. the ResumeHighlights tab pill) — producing
+       a ghosted/doubled look. Use the near-solid tint so the modal reads as one
+       opaque surface. Applies to every ModalFrame consumer on phones. */
+    background: var(--lg-tint-solid);
   }
 
   .titleBar {

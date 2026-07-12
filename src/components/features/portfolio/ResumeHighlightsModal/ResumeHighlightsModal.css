@@ -338,7 +338,13 @@
 
 .resume-project-section pre {
   margin: 0.5rem 0 0 0;
-  white-space: pre-wrap;
+  /* ASCII flow diagrams are column-aligned, so wrapping (pre-wrap) destroyed
+     their layout AND long lines were clipped on the right by the detail card's
+     overflow:hidden. Keep the diagram intact and give it its own horizontal
+     scroll instead. */
+  white-space: pre;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   font-size: 0.72rem;
@@ -436,13 +442,24 @@
     gap: 0.45rem;
   }
 
+  /* Give the tab pill its own full-width row and let it scroll horizontally
+     rather than forcing three long labels to fit. The old `flex: 1` +
+     `text-align: center` stretched each tab and made its nowrap label spill
+     past both ends, clipping mid-word ("Role Bullets" → "llets"). */
   .resume-highlights-tabs {
-    flex: 1;
+    flex: 1 1 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .resume-highlights-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .resume-highlights-tab {
-    flex: 1;
-    text-align: center;
+    flex: 0 0 auto;
   }
 
   .resume-highlights-byline {
@@ -463,6 +480,17 @@
   .resume-role-group li,
   .resume-project-section li {
     font-size: 0.8rem;
+  }
+
+  /* Slightly tighter tabs so most phones show all three without scrolling;
+     the scroll strip (≤900px) remains the fallback when they don't fit. */
+  .resume-highlights-tab {
+    font-size: 0.7rem;
+    padding: 0.34rem 0.7rem;
+  }
+
+  .resume-project-section pre {
+    font-size: 0.64rem;
   }
 
   .resume-patterns-table-wrap table {
