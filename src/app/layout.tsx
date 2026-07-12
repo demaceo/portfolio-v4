@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import ChunkErrorRecoveryListener from "@/components/ChunkErrorRecoveryListener";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://demaceovincent.com"),
@@ -65,6 +66,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <ChunkErrorRecoveryListener />
         {children}
         <SpeedInsights />
       </body>
