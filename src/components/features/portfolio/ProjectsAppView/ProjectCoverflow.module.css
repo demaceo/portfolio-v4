@@ -1,91 +1,45 @@
-/* 3D coverflow gallery, skinned with the codepenz "Gradient Cards" front-face
-   shell (tall card, beveled accent corner) — front face only, no flip/backside. */
+/* "Shallow Dock" coverflow — depth reads mainly through size/opacity falloff
+   (Apple Dock-style), with only a modest rotateY hint, so most/all of a
+   project list stays legible on stage at once instead of a hard 3-card
+   cutoff. Cards keep the codepenz "Gradient Cards" front-face shell (tall
+   card, beveled accent corner) — front face only, no flip/backside. */
 
 .coverflow {
-  --slide-h: clamp(200px, 44vh, 380px);
-  --slide-w: calc(var(--slide-h) / 2);
-  --corner-size: 26px;
   position: relative;
   flex: 1;
   min-height: 0;
   width: 100%;
   overflow: hidden;
-  display: grid;
-  place-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   outline: none;
 }
 
-@media (max-width: 600px) {
-  .coverflow {
-    --slide-h: clamp(170px, 38vh, 260px);
-    --corner-size: 18px;
-  }
-
-  .content {
-    padding: 0.5rem 0.6rem;
-    gap: 0.25rem;
-  }
-
-  .number {
-    font-size: 0.54rem;
-  }
-
-  .name {
-    font-size: 0.7rem;
-  }
-
-  .stack {
-    font-size: 0.5rem;
-    -webkit-line-clamp: 1;
-  }
-
-  .viewHint {
-    font-size: 0.52rem;
-  }
-}
-
-.inner {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.5rem;
-}
-
-/* Every slide starts stacked at the same base position (absolutely
-   positioned, filling .viewport) and is moved into its slot purely via a
-   per-slide `x` transform keyed to its wrapped shortest-path distance from
-   the active slide — see ProjectCoverflow.tsx's `wrappedDelta`. That's what
-   makes the loop continuous: wrapping from the last slide to the first only
-   ever moves neighboring slides by one step, never jump-cuts the whole
-   strip. .viewport is sized to exactly one card and centered by .coverflow's
-   grid; cards intentionally overflow it (no overflow:hidden here) — only
-   .coverflow's outer overflow clips cards that scroll past the whole
-   component's edge. */
+/* Sized by flex layout alone (independent of its absolutely-positioned card
+   children) so ProjectCoverflow.tsx can measure it via ResizeObserver and
+   derive card size/spacing from the real allocated space, instead of a
+   fixed one-card-wide box — that's what let cards fill the stage instead of
+   clustering in a small centered island. One shared `perspective` here
+   (rather than one per card) is what sells "one deck," not N independent 3D
+   boxes. */
 .viewport {
   position: relative;
-  width: var(--slide-w);
-  height: var(--slide-h);
-  flex-shrink: 0;
-}
-
-.perspectiveWrap {
-  position: absolute;
-  inset: 0;
-  perspective: 800px;
-}
-
-@media (max-width: 600px) {
-  .perspectiveWrap {
-    perspective: 600px;
-  }
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  perspective: var(--stage-perspective, 1400px);
+  perspective-origin: 50% 50%;
 }
 
 .card {
-  position: relative;
-  display: block;
-  width: var(--slide-w);
-  height: var(--slide-h);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--card-w);
+  height: var(--card-h);
+  margin-left: calc(var(--card-w) / -2);
+  margin-top: calc(var(--card-h) / -2);
   padding: 0;
   border: 0;
   background: none;
@@ -93,9 +47,20 @@
   color: inherit;
   text-align: left;
   cursor: pointer;
+  box-shadow: none;
+  transform-style: preserve-3d;
+}
+
+.cardNear {
   box-shadow: var(--lg-shadow);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+}
+
+.cardActive {
+  box-shadow: var(--lg-shadow-float);
+}
+
+.cardHidden {
+  pointer-events: none;
 }
 
 /* Accent-color corner triangle, painted on the outer (unclipped) box so it
@@ -155,7 +120,7 @@
 .preview {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -165,7 +130,7 @@
 }
 
 .iconImg {
-  width: 55%;
+  width: 46%;
   height: auto;
   object-fit: contain;
 }
@@ -175,7 +140,7 @@
 }
 
 .faIcon {
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, calc(var(--card-w) * 0.16), 2rem);
   color: rgba(212, 132, 90, 0.5);
 }
 
@@ -186,13 +151,13 @@
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.8rem 1rem;
+  gap: 0.4rem;
+  padding: calc(var(--card-h) * 0.045) calc(var(--card-w) * 0.09);
 }
 
 .number {
-  padding-right: var(--corner-size);
-  font-size: 0.62rem;
+  padding-right: calc(var(--corner-size) - var(--card-w) * 0.09);
+  font-size: clamp(0.54rem, calc(var(--card-w) * 0.055), 0.68rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -204,26 +169,26 @@
 }
 
 .desc {
-  padding-right: var(--corner-size);
+  padding-right: calc(var(--corner-size) - var(--card-w) * 0.09);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.3rem;
+  gap: 0.24rem;
   text-align: right;
 }
 
 .name {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: clamp(0.66rem, calc(var(--card-w) * 0.062), 0.9rem);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--noir-text);
   font-family: var(--font-display);
 }
 
 .stack {
   margin: 0;
-  font-size: 0.58rem;
+  font-size: clamp(0.5rem, calc(var(--card-w) * 0.042), 0.62rem);
   color: var(--noir-muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -233,7 +198,7 @@
 }
 
 .viewHint {
-  font-size: 0.6rem;
+  font-size: clamp(0.5rem, calc(var(--card-w) * 0.046), 0.64rem);
   font-weight: 700;
   color: var(--noir-accent);
   opacity: 0;
@@ -251,10 +216,12 @@
 }
 
 .navBar {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.85rem;
+  padding-top: 0.75rem;
 }
 
 .navArrow {
