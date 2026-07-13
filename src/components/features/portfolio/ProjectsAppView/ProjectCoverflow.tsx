@@ -2,11 +2,26 @@
 
 import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Project } from "@/lib/types";
 import ProjectMedia from "../shared/ProjectMedia";
 import styles from "./ProjectCoverflow.module.css";
+
+// Documentary projects keep the fixed green corner used by the "Documentary"
+// tag elsewhere in the app; every other project gets its own color from a
+// hue rotation anchored at --noir-accent's hue — same pattern already used
+// for per-item coloring in SkillsetAppView/ToolbeltGraph.tsx.
+const DOC_CORNER_COLOR = "#0f9d6b"; // --noir-doc
+const CORNER_HUE_START = 21; // --noir-accent's own hue (#d4845a)
+const CORNER_SATURATION = 0.48;
+const CORNER_LIGHTNESS = 0.6;
+
+function cornerColorFor(index: number, count: number): string {
+  const hue = (CORNER_HUE_START + index * (360 / count)) % 360;
+  return d3.hsl(hue, CORNER_SATURATION, CORNER_LIGHTNESS).formatHex();
+}
 
 interface ProjectCoverflowProps {
   projects: Project[];
@@ -148,7 +163,6 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
               cardRefs.current[i] = el;
             }}
             project={project}
-            index={i}
             delta={wrappedDelta(i, activeIndex, projects.length)}
             dMax={dMax}
             rotMax={tier.rotMax}
@@ -157,6 +171,9 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
             step={step}
             stageWidth={stageSize.width}
             cornerSize={cornerSize}
+            cornerColor={
+              project.type === "documentary" ? DOC_CORNER_COLOR : cornerColorFor(i, projects.length)
+            }
             reduceMotion={reduceMotion}
             onSelectOrOpen={() => selectOrOpen(i, project)}
           />
@@ -201,7 +218,6 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
 
 interface CoverflowSlideProps {
   project: Project;
-  index: number;
   /** Shortest-path signed offset from the active slide (0 = active, ±1 = neighbor, ...). */
   delta: number;
   /** Furthest |delta| that stays in the legible "in-play" ring for this stage size/item count. */
@@ -212,6 +228,7 @@ interface CoverflowSlideProps {
   step: number;
   stageWidth: number;
   cornerSize: number;
+  cornerColor: string;
   reduceMotion: boolean;
   onSelectOrOpen: () => void;
 }
@@ -227,13 +244,12 @@ interface CoverflowSlideProps {
  */
 const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
   (
-    { project, index, delta, dMax, rotMax, cardW, cardH, step, stageWidth, cornerSize, reduceMotion, onSelectOrOpen },
+    { project, delta, dMax, rotMax, cardW, cardH, step, stageWidth, cornerSize, cornerColor, reduceMotion, onSelectOrOpen },
     ref
   ) => {
     const ad = Math.abs(delta);
     const sign = Math.sign(delta);
     const isActive = delta === 0;
-    const isDoc = project.type === "documentary";
     const isVisible = ad <= dMax;
 
     const x = isVisible ? delta * step : sign * (stageWidth * 0.46 + cardW);
@@ -248,7 +264,6 @@ const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
         type="button"
         className={[
           styles.card,
-          isDoc && styles.cardDoc,
           isActive ? styles.cardActive : ad === 1 ? styles.cardNear : "",
           !isVisible && styles.cardHidden,
         ]
@@ -259,6 +274,7 @@ const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
             "--card-w": `${cardW}px`,
             "--card-h": `${cardH}px`,
             "--corner-size": `${cornerSize}px`,
+            "--corner-color": cornerColor,
             zIndex: 100 - ad,
             willChange: isVisible ? "transform, opacity" : undefined,
           } as CSSProperties
@@ -298,15 +314,9 @@ const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
             />
           </motion.div>
           <div className={styles.content}>
-            <span className={styles.number}>
-              {project.yearRange ?? String(index + 1).padStart(2, "0")}
-            </span>
             <div className={styles.desc}>
               <h3 className={styles.name}>{project.name}</h3>
-              {project.stackPreview && project.stackPreview.length > 0 && (
-                <p className={styles.stack}>{project.stackPreview.slice(0, 3).join(" · ")}</p>
-              )}
-              {isActive && <span className={styles.viewHint}>View project →</span>}
+              <p className={styles.description}>{project.description}</p>
             </div>
           </div>
         </div>

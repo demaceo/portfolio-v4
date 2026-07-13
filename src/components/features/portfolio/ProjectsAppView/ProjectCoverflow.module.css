@@ -64,7 +64,9 @@
 }
 
 /* Accent-color corner triangle, painted on the outer (unclipped) box so it
-   isn't cut away by .cardInner's own clip-path/bevel. */
+   isn't cut away by .cardInner's own clip-path/bevel. It's the sole "view
+   this project" affordance (no text label), colored per-project via
+   --corner-color (set inline by ProjectCoverflow.tsx). */
 .card::before {
   content: "";
   position: absolute;
@@ -73,12 +75,8 @@
   right: 0;
   width: var(--corner-size);
   aspect-ratio: 1 / 1;
-  background-image: linear-gradient(135deg, var(--noir-accent) 51%, transparent 0);
+  background-image: linear-gradient(135deg, var(--corner-color) 51%, transparent 0);
   pointer-events: none;
-}
-
-.cardDoc::before {
-  background-image: linear-gradient(135deg, var(--noir-doc) 51%, transparent 0);
 }
 
 .cardInner {
@@ -87,7 +85,12 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--noir-panel-strong);
+  /* Must be solid, not a glass tint: cards share one 3D scene
+     (transform-style: preserve-3d on the shared perspective), so a
+     translucent background lets neighboring cards' text bleed through the
+     active card. --lg-tint-solid is this codebase's existing "no bleed
+     through" token, already used for AppView's own full-bleed shell. */
+  background: var(--lg-tint-solid);
   border: 1px solid var(--noir-border);
   transition: border-color 0.2s ease;
   /* Broad-support bevel fallback; upgraded below where corner-shape lands. */
@@ -150,22 +153,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.4rem;
+  justify-content: flex-end;
   padding: calc(var(--card-h) * 0.045) calc(var(--card-w) * 0.09);
-}
-
-.number {
-  padding-right: calc(var(--corner-size) - var(--card-w) * 0.09);
-  font-size: clamp(0.54rem, calc(var(--card-w) * 0.055), 0.68rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--noir-accent);
-}
-
-.cardDoc .number {
-  color: var(--noir-doc);
 }
 
 .desc {
@@ -186,33 +175,17 @@
   font-family: var(--font-display);
 }
 
-.stack {
+.description {
   margin: 0;
-  font-size: clamp(0.5rem, calc(var(--card-w) * 0.042), 0.62rem);
+  font-size: clamp(0.52rem, calc(var(--card-w) * 0.044), 0.66rem);
+  line-height: 1.35;
   color: var(--noir-muted);
   overflow: hidden;
   text-overflow: ellipsis;
+  text-wrap: pretty;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
-}
-
-.viewHint {
-  font-size: clamp(0.5rem, calc(var(--card-w) * 0.046), 0.64rem);
-  font-weight: 700;
-  color: var(--noir-accent);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.cardDoc .viewHint {
-  color: var(--noir-doc);
-}
-
-.cardActive .viewHint {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .navBar {
@@ -311,7 +284,6 @@
   .navArrow,
   .dot,
   .dotActive,
-  .viewHint,
   .cardInner {
     transition: none;
   }
