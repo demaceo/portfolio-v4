@@ -34,7 +34,7 @@ const MENU_ITEMS = [
 ] as const;
 
 const ABOUT_BIO =
-  "Product-minded software engineer who bridges strategy, design, and implementation — calm execution, high ownership, and a focus on human-centered systems with measurable outcomes.";
+  "Full-stack engineer who ships solo — 5 production apps in 12 months, from civic tech to privacy-first AI, architected end to end.";
 
 const getServicePreview = (description: string) => {
   const normalizedDescription = description.replace(/\s+/g, " ").trim();
