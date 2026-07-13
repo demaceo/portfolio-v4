@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { AnimatePresence } from "framer-motion";
 import "./LandingPage.css";
 import "./LandingPage.menu.css";
 import {
@@ -64,14 +65,21 @@ const LandingPage = () => {
           maybePreloadByPath={maybePreloadByPath}
         />
 
-        <WelcomeWindow
-          showWelcomeWindow={modalState.showWelcomeWindow}
-          onClose={() => modalActions.setShowWelcomeWindow(false)}
-          handleAppClick={handleAppClick}
-          preload={preloadModules}
-        />
+        <AnimatePresence>
+          {modalState.showWelcomeWindow && (
+            <WelcomeWindow
+              key="welcome-window"
+              onClose={() => modalActions.setShowWelcomeWindow(false)}
+              handleAppClick={handleAppClick}
+              preload={preloadModules}
+            />
+          )}
+        </AnimatePresence>
 
-        <Taskbar />
+        <Taskbar
+          showWelcomeWindow={modalState.showWelcomeWindow}
+          onTogglePortfolio={modalActions.toggleWelcomeWindow}
+        />
 
         <AppViews
           showAboutMe={modalState.showAboutMe}

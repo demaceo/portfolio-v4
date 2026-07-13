@@ -20,17 +20,15 @@
   background: var(--noir-panel);
 }
 
+/* The coverflow carousel is a fixed 3D viewport, not a scrolling document —
+   it clips its own strip internally, so .stage no longer scrolls. */
 .stage {
   flex: 1;
-  min-height: 320px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
-}
-
-.grid {
-  align-content: start;
 }
 
 .empty {
@@ -40,25 +38,12 @@
   font-size: 0.85rem;
 }
 
-/* Phone bezel (.mac-screen becomes 92dvh at ≤600px): the 320px floor makes the
-   gallery taller than the bezel, so the outer AppView .content scrolls too and
-   the last grid row lands under the fold (nested double-scroll). Drop the floor
-   so .stage shrinks to fit and becomes the sole scroller, and add bottom room so
-   the final row and the tiles' hover/focus lift clear the fold instead of
-   being clipped by overflow. */
-@media (max-width: 600px) {
-  .stage {
-    min-height: 0;
-    padding-bottom: 2rem;
-  }
-}
-
 @media (max-width: 480px) {
   .topbar {
     padding: 0.6rem 0.75rem;
   }
 
   .stage {
-    padding: 0.75rem 0.75rem 2rem;
+    padding: 0.75rem;
   }
 }

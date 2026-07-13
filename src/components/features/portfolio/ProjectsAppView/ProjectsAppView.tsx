@@ -1,30 +1,15 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { ModalProps, Project } from "@/lib/types";
+import { ModalProps } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
-import { Grid, FilterBar } from "@/components/ui";
+import { FilterBar } from "@/components/ui";
 import { useProjects } from "@/hooks";
-import ProjectTile from "./ProjectTile";
+import ProjectCoverflow from "./ProjectCoverflow";
 import ProjectDetailModal from "../ProjectDetailModal/ProjectDetailModal";
 import ResumeHighlightsModal from "../ResumeHighlightsModal/ResumeHighlightsModal";
 import styles from "./ProjectsAppView.module.css";
-
-const MAX_FACETS = 6;
-
-function useStackFacets(projects: Project[]): string[] {
-  return useMemo(() => {
-    const counts = new Map<string, number>();
-    projects.forEach((p) => p.stackPreview?.forEach((tech) => {
-      counts.set(tech, (counts.get(tech) ?? 0) + 1);
-    }));
-    return [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, MAX_FACETS)
-      .map(([tech]) => tech);
-  }, [projects]);
-}
 
 interface ProjectsAppViewProps extends ModalProps {
   initialProjectId?: number;
@@ -36,7 +21,6 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
 }) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
   const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
-  const [activeFacet, setActiveFacet] = useState<string | null>(null);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     initialProjectId ?? null
   );
@@ -45,23 +29,12 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
     string | undefined
   >(undefined);
 
-  const facets = useStackFacets(activeProjects);
-
-  const baseProjects = activeTab === "current" ? activeProjects : archivedProjects;
-  const visibleProjects = useMemo(() => {
-    if (activeTab !== "current" || !activeFacet) return baseProjects;
-    return baseProjects.filter((p) => p.stackPreview?.includes(activeFacet));
-  }, [baseProjects, activeTab, activeFacet]);
+  const visibleProjects = activeTab === "current" ? activeProjects : archivedProjects;
 
   const selectedProject = selectedProjectId != null ? getProjectById(selectedProjectId) : undefined;
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab as "current" | "archived");
-    setActiveFacet(null);
-  };
-
-  const handleFacetToggle = (facet: string) => {
-    setActiveFacet((prev) => (prev === facet ? null : facet));
   };
 
   const handleOpenDeepDive = (deepDiveKey?: string) => {
@@ -81,11 +54,7 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
               ]}
               activeTab={activeTab}
               onTabChange={handleTabChange}
-              facets={activeTab === "current" ? facets : undefined}
-              activeFacets={activeFacet ? new Set([activeFacet]) : new Set()}
-              onFacetToggle={handleFacetToggle}
               tabListLabel="Project categories"
-              facetListLabel="Filter by technology"
               panelId="projects-panel"
             />
           </div>
@@ -97,15 +66,12 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
             aria-labelledby={`projects-panel-tab-${activeTab}`}
           >
             {visibleProjects.length > 0 ? (
-              <Grid minItemWidth="200px" gap="md" fill="fit" className={styles.grid}>
-                {visibleProjects.map((project) => (
-                  <ProjectTile
-                    key={project.id}
-                    project={project}
-                    onOpen={setSelectedProjectId}
-                  />
-                ))}
-              </Grid>
+              <ProjectCoverflow
+                key={activeTab}
+                projects={visibleProjects}
+                onOpen={setSelectedProjectId}
+                initialProjectId={initialProjectId}
+              />
             ) : (
               <p className={styles.empty}>No projects match this filter.</p>
             )}
