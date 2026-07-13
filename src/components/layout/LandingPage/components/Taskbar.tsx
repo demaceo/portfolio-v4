@@ -2,12 +2,23 @@
 
 import React from "react";
 
-const Taskbar: React.FC = () => {
+interface TaskbarProps {
+  showWelcomeWindow: boolean;
+  onTogglePortfolio: () => void;
+}
+
+const Taskbar: React.FC<TaskbarProps> = ({ showWelcomeWindow, onTogglePortfolio }) => {
   return (
     <div className="taskbar">
       <div className="running-apps">
-        {/* <div className="app-tab active">Finder</div> */}
-        <div className="app-tab">Portfolio</div>
+        <button
+          type="button"
+          className={`app-tab${showWelcomeWindow ? " active" : ""}`}
+          onClick={onTogglePortfolio}
+          aria-pressed={showWelcomeWindow}
+        >
+          Portfolio
+        </button>
       </div>
       <div className="start-menu">Developer | Designer</div>
     </div>

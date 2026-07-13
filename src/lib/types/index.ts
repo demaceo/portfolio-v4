@@ -129,6 +129,7 @@ export interface ModalActions {
     setSelectedServiceId: (id: string | null) => void;
     setSelectedProjectId: (id: number | null) => void;
     toggleContactForm: () => void;
+    toggleWelcomeWindow: () => void;
     closeAllModals: () => void;
 }
 

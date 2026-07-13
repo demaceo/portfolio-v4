@@ -68,6 +68,10 @@ export function useModalState() {
         }));
     }, []);
 
+    const toggleWelcomeWindow = useCallback(() => {
+        setModalState(prev => ({ ...prev, showWelcomeWindow: !prev.showWelcomeWindow }));
+    }, []);
+
     const closeAllModals = useCallback(() => {
         setModalState(prev => ({
             ...prev,
@@ -94,6 +98,7 @@ export function useModalState() {
         setSelectedServiceId,
         setSelectedProjectId,
         toggleContactForm,
+        toggleWelcomeWindow,
         closeAllModals,
     };
 

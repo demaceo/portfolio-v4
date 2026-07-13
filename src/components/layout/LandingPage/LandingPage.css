@@ -504,6 +504,8 @@
 .app-tab {
   padding: 2px 8px;
   font-size: 10px;
+  font-family: inherit;
+  color: #3b3a3a;
   border: 1px solid #3b3a3a;
   background: #ffffff;
   cursor: pointer;
