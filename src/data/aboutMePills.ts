@@ -2,43 +2,39 @@ import { AboutMePill } from "@/lib/types";
 
 export const aboutMePills: AboutMePill[] = [
     {
-        label: "Goal-Oriented Achiever",
+        label: "Solo Full-Stack Shipper",
         tooltip:
-            "Driven by exceeding expectations with excellent follow-through on tasks and commitments.",
-        icon: "/icons/about/IPS.png",
+            "Sole engineer, designer, and product owner across 5 production apps — civic tech, privacy AI, PropTech, spatial AI, and real-time translation — shipped within a single 12-month stretch.",
     },
     {
-        label: "Intellectually Curious",
-        tooltip: "Creative and experimental, embracing new experiences and continuous learning opportunities.",
-        icon: "/icons/about/AL.png",
-    },
-    {
-        label: "Cooperative Team Player",
+        label: "Security-First Architect",
         tooltip:
-            "Values social harmony, seeks common ground, and builds collaborative relationships.",
-        icon: "/icons/about/EC.png",    
+            "Verified Firebase tokens directly against Google's JWKS endpoint instead of the Admin SDK, and built an on-device AES-256-GCM vault so raw personal data never leaves the phone.",
     },
     {
-        label: "Patient & Resilient",
+        label: "AI Systems Integrator",
         tooltip:
-            "Highly tolerant of frustrations, calm under pressure, and accepting of challenges and setbacks.",
-        icon: "/icons/about/AR.png",
+            "Shipped real-time Gemini streaming, an ElevenLabs voice pipeline, and dual-key failover with rate limiting — production AI, not a demo wrapper.",
     },
     {
-        label: "Service-Oriented Mindset",
+        label: "Compliance-Minded Builder",
         tooltip:
-            "Naturally accommodating with a strong desire to help others and contribute meaningfully to team success.",
-        icon: "/icons/about/TC.png",
+            "Wrote the privacy policy, security policy, terms of service, and data-deletion docs myself — GDPR/CCPA readiness shipped alongside the feature, not after a legal review.",
     },
     {
-        label: "Motivated Self-Starter",
+        label: "Mentor & Educator",
         tooltip:
-            "Possesses inner drive and commitment to achieving goals while maintaining high personal standards.",
-        icon: "/icons/about/PDI.png",
+            "Taught full-stack JavaScript as a bootcamp TA and ran 1:1 mentoring, mock interviews, and code reviews for Turing School alumni for over three years.",
     },
     {
-        label: "& more...",
-        tooltip: "click to learn more!",
+        label: "Public Interest Technologist",
+        tooltip:
+            "Featured in a Roadtrip Nation documentary on public interest tech and served as an SXSW EDU 2025 panelist on youth, technology, and media.",
         link: "https://roadtripnation.com/roadtrip/tech-for-us-documentary",
+    },
+    {
+        label: "Production-Grade Craftsman",
+        tooltip:
+            "Strict TypeScript, CI-gated pipelines (lint → typecheck → test → secret scan), and pre-commit hooks by default — across every shipped project, not just the polished ones.",
     },
 ];

@@ -233,6 +233,19 @@
 
 /* ── Profile highlights ───────────────────────────────── */
 
+.aboutCredibilityStrip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -0.1rem 0 0.15rem;
+}
+
+.aboutCredibilityNote {
+  font-size: 0.72rem;
+  color: var(--about-faint);
+}
+
 .aboutHighlightGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

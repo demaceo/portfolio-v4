@@ -15,38 +15,39 @@ interface AboutAppViewProps {
 
 // "I build ___" hero — see codepenz's scroll-timeline-word-highlight for the
 // underlying CSS mechanism (animation-timeline: view()). Words are pulled
-// from the actual services/project domains, not the pen's placeholders.
+// from the actual shipped-project domains (Pinpoint, Payback, RentHarbor,
+// Feng Shui, Yap United), not generic category nouns.
 const ABOUT_HERO_WORDS = [
-  "Websites",
+  "Civic Platforms",
+  "Privacy Systems",
+  "AI Pipelines",
+  "3D Experiences",
+  "Voice Interfaces",
+  "Realtime Apps",
+  "Secure APIs",
   "Mobile Apps",
-  "APIs",
-  "Dashboards",
-  "Pipelines",
-  "Platforms",
-  "Systems",
-  "Experiences",
+  "Design Systems",
   "Automations",
   "Products",
-  "Interfaces",
 ];
 const ABOUT_HERO_START_INDEX = 5;
 
 const profileHighlights = [
   {
-    label: "Core Role",
-    value: "Product-minded software engineer and UI-focused builder",
+    label: "Shipped Track Record",
+    value: "5 production apps, solo — civic tech, privacy AI, PropTech, spatial AI, real-time voice — in 12 months.",
   },
   {
-    label: "Operating Mode",
-    value: "Calm execution, high ownership, and strong follow-through",
+    label: "Signature Engineering Move",
+    value: "Verified Firebase tokens via Google's JWKS directly — no Admin SDK, no exposed service account.",
   },
   {
-    label: "Team Value",
-    value: "Bridges strategy, design, and implementation",
+    label: "Full-Stack Ownership",
+    value: "Architecture, security, compliance docs, and 3D graphics — end to end, not handed off.",
   },
   {
-    label: "Primary Focus",
-    value: "Human-centered systems with measurable product outcomes",
+    label: "Public Recognition",
+    value: "Featured in a PBS documentary on public interest tech; SXSW EDU 2025 panelist.",
   },
 ];
 
@@ -54,25 +55,25 @@ const collaborationSections = [
   {
     title: "How I Think",
     points: [
-      "I break complex problems into practical delivery steps.",
-      "I stay focused on user outcomes, not just feature output.",
-      "I move between detail and big picture without losing momentum.",
+      "I look for the constraint that actually breaks first — a rate limit, a token budget, a background task getting killed — before I reach for a clever solution.",
+      "I treat security and compliance as design inputs, not cleanup: an on-device AES-256-GCM vault and JWKS-based auth were both scoped in from day one, not bolted on after an incident.",
+      "I'd rather ship the smaller, correct architecture than the impressive one.",
     ],
   },
   {
     title: "How I Work",
     points: [
-      "I prefer clear constraints, clean tradeoffs, and accountable execution.",
-      "I communicate early when risk appears, then propose options with impact.",
-      "I prioritize maintainable systems that teams can extend confidently.",
+      "I've been the sole engineer, designer, and product owner on 5 shipped apps at once — I close the loop myself instead of waiting on a hand-off.",
+      "I write the deployment runbook and the compliance doc in the same sprint as the feature, not after someone asks where they are.",
+      "I default to typed, tested, CI-gated code — strict TypeScript, GitHub Actions, pre-commit hooks — so \"it works on my machine\" isn't a phase I pass through.",
     ],
   },
   {
     title: "How I Collaborate",
     points: [
-      "I work best in cooperative teams with direct, respectful feedback.",
-      "I default to alignment through context, examples, and shared language.",
-      "I balance speed and quality so decisions remain durable over time.",
+      "I hand off systems other engineers can extend without a walkthrough — documented APIs, Postman collections, and architecture diagrams included.",
+      "I mentor deliberately: years of 1:1 code reviews and mock interviews for bootcamp grads, not just filling in when a team needed an extra reviewer.",
+      "I say the risk out loud early, then bring options — not just a problem — because a team that trusts the flag will trust the fix.",
     ],
   },
 ];
@@ -254,8 +255,18 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
           <p className={styles.aboutEyebrow}>Profile</p>
           <h2 className={styles.aboutChapterTitle}>Hello, I&apos;m Demaceo Vincent</h2>
           <p className={styles.aboutLede}>
-            Software Engineer, Designer, and systems-minded problem solver.
+            Full-stack engineer who ships solo, fast, and end-to-end — from civic
+            platforms to privacy-first AI tools.
           </p>
+          <div className={styles.aboutCredibilityStrip}>
+            <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgePbs}`}>
+              PBS Documentary
+            </span>
+            <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgeSxsw}`}>
+              SXSW EDU 2025
+            </span>
+            <span className={styles.aboutCredibilityNote}>— see Featured chapter</span>
+          </div>
           <div className={styles.aboutHighlightGrid}>
             {profileHighlights.map((item) => (
               <article key={item.label} className={styles.aboutHighlightCard}>
