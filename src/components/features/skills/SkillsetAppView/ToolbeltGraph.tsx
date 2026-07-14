@@ -3,23 +3,32 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { buildToolbeltTree, type ToolbeltToolDatum, type ToolbeltTreeNode } from "@/lib/utils/toolbeltTree";
+import { buildToolUsageIndex } from "@/lib/utils/toolUsage";
+import { pushOverlay, popOverlay, isTopmostOverlay } from "@/lib/utils/overlayStack";
+import type { Service, Project } from "@/lib/types";
 import styles from "./ToolbeltGraph.module.css";
 
 interface ToolbeltGraphProps {
   tools: ToolbeltToolDatum[];
   orderedCategories: string[];
   signatureStack: string[];
+  services: Service[];
+  projects: Project[];
   /** Whether the Toolbelt tab is currently shown. The graph only lays out /
    *  simulates while visible; hidden it pauses to spare CPU on the Services tab. */
   active: boolean;
+  /** Jumps the Services tab to the given service — wired up from a tool's
+   *  "used in" chip in the details card. */
+  onSelectService: (serviceId: string) => void;
 }
 
 interface SimNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
+  category: string;
   depth: number;
   rootIndex: number;
   hasChildren: boolean;
@@ -59,10 +68,18 @@ function truncateLabel(name: string, depth: number): string {
 interface NodeDatum {
   id: string;
   name: string;
+  category: string;
   depth: number;
   rootIndex: number;
   hasChildren: boolean;
   isSignature?: boolean;
+  icon?: IconDefinition;
+}
+
+interface SelectedTool {
+  id: string;
+  name: string;
+  category: string;
   icon?: IconDefinition;
 }
 
@@ -78,6 +95,7 @@ function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
     nodes.push({
       id,
       name: item.name,
+      category: path[0],
       depth,
       rootIndex,
       hasChildren: Boolean(item.children?.length),
@@ -177,10 +195,14 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   tools,
   orderedCategories,
   signatureStack,
+  services,
+  projects,
   active,
+  onSelectService,
 }) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
   const linkLayerRef = useRef<d3.Selection<SVGGElement, unknown, null, undefined> | null>(null);
@@ -195,6 +217,8 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   const [collapsed, setCollapsed] = useState<Set<string>>(
     () => new Set(buildToolbeltTree(tools, orderedCategories, signatureStack).map((root) => root.name))
   );
+  const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null);
+  const toolUsage = useMemo(() => buildToolUsageIndex(services, projects), [services, projects]);
   // Read synchronously so there is no post-mount state flip (which used to force
   // an extra full rebuild).
   const [prefersReducedMotion] = useState(
@@ -219,6 +243,35 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     };
   }, []);
 
+  // A new search invalidates whatever the graph looked like when the card was
+  // opened, so drop it rather than leave a details card open for a tool that
+  // may no longer be in view.
+  useEffect(() => {
+    setSelectedTool(null);
+  }, [toolQuery]);
+
+  // Esc closes the details card; opening it moves focus to its close button
+  // so keyboard/screen-reader users land somewhere sensible. Registered on
+  // the same overlayStack the enclosing AppView uses for its own Escape
+  // handler — otherwise both fire on one Escape press and closing the card
+  // closes the whole Skillset window with it.
+  useEffect(() => {
+    if (!selectedTool) return;
+    const overlayId = Symbol("toolbelt-tool-card");
+    pushOverlay(overlayId);
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isTopmostOverlay(overlayId)) {
+        setSelectedTool(null);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      popOverlay(overlayId);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [selectedTool]);
+
   const filteredTools = useMemo(() => {
     const q = toolQuery.trim().toLowerCase();
     if (!q) return tools;
@@ -231,6 +284,11 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     () => buildToolbeltTree(filteredTools, orderedCategories, signatureStack),
     [filteredTools, orderedCategories, signatureStack]
   );
+
+  const allExpanded = tree.length > 0 && collapsed.size === 0;
+  const toggleAllCategories = useCallback(() => {
+    setCollapsed((prev) => (prev.size === 0 ? new Set(tree.map((root) => root.name)) : new Set()));
+  }, [tree]);
 
   const isSearching = toolQuery.trim().length > 0;
   // Categories with zero matches are already absent from `tree` (buildToolbeltTree
@@ -311,8 +369,16 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     const nodeLayer = nodeLayerRef.current;
     if (!svgEl || !wrapEl || !simulation || !linkLayer || !nodeLayer) return;
 
-    const width = wrapEl.clientWidth;
-    const height = wrapEl.clientHeight;
+    // Measured from the <svg> itself, not the .stage wrapper: .stage also
+    // contains the search row and legend above it, so its clientHeight is
+    // taller than the svg's actual flex:1 share. Sizing the viewBox off the
+    // wrapper made the viewBox aspect ratio not match the svg's own — the
+    // browser's default preserveAspectRatio then uniformly downscaled and
+    // pillarboxed everything to fit (observed ~72% of true size on a phone
+    // viewport), silently shrinking every node's real touch target along
+    // with it.
+    const width = svgEl.clientWidth;
+    const height = svgEl.clientHeight;
     // Hidden panel (or not yet laid out) — pause the sim and wait for the
     // ResizeObserver / `active` to report real dimensions.
     if (!active || width === 0 || height === 0) {
@@ -384,25 +450,38 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       .data(nodes, (d) => d.id)
       .join((enter) => {
         const g = enter.append("g").attr("class", styles.node).style("cursor", "pointer");
-        g.append("circle");
+        // Larger invisible circle under the visible one so small leaf nodes
+        // still meet a ~44px touch target without changing how dense the
+        // graph looks.
+        g.append("circle").attr("class", styles.hitArea);
+        g.append("circle").attr("class", styles.mainCircle);
         g.append("svg").attr("class", styles.nodeIcon).append("path");
         g.append("title");
         g.append("text").attr("text-anchor", "middle");
 
-        g.on("click", (_event, d) => {
-          if (d.hasChildren) toggleCategory(d.id);
-        });
+        const activate = (d: SimNode) => {
+          if (d.hasChildren) {
+            toggleCategory(d.id);
+          } else {
+            setSelectedTool({ id: d.id, name: d.name, category: d.category, icon: d.icon });
+          }
+        };
+
+        g.on("click", (_event, d) => activate(d));
         g.on("keydown", (event, d) => {
-          if (!d.hasChildren) return;
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
-            toggleCategory(d.id);
+            activate(d);
           }
         });
 
         g.call(
           d3
             .drag<SVGGElement, SimNode>()
+            // Without a click-distance threshold, any sub-pixel finger
+            // movement during a tap is captured as a drag and swallows the
+            // click — the default is 0px, which is unusable on touchscreens.
+            .clickDistance(6)
             .on("start", (event, d) => {
               if (!prefersReducedMotion && !event.active) simulation.alphaTarget(0.3).restart();
               d.fx = d.x;
@@ -427,18 +506,25 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     nodeSel.classed(styles.signature, (d) => Boolean(d.isSignature));
     nodeSel.classed(styles.hasHiddenChildren, (d) => effectiveCollapsed.has(d.id));
 
-    // Category nodes are keyboard-operable buttons; leaves stay non-focusable
-    // (exposed via their <title>). aria-expanded refreshes on every update.
+    // Every node is a keyboard-operable button now: category roots toggle
+    // expand/collapse, leaves open the details card. aria-expanded only
+    // applies to roots; aria-expanded refreshes on every update.
     nodeSel
-      .attr("tabindex", (d) => (d.hasChildren ? 0 : null))
-      .attr("role", (d) => (d.hasChildren ? "button" : null))
-      .attr("aria-label", (d) => (d.hasChildren ? d.name : null))
+      .attr("tabindex", 0)
+      .attr("role", "button")
+      .attr("aria-label", (d) => (d.hasChildren ? d.name : `${d.name}, show details`))
       .attr("aria-expanded", (d) =>
         d.hasChildren ? String(!effectiveCollapsed.has(d.id)) : null
       );
 
+    // Larger, invisible circle so leaf nodes get a ~44px tap target without
+    // growing visually — see the comment on `.hitArea` in the enter block.
     nodeSel
-      .select<SVGCircleElement>("circle")
+      .select<SVGCircleElement>(`.${styles.hitArea}`)
+      .attr("r", (d) => Math.max(radiusFor(d.depth), 22));
+
+    nodeSel
+      .select<SVGCircleElement>(`.${styles.mainCircle}`)
       .attr("r", (d) => radiusFor(d.depth))
       .attr("fill", (d) => {
         const base = d3.hsl(rootColor(d.rootIndex, tree.length));
@@ -470,20 +556,43 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     simulation.alpha(0.3).restart();
   }, [tree, effectiveCollapsed, resizeTick, active, prefersReducedMotion, toggleCategory]);
 
+  // Ring-highlight the selected leaf. Kept separate from the layout effect
+  // above so opening the details card never re-heats/re-jiggles the graph.
+  useEffect(() => {
+    nodeSelRef.current?.classed(styles.selected, (d) => d.id === selectedTool?.id);
+  }, [selectedTool]);
+
+  const usage = selectedTool ? toolUsage.get(selectedTool.name) : undefined;
+
   return (
     <div ref={wrapRef} className={styles.stage}>
-      <label className={styles.search}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} aria-hidden="true" />
-        <input
-          type="search"
-          value={toolQuery}
-          onChange={(event) => setToolQuery(event.target.value)}
-          placeholder="Search tools or categories"
-          aria-label="Search tools or categories"
-        />
-      </label>
+      <div className={styles.controlsRow}>
+        <label className={styles.search}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} aria-hidden="true" />
+          <input
+            type="search"
+            value={toolQuery}
+            onChange={(event) => setToolQuery(event.target.value)}
+            placeholder="Search tools or categories"
+            aria-label="Search tools or categories"
+          />
+        </label>
 
-      <p className={styles.hint}>Click a category to expand or collapse it. Drag any node to reposition it.</p>
+        {!isSearching && tree.length > 0 && (
+          <button
+            type="button"
+            className={styles.expandToggle}
+            onClick={toggleAllCategories}
+            aria-pressed={allExpanded}
+          >
+            {allExpanded ? "Collapse all" : "Expand all"}
+          </button>
+        )}
+      </div>
+
+      <p className={styles.hint}>
+        Click a category to expand or collapse it. Click a tool for details. Drag any node to reposition it.
+      </p>
 
       <div className={styles.legend}>
         {tree.map((root, i) => (
@@ -504,6 +613,72 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
         role="group"
         aria-label="Toolbelt skills graph"
       />
+
+      {selectedTool && (
+        <div className={styles.toolCard} role="dialog" aria-label={`${selectedTool.name} details`}>
+          <div className={styles.toolCardHeader}>
+            {selectedTool.icon && (
+              <span className={styles.toolCardIcon} aria-hidden="true">
+                <FontAwesomeIcon icon={selectedTool.icon} />
+              </span>
+            )}
+            <div className={styles.toolCardHeading}>
+              <span className={styles.toolCardTitle}>{selectedTool.name}</span>
+              <span className={styles.toolCardCategory}>{selectedTool.category}</span>
+            </div>
+            <button
+              type="button"
+              ref={closeButtonRef}
+              className={styles.toolCardClose}
+              onClick={() => setSelectedTool(null)}
+              aria-label="Close tool details"
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+          </div>
+
+          {usage?.services.length ? (
+            <div className={styles.toolCardSection}>
+              <span className={styles.toolCardSectionLabel}>Used in</span>
+              <div className={styles.toolCardChips}>
+                {usage.services.map((service) => (
+                  <button
+                    key={service.id}
+                    type="button"
+                    className={styles.toolCardChip}
+                    onClick={() => onSelectService(service.id)}
+                  >
+                    {service.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {usage?.projects.length ? (
+            <div className={styles.toolCardSection}>
+              <span className={styles.toolCardSectionLabel}>Shipped in</span>
+              <div className={styles.toolCardChips}>
+                {usage.projects.map((project) => (
+                  <a
+                    key={project.id}
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.toolCardChip}
+                  >
+                    {project.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {!usage?.services.length && !usage?.projects.length && (
+            <p className={styles.toolCardEmpty}>Part of the {selectedTool.category} toolkit.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import services from "@/data/services";
+import projects from "@/data/projects";
 import tools from "@/data/toolbelt";
 import { TECH_ICON_MAP, TECH_ICON_FALLBACK } from "@/lib/constants/techIcons";
 import { ModalProps, type Service } from "@/lib/types";
@@ -130,6 +131,18 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
     setServiceIndex(index);
     setPanelIndex(0);
     setVDirection(1);
+  };
+
+  // Wired up to a tool's "used in" chip in the Toolbelt details card — jumps
+  // to that service on the Services tab, even if it's already the active one.
+  const handleSelectServiceFromTool = (serviceId: string) => {
+    const index = services.findIndex((s) => s.id === serviceId);
+    if (index === -1) return;
+    setDirection(index > serviceIndex ? 1 : index < serviceIndex ? -1 : 1);
+    setServiceIndex(index);
+    setPanelIndex(0);
+    setVDirection(1);
+    setActiveTab("services");
   };
 
   const navigatePanel = (dir: 1 | -1) => {
@@ -429,7 +442,10 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
             tools={tools}
             orderedCategories={orderedCategories}
             signatureStack={signatureStack}
+            services={services}
+            projects={projects}
             active={activeTab === "tools"}
+            onSelectService={handleSelectServiceFromTool}
           />
         </section>
       </div>
