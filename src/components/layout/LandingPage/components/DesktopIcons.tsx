@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type React from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DesktopRain from "./DesktopRain";
 import { DESKTOP_APPS } from "@/lib/constants/desktopApps";
@@ -46,6 +46,22 @@ const RAIL_PATH = Array.from({ length: 21 }, (_, i) => {
   const x = 8 + 87 * easeRound(t);
   return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
 }).join(" ");
+
+// Shared by both the row layout and the rail tick markers below, so the two
+// stay in lockstep: a tick rides the exact (x, y) point on RAIL_PATH that its
+// row's curve/scale/opacity were derived from, instead of drifting out of
+// sync with a second copy of the same math.
+function getRowMetrics(index: number, active: number, dragY: number) {
+  const raw = index - active;
+  const continuous = raw + dragY / ROW_HEIGHT;
+  const translateY = continuous * ROW_HEIGHT;
+  const abs = clamp(Math.abs(continuous), 0, CURVE_RANGE);
+  const t = abs / CURVE_RANGE;
+  const curveX = CURVE_AMPLITUDE * (1 - easeRound(t));
+  const scale = 1 - 0.4 * t;
+  const opacity = clamp(1 - 0.65 * t, 0.35, 1);
+  return { continuous, translateY, t, curveX, scale, opacity };
+}
 
 /**
  * A tailored take on the "Curved Activity Picker" codepen: the desktop
@@ -309,22 +325,43 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
             d={RAIL_PATH}
             fill="none"
             stroke="currentColor"
-            strokeWidth={1}
+            strokeWidth={1.5}
+            strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
           />
         </svg>
 
+        {/* Per-app position markers riding the same curve as the rows
+            themselves (see getRowMetrics), so the rail reads as a live "N
+            items, you are here" indicator instead of pure decoration. */}
+        <div className="desktop-wheel-rail-ticks" aria-hidden="true">
+          {DESKTOP_APPS.map((app, index) => {
+            const { continuous, t } = getRowMetrics(index, active, dragY);
+            const railX = 8 + 87 * easeRound(t);
+            const railY = 50 + Math.sign(continuous) * t * 50;
+            const isActive = index === active;
+            return (
+              <span
+                key={app.name}
+                className={`desktop-wheel-tick${isActive ? " is-active" : ""}`}
+                style={
+                  {
+                    left: `${railX}%`,
+                    top: `${railY}%`,
+                    "--tick-accent": app.color,
+                    transition:
+                      isDragging || isWheeling || prefersReducedMotion
+                        ? "none"
+                        : "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease",
+                  } as CSSProperties
+                }
+              />
+            );
+          })}
+        </div>
+
         {DESKTOP_APPS.map((app, index) => {
-          const raw = index - active;
-          const continuous = raw + dragY / ROW_HEIGHT;
-          const translateY = continuous * ROW_HEIGHT;
-          const abs = clamp(Math.abs(continuous), 0, CURVE_RANGE);
-          const t = abs / CURVE_RANGE;
-          // Inverted from a plain easeRound(t): full inward swing at t=0
-          // (active), settling back to the edge baseline as t nears 1.
-          const curveX = CURVE_AMPLITUDE * (1 - easeRound(t));
-          const scale = 1 - 0.4 * t;
-          const opacity = clamp(1 - 0.65 * t, 0.35, 1);
+          const { translateY, t, curveX, opacity, scale } = getRowMetrics(index, active, dragY);
           const isActive = index === active;
           const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
           const hasNotification = app.name === "Contact" && showContactNotification;
@@ -340,29 +377,21 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               // tech by folding it into the option's accessible name.
               aria-label={hasNotification ? `${app.name}, new notification` : undefined}
               className="desktop-wheel-row"
-              style={{
-                transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
-                opacity,
-                transition:
-                  isDragging || isWheeling || prefersReducedMotion
-                    ? "none"
-                    : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
-              }}
+              style={
+                {
+                  transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
+                  opacity,
+                  "--app-accent": app.color,
+                  transition:
+                    isDragging || isWheeling || prefersReducedMotion
+                      ? "none"
+                      : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
+                } as CSSProperties
+              }
               onClick={() => pickApp(index)}
               onMouseEnter={() => maybePreloadByPath(app.path)}
               onTouchStart={() => maybePreloadByPath(app.path)}
             >
-              {isActive ? (
-                <span className="desktop-wheel-label-active">{app.name}</span>
-              ) : (
-                <span
-                  className="desktop-wheel-label"
-                  style={{ fontSize: `${16 + 6 * (1 - t)}px` }}
-                >
-                  {app.name}
-                </span>
-              )}
-
               <div className="icon-image" style={{ width: iconSize, height: iconSize }}>
                 <div className="icon-glass">
                   <div className="icon-glass-distortion" />
@@ -378,6 +407,17 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
                   </div>
                 )}
               </div>
+
+              {isActive ? (
+                <span className="desktop-wheel-label-active">{app.name}</span>
+              ) : (
+                <span
+                  className="desktop-wheel-label"
+                  style={{ fontSize: `${16 + 6 * (1 - t)}px` }}
+                >
+                  {app.name}
+                </span>
+              )}
             </div>
           );
         })}
