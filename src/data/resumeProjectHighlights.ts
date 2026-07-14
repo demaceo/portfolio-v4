@@ -423,7 +423,7 @@ Supabase Platform
   },
   {
     key: "yap-united",
-    name: "Yap United",
+    name: "The Yap App",
     subtitle: "Real-Time Translation App",
     stack: [
       "React Native 0.81",

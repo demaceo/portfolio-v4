@@ -4,7 +4,7 @@ const projectData: Project[] = [
   {
     id: 4,
     slug: "yap-united",
-    name: "Yap United",
+    name: "The Yap App",
     yearRange: "2025-2026",
     description:
       "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
@@ -123,6 +123,7 @@ const projectData: Project[] = [
     iconWidth: 240,
     iconHeight: 240,
     iconScale: 1.0,
+    archived: true,
   },
   {
     id: 3,
@@ -182,7 +183,6 @@ const projectData: Project[] = [
     iconScale: 1.15,
     image:
       "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXRhZ3h4aTM5eWgyMjdscWY3bXJwaGQybHRiMnM0YjVhYW5vcHU0OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sizoIiglMpC57qXlaq/giphy.gif",
-    archived: true,
   },
   {
     id: 11,
