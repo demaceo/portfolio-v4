@@ -54,6 +54,10 @@ interface Tier {
   rotMax: number;
   cardHMin: number;
   cardHMax: number;
+  /** Fraction of the measured stage height a card is allowed to claim before
+   *  hitting cardHMax — higher on mobile so cards lean into more of the
+   *  available vertical budget than on desktop. */
+  heightRatio: number;
   perspective: number;
 }
 
@@ -65,9 +69,9 @@ interface Tier {
  * stage itself is bounded inside the app's mac-screen bezel.
  */
 const TIERS: Tier[] = [
-  { minWidth: 900, dMax: 5, rotMax: 12, cardHMin: 240, cardHMax: 320, perspective: 1400 },
-  { minWidth: 600, dMax: 3, rotMax: 10, cardHMin: 200, cardHMax: 260, perspective: 1100 },
-  { minWidth: 0, dMax: 2, rotMax: 7, cardHMin: 150, cardHMax: 190, perspective: 800 },
+  { minWidth: 900, dMax: 5, rotMax: 12, cardHMin: 300, cardHMax: 460, heightRatio: 0.68, perspective: 1700 },
+  { minWidth: 600, dMax: 3, rotMax: 10, cardHMin: 260, cardHMax: 400, heightRatio: 0.7, perspective: 1500 },
+  { minWidth: 0, dMax: 2, rotMax: 7, cardHMin: 200, cardHMax: 420, heightRatio: 0.74, perspective: 1000 },
 ];
 
 function pickTier(stageWidth: number): Tier {
@@ -104,14 +108,14 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
 
   const tier = pickTier(stageSize.width);
   const dMax = Math.min(tier.dMax, Math.floor(projects.length / 2));
-  const cardH = clampNum(tier.cardHMin, stageSize.height * 0.68, tier.cardHMax);
+  const cardH = clampNum(tier.cardHMin, stageSize.height * tier.heightRatio, tier.cardHMax);
   const cardW = cardH * 0.66;
   const step = clampNum(
     cardW * 0.34,
     (stageSize.width * 0.92 - cardW) / (2 * Math.max(dMax, 1)),
     cardW * 0.95
   );
-  const cornerSize = clampNum(14, cardW * 0.14, 28);
+  const cornerSize = clampNum(16, cardW * 0.14, 44);
 
   const goTo = (index: number, focus = false) => {
     const next = wrapIndex(index, projects.length);
@@ -311,6 +315,7 @@ const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
               heroImageClassName={styles.heroImg}
               faIconClassName={styles.faIcon}
               sizes="(max-width: 640px) 55vw, 260px"
+              applyIconScale
             />
           </motion.div>
           <div className={styles.content}>

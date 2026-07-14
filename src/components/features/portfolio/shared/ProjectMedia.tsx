@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Project } from "@/lib/types";
 import {
@@ -17,6 +18,10 @@ interface ProjectMediaProps {
   /** Applied to the FontAwesome fallback wrapper when neither image is usable. */
   faIconClassName?: string;
   sizes?: string;
+  /** When true, sets a `--icon-scale` CSS var (from `project.iconScale`) on the
+   *  icon image so the caller's CSS can size icons per-project. Opt-in so
+   *  other callers (e.g. the detail modal) are unaffected by default. */
+  applyIconScale?: boolean;
 }
 
 /**
@@ -30,6 +35,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   heroImageClassName = "",
   faIconClassName = "",
   sizes = "(max-width: 640px) 100vw, 42vw",
+  applyIconScale = false,
 }) => {
   const iconIsImage = isImageIcon(project.icon);
   const imageStr = typeof project.image === "string" ? project.image : undefined;
@@ -39,10 +45,15 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
       <Image
         src={project.icon as string}
         alt={`${project.name} icon`}
-        width={200}
-        height={200}
+        width={project.iconWidth ?? 200}
+        height={project.iconHeight ?? 200}
         className={iconImageClassName}
         loading="lazy"
+        style={
+          applyIconScale
+            ? ({ "--icon-scale": project.iconScale ?? 1 } as CSSProperties)
+            : undefined
+        }
       />
     );
   }
