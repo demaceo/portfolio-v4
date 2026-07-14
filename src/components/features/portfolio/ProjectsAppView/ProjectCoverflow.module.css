@@ -133,7 +133,7 @@
 }
 
 .iconImg {
-  width: 46%;
+  width: min(92%, calc(54% * var(--icon-scale, 1)));
   height: auto;
   object-fit: contain;
 }

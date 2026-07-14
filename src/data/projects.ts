@@ -4,7 +4,7 @@ const projectData: Project[] = [
   {
     id: 4,
     slug: "yap-united",
-    name: "Yap United",
+    name: "The Yap App",
     yearRange: "2025-2026",
     description:
       "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
@@ -22,6 +22,9 @@ const projectData: Project[] = [
       "Geo-zoned chat with moderation controls and per-user voice profiles.",
     ],
     icon: "/icons/projects/yap.png",
+    iconWidth: 1024,
+    iconHeight: 1536,
+    iconScale: 1.48,
   },
   {
     id: 16,
@@ -38,6 +41,9 @@ const projectData: Project[] = [
       "Claude-scripted, ElevenLabs-voiced podcast generation pipeline for any roundtable part.",
     ],
     icon: "/icons/projects/reckoning.png",
+    iconWidth: 1024,
+    iconHeight: 1024,
+    iconScale: 1.45,
   },
   {
     id: 0,
@@ -55,6 +61,9 @@ const projectData: Project[] = [
       "Gemini SSE chat and ElevenLabs voice responses for AI official simulations.",
     ],
     icon: "/icons/projects/pinpoint.png",
+    iconWidth: 1024,
+    iconHeight: 1536,
+    iconScale: 1.5,
   },
   {
     id: 17,
@@ -71,6 +80,9 @@ const projectData: Project[] = [
       "Field-level encryption via Cloud KMS envelope encryption for sensitive profile data.",
     ],
     icon: "/icons/projects/stlmnt.png",
+    iconWidth: 1024,
+    iconHeight: 1024,
+    iconScale: 1.3,
   },
   {
     id: 1,
@@ -88,6 +100,9 @@ const projectData: Project[] = [
       "135-category analytics model with GDPR/CCPA-ready compliance workflows.",
     ],
     icon: "/icons/projects/payback.png",
+    iconWidth: 1024,
+    iconHeight: 1024,
+    iconScale: 1.08,
   },
   {
     id: 2,
@@ -105,6 +120,10 @@ const projectData: Project[] = [
       "Server-side Gemini proxy via Supabase Edge Functions.",
     ],
     icon: "/icons/projects/rentharbor.png",
+    iconWidth: 240,
+    iconHeight: 240,
+    iconScale: 1.0,
+    archived: true,
   },
   {
     id: 3,
@@ -122,6 +141,9 @@ const projectData: Project[] = [
       "Animated AI rearrangement previews with score comparisons before apply.",
     ],
     icon: "/icons/projects/fengshui.png",
+    iconWidth: 1536,
+    iconHeight: 1024,
+    iconScale: 1.55,
   },
   {
     id: 8,
@@ -156,9 +178,11 @@ const projectData: Project[] = [
       "Personalized career guidance and strategic professional development platform.",
     link: "https://unmasked-coaching.com",
     icon: "/icons/projects/unmasked-logo.png",
+    iconWidth: 1024,
+    iconHeight: 1024,
+    iconScale: 1.15,
     image:
       "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXRhZ3h4aTM5eWgyMjdscWY3bXJwaGQybHRiMnM0YjVhYW5vcHU0OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sizoIiglMpC57qXlaq/giphy.gif",
-    archived: true,
   },
   {
     id: 11,

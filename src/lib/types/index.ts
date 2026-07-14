@@ -20,6 +20,14 @@ export interface Project {
     stackPreview?: string[];
     deepDiveKey?: string;
     icon?: string;
+    /** Native pixel dimensions of `icon` when it's an image path — lets callers
+     *  reserve a correctly-shaped box instead of assuming square artwork. */
+    iconWidth?: number;
+    iconHeight?: number;
+    /** Multiplier on a caller's base icon size, to compensate for how much
+     *  each icon's own canvas is padded around its visible artwork. Only
+     *  applied by callers that opt in (see ProjectMedia's applyIconScale). */
+    iconScale?: number;
     type?: string;
     duration?: string;
     network?: string;

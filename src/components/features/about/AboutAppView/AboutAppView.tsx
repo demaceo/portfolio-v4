@@ -16,7 +16,7 @@ interface AboutAppViewProps {
 // "I build ___" hero — see codepenz's scroll-timeline-word-highlight for the
 // underlying CSS mechanism (animation-timeline: view()). Words are pulled
 // from the actual shipped-project domains (Pinpoint, Payback, RentHarbor,
-// Feng Shui, Yap United), not generic category nouns.
+// Feng Shui, The Yap App), not generic category nouns.
 const ABOUT_HERO_WORDS = [
   "Civic Platforms",
   "Privacy Systems",
