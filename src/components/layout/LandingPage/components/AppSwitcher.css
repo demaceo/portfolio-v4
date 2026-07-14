@@ -73,10 +73,18 @@
   border-radius: 16px;
   background: var(--noir-accent);
   box-shadow: 0 2px 8px var(--noir-accent-glow);
+  opacity: 1;
   transform: translateX(calc(var(--active-index) * 100%));
   transform-origin: var(--pill-origin, center);
-  transition: transform 0.4s cubic-bezier(1, 0, 0.4, 1);
+  transition: transform 0.4s cubic-bezier(1, 0, 0.4, 1), opacity 0.25s ease;
   z-index: 0;
+}
+
+/* No app is currently open (home/welcome screen) — fade the capsule out in
+   place rather than parking it on a default tab, since none is genuinely
+   active. Set on the fieldset from React once activeAppPath is null. */
+.app-switcher[data-idle]::after {
+  opacity: 0;
 }
 
 .app-switcher-option {
@@ -109,6 +117,15 @@
   transform: scale(0.92);
 }
 
+/* The radio input itself is visually hidden (see .app-switcher-input
+   below), so the focus ring is drawn on the label instead — matching the
+   outline/outline-offset every other interactive control in the app uses
+   on :focus-visible (.glass-tab, .glass-chip, menu items). */
+.app-switcher-option:has(.app-switcher-input:focus-visible) {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 2px;
+}
+
 .app-switcher-input {
   position: absolute;
   clip-path: inset(100%);
@@ -134,11 +151,17 @@
    left for the sliding capsule's own padding. Scoped through the parent
    option because LandingPage.css's ".icon-image" base rule (48px, 10px
    radius) ties this class on specificity, so cascade order alone can't be
-   trusted to pick this override. */
+   trusted to pick this override.
+   The ring gives each tab a permanent hint of its own DESKTOP_APPS color
+   (purple/gold/blue/red) regardless of active state — a safer way to surface
+   that per-app identity than tinting the active capsule itself, since a few
+   of those colors (Skillset's gold in particular) don't hold up as a
+   white-text background at this component's proven ~3:1 contrast. */
 .app-switcher-option .app-switcher-icon-image {
   width: 30px;
   height: 30px;
   border-radius: 999px;
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--app-accent, transparent) 45%, transparent);
 }
 
 .app-switcher-icon-image .icon-glass-content {
@@ -146,7 +169,7 @@
 }
 
 .app-switcher-label {
-  font-family: var(--font-secondary);
+  font-family: inherit;
   font-size: 10.5px;
   font-weight: 600;
   line-height: 1;
