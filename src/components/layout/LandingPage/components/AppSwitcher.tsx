@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type CSSProperties } from "react";
+import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DESKTOP_APPS } from "@/lib/constants/desktopApps";
 import { DISPLACEMENT_MAP } from "@/lib/constants/displacementMap";
@@ -8,6 +8,9 @@ import "./AppSwitcher.css";
 
 interface AppSwitcherProps {
   showContactNotification: boolean;
+  /** Path of whichever app is genuinely open right now (drives the active
+   *  tab), or null when the user is at the home/welcome screen. */
+  activeAppPath: string | null;
   handleAppClick: (path: string, isToggle?: boolean) => void;
   maybePreloadByPath: (path: string) => void;
 }
@@ -30,29 +33,41 @@ const PILL_FILTER_ID = "app-switcher-pill-glass-refraction";
  */
 const AppSwitcher: React.FC<AppSwitcherProps> = ({
   showContactNotification,
+  activeAppPath,
   handleAppClick,
   maybePreloadByPath,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // Derived from the real app state (not local tap-tracking) so the
+  // highlighted tab never goes stale: it reflects "nothing is open" on
+  // first load and again whenever the user closes back out to the home
+  // screen, instead of freezing on whichever tab was tapped last.
+  const activeIndex = DESKTOP_APPS.findIndex((app) => app.path === activeAppPath);
+  const hasActiveTab = activeIndex !== -1;
+
+  // The capsule's own position/slide-direction bookkeeping — kept pinned to
+  // the last real index while idle (no active tab) so it fades out in place
+  // instead of sliding to a default position first.
   const [previousIndex, setPreviousIndex] = useState(0);
+  const [capsuleIndex, setCapsuleIndex] = useState(Math.max(activeIndex, 0));
+  const lastActiveIndex = useRef(activeIndex);
 
-  const setVisualIndex = (index: number) => {
-    if (index === activeIndex) return;
-    setPreviousIndex(activeIndex);
-    setActiveIndex(index);
-  };
+  useEffect(() => {
+    if (activeIndex !== -1 && activeIndex !== lastActiveIndex.current) {
+      setPreviousIndex(capsuleIndex);
+      setCapsuleIndex(activeIndex);
+    }
+    if (activeIndex !== -1) lastActiveIndex.current = activeIndex;
+    // capsuleIndex intentionally excluded: it's the value being set here,
+    // re-running on its own change would fight this effect's own update.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex]);
 
-  // Fires on every tap, including a re-tap of the already-active option —
-  // native radios don't emit onChange for that case, and Contact (isToggle)
-  // needs a re-tap to close it, so the real app action lives only here, not
-  // in onChange (which would otherwise double-fire alongside this).
   const handleTap = (index: number) => {
-    setVisualIndex(index);
     const app = DESKTOP_APPS[index];
     handleAppClick(app.path, app.isToggle);
   };
 
-  const pillOrigin = activeIndex > previousIndex ? "left" : "right";
+  const pillOrigin = capsuleIndex > previousIndex ? "left" : "right";
 
   return (
     <div className="app-switcher-dock">
@@ -83,10 +98,11 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
 
       <fieldset
         className="app-switcher"
+        data-idle={hasActiveTab ? undefined : ""}
         style={
           {
             "--n-options": DESKTOP_APPS.length,
-            "--active-index": activeIndex,
+            "--active-index": capsuleIndex,
             "--pill-origin": pillOrigin,
             backdropFilter: `blur(8px) url(#${PILL_FILTER_ID}) saturate(150%)`,
             WebkitBackdropFilter: `blur(8px) saturate(150%)`,
@@ -110,7 +126,12 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
                 name="app-switcher"
                 className="app-switcher-input"
                 checked={isActive}
-                onChange={() => setVisualIndex(index)}
+                // onChange is a required no-op for the controlled `checked`
+                // prop; the real action lives only in onClick, since native
+                // radios don't emit onChange for a re-tap of the already-
+                // checked option, and Contact (isToggle) needs that re-tap
+                // to close it.
+                onChange={() => {}}
                 onClick={() => handleTap(index)}
               />
               <span className="app-switcher-sr-only">

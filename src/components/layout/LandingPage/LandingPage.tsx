@@ -32,6 +32,20 @@ const LandingPage = () => {
   // Initialize desktop with preloading
   // useDesktopInitialization();
 
+  // Whichever app is genuinely open right now, matched against DESKTOP_APPS'
+  // own path strings — the single source of truth AppSwitcher's active tab
+  // is derived from, instead of tracking taps locally and going stale once
+  // the user navigates back to the home screen by some other means.
+  const activeAppPath = modalState.showAboutMe
+    ? "/mindset"
+    : modalState.showSkillset
+    ? "/skillset"
+    : modalState.showProjects
+    ? "/projects"
+    : modalState.showContactForm
+    ? "/contact"
+    : null;
+
   return (
     <div className="macintosh-container">
       <FlyingBirds />
@@ -61,6 +75,7 @@ const LandingPage = () => {
 
         <AppSwitcher
           showContactNotification={modalState.showContactNotification}
+          activeAppPath={activeAppPath}
           handleAppClick={handleAppClick}
           maybePreloadByPath={maybePreloadByPath}
         />
