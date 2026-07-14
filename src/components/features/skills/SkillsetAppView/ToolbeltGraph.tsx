@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { buildToolbeltTree, type ToolbeltToolDatum, type ToolbeltTreeNode } from "@/lib/utils/toolbeltTree";
 import { buildToolUsageIndex } from "@/lib/utils/toolUsage";
@@ -186,7 +186,7 @@ function linkKey(d: SimLink): string {
  * free-simulated leaf children revealed on click.
  *
  * The simulation, layers and drag/tick handlers are created once on mount; data
- * changes (search, expand/collapse, resize) flow through an incremental update
+ * changes (expand/collapse, resize) flow through an incremental update
  * that reuses persistent SimNode objects — so existing nodes keep their
  * positions/velocities and only the changed nodes animate, instead of the whole
  * graph tearing down and re-heating on every keystroke.
@@ -213,7 +213,6 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   // reusing the same object across updates carries d3's mutated x/y/vx/vy over.
   const nodesRef = useRef(new Map<string, SimNode>());
 
-  const [toolQuery, setToolQuery] = useState("");
   const [collapsed, setCollapsed] = useState<Set<string>>(
     () => new Set(buildToolbeltTree(tools, orderedCategories, signatureStack).map((root) => root.name))
   );
@@ -243,13 +242,6 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     };
   }, []);
 
-  // A new search invalidates whatever the graph looked like when the card was
-  // opened, so drop it rather than leave a details card open for a tool that
-  // may no longer be in view.
-  useEffect(() => {
-    setSelectedTool(null);
-  }, [toolQuery]);
-
   // Esc closes the details card; opening it moves focus to its close button
   // so keyboard/screen-reader users land somewhere sensible. Registered on
   // the same overlayStack the enclosing AppView uses for its own Escape
@@ -272,32 +264,15 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     };
   }, [selectedTool]);
 
-  const filteredTools = useMemo(() => {
-    const q = toolQuery.trim().toLowerCase();
-    if (!q) return tools;
-    return tools.filter(
-      (t) => t.tooltip.toLowerCase().includes(q) || t.category.toLowerCase().includes(q)
-    );
-  }, [tools, toolQuery]);
-
   const tree = useMemo(
-    () => buildToolbeltTree(filteredTools, orderedCategories, signatureStack),
-    [filteredTools, orderedCategories, signatureStack]
+    () => buildToolbeltTree(tools, orderedCategories, signatureStack),
+    [tools, orderedCategories, signatureStack]
   );
 
   const allExpanded = tree.length > 0 && collapsed.size === 0;
   const toggleAllCategories = useCallback(() => {
     setCollapsed((prev) => (prev.size === 0 ? new Set(tree.map((root) => root.name)) : new Set()));
   }, [tree]);
-
-  const isSearching = toolQuery.trim().length > 0;
-  // Categories with zero matches are already absent from `tree` (buildToolbeltTree
-  // only creates roots for categories present in its input), so expanding
-  // everything currently in the tree is exactly "expand everything that matched."
-  const effectiveCollapsed = useMemo(
-    () => (isSearching ? new Set<string>() : collapsed),
-    [isSearching, collapsed]
-  );
 
   // Shared by pointer click and keyboard (Enter/Space) on category nodes.
   const toggleCategory = useCallback((id: string) => {
@@ -370,7 +345,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     if (!svgEl || !wrapEl || !simulation || !linkLayer || !nodeLayer) return;
 
     // Measured from the <svg> itself, not the .stage wrapper: .stage also
-    // contains the search row and legend above it, so its clientHeight is
+    // contains the controls row and hint above it, so its clientHeight is
     // taller than the svg's actual flex:1 share. Sizing the viewBox off the
     // wrapper made the viewBox aspect ratio not match the svg's own — the
     // browser's default preserveAspectRatio then uniformly downscaled and
@@ -391,7 +366,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     (simulation.force("y") as d3.ForceY<SimNode>).y(height / 2);
 
     const rootPositions = computeRootPositions(tree.length, width, height);
-    const { nodes: descriptors, links } = flatten(tree, effectiveCollapsed);
+    const { nodes: descriptors, links } = flatten(tree, collapsed);
 
     // Reconcile descriptors against persistent node objects.
     const map = nodesRef.current;
@@ -504,7 +479,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     nodeSelRef.current = nodeSel;
 
     nodeSel.classed(styles.signature, (d) => Boolean(d.isSignature));
-    nodeSel.classed(styles.hasHiddenChildren, (d) => effectiveCollapsed.has(d.id));
+    nodeSel.classed(styles.hasHiddenChildren, (d) => collapsed.has(d.id));
 
     // Every node is a keyboard-operable button now: category roots toggle
     // expand/collapse, leaves open the details card. aria-expanded only
@@ -514,7 +489,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       .attr("role", "button")
       .attr("aria-label", (d) => (d.hasChildren ? d.name : `${d.name}, show details`))
       .attr("aria-expanded", (d) =>
-        d.hasChildren ? String(!effectiveCollapsed.has(d.id)) : null
+        d.hasChildren ? String(!collapsed.has(d.id)) : null
       );
 
     // Larger, invisible circle so leaf nodes get a ~44px tap target without
@@ -554,7 +529,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     // Gentle re-heat: existing nodes are already near equilibrium so they barely
     // move; only new/changed nodes settle. alphaDecay makes reduced-motion snap.
     simulation.alpha(0.3).restart();
-  }, [tree, effectiveCollapsed, resizeTick, active, prefersReducedMotion, toggleCategory]);
+  }, [tree, collapsed, resizeTick, active, prefersReducedMotion, toggleCategory]);
 
   // Ring-highlight the selected leaf. Kept separate from the layout effect
   // above so opening the details card never re-heats/re-jiggles the graph.
@@ -567,18 +542,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   return (
     <div ref={wrapRef} className={styles.stage}>
       <div className={styles.controlsRow}>
-        <label className={styles.search}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon} aria-hidden="true" />
-          <input
-            type="search"
-            value={toolQuery}
-            onChange={(event) => setToolQuery(event.target.value)}
-            placeholder="Search tools or categories"
-            aria-label="Search tools or categories"
-          />
-        </label>
-
-        {!isSearching && tree.length > 0 && (
+        {tree.length > 0 && (
           <button
             type="button"
             className={styles.expandToggle}
@@ -593,19 +557,6 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       <p className={styles.hint}>
         Click a category to expand or collapse it. Click a tool for details. Drag any node to reposition it.
       </p>
-
-      <div className={styles.legend}>
-        {tree.map((root, i) => (
-          <span key={root.name} className={styles.legendItem}>
-            <span
-              className={styles.legendSwatch}
-              style={{ background: rootColor(i, tree.length) }}
-              aria-hidden="true"
-            />
-            {root.name}
-          </span>
-        ))}
-      </div>
 
       <svg
         ref={svgRef}
