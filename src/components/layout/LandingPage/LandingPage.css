@@ -21,11 +21,18 @@
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
 }
 
+/* mix-blend-mode: difference makes the glyph the photographic negative of
+   whatever is directly behind it (the per-app glass tint, and — since
+   .desktop-items no longer isolates its own stacking context, see below —
+   the animated rain/photo through it), so it self-adjusts to stay legible
+   against any background color instead of relying on a fixed light/dark
+   choice. A solid, fully opaque color is what makes that inversion read as a
+   clean invert rather than a partial, muddy one. */
 .desktop-wheel-row .icon-image svg {
   width: 58%;
   height: 58%;
-  color: #f8fafc;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65));
+  color: #ffffff;
+  mix-blend-mode: difference;
 }
 
 /* Per-app accent (see --app-accent, set inline from DESKTOP_APPS) lifts the
@@ -201,7 +208,11 @@
    centered row launches that app. */
 .desktop-items {
   position: absolute;
-  z-index: 1;
+  /* Deliberately no z-index: DOM order alone already keeps this painted above
+     .desktop-rain (see that rule's own comment), and giving it one would form
+     a stacking context that traps the wheel-label/icon mix-blend-mode below
+     inside it — blending them against each other instead of against the real
+     rain/photo behind the whole wheel. */
   right: 20px;
   top: 0;
   width: 320px;
@@ -209,20 +220,6 @@
   height: 100%;
   overflow: hidden;
   touch-action: none;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 12%,
-    black 88%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 12%,
-    black 88%,
-    transparent
-  );
 }
 
 .desktop-wheel-rail {
@@ -270,10 +267,12 @@
 }
 
 .desktop-wheel-row {
+  /* top/right are set inline per row (see DesktopIcons.tsx) — deliberately
+     not transform, which would force a stacking context here and trap the
+     label/icon mix-blend-mode below into blending with only this row's own
+     contents instead of the real desktop behind it. */
   position: absolute;
-  top: 50%;
   left: 0;
-  right: 0;
   height: 120px;
   padding: 0 12px 0 0;
   display: flex;
@@ -286,15 +285,18 @@
 /* Promote the rows to their own layer only while a gesture is actively moving
    them, rather than compositing all four rows permanently at rest. */
 .desktop-items.is-animating .desktop-wheel-row {
-  will-change: transform, opacity;
+  will-change: top, right;
 }
 
+/* Same self-adjusting-contrast trick as the icon glyph above: a solid color
+   blended via "difference" against whatever's behind it, rather than a fixed
+   light color plus a shadow to fake contrast. */
 .desktop-wheel-label {
-  color: rgba(241, 245, 249, 0.75);
+  color: #ffffff;
   font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
-  text-shadow: 0 2px 6px rgba(2, 6, 23, 0.72);
+  mix-blend-mode: difference;
 }
 
 .desktop-wheel-label-active {
@@ -310,6 +312,7 @@
   white-space: nowrap;
   box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.3),
     0 4px 12px rgba(0, 0, 0, 0.2);
+  mix-blend-mode: difference;
 }
 
 .icon-image {
@@ -413,9 +416,9 @@
   justify-content: center;
   border: 2px solid white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  /* Above .icon-glass-content's z-index: 30 (both scoped within
-     .desktop-items' stacking context) so the "!" always renders in front of
-     the icon glyph instead of being occluded wherever the two overlap. */
+  /* Above .icon-glass-content's z-index: 30 so the "!" always renders in
+     front of the icon glyph instead of being occluded wherever the two
+     overlap. */
   z-index: 40;
   animation: pulse 2s infinite;
 }

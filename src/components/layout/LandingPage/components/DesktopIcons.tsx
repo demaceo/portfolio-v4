@@ -366,6 +366,9 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           const iconSize = isActive ? ACTIVE_ICON_SIZE : Math.round(BASE_ICON_SIZE * scale);
           const hasNotification = app.name === "Contact" && showContactNotification;
 
+          const fadeTransition =
+            isDragging || isWheeling || prefersReducedMotion ? "none" : "opacity 0.35s ease";
+
           return (
             <div
               key={app.name}
@@ -379,20 +382,30 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               className="desktop-wheel-row"
               style={
                 {
-                  transform: `translateY(-50%) translate(${-curveX}px, ${translateY}px)`,
-                  opacity,
+                  // Positioned with top/right (plain layout offsets) rather
+                  // than transform: translate(...) — a transformed ancestor
+                  // would force its own stacking context, trapping the label/
+                  // icon's mix-blend-mode (see LandingPage.css) into blending
+                  // against only this row's own contents instead of the real
+                  // desktop behind it. Same reason opacity lives on the icon/
+                  // label below instead of here.
+                  top: `calc(50% - ${ROW_HEIGHT / 2}px + ${translateY}px)`,
+                  right: `${curveX}px`,
                   "--app-accent": app.color,
                   transition:
                     isDragging || isWheeling || prefersReducedMotion
                       ? "none"
-                      : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease",
+                      : "top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
                 } as CSSProperties
               }
               onClick={() => pickApp(index)}
               onMouseEnter={() => maybePreloadByPath(app.path)}
               onTouchStart={() => maybePreloadByPath(app.path)}
             >
-              <div className="icon-image" style={{ width: iconSize, height: iconSize }}>
+              <div
+                className="icon-image"
+                style={{ width: iconSize, height: iconSize, opacity, transition: fadeTransition }}
+              >
                 <div className="icon-glass">
                   <div className="icon-glass-distortion" />
                   <div className="icon-glass-base" />
@@ -409,11 +422,16 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
               </div>
 
               {isActive ? (
-                <span className="desktop-wheel-label-active">{app.name}</span>
+                <span
+                  className="desktop-wheel-label-active"
+                  style={{ opacity, transition: fadeTransition }}
+                >
+                  {app.name}
+                </span>
               ) : (
                 <span
                   className="desktop-wheel-label"
-                  style={{ fontSize: `${16 + 6 * (1 - t)}px` }}
+                  style={{ fontSize: `${16 + 6 * (1 - t)}px`, opacity, transition: fadeTransition }}
                 >
                   {app.name}
                 </span>
