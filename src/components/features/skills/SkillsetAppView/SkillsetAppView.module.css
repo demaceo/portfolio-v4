@@ -532,6 +532,78 @@
   }
 }
 
+/* Desktop/laptop: the plate stage flexes to fill whatever height/width the
+   .mac-screen window has, so on a real monitor the base (phone/tablet-sized)
+   type just floats in a lot of empty space. Scale content up rather than
+   leaving it small-and-centered. */
+@media (min-width: 900px) {
+  .servicePlate {
+    gap: 0.9rem;
+    padding: 2.4rem 3rem;
+  }
+
+  .plateIconHalo {
+    width: 168px;
+    height: 168px;
+  }
+
+  .plateIcon {
+    width: 108px;
+  }
+
+  .plateCounter {
+    font-size: 0.85rem;
+  }
+
+  .plateTitle {
+    font-size: 2.6rem;
+    letter-spacing: -0.02em;
+  }
+
+  .plateOutcome {
+    font-size: 1.05rem;
+    max-width: 48ch;
+  }
+
+  .plateDescription {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+
+  .panelViewport {
+    max-width: 62ch;
+    min-height: 190px;
+  }
+
+  .panelEyebrow {
+    font-size: 0.78rem;
+  }
+
+  .panelPoints,
+  .panelTags {
+    max-width: 56ch;
+  }
+
+  .panelPoint {
+    font-size: 1.1rem;
+    gap: 0.5rem;
+  }
+
+  .panelPointIcon {
+    font-size: 0.92rem;
+  }
+
+  .panelTag {
+    font-size: 0.92rem;
+    padding: 0.34rem 0.82rem;
+  }
+
+  .panelTagIcon {
+    font-size: 2rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .servicePlate,
   .plateDot,
