@@ -24,7 +24,7 @@ const projectData: Project[] = [
     icon: "/icons/projects/yap.png",
     iconWidth: 1024,
     iconHeight: 1536,
-    iconScale: 1.48,
+    iconScale: 1.9,
   },
   {
     id: 16,
@@ -63,7 +63,7 @@ const projectData: Project[] = [
     icon: "/icons/projects/pinpoint.png",
     iconWidth: 1024,
     iconHeight: 1536,
-    iconScale: 1.5,
+    iconScale: 1.9,
   },
   {
     id: 17,

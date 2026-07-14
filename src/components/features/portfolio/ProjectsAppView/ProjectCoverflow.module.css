@@ -132,9 +132,16 @@
   background: var(--lg-tint-strong);
 }
 
+/* max-width AND max-height (not a fixed width) so portrait icons can't
+   compute a height taller than .preview's own landscape (4:3) box — using
+   the same formula for both lets whichever axis is tighter for a given
+   icon's real aspect ratio bind first, self-adjusting without special-casing
+   per icon. */
 .iconImg {
-  width: min(92%, calc(54% * var(--icon-scale, 1)));
+  width: auto;
   height: auto;
+  max-width: min(90%, calc(54% * var(--icon-scale, 1)));
+  max-height: min(90%, calc(54% * var(--icon-scale, 1)));
   object-fit: contain;
 }
 
