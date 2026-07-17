@@ -8,7 +8,7 @@ const projectData: Project[] = [
     yearRange: "2025-2026",
     description:
       "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
-    link: "https://github.com/demaceo",
+    link: "https://apps.apple.com/app/id6759472914",
     deepDiveKey: "yap-united",
     stackPreview: [
       "React Native",
@@ -52,7 +52,7 @@ const projectData: Project[] = [
     yearRange: "2025-2026",
     description:
       "React Native mobile app for civic engagement — find elected officials, analyze policy alignment, and communicate through AI-assisted workflows on iOS and Android.",
-    link: "https://github.com/demaceo",
+    link: "https://apps.apple.com/app/id6759683874",
     deepDiveKey: "pinpoint",
     stackPreview: ["React Native", "Expo SDK 54", "Express", "PostgreSQL"],
     highlights: [
@@ -91,7 +91,7 @@ const projectData: Project[] = [
     yearRange: "2025-2026",
     description:
       "Privacy-first consumer intelligence platform that processes personal data on-device and generates secure behavioral analytics.",
-    link: "https://github.com/demaceo",
+    link: "https://apps.apple.com/app/id6754859483",
     deepDiveKey: "payback",
     stackPreview: ["React Native", "Node.js", "PostgreSQL", "Gemini 2.5 Pro"],
     highlights: [
