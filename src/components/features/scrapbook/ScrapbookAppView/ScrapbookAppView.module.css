@@ -1,0 +1,296 @@
+/*
+ * Adapted from codepenz's "Horizontal Flow Map" pen. The bright neumorphic /
+ * claymorphic canvas is kept intentionally as a light "lightbox" framed by the
+ * dark AppView window. Key adaptations vs. the pen:
+ *   • The stage fills the AppView content area (flex, height:100%) rather than
+ *     a fixed min(46rem,80vh), so there is exactly one scroll context (the
+ *     internal .scrollArea) and AppView's .content never adds a second bar.
+ *   • The canvas width/height are set inline (data-driven), not fixed here.
+ *   • Cards carry personal content (category chip / date / title / blurb)
+ *     instead of the pen's conversion stats, and the focus accent matches the
+ *     site's terracotta (--noir-accent).
+ */
+
+.root {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  padding: 14px;
+}
+
+.stage {
+  --bg-color: #e0e5ec;
+  --shadow-light: #ffffff;
+  --shadow-dark: #a3b1c6;
+  --text-dark: #2d3436;
+  --text-muted: #636e72;
+  --accent: var(--noir-accent, #d4845a);
+
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background-color: var(--bg-color);
+  font-family: var(--font-primary), "Segoe UI", Roboto, Helvetica, sans-serif;
+}
+
+.stage * {
+  box-sizing: border-box;
+}
+
+.scrollInstruction {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  color: var(--text-muted);
+  z-index: 100;
+  animation: bounce 2s infinite ease-in-out;
+  pointer-events: none;
+  background: var(--bg-color);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -15px);
+  }
+}
+
+.scrollArea {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/*
+ * Reduced-motion mode: the JS skips the pin/scrub choreography, so the canvas
+ * is left un-transformed and the stage instead offers native two-axis
+ * scrolling, keeping every node reachable without scroll-driven animation.
+ */
+.scrollAreaReduced {
+  overflow-x: auto;
+}
+
+.scrollWrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.canvas {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.linesLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.linePath {
+  stroke: var(--text-dark);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* 3D Claymorphism / Neumorphism base */
+.clayElement {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--bg-color);
+  box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+  z-index: 2;
+}
+
+.connectorDot {
+  width: 18px;
+  height: 18px;
+  background: var(--text-dark);
+  border: 5px solid var(--bg-color);
+  border-radius: 50%;
+  box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+  z-index: 3;
+}
+
+.card {
+  width: 250px;
+  height: 280px;
+  border-radius: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translate(-50%, -54%);
+  box-shadow: 18px 18px 36px var(--shadow-dark), -18px -18px 36px var(--shadow-light);
+  z-index: 10;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollInstruction {
+    animation: none;
+  }
+
+  .card {
+    transition: none;
+  }
+}
+
+.cardMedia {
+  position: relative;
+  height: 185px;
+  width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Bottom-anchored legibility scrim so the title reads over any photo, while
+   leaving the upper photo clear (unlike the pen's full hard-light color wash). */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.12) 45%,
+    rgba(0, 0, 0, 0) 72%
+  );
+}
+
+.headerBadges {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.35), 2px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.chipIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.dateBadge {
+  padding: 5px 10px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.title {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.2;
+  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+.cardBlurb {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-color);
+  box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Belt-and-suspenders for a resize below the desktop breakpoint while open.
+   The launcher itself is already absent on phones (the desktop wheel is
+   display:none ≤480px and Scrapbook is filtered out of the mobile switcher). */
+.mobileNotice {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .scrollArea,
+  .scrollInstruction {
+    display: none;
+  }
+
+  .mobileNotice {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}

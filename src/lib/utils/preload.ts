@@ -31,6 +31,9 @@ export const preloadModules = {
     projects: withRecovery(() =>
         import("@/components/features/portfolio/ProjectsAppView/ProjectsAppView")
     ),
+    scrapbook: withRecovery(() =>
+        import("@/components/features/scrapbook/ScrapbookAppView/ScrapbookAppView")
+    ),
     documentary: withRecovery(() =>
         import("@/components/features/media").then((m) => m.DocumentaryPlayer)
     ),
@@ -64,6 +67,7 @@ export const preloadByPath = (path: string) => {
     if (path === "/mindset") return preloadModules.about();
     if (path === "/skillset") return preloadModules.skillset();
     if (path === "/projects") return preloadModules.projects();
+    if (path === "/scrapbook") return preloadModules.scrapbook();
     if (path === "/documentary") {
         ensurePBSPreconnect();
         return preloadModules.documentary();

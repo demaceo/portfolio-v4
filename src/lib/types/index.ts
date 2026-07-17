@@ -120,6 +120,7 @@ export interface ModalsState {
     showSkillset: boolean;
     showProjects: boolean;
     showDocumentary: boolean;
+    showScrapbook: boolean;
     showContactNotification: boolean;
     selectedServiceId: string | null;
     selectedProjectId: number | null;
@@ -133,6 +134,7 @@ export interface ModalActions {
     setShowSkillset: (show: boolean) => void;
     setShowProjects: (show: boolean) => void;
     setShowDocumentary: (show: boolean) => void;
+    setShowScrapbook: (show: boolean) => void;
     setShowContactNotification: (show: boolean) => void;
     setSelectedServiceId: (id: string | null) => void;
     setSelectedProjectId: (id: number | null) => void;

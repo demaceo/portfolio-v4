@@ -52,7 +52,10 @@ const LandingPage = () => {
 
       <div
         className={`mac-screen${
-          modalState.showAboutMe || modalState.showSkillset || modalState.showProjects
+          modalState.showAboutMe ||
+          modalState.showSkillset ||
+          modalState.showProjects ||
+          modalState.showScrapbook
             ? " mac-screen--app-view-open"
             : ""
         }`}
@@ -103,6 +106,8 @@ const LandingPage = () => {
           setShowSkillset={modalActions.setShowSkillset}
           showProjects={modalState.showProjects}
           setShowProjects={modalActions.setShowProjects}
+          showScrapbook={modalState.showScrapbook}
+          setShowScrapbook={modalActions.setShowScrapbook}
           selectedServiceId={modalState.selectedServiceId}
           setSelectedServiceId={modalActions.setSelectedServiceId}
           selectedProjectId={modalState.selectedProjectId}

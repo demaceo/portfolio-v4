@@ -24,6 +24,10 @@ interface AppSwitcherProps {
 const ICON_FILTER_ID = "app-switcher-icon-glass-distortion";
 const PILL_FILTER_ID = "app-switcher-pill-glass-refraction";
 
+// Desktop-only apps (e.g. Scrapbook) are intentionally excluded from the mobile
+// switcher — they live solely on the desktop wheel, which is hidden ≤480px.
+const MOBILE_APPS = DESKTOP_APPS.filter((app) => !app.desktopOnly);
+
 /**
  * Mobile-only (≤480px) app launcher pill, adapted from codepenz's
  * "Apple Liquid Glass Switcher" — a 3-way theme toggle there, generalized
@@ -41,7 +45,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
   // highlighted tab never goes stale: it reflects "nothing is open" on
   // first load and again whenever the user closes back out to the home
   // screen, instead of freezing on whichever tab was tapped last.
-  const activeIndex = DESKTOP_APPS.findIndex((app) => app.path === activeAppPath);
+  const activeIndex = MOBILE_APPS.findIndex((app) => app.path === activeAppPath);
   const hasActiveTab = activeIndex !== -1;
 
   // The capsule's own position/slide-direction bookkeeping — kept pinned to
@@ -63,7 +67,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
   }, [activeIndex]);
 
   const handleTap = (index: number) => {
-    const app = DESKTOP_APPS[index];
+    const app = MOBILE_APPS[index];
     handleAppClick(app.path, app.isToggle);
   };
 
@@ -101,7 +105,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
         data-idle={hasActiveTab ? undefined : ""}
         style={
           {
-            "--n-options": DESKTOP_APPS.length,
+            "--n-options": MOBILE_APPS.length,
             "--active-index": capsuleIndex,
             "--pill-origin": pillOrigin,
             backdropFilter: `blur(8px) url(#${PILL_FILTER_ID}) saturate(150%)`,
@@ -110,7 +114,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
         }
       >
         <legend className="app-switcher-legend">Launch an app</legend>
-        {DESKTOP_APPS.map((app, index) => {
+        {MOBILE_APPS.map((app, index) => {
           const isActive = index === activeIndex;
           const hasNotification = app.name === "Contact" && showContactNotification;
           return (
