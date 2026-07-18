@@ -161,6 +161,14 @@
   outline-offset: 4px;
 }
 
+/* While the canvas is actively panning, cards ignore the pointer so they don't
+   trigger their hover-lift (transform + big shadow repaint) as they slide under
+   a stationary cursor — the main remaining scroll "stagger". Hover is restored
+   a beat after scrolling stops (JS toggles this class; see ScrapbookAppView). */
+.scrolling .card {
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scrollInstruction {
     animation: none;

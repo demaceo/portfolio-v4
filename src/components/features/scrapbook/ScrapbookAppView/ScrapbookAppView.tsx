@@ -73,6 +73,9 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
     const canvas = canvasEl;
     const instruction = instructionEl;
 
+    // Debounce handle for the "actively scrolling" class (see onUpdate below).
+    let scrollIdleTimer = 0;
+
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -118,22 +121,33 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
           trigger: scrollWrapper,
           scroller: scrollArea,
           pin: true,
-          scrub: 1,
+          // Tighter than scrub:1, which trailed the scroll by a full second
+          // and read as "laggy".
+          scrub: 0.5,
           invalidateOnRefresh: true,
           end: () => "+=" + getScrollMax(),
-          // The scroll hint fades once panning begins, driven off this
-          // ScrollTrigger's own progress (a separate position-based trigger
-          // never resolves once GSAP wraps this in a pin-spacer).
           onUpdate: (self) => {
+            // Fade the hint once, on threshold-cross (not every frame).
             const shouldHide = self.progress > 0.03;
-            if (shouldHide === hintHidden) return;
-            hintHidden = shouldHide;
-            gsap.to(instruction, {
-              opacity: shouldHide ? 0 : 1,
-              y: shouldHide ? 20 : 0,
-              duration: 0.4,
-              overwrite: "auto",
-            });
+            if (shouldHide !== hintHidden) {
+              hintHidden = shouldHide;
+              gsap.to(instruction, {
+                opacity: shouldHide ? 0 : 1,
+                y: shouldHide ? 20 : 0,
+                duration: 0.4,
+                overwrite: "auto",
+              });
+            }
+            // While actively panning, disable card pointer-events so cards
+            // don't fire their hover-lift (transform + shadow repaint) as they
+            // slide under a stationary cursor — the main scroll "glitch". A
+            // short idle debounce restores hover once scrolling stops.
+            scrollArea.classList.add(styles.scrolling);
+            clearTimeout(scrollIdleTimer);
+            scrollIdleTimer = window.setTimeout(
+              () => scrollArea.classList.remove(styles.scrolling),
+              120
+            );
           },
         },
       });
@@ -142,15 +156,19 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
         const length = path.getTotalLength();
         gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
 
+        // Draw each line in once when it enters, rather than scrubbing the
+        // stroke-dashoffset to scroll — a scrubbed dash re-rasterizes the SVG
+        // every frame while panning. One-shot keeps the reveal, then leaves the
+        // line static (no per-frame SVG cost).
         gsap.to(path, {
           strokeDashoffset: 0,
+          duration: 0.6,
           ease: "power2.inOut",
           scrollTrigger: {
             trigger: path,
             containerAnimation: horizontalTween,
-            start: "left right-=200",
-            end: "right center",
-            scrub: true,
+            start: "left right-=150",
+            toggleActions: "play none none none",
           },
         });
       });
@@ -201,6 +219,8 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       if (settleTimer) clearTimeout(settleTimer);
+      clearTimeout(scrollIdleTimer);
+      scrollArea.classList.remove(styles.scrolling);
       resizeObserver?.disconnect();
       ctx.revert();
     };
@@ -252,7 +272,6 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
                 {DOT_POSITIONS.map((dot, i) => (
                   <div
                     key={`dot-${i}`}
-                    data-reveal
                     aria-hidden="true"
                     className={`${styles.clayElement} ${styles.connectorDot}`}
                     style={{ left: dot.x, top: dot.y }}
