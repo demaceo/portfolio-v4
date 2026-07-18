@@ -85,8 +85,6 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
 
     const ctx = gsap.context(() => {
       const paths = canvas.querySelectorAll<SVGPathElement>("[data-line-path]");
-      const revealElements =
-        canvas.querySelectorAll<HTMLElement>("[data-reveal]");
 
       // Reduced-motion: skip the pin/scrub choreography entirely. The whole
       // diagram is shown at rest and the internal area scrolls natively (a
@@ -94,9 +92,6 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
       // node stays reachable without any motion driven by scroll position.
       if (prefersReduced) {
         paths.forEach((path) => gsap.set(path, { strokeDashoffset: 0 }));
-        revealElements.forEach((el) =>
-          gsap.set(el, { scale: 1, opacity: 1, rotation: 0 })
-        );
         gsap.set(instruction, { opacity: 1, y: 0 });
         return;
       }
@@ -173,33 +168,11 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
         });
       });
 
-      revealElements.forEach((el) => {
-        // `immediateRender: false` is deliberate: with a plain gsap.from(), the
-        // scale:0 start state is applied to every card up front, but the
-        // containerAnimation reveals only fire on the first scroll tick — so
-        // the opening screen would be blank. fromTo + immediateRender:false
-        // leaves already-on-screen cards at their natural state on load and
-        // still pops in each card as it scrolls into view.
-        gsap.fromTo(
-          el,
-          { scale: 0, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            immediateRender: false,
-            duration: 0.8,
-            ease: "back.out(1.4)",
-            scrollTrigger: {
-              trigger: el,
-              containerAnimation: horizontalTween,
-              start: "left right-=150",
-              // Play the pop-in once and leave it. Reversing on every
-              // back-scroll made cards flicker in and out (the "glitch").
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
+      // Cards are intentionally NOT animated per scroll. A scale "pop-in"
+      // promoted each card to its own compositor layer and re-rasterized it as
+      // it entered, which stuttered during the pan. Cards render at their
+      // natural state and simply pan in with the canvas; the connector lines
+      // still draw themselves in (above).
     }, scrollArea);
 
     // The AppView now enters with opacity only (no transform — see AppView.tsx),
@@ -294,7 +267,6 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
                   return (
                     <div
                       key={item.id}
-                      data-reveal
                       className={`${styles.clayElement} ${styles.card}`}
                       style={{ left: pos.x, top: pos.y }}
                       tabIndex={0}
@@ -312,6 +284,7 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
                             src={item.image}
                             alt=""
                             loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               // Reveal the category-tinted fallback gradient
                               // rather than a black box.
