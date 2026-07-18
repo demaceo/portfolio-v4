@@ -106,6 +106,11 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
       const getScrollMax = () =>
         canvas.scrollWidth - scrollArea.clientWidth + END_PAD;
 
+      // Only re-fire the hint fade when it actually crosses the threshold, not
+      // on every scroll frame (which spawned a fresh tween per frame — a real
+      // source of scroll jank).
+      let hintHidden = false;
+
       const horizontalTween = gsap.to(canvas, {
         x: () => -getScrollMax(),
         ease: "none",
@@ -120,9 +125,12 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
           // ScrollTrigger's own progress (a separate position-based trigger
           // never resolves once GSAP wraps this in a pin-spacer).
           onUpdate: (self) => {
+            const shouldHide = self.progress > 0.03;
+            if (shouldHide === hintHidden) return;
+            hintHidden = shouldHide;
             gsap.to(instruction, {
-              opacity: self.progress > 0.03 ? 0 : 1,
-              y: self.progress > 0.03 ? 20 : 0,
+              opacity: shouldHide ? 0 : 1,
+              y: shouldHide ? 20 : 0,
               duration: 0.4,
               overwrite: "auto",
             });
@@ -167,7 +175,9 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
               trigger: el,
               containerAnimation: horizontalTween,
               start: "left right-=150",
-              toggleActions: "play none none reverse",
+              // Play the pop-in once and leave it. Reversing on every
+              // back-scroll made cards flicker in and out (the "glitch").
+              toggleActions: "play none none none",
             },
           }
         );

@@ -245,9 +245,20 @@ export default function DesktopRain() {
     let tabVisible = document.visibilityState === "visible";
     let onScreen = true;
     let contextLost = false;
+    // When any full-screen AppView is open, `.mac-screen` gets the
+    // `--app-view-open` modifier and this canvas' `.desktop` ancestor becomes
+    // visibility:hidden. IntersectionObserver still reports it on-screen
+    // (visibility doesn't change geometry), so watch that class directly and
+    // pause the GPU-heavy rain while it's covered — otherwise it keeps
+    // rendering a full-screen blur behind the open app and competes with its
+    // animations.
+    const macScreen = container.closest(".mac-screen");
+    let appViewOpen =
+      macScreen?.classList.contains("mac-screen--app-view-open") ?? false;
 
     function sync() {
-      const shouldRun = !disposed && !contextLost && tabVisible && onScreen;
+      const shouldRun =
+        !disposed && !contextLost && !appViewOpen && tabVisible && onScreen;
       if (shouldRun && animationId === null) {
         animationId = requestAnimationFrame(update);
       } else if (!shouldRun && animationId !== null) {
@@ -267,6 +278,21 @@ export default function DesktopRain() {
       sync();
     });
     observer.observe(container);
+
+    const appViewObserver = macScreen
+      ? new MutationObserver(() => {
+          appViewOpen = macScreen.classList.contains(
+            "mac-screen--app-view-open"
+          );
+          sync();
+        })
+      : null;
+    if (macScreen) {
+      appViewObserver?.observe(macScreen, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    }
 
     // A lost context (GPU driver reset, tab backgrounded a long time, too
     // many WebGL contexts open) is unrecoverable unless the loss event is
@@ -293,6 +319,7 @@ export default function DesktopRain() {
       if (animationId !== null) cancelAnimationFrame(animationId);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       observer.disconnect();
+      appViewObserver?.disconnect();
       window.removeEventListener("resize", resize);
       gl.canvas.removeEventListener("webglcontextlost", onContextLost);
       gl.canvas.removeEventListener("webglcontextrestored", onContextRestored);

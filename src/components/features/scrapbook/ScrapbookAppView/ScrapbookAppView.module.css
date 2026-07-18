@@ -1,14 +1,16 @@
 /*
- * Adapted from codepenz's "Horizontal Flow Map" pen. The bright neumorphic /
- * claymorphic canvas is kept intentionally as a light "lightbox" framed by the
- * dark AppView window. Key adaptations vs. the pen:
- *   • The stage fills the AppView content area (flex, height:100%) rather than
- *     a fixed min(46rem,80vh), so there is exactly one scroll context (the
- *     internal .scrollArea) and AppView's .content never adds a second bar.
- *   • The canvas width/height are set inline (data-driven), not fixed here.
- *   • Cards carry personal content (category chip / date / title / blurb)
- *     instead of the pen's conversion stats, and the focus accent matches the
- *     site's terracotta (--noir-accent).
+ * Scrapbook flow map, themed to sit inside the dark AppView window (no bright
+ * panel background — the dark window shows through the transparent stage).
+ * Cards are dark glass tiles with the photo on top; connector lines/dots are
+ * light so they read on the dark surface.
+ *
+ * Performance notes (this view pans a wide canvas under a pinned ScrollTrigger,
+ * so per-frame cost matters):
+ *   • The canvas is promoted to its own compositor layer (will-change) so the
+ *     horizontal pan is a cheap layer transform rather than a repaint.
+ *   • No backdrop-filter anywhere — sampling a blurred backdrop while the whole
+ *     canvas moves forces a recomposite every frame and was the main cause of
+ *     scroll stagger. Badges use solid translucent fills instead.
  */
 
 .root {
@@ -19,19 +21,22 @@
 }
 
 .stage {
-  --bg-color: #e0e5ec;
-  --shadow-light: #ffffff;
-  --shadow-dark: #a3b1c6;
-  --text-dark: #2d3436;
-  --text-muted: #636e72;
+  --card-bg: rgba(30, 25, 23, 0.9);
+  --card-border: rgba(255, 255, 255, 0.09);
+  --line: rgba(240, 236, 232, 0.24);
+  --dot: var(--noir-accent, #d4845a);
+  --text-strong: #f0ece8;
+  --text-muted: rgba(240, 236, 232, 0.58);
   --accent: var(--noir-accent, #d4845a);
+  --card-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 22px 46px rgba(0, 0, 0, 0.62);
 
   position: relative;
   flex: 1;
   min-height: 0;
   overflow: hidden;
   border-radius: 18px;
-  background-color: var(--bg-color);
+  background: transparent;
   font-family: var(--font-primary), "Segoe UI", Roboto, Helvetica, sans-serif;
 }
 
@@ -49,10 +54,11 @@
   z-index: 100;
   animation: bounce 2s infinite ease-in-out;
   pointer-events: none;
-  background: var(--bg-color);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   padding: 10px 20px;
   border-radius: 20px;
-  box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+  box-shadow: var(--card-shadow);
 }
 
 @keyframes bounce {
@@ -92,6 +98,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  /* Promote to its own layer so the GSAP horizontal pan composites smoothly. */
+  will-change: transform;
 }
 
 .linesLayer {
@@ -105,28 +113,28 @@
 }
 
 .linePath {
-  stroke: var(--text-dark);
+  stroke: var(--line);
   stroke-width: 4;
   fill: none;
   stroke-linecap: round;
 }
 
-/* 3D Claymorphism / Neumorphism base */
+/* Dark glass tile base (replaces the light neumorphic clay look). */
 .clayElement {
   position: absolute;
   transform: translate(-50%, -50%);
-  background: var(--bg-color);
-  box-shadow: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
   z-index: 2;
 }
 
 .connectorDot {
-  width: 18px;
-  height: 18px;
-  background: var(--text-dark);
-  border: 5px solid var(--bg-color);
+  width: 16px;
+  height: 16px;
+  background: var(--dot);
+  border: 3px solid rgba(18, 15, 13, 0.9);
   border-radius: 50%;
-  box-shadow: 4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   z-index: 3;
 }
 
@@ -134,7 +142,7 @@
   width: 250px;
   height: 280px;
   border-radius: 28px;
-  border: 3px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--card-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -144,7 +152,7 @@
 .card:hover,
 .card:focus-visible {
   transform: translate(-50%, -54%);
-  box-shadow: 18px 18px 36px var(--shadow-dark), -18px -18px 36px var(--shadow-light);
+  box-shadow: var(--card-shadow-hover);
   z-index: 10;
 }
 
@@ -183,7 +191,7 @@
 }
 
 /* Bottom-anchored legibility scrim so the title reads over any photo, while
-   leaving the upper photo clear (unlike the pen's full hard-light color wash). */
+   leaving the upper photo clear. */
 .overlay {
   position: absolute;
   inset: 0;
@@ -227,15 +235,15 @@
   line-height: 1;
 }
 
+/* Solid translucent fill — deliberately NO backdrop-filter (see header note). */
 .dateBadge {
   padding: 5px 10px;
   border-radius: 14px;
   font-size: 11px;
   font-weight: 700;
   color: #fff;
-  background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   white-space: nowrap;
 }
 
@@ -262,8 +270,7 @@
   line-height: 1.35;
   font-weight: 600;
   color: var(--text-muted);
-  background: var(--bg-color);
-  box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.03);
+  background: var(--card-bg);
 }
 
 /* Belt-and-suspenders for a resize below the desktop breakpoint while open.
