@@ -202,23 +202,33 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
       });
     }, scrollArea);
 
-    // AppView enters with a framer-motion spring (translateY + opacity) and
-    // sets will-change:transform on an ancestor, which can make ScrollTrigger
-    // mis-measure the pin. Refresh on the next frame and again once the spring
-    // has settled, and on any later size change of the scroll area.
+    // The AppView now enters with opacity only (no transform — see AppView.tsx),
+    // so the pin measures correctly on mount and needs no post-animation
+    // "settle" refresh that could fire mid-scroll and momentarily drop the
+    // content. A single next-frame refresh covers any residual layer promotion.
     let rafId = 0;
-    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+    let resizeDebounce: ReturnType<typeof setTimeout> | undefined;
     let resizeObserver: ResizeObserver | undefined;
     if (!prefersReduced) {
       rafId = requestAnimationFrame(() => ScrollTrigger.refresh());
-      settleTimer = setTimeout(() => ScrollTrigger.refresh(), 400);
-      resizeObserver = new ResizeObserver(() => ScrollTrigger.refresh());
+      // Only refresh on a genuine WIDTH change (a real window resize),
+      // debounced — never mid-scroll. A refresh while panning re-pins and
+      // briefly empties the view. The scrollArea's scrollbar is hidden in CSS
+      // so panning itself never changes the width.
+      let lastWidth = scrollArea.clientWidth;
+      resizeObserver = new ResizeObserver(() => {
+        const w = scrollArea.clientWidth;
+        if (w === lastWidth) return;
+        lastWidth = w;
+        clearTimeout(resizeDebounce);
+        resizeDebounce = setTimeout(() => ScrollTrigger.refresh(), 200);
+      });
       resizeObserver.observe(scrollArea);
     }
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
-      if (settleTimer) clearTimeout(settleTimer);
+      if (resizeDebounce) clearTimeout(resizeDebounce);
       clearTimeout(scrollIdleTimer);
       scrollArea.classList.remove(styles.scrolling);
       resizeObserver?.disconnect();

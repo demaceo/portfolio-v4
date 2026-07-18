@@ -59,13 +59,13 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
         exit: { opacity: 0, transition: { duration: 0.12 } },
       }
     : {
-        initial: { opacity: 0, y: 14 },
-        animate: {
-          opacity: 1,
-          y: 0,
-          transition: { type: "spring", stiffness: 300, damping: 32, mass: 0.9 },
-        },
-        exit: { opacity: 0, y: 10, transition: { duration: 0.16, ease: "easeIn" } },
+        // Opacity-only (no translate): a transform on this container offsets
+        // ScrollTrigger's pin measurement inside the Scrapbook AppView, which
+        // surfaced as the flow map "scrolling to an empty view" until a
+        // corrective refresh fired. Fading avoids needing that refresh at all.
+        initial: { opacity: 0 },
+        animate: { opacity: 1, transition: { duration: 0.28, ease: "easeOut" } },
+        exit: { opacity: 0, transition: { duration: 0.16, ease: "easeIn" } },
       };
 
   return (
@@ -79,7 +79,7 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
       initial="initial"
       animate="animate"
       exit="exit"
-      style={{ willChange: "transform, opacity" }}
+      style={{ willChange: "opacity" }}
     >
       <div className={styles.titleBar}>
         <div className={styles.headerControls}>

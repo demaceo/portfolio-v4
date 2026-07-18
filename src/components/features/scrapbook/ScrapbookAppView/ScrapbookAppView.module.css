@@ -76,6 +76,16 @@
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  /* Hide the scroller's scrollbar — it's purely functional (the pin drives it).
+     A classic scrollbar appearing mid-pan changes the client width, which would
+     trigger a ScrollTrigger refresh mid-scroll and drop the content. */
+  scrollbar-width: none;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 /*
