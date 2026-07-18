@@ -110,6 +110,23 @@ void main() {
 }
 `;
 
+/** Whether the browser can actually grant a WebGL context right now. Probes with
+ *  a throwaway canvas and immediately releases it, so we can skip ogl's Renderer
+ *  — which logs its own "unable to create webgl context" error and then throws
+ *  on `this.gl.renderer = this` — when no context is available. */
+function isWebGLAvailable(): boolean {
+  try {
+    const probe = document.createElement("canvas");
+    const gl = (probe.getContext("webgl") ||
+      probe.getContext("experimental-webgl")) as WebGLRenderingContext | null;
+    if (!gl) return false;
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Animated rain-on-glass background for the `.desktop` surface, sampling the
  * same photo the frosted glass already blurs behind it. Renders nothing (and
@@ -124,11 +141,26 @@ export default function DesktopRain() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const container = containerRef.current;
 
+    // Pre-flight WebGL check. When the browser won't grant a context (hardware
+    // acceleration disabled, GPU blocklisted, or an unsupported/embedded
+    // browser), skip ogl's noisy failure path entirely and leave the CSS
+    // frosted-glass background — which already sits behind this canvas — as the
+    // intentional fallback. This isn't an error, just an unsupported capability.
+    if (!isWebGLAvailable()) {
+      console.info(
+        "[desktop-rain] WebGL unavailable — keeping the static frosted-glass background."
+      );
+      return;
+    }
+
     let renderer: Renderer;
     try {
       renderer = new Renderer({ alpha: true });
     } catch (err) {
-      console.error("[desktop-rain] WebGL init failed", err);
+      console.warn(
+        "[desktop-rain] WebGL init failed — keeping the static frosted-glass background.",
+        err
+      );
       return;
     }
 
