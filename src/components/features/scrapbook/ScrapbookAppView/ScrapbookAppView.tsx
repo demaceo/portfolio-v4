@@ -13,6 +13,7 @@ import {
   computePositions,
   buildConnectors,
   computeCanvasSize,
+  END_PAD,
 } from "./flowLayout";
 import styles from "./ScrapbookAppView.module.css";
 
@@ -99,19 +100,22 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
 
       // The stage renders in a bounded box, not the browser window, so the
       // horizontal scroll distance is computed from the scroll container's own
-      // width. This reads the live DOM, so it scales automatically with the
-      // data-driven canvas width.
-      const scrollMax = canvas.scrollWidth - scrollArea.clientWidth + 200;
+      // width. Read it as a function (with invalidateOnRefresh) so the pan
+      // target and pin length re-measure on resize: the ResizeObserver below
+      // refreshes ScrollTrigger, which re-evaluates both against the new size.
+      const getScrollMax = () =>
+        canvas.scrollWidth - scrollArea.clientWidth + END_PAD;
 
       const horizontalTween = gsap.to(canvas, {
-        x: -scrollMax,
+        x: () => -getScrollMax(),
         ease: "none",
         scrollTrigger: {
           trigger: scrollWrapper,
           scroller: scrollArea,
           pin: true,
           scrub: 1,
-          end: () => "+=" + scrollMax,
+          invalidateOnRefresh: true,
+          end: () => "+=" + getScrollMax(),
           // The scroll hint fades once panning begins, driven off this
           // ScrollTrigger's own progress (a separate position-based trigger
           // never resolves once GSAP wraps this in a pin-spacer).
