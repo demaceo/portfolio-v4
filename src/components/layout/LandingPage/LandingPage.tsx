@@ -46,18 +46,33 @@ const LandingPage = () => {
     ? "/contact"
     : null;
 
+  // A full-screen AppView (not a floating Modal) is open — the same condition
+  // that hides the desktop chrome. Drives the MenuBar's in-app back button.
+  const isAppViewOpen =
+    modalState.showAboutMe ||
+    modalState.showSkillset ||
+    modalState.showProjects ||
+    modalState.showScrapbook;
+
+  // Title of the open AppView (matches each AppView's own `title` prop), shown
+  // centered in the MenuBar while that app is open.
+  const activeAppTitle = modalState.showAboutMe
+    ? "About"
+    : modalState.showSkillset
+    ? "Skillset"
+    : modalState.showProjects
+    ? "Projects"
+    : modalState.showScrapbook
+    ? "Scrapbook"
+    : null;
+
   return (
     <div className="macintosh-container">
       <FlyingBirds />
 
       <div
         className={`mac-screen${
-          modalState.showAboutMe ||
-          modalState.showSkillset ||
-          modalState.showProjects ||
-          modalState.showScrapbook
-            ? " mac-screen--app-view-open"
-            : ""
+          isAppViewOpen ? " mac-screen--app-view-open" : ""
         }`}
       >
         <MenuBar
@@ -68,6 +83,9 @@ const LandingPage = () => {
           setSelectedProjectId={modalActions.setSelectedProjectId}
           preload={preloadModules}
           TimeDisplay={TimeDisplay}
+          isAppViewOpen={isAppViewOpen}
+          activeAppTitle={activeAppTitle}
+          onBack={modalActions.closeAllModals}
         />
 
         <DesktopIcons

@@ -175,3 +175,19 @@
     transition: none;
   }
 }
+
+/* Desktop (fine pointer) only — the exact inverse of the MenuBar's hide query
+   in LandingPage.menu.css. There the MenuBar stays visible and hosts the back
+   button + title, so the AppView folds its own title bar away and drops just
+   below the bar. The title <h1> stays in the DOM (the title bar is display:none,
+   not removed) so the region's aria-labelledby still resolves its name, and
+   Escape/overlay-stack/focus-trap in AppView.tsx are unaffected. */
+@media (min-width: 769px) and (pointer: fine) {
+  .titleBar {
+    display: none;
+  }
+
+  .appView {
+    top: var(--menu-bar-height, 44px);
+  }
+}
