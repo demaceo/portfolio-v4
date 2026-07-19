@@ -294,14 +294,6 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
                         )}
                         <div className={styles.overlay} />
                         <div className={styles.headerBadges}>
-                          <span
-                            className={styles.chip}
-                            style={{ background: meta.color }}
-                            aria-hidden="true"
-                          >
-                            <span className={styles.chipIcon}>{meta.icon}</span>
-                            {meta.label}
-                          </span>
                           {item.date && (
                             <span className={styles.dateBadge} aria-hidden="true">
                               {item.date}
