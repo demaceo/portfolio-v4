@@ -143,8 +143,10 @@
 
 /* While a full-screen AppView (e.g. About) is open, the desktop chrome
    behind it is visually hidden — visibility (not display) so DesktopIcons'
-   wheel position and other internal state survive the open/close cycle. */
-.mac-screen--app-view-open > .menu-bar,
+   wheel position and other internal state survive the open/close cycle.
+   The MenuBar is intentionally NOT hidden: on desktop it stays visible and
+   hosts the in-app back button + app title (the AppView's own title bar is
+   folded away there — see MenuBar.tsx / AppView.module.css). */
 .mac-screen--app-view-open > .desktop,
 .mac-screen--app-view-open > .app-switcher-dock,
 .mac-screen--app-view-open > .welcome-window,

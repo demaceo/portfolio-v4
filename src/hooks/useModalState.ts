@@ -12,6 +12,7 @@ const initialModalState: ModalsState = {
     showSkillset: false,
     showProjects: false,
     showDocumentary: false,
+    showScrapbook: false,
     showContactNotification: true,
     selectedServiceId: null,
     selectedProjectId: null,
@@ -48,6 +49,10 @@ export function useModalState() {
         setModalState(prev => ({ ...prev, showDocumentary: show }));
     }, []);
 
+    const setShowScrapbook = useCallback((show: boolean) => {
+        setModalState(prev => ({ ...prev, showScrapbook: show }));
+    }, []);
+
     const setShowContactNotification = useCallback((show: boolean) => {
         setModalState(prev => ({ ...prev, showContactNotification: show }));
     }, []);
@@ -81,6 +86,7 @@ export function useModalState() {
             showSkillset: false,
             showProjects: false,
             showDocumentary: false,
+            showScrapbook: false,
             selectedServiceId: null,
             selectedProjectId: null,
         }));
@@ -94,6 +100,7 @@ export function useModalState() {
         setShowSkillset,
         setShowProjects,
         setShowDocumentary,
+        setShowScrapbook,
         setShowContactNotification,
         setSelectedServiceId,
         setSelectedProjectId,

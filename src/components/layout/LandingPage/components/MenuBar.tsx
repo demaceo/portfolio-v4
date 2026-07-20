@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import services from "@/data/services";
 import { useProjects } from "@/hooks";
@@ -25,6 +26,12 @@ interface MenuBarProps {
     skillset: () => void;
   };
   TimeDisplay: React.ComponentType;
+  /** True while a full-screen AppView is open — swaps the logo for a back
+   *  button and shows the active app's title (desktop only). */
+  isAppViewOpen: boolean;
+  activeAppTitle: string | null;
+  /** Return to the desktop (closes the open AppView). */
+  onBack: () => void;
 }
 
 const MENU_ITEMS = [
@@ -52,6 +59,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
   setSelectedProjectId,
   preload,
   TimeDisplay,
+  isAppViewOpen,
+  activeAppTitle,
+  onBack,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -65,6 +75,20 @@ const MenuBar: React.FC<MenuBarProps> = ({
     else if (key === "projects") preload.projects();
     else if (key === "services") preload.skillset();
   };
+
+  // Expose the bar's rendered height so an open AppView can sit exactly below
+  // it on desktop (where the AppView's own title bar is folded into this bar).
+  useEffect(() => {
+    const el = menuBarRef.current;
+    const macScreen = el?.closest(".mac-screen") as HTMLElement | null;
+    if (!el || !macScreen) return;
+    const setHeightVar = () =>
+      macScreen.style.setProperty("--menu-bar-height", `${el.offsetHeight}px`);
+    setHeightVar();
+    const ro = new ResizeObserver(setHeightVar);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Close dropdown on outside click (listener only attached while open)
   useEffect(() => {
@@ -94,13 +118,24 @@ const MenuBar: React.FC<MenuBarProps> = ({
   return (
     <div className="menu-bar" ref={menuBarRef}>
       <div className="menu-left">
-        <Image
-          className="my-logo"
-          alt="portfolio-logo"
-          src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
-          width={24}
-          height={24}
-        />
+        {isAppViewOpen ? (
+          <button
+            type="button"
+            className="menu-back"
+            onClick={onBack}
+            aria-label="Back to desktop"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" />
+          </button>
+        ) : (
+          <Image
+            className="my-logo"
+            alt="portfolio-logo"
+            src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
+            width={24}
+            height={24}
+          />
+        )}
         {MENU_ITEMS.map((item) => {
           const isOpen = openDropdown === item.key;
           return (
@@ -271,6 +306,11 @@ const MenuBar: React.FC<MenuBarProps> = ({
           );
         })}
       </div>
+      {isAppViewOpen && activeAppTitle && (
+        <span className="menu-bar-title" aria-hidden="true">
+          {activeAppTitle}
+        </span>
+      )}
       <div className="menu-right">
         <TimeDisplay />
       </div>

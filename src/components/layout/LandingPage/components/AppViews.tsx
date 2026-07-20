@@ -29,6 +29,13 @@ const ProjectsAppView = dynamic(
   }
 );
 
+const ScrapbookAppView = dynamic(
+  () => import("@/components/features/scrapbook/ScrapbookAppView/ScrapbookAppView"),
+  {
+    loading: () => <LoadingView />,
+  }
+);
+
 interface AppViewsProps {
   showAboutMe: boolean;
   setShowAboutMe: (show: boolean) => void;
@@ -36,6 +43,8 @@ interface AppViewsProps {
   setShowSkillset: (show: boolean) => void;
   showProjects: boolean;
   setShowProjects: (show: boolean) => void;
+  showScrapbook: boolean;
+  setShowScrapbook: (show: boolean) => void;
   selectedServiceId: string | null;
   setSelectedServiceId: (id: string | null) => void;
   selectedProjectId: number | null;
@@ -54,6 +63,8 @@ const AppViews: React.FC<AppViewsProps> = ({
   setShowSkillset,
   showProjects,
   setShowProjects,
+  showScrapbook,
+  setShowScrapbook,
   selectedServiceId,
   setSelectedServiceId,
   selectedProjectId,
@@ -92,6 +103,14 @@ const AppViews: React.FC<AppViewsProps> = ({
               setSelectedProjectId(null);
             }}
             initialProjectId={selectedProjectId ?? undefined}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showScrapbook && (
+          <ScrapbookAppView
+            key="scrapbook"
+            onClose={() => setShowScrapbook(false)}
           />
         )}
       </AnimatePresence>

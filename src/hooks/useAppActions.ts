@@ -19,6 +19,8 @@ export function useAppActions({ modalActions }: UseAppActionsProps) {
             modalActions.setShowSkillset(true);
         } else if (path === "/projects") {
             modalActions.setShowProjects(true);
+        } else if (path === "/scrapbook") {
+            modalActions.setShowScrapbook(true);
         } else if (path === "/documentary") {
             ensurePBSPreconnect();
             modalActions.setShowDocumentary(true);

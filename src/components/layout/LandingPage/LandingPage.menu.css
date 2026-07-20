@@ -48,6 +48,63 @@
   transform: scale(1.05);
 }
 
+/* Shown in place of .my-logo while an AppView is open — mirrors the AppView
+   shell's own back button (AppView.module.css) so the control reads
+   identically once it moves up into the menu bar. */
+.menu-back {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--lg-edge-bright);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(240, 236, 232, 0.55);
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, color 0.18s ease;
+}
+
+.menu-back:hover {
+  transform: scale(1.08);
+  background: rgba(212, 132, 90, 0.18);
+  border-color: rgba(212, 132, 90, 0.45);
+  color: #d4845a;
+}
+
+.menu-back:active {
+  transform: scale(0.93);
+}
+
+.menu-back:focus-visible {
+  outline: 2px solid rgba(212, 132, 90, 0.6);
+  outline-offset: 2px;
+}
+
+/* The open AppView's title, centered in the bar (the AppView's own title bar
+   is hidden on desktop). pointer-events:none so it never blocks the menu
+   triggers underneath; mirrors AppView.module.css's .titleText. */
+.menu-bar-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--noir-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
 .menu-item-wrapper {
   position: relative;
   display: inline-block;
