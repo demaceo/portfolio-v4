@@ -1,301 +1,33 @@
-/*
- * Scrapbook flow map, themed to sit inside the dark AppView window (no bright
- * panel background — the dark window shows through the transparent stage).
- * Cards are dark glass tiles with the photo on top; connector lines/dots are
- * light so they read on the dark surface.
- *
- * Performance notes (this view pans a wide canvas under a pinned ScrollTrigger,
- * so per-frame cost matters):
- *   • The canvas is promoted to its own compositor layer (will-change) so the
- *     horizontal pan is a cheap layer transform rather than a repaint.
- *   • No backdrop-filter anywhere — sampling a blurred backdrop while the whole
- *     canvas moves forces a recomposite every frame and was the main cause of
- *     scroll stagger. Badges use solid translucent fills instead.
- */
-
 .root {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  padding: 14px;
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
 .stage {
-  --card-bg: rgba(30, 25, 23, 0.9);
-  --card-border: rgba(255, 255, 255, 0.09);
-  --line: rgba(240, 236, 232, 0.24);
-  --dot: var(--noir-accent, #d4845a);
-  --text-strong: #f0ece8;
-  --text-muted: rgba(240, 236, 232, 0.58);
-  --accent: var(--noir-accent, #d4845a);
-  --card-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
-  --card-shadow-hover: 0 22px 46px rgba(0, 0, 0, 0.62);
-
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: 18px;
-  background: transparent;
-  font-family: var(--font-primary), "Segoe UI", Roboto, Helvetica, sans-serif;
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: transparent;
 }
 
-.stage * {
-  box-sizing: border-box;
-}
-
-.scrollInstruction {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 700;
-  color: var(--text-muted);
-  z-index: 100;
-  animation: bounce 2s infinite ease-in-out;
-  pointer-events: none;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: var(--card-shadow);
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, -15px);
-  }
-}
-
-.scrollArea {
-  position: absolute;
-  inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  /* Hide the scroller's scrollbar — it's purely functional (the pin drives it).
-     A classic scrollbar appearing mid-pan changes the client width, which would
-     trigger a ScrollTrigger refresh mid-scroll and drop the content. */
-  scrollbar-width: none;
-}
-
-.scrollArea::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-/*
- * Reduced-motion mode: the JS skips the pin/scrub choreography, so the canvas
- * is left un-transformed and the stage instead offers native two-axis
- * scrolling, keeping every node reachable without scroll-driven animation.
- */
-.scrollAreaReduced {
-  overflow-x: auto;
-}
-
-.scrollWrapper {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.canvas {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  /* Promote to its own layer so the GSAP horizontal pan composites smoothly. */
-  will-change: transform;
-}
-
-.linesLayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.linePath {
-  stroke: var(--line);
-  stroke-width: 4;
-  fill: none;
-  stroke-linecap: round;
-}
-
-/* Dark glass tile base (replaces the light neumorphic clay look). */
-.clayElement {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  background: var(--card-bg);
-  box-shadow: var(--card-shadow);
-  z-index: 2;
-}
-
-.connectorDot {
-  width: 16px;
-  height: 16px;
-  background: var(--dot);
-  border: 3px solid rgba(18, 15, 13, 0.9);
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  z-index: 3;
-}
-
-.card {
-  width: 250px;
-  height: 280px;
-  border-radius: 28px;
-  border: 1px solid var(--card-border);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.card:hover,
-.card:focus-visible {
-  transform: translate(-50%, -54%);
-  box-shadow: var(--card-shadow-hover);
-  z-index: 10;
-}
-
-.card:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
-}
-
-/* While the canvas is actively panning, cards ignore the pointer so they don't
-   trigger their hover-lift (transform + big shadow repaint) as they slide under
-   a stationary cursor — the main remaining scroll "stagger". Hover is restored
-   a beat after scrolling stops (JS toggles this class; see ScrapbookAppView). */
-.scrolling .card {
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scrollInstruction {
-    animation: none;
-  }
-
-  .card {
-    transition: none;
-  }
-}
-
-.cardMedia {
-  position: relative;
-  height: 185px;
-  width: 100%;
-  flex-shrink: 0;
-  overflow: hidden;
-  background: #000;
-}
-
-.thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-/* Bottom-anchored legibility scrim so the title reads over any photo, while
-   leaving the upper photo clear. */
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.62) 0%,
-    rgba(0, 0, 0, 0.12) 45%,
-    rgba(0, 0, 0, 0) 72%
-  );
-}
-
-.headerBadges {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  right: 14px;
-  z-index: 3;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-/* Solid translucent fill — deliberately NO backdrop-filter (see header note). */
-.dateBadge {
-  padding: 5px 10px;
-  border-radius: 14px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  white-space: nowrap;
-}
-
-.title {
-  position: absolute;
-  bottom: 12px;
-  left: 16px;
-  right: 16px;
-  z-index: 3;
-  color: #fff;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 1.2;
-  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
-}
-
-.cardBlurb {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  font-size: 13px;
-  line-height: 1.35;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: var(--card-bg);
-}
-
-/* Belt-and-suspenders for a resize below the desktop breakpoint while open.
-   The launcher itself is already absent on phones (the desktop wheel is
-   display:none ≤480px and Scrapbook is filtered out of the mobile switcher). */
-.mobileNotice {
-  display: none;
-}
-
-@media (max-width: 480px) {
-  .scrollArea,
-  .scrollInstruction {
-    display: none;
-  }
-
-  .mobileNotice {
-    display: flex;
+.galleryWrap {
     position: absolute;
     inset: 0;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+}
+
+.stateMessage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
     padding: 24px;
-    color: var(--text-muted);
-    font-weight: 600;
+    color: rgba(240, 236, 232, 0.8);
+    text-align: center;
     font-size: 14px;
-    line-height: 1.4;
-  }
+    letter-spacing: 0.01em;
 }

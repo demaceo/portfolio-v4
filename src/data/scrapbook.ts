@@ -118,9 +118,9 @@ export const scrapbookItems: ScrapbookItem[] = [
   {
     id: "colorado",
     category: "photo",
-    title: "Sunrise Over the Rockies",
+    title: "Woozy on the Rockies",
     blurb: "Colorado mornings — a favorite frame from a favorite trailhead.",
-    image: "https://picsum.photos/seed/scrapbook-rockies/500/400",
+    image: "/scrapbook/woozy-me-mtn(1).jpg",
     date: "Colorado",
   },
   {
@@ -135,7 +135,7 @@ export const scrapbookItems: ScrapbookItem[] = [
     category: "interest",
     title: "Public Interest Tech",
     blurb: "Technology for people and communities, not just for the demo.",
-    image: "https://picsum.photos/seed/scrapbook-pit/500/400",
+    image: "/scrapbook/PIT-group-shot(1).jpeg",
   },
   {
     id: "documentary",
@@ -150,21 +150,21 @@ export const scrapbookItems: ScrapbookItem[] = [
     category: "memory",
     title: "SXSW EDU Panel",
     blurb: "Panelist on youth, technology, and media — a full-circle moment.",
-    image: "https://picsum.photos/seed/scrapbook-sxsw/500/400",
+    image: "/scrapbook/sxsw-panel02.jpg",
     date: "2025",
   },
   {
     id: "current-read",
     category: "book",
     title: "Currently Reading",
-    blurb: "Placeholder — what's on the nightstand right now?",
-    image: "https://picsum.photos/seed/scrapbook-book2/500/400",
+    blurb: "The Alchemist by Paulo Coelho",
+    image: "/scrapbook/book-alchemist.jpg",
   },
   {
     id: "underwater-photo",
     category: "photo",
     title: "Below the Surface",
     blurb: "A quiet frame from a dive — light, blue, and a curious fish.",
-    image: "https://picsum.photos/seed/scrapbook-underwater/500/400",
+    image: "/scrapbook/manatee.jpg",
   },
 ];
