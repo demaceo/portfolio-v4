@@ -82,8 +82,8 @@ export const scrapbookItems: ScrapbookItem[] = [
     id: "scuba",
     category: "hobby",
     title: "Scuba Diving",
-    blurb: "Certified dive master — happiest 60 feet under, weightless and quiet.",
-    image: "https://picsum.photos/seed/scrapbook-scuba/500/400",
+    blurb: "Certified Dive Master — most at peace 120 feet under, weightless and quiet.",
+    image: "/scrapbook/scuba-doodz.jpg",
     date: "Ongoing",
   },
   {
@@ -91,7 +91,7 @@ export const scrapbookItems: ScrapbookItem[] = [
     category: "interest",
     title: "Conservation & the Sea",
     blurb: "Fieldwork with reefs and wildlife — tech in service of the planet.",
-    image: "https://picsum.photos/seed/scrapbook-reef/500/400",
+    image: "/scrapbook/coral-dive.jpg",
   },
   {
     id: "roadtrip",
@@ -112,8 +112,8 @@ export const scrapbookItems: ScrapbookItem[] = [
     id: "favorite-book",
     category: "book",
     title: "A Book That Stuck",
-    blurb: "Placeholder — swap in a title that shaped how you see the world.",
-    image: "https://picsum.photos/seed/scrapbook-book1/500/400",
+    blurb: "Sapiens by Yuval Noah Harari — a lens for thinking about the world and our place in it.",
+    image: "/scrapbook/book-sapiens.jpg",
   },
   {
     id: "colorado",
