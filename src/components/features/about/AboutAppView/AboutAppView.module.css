@@ -1,4 +1,9 @@
-/* ===== ABOUT — "THE DOSSIER" / CHAPTERED NARRATIVE ===== */
+/* ===== ABOUT — "THE DOSSIER": RULED EDITORIAL INDEX =====
+   Three chapters (Profile · Strengths · Featured) behind a numbered rail.
+   The grammar here is print, not chrome: hairline rules and uppercase accent
+   micro-labels instead of filled pills, borrowed from ResumeHighlightsModal.css.
+   The two exceptions are deliberate and scoped to the Featured chapter
+   (.aboutFeaturedBadge / .aboutFeaturedCta keep their 999px radius). */
 
 .aboutDossier {
   --about-accent: var(--noir-accent);
@@ -40,38 +45,43 @@
   border: 0;
   background: transparent;
   color: var(--about-muted);
-  padding: 0.6rem 0.7rem;
-  border-radius: 0.62rem;
+  padding: 0.72rem 0.7rem 0.72rem 0.85rem;
+  border-radius: 0;
   cursor: pointer;
   position: relative;
   transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hairline between entries so three items read as an index, not three buttons. */
+.aboutRailItem + .aboutRailItem {
+  border-top: 1px solid var(--about-border);
 }
 
 .aboutRailItem::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%) scaleY(0);
-  width: 3px;
-  height: 60%;
-  border-radius: 0 3px 3px 0;
+  top: 0;
+  transform: scaleY(0);
+  transform-origin: center;
+  width: 2px;
+  height: 100%;
+  border-radius: 0;
   background: var(--about-accent);
   transition: transform 0.22s ease;
 }
 
 .aboutRailItem:hover:not(.active) {
-  background: var(--about-panel);
   color: rgba(240, 236, 232, 0.78);
 }
 
 .aboutRailItem.active {
-  background: var(--about-accent-soft);
+  background: transparent;
   color: var(--about-text);
 }
 
 .aboutRailItem.active::before {
-  transform: translateY(-50%) scaleY(1);
+  transform: scaleY(1);
 }
 
 .aboutRailNum {
@@ -87,15 +97,16 @@
 }
 
 .aboutRailLabel {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   line-height: 1.2;
 }
 
 .aboutRailItem:focus-visible,
 .aboutProgArrow:focus-visible,
-.aboutPill:focus-visible {
+.aboutIndexTrigger:focus-visible {
   outline: 2px solid var(--noir-accent);
   outline-offset: 2px;
 }
@@ -233,45 +244,51 @@
 
 /* ── Profile highlights ───────────────────────────────── */
 
-.aboutCredibilityStrip {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: -0.1rem 0 0.15rem;
-}
-
-.aboutCredibilityNote {
-  font-size: 0.72rem;
+/* Credit line — the press signal, as type rather than two colored badges. */
+.aboutCredit {
+  margin: 0.15rem 0 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--about-faint);
 }
 
+.aboutCreditSep {
+  color: var(--about-accent);
+  margin: 0 0.6em;
+}
+
+/* Capped like .aboutLede is: on a 1440px stage the rules would otherwise run
+   the full width and the copy would set at ~100 characters a line. */
 .aboutHighlightGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem;
-  margin-top: 0.35rem;
+  gap: 0.9rem 1.6rem;
+  margin-top: 0.9rem;
+  max-width: 82ch;
 }
 
+/* Ruled blocks, not boxed cards: a single hairline above each entry, with the
+   accent moving to that rule on hover instead of a fill + lift. */
 .aboutHighlightCard {
-  border: 1px solid var(--about-border);
-  border-radius: 0.82rem;
-  background: var(--about-panel);
-  padding: 0.85rem;
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  border: 0;
+  border-top: 1px solid var(--about-border);
+  border-radius: 0;
+  background: transparent;
+  padding: 0.7rem 0 0;
+  transition: border-color 0.2s ease;
 }
 
 .aboutHighlightCard:hover {
-  border-color: var(--noir-accent-line);
-  transform: translateY(-2px);
-  background: var(--noir-accent-soft);
+  border-top-color: var(--noir-accent-line);
 }
 
 .aboutHighlightCard h3 {
   margin: 0;
-  font-size: 0.66rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--about-accent);
 }
@@ -279,118 +296,121 @@
 .aboutHighlightCard p {
   margin: 0.4rem 0 0;
   font-size: 0.84rem;
-  line-height: 1.46;
-  color: var(--about-muted);
-}
-
-/* ── Working-style points ─────────────────────────────── */
-
-.aboutPoints {
-  margin: 0.4rem 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-
-.aboutPoints li {
-  position: relative;
-  padding-left: 1.5rem;
-  font-size: 0.92rem;
-  line-height: 1.58;
-  color: rgba(240, 236, 232, 0.72);
-}
-
-.aboutPoints li::before {
-  content: counter(list-item, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  top: 0.12rem;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--about-accent);
-}
-
-/* ── Strengths pills ──────────────────────────────────── */
-
-.aboutPills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 0.35rem;
-}
-
-.aboutPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  border: 1px solid rgba(240, 236, 232, 0.14);
-  border-radius: 999px;
-  background: var(--about-panel);
-  color: rgba(240, 236, 232, 0.68);
-  font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.42rem 0.78rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease,
-    background 0.2s ease, color 0.2s ease;
-}
-
-.aboutPill.clickable {
-  border-color: var(--noir-accent-line);
-}
-
-.aboutPill:hover {
-  border-color: var(--noir-accent-line);
-  color: rgba(240, 236, 232, 0.9);
-  transform: translateY(-1px);
-}
-
-.aboutPill.active {
-  color: #fff;
-  border-color: var(--noir-accent);
-  background: var(--about-accent);
-  box-shadow: 0 3px 12px var(--about-accent-glow);
-}
-
-.aboutPillLinkIcon {
-  font-size: 0.6rem;
-  opacity: 0.7;
-}
-
-.aboutStrengthDetail {
-  margin-top: 0.5rem;
-  border: 1px solid var(--noir-accent-line);
-  border-radius: 0.78rem;
-  padding: 0.75rem 0.85rem;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(212, 132, 90, 0.08), transparent 60%),
-    var(--noir-panel);
-  box-shadow: 0 8px 24px rgba(22, 20, 18, 0.12);
-}
-
-.aboutStrengthDetailTitle {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--about-accent);
-}
-
-.aboutStrengthDetailCopy {
-  margin: 0.35rem 0 0;
-  font-size: 0.84rem;
   line-height: 1.5;
   color: var(--about-muted);
 }
 
-.aboutLinkHint {
-  color: var(--about-accent);
+/* ── Strengths — ruled index with inline disclosure ───── */
+
+.aboutIndex {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--about-border);
+  /* Same measure cap as the highlight grid — keeps the +/- affordance near the
+     label on a wide stage instead of stranding it at the far right edge. */
+  max-width: 82ch;
+}
+
+.aboutIndexRow {
+  border-bottom: 1px solid var(--about-border);
+}
+
+.aboutIndexTrigger {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.72rem 0.4rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--about-muted);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.aboutIndexTrigger:hover {
+  background: var(--about-accent-soft);
+  color: var(--about-text);
+}
+
+.aboutIndexTrigger[aria-expanded="true"] {
+  color: var(--about-text);
+}
+
+.aboutIndexNum {
+  font-size: 0.64rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--about-faint);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.aboutIndexTrigger[aria-expanded="true"] .aboutIndexNum {
+  color: var(--about-accent);
+}
+
+.aboutIndexLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.aboutIndexToggle {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--about-faint);
+  transition: color 0.2s ease;
+}
+
+.aboutIndexTrigger:hover .aboutIndexToggle,
+.aboutIndexTrigger[aria-expanded="true"] .aboutIndexToggle {
+  color: var(--about-accent);
+}
+
+/* Height is animated by framer-motion, so the padding lives on the inner
+   wrapper — otherwise it would still paint at the collapsed height of 0. */
+.aboutIndexBody {
+  overflow: hidden;
+}
+
+.aboutIndexBodyInner {
+  padding: 0 0.4rem 0.9rem 2.1rem;
+}
+
+.aboutIndexCopy {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--about-muted);
+  max-width: 62ch;
+}
+
+.aboutIndexLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--about-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.aboutIndexLink:hover,
+.aboutIndexLink:focus-visible {
+  border-bottom-color: var(--about-accent);
 }
 
 /* ── Progress footer ──────────────────────────────────── */
@@ -409,34 +429,35 @@
 .aboutProgArrow {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: var(--about-panel);
-  border: 1px solid rgba(240, 236, 232, 0.14);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: rgba(240, 236, 232, 0.45);
   font-size: 0.72rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
-    transform 0.15s ease;
+  transition: color 0.2s ease;
   flex-shrink: 0;
 }
 
 .aboutProgArrow:hover:not(:disabled) {
-  background: var(--noir-accent-soft);
-  border-color: var(--noir-accent-line);
   color: var(--about-accent);
-  transform: scale(1.05);
-}
-
-.aboutProgArrow:active:not(:disabled) {
-  transform: scale(0.94);
 }
 
 .aboutProgArrow:disabled {
   opacity: 0.22;
   cursor: default;
+}
+
+/* Borderless squares are still real hit targets on touch — match the 44px
+   minimum globals.css applies elsewhere under a coarse pointer. */
+@media (pointer: coarse) {
+  .aboutProgArrow {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .aboutProgCounter {
@@ -645,23 +666,35 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.1rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem 0.75rem;
     white-space: nowrap;
-    flex-shrink: 0;
+    /* The base rule's `width: 100%` is sized against the rail itself. That's
+       right for the vertical desktop rail, but here the rail is a flex ROW, so
+       every entry claimed the full strip width and the three chapters scrolled
+       off to 1088px. Size to content and share the strip instead. */
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  /* The rail runs horizontally here, so the hairline between entries and the
+     active marker both rotate 90° with it. */
+  .aboutRailItem + .aboutRailItem {
+    border-top: 0;
+    border-left: 1px solid var(--about-border);
   }
 
   .aboutRailItem::before {
     left: 0;
     top: auto;
     bottom: 0;
-    transform: translateY(0) scaleX(0);
+    transform: scaleX(0);
     width: 100%;
     height: 2px;
-    border-radius: 2px 2px 0 0;
+    border-radius: 0;
   }
 
   .aboutRailItem.active::before {
-    transform: translateY(0) scaleX(1);
+    transform: scaleX(1);
   }
 
   .aboutChapter {
@@ -719,7 +752,7 @@
   }
 
   .aboutLede,
-  .aboutPoints li {
+  .aboutIndexCopy {
     font-size: 0.86rem;
   }
 }
@@ -728,7 +761,10 @@
   .aboutRailItem,
   .aboutRailItem::before,
   .aboutHighlightCard,
-  .aboutPill,
+  .aboutIndexTrigger,
+  .aboutIndexNum,
+  .aboutIndexToggle,
+  .aboutIndexLink,
   .aboutProgArrow {
     transition: none;
   }

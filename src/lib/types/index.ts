@@ -6,6 +6,8 @@ export interface AboutMePill {
     tooltip: string;
     icon?: string;
     link?: string;
+    /** Anchor text for `link` in the About strengths index. Falls back to "Open link". */
+    linkLabel?: string;
 }
 
 export interface Project {
