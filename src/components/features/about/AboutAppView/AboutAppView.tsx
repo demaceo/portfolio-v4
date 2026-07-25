@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo, useState, type CSSProperties } from "react";
+import React, { useCallback, useState, type CSSProperties } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { aboutMePills } from "@/data/aboutMePills";
-import { AboutMePill } from "@/lib/types";
 import { AppView } from "@/components/features/shell";
 import styles from "./AboutAppView.module.css";
 
@@ -34,61 +33,30 @@ const ABOUT_HERO_START_INDEX = 5;
 
 const profileHighlights = [
   {
-    label: "Shipped Track Record",
-    value: "5 production apps, solo — civic tech, privacy AI, PropTech, spatial AI, real-time voice — in 12 months.",
+    label: "Shipped",
+    value: "Five production apps in twelve months, solo — civic tech, privacy AI, PropTech, spatial AI, and real-time voice.",
   },
   {
-    label: "Signature Engineering Move",
-    value: "Verified Firebase tokens via Google's JWKS directly — no Admin SDK, no exposed service account.",
+    label: "Built",
+    value: "Firebase tokens verified straight against Google's JWKS — no Admin SDK, no service account sitting on a server to leak.",
   },
   {
-    label: "Full-Stack Ownership",
-    value: "Architecture, security, compliance docs, and 3D graphics — end to end, not handed off.",
+    label: "Owned",
+    value: "Architecture, security, compliance docs, 3D graphics. Nothing handed off because it wasn't my job.",
   },
   {
-    label: "Public Recognition",
-    value: "Featured in a PBS documentary on public interest tech; SXSW EDU 2025 panelist.",
-  },
-];
-
-const collaborationSections = [
-  {
-    title: "How I Think",
-    points: [
-      "I look for the constraint that actually breaks first — a rate limit, a token budget, a background task getting killed — before I reach for a clever solution.",
-      "I treat security and compliance as design inputs, not cleanup: an on-device AES-256-GCM vault and JWKS-based auth were both scoped in from day one, not bolted on after an incident.",
-      "I'd rather ship the smaller, correct architecture than the impressive one.",
-    ],
-  },
-  {
-    title: "How I Work",
-    points: [
-      "I've been the sole engineer, designer, and product owner on 5 shipped apps at once — I close the loop myself instead of waiting on a hand-off.",
-      "I write the deployment runbook and the compliance doc in the same sprint as the feature, not after someone asks where they are.",
-      "I default to typed, tested, CI-gated code — strict TypeScript, GitHub Actions, pre-commit hooks — so \"it works on my machine\" isn't a phase I pass through.",
-    ],
-  },
-  {
-    title: "How I Collaborate",
-    points: [
-      "I hand off systems other engineers can extend without a walkthrough — documented APIs, Postman collections, and architecture diagrams included.",
-      "I mentor deliberately: years of 1:1 code reviews and mock interviews for bootcamp grads, not just filling in when a team needed an extra reviewer.",
-      "I say the risk out loud early, then bring options — not just a problem — because a team that trusts the flag will trust the fix.",
-    ],
+    label: "On Record",
+    value: "A PBS documentary on public interest tech, and a panel at SXSW EDU 2025.",
   },
 ];
 
 type Chapter =
   | { id: string; label: string; kind: "profile" }
-  | { id: string; label: string; kind: "list"; sectionIndex: number }
   | { id: string; label: string; kind: "strengths" }
   | { id: string; label: string; kind: "featured" };
 
 const chapters: Chapter[] = [
   { id: "profile", label: "Profile", kind: "profile" },
-  { id: "think", label: "How I Think", kind: "list", sectionIndex: 0 },
-  { id: "work", label: "How I Work", kind: "list", sectionIndex: 1 },
-  { id: "collaborate", label: "How I Collaborate", kind: "list", sectionIndex: 2 },
   { id: "strengths", label: "Strengths", kind: "strengths" },
   { id: "featured", label: "Featured", kind: "featured" },
 ];
@@ -102,17 +70,10 @@ const chapterVariants = {
 const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary }) => {
   const [chapterIndex, setChapterIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [openStrength, setOpenStrength] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
 
   const chapter = chapters[chapterIndex];
-
-  const pillsByLabel = useMemo(() => {
-    return aboutMePills.reduce<Record<string, AboutMePill>>((acc, pill) => {
-      acc[pill.label] = pill;
-      return acc;
-    }, {});
-  }, []);
 
   // Center the "start" word within the hero list itself (not the page) each
   // time the list mounts — including when the Profile chapter is revisited.
@@ -131,7 +92,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
     if (index === chapterIndex) return;
     setDirection(index > chapterIndex ? 1 : -1);
     setChapterIndex(index);
-    setActiveTooltip(null);
+    setOpenStrength(null);
   };
 
   const navigate = (dir: 1 | -1) => {
@@ -140,16 +101,8 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
     goToChapter(next);
   };
 
-  const handlePillClick = (pill: AboutMePill) => {
-    if (activeTooltip === pill.label) {
-      if (pill.link) {
-        window.open(pill.link, "_blank", "noopener,noreferrer");
-      } else {
-        setActiveTooltip(null);
-      }
-      return;
-    }
-    setActiveTooltip(pill.label);
+  const toggleStrength = (label: string) => {
+    setOpenStrength((current) => (current === label ? null : label));
   };
 
   const renderFeaturedChapter = () => (
@@ -258,15 +211,13 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
             Full-stack engineer who ships solo, fast, and end-to-end — from civic
             platforms to privacy-first AI tools.
           </p>
-          <div className={styles.aboutCredibilityStrip}>
-            <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgePbs}`}>
-              PBS Documentary
+          <p className={styles.aboutCredit}>
+            PBS Documentary
+            <span className={styles.aboutCreditSep} aria-hidden="true">
+              ·
             </span>
-            <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgeSxsw}`}>
-              SXSW EDU 2025
-            </span>
-            <span className={styles.aboutCredibilityNote}>— see Featured chapter</span>
-          </div>
+            SXSW EDU 2025 Panel
+          </p>
           <div className={styles.aboutHighlightGrid}>
             {profileHighlights.map((item) => (
               <article key={item.label} className={styles.aboutHighlightCard}>
@@ -279,80 +230,73 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
       );
     }
 
-    if (chapter.kind === "list") {
-      const section = collaborationSections[chapter.sectionIndex];
-      return (
-        <>
-          <p className={styles.aboutEyebrow}>Working Style</p>
-          <h2 className={styles.aboutChapterTitle}>{section.title}</h2>
-          <ul className={styles.aboutPoints}>
-            {section.points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </>
-      );
-    }
-
     // strengths
     return (
       <>
         <p className={styles.aboutEyebrow}>What I Bring</p>
         <h2 className={styles.aboutChapterTitle}>Core Strengths</h2>
-        <p className={styles.aboutLede}>
-          Select a strength for detail. Click again to open external links.
-        </p>
+        <p className={styles.aboutLede}>Open a line for the detail behind it.</p>
 
-        <div className={styles.aboutPills}>
-          {aboutMePills.map((pill) => {
-            const isActive = activeTooltip === pill.label;
+        <ul className={styles.aboutIndex}>
+          {aboutMePills.map((pill, i) => {
+            const isOpen = openStrength === pill.label;
+            const bodyId = `about-strength-${i}`;
             return (
-              <button
-                key={pill.label}
-                type="button"
-                className={`${styles.aboutPill} ${pill.link ? styles.clickable : ""} ${
-                  isActive ? styles.active : ""
-                }`}
-                onClick={() => handlePillClick(pill)}
-                aria-expanded={isActive}
-                aria-controls={isActive ? "about-strength-detail" : undefined}
-              >
-                <span>{pill.label}</span>
-                {pill.link && (
-                  <FontAwesomeIcon
-                    icon={faArrowUpRightFromSquare}
-                    className={styles.aboutPillLinkIcon}
-                    aria-hidden="true"
-                  />
-                )}
-              </button>
+              <li key={pill.label} className={styles.aboutIndexRow}>
+                <button
+                  type="button"
+                  className={styles.aboutIndexTrigger}
+                  onClick={() => toggleStrength(pill.label)}
+                  aria-expanded={isOpen}
+                  aria-controls={bodyId}
+                >
+                  <span className={styles.aboutIndexNum}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={styles.aboutIndexLabel}>{pill.label}</span>
+                  <span className={styles.aboutIndexToggle} aria-hidden="true">
+                    {isOpen ? "−" : "+"}
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={bodyId}
+                      className={styles.aboutIndexBody}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={
+                        reduceMotion
+                          ? { duration: 0 }
+                          : { duration: 0.24, ease: [0.25, 0.46, 0.45, 0.94] }
+                      }
+                    >
+                      <div className={styles.aboutIndexBodyInner}>
+                        <p className={styles.aboutIndexCopy}>{pill.tooltip}</p>
+                        {pill.link && (
+                          <a
+                            href={pill.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.aboutIndexLink}
+                          >
+                            {pill.linkLabel ?? "Open link"}
+                            <FontAwesomeIcon
+                              icon={faArrowUpRightFromSquare}
+                              aria-hidden="true"
+                            />
+                          </a>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </li>
             );
           })}
-        </div>
-
-        <AnimatePresence mode="wait">
-          {activeTooltip && pillsByLabel[activeTooltip] && (
-            <motion.div
-              key={activeTooltip}
-              id="about-strength-detail"
-              className={styles.aboutStrengthDetail}
-              role="status"
-              aria-live="polite"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
-            >
-              <p className={styles.aboutStrengthDetailTitle}>{activeTooltip}</p>
-              <p className={styles.aboutStrengthDetailCopy}>
-                {pillsByLabel[activeTooltip]?.tooltip}
-                {pillsByLabel[activeTooltip]?.link && (
-                  <span className={styles.aboutLinkHint}> Click again to open.</span>
-                )}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </ul>
       </>
     );
   };

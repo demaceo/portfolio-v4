@@ -31,6 +31,7 @@ export const aboutMePills: AboutMePill[] = [
         tooltip:
             "Featured in a Roadtrip Nation documentary on public interest tech and served as an SXSW EDU 2025 panelist on youth, technology, and media.",
         link: "https://roadtripnation.com/roadtrip/tech-for-us-documentary",
+        linkLabel: "Watch the documentary",
     },
     {
         label: "Production-Grade Craftsman",
