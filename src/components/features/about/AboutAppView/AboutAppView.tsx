@@ -254,9 +254,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className={styles.aboutIndexLabel}>{pill.label}</span>
-                  <span className={styles.aboutIndexToggle} aria-hidden="true">
-                    {isOpen ? "−" : "+"}
-                  </span>
+                  <span className={styles.aboutIndexToggle} aria-hidden="true" />
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -332,7 +330,9 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
                 animate="center"
                 exit="exit"
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className={styles.aboutChapter}
+                className={`${styles.aboutChapter} ${
+                  chapter.kind === "profile" ? styles.aboutChapterCentered : ""
+                }`}
                 aria-labelledby="about-title"
               >
                 {renderChapter()}

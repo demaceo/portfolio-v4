@@ -125,6 +125,8 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
 }
 
 .aboutChapter {
@@ -132,6 +134,17 @@
   flex-direction: column;
   gap: 0.7rem;
   padding: 1.8rem 1.9rem;
+}
+
+/* Profile is the dossier's cover page — fixed content that was left sitting
+   against the top of a tall stage once the working-style chapters were cut.
+   Auto margins centre it, and unlike `justify-content: center` they collapse
+   to 0 rather than clipping when the content outgrows the stage, so short
+   viewports still scroll from the top.
+   Deliberately Profile-only: Strengths grows every time a row opens, and
+   re-centring on each toggle would shunt the whole list up the screen. */
+.aboutChapterCentered {
+  margin-block: auto;
 }
 
 .aboutEyebrow {
@@ -363,18 +376,29 @@
   line-height: 1.3;
 }
 
+/* CSS-drawn chevron, matching the disclosure marker in ResumeHighlightsModal:
+   points down when collapsed, flips up when open. Centered across the row
+   rather than baseline-aligned, so it stays put if a label wraps. */
 .aboutIndexToggle {
   flex-shrink: 0;
-  font-size: 0.95rem;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--about-faint);
-  transition: color 0.2s ease;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-top: -3px;
+  border-right: 2px solid var(--about-faint);
+  border-bottom: 2px solid var(--about-faint);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .aboutIndexTrigger:hover .aboutIndexToggle,
 .aboutIndexTrigger[aria-expanded="true"] .aboutIndexToggle {
-  color: var(--about-accent);
+  border-color: var(--about-accent);
+}
+
+.aboutIndexTrigger[aria-expanded="true"] .aboutIndexToggle {
+  transform: rotate(225deg);
+  margin-top: 3px;
 }
 
 /* Height is animated by framer-motion, so the padding lives on the inner
