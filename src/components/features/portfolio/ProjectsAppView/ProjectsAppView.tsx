@@ -20,7 +20,7 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
   initialProjectId,
 }) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
-  const [activeTab, setActiveTab] = useState<"current" | "archived">("current");
+  const [activeTab, setActiveTab] = useState<"featured" | "more">("featured");
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     initialProjectId ?? null
   );
@@ -29,12 +29,12 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
     string | undefined
   >(undefined);
 
-  const visibleProjects = activeTab === "current" ? activeProjects : archivedProjects;
+  const visibleProjects = activeTab === "featured" ? activeProjects : archivedProjects;
 
   const selectedProject = selectedProjectId != null ? getProjectById(selectedProjectId) : undefined;
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab as "current" | "archived");
+    setActiveTab(tab as "featured" | "more");
   };
 
   const handleOpenDeepDive = (deepDiveKey?: string) => {
@@ -49,8 +49,8 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
           <div className={styles.topbar}>
             <FilterBar
               tabs={[
-                { key: "current", label: "Recent", count: activeProjects.length },
-                { key: "archived", label: "Archived", count: archivedProjects.length },
+                { key: "featured", label: "Featured", count: activeProjects.length },
+                { key: "more", label: "More", count: archivedProjects.length },
               ]}
               activeTab={activeTab}
               onTabChange={handleTabChange}
