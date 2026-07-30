@@ -30,6 +30,9 @@
   width: 100%;
   perspective: var(--stage-perspective, 1400px);
   perspective-origin: 50% 50%;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .card {
@@ -123,9 +126,13 @@
 .preview {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  /* Claims ~62% of the card's height directly (rather than deriving height
+     from width via aspect-ratio, which — since cards are always portrait —
+     used to leave the icon box under half the card and the leftover
+     .content area oversized). Card height is definite (--card-h), so this
+     percentage flex-basis resolves reliably at every tier. */
+  flex: 0 0 62%;
   overflow: hidden;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,15 +140,14 @@
 }
 
 /* max-width AND max-height (not a fixed width) so portrait icons can't
-   compute a height taller than .preview's own landscape (4:3) box — using
-   the same formula for both lets whichever axis is tighter for a given
-   icon's real aspect ratio bind first, self-adjusting without special-casing
-   per icon. */
+   compute a height taller than .preview's own box — using the same formula
+   for both lets whichever axis is tighter for a given icon's real aspect
+   ratio bind first, self-adjusting without special-casing per icon. */
 .iconImg {
   width: auto;
   height: auto;
-  max-width: min(90%, calc(54% * var(--icon-scale, 1)));
-  max-height: min(90%, calc(54% * var(--icon-scale, 1)));
+  max-width: min(94%, calc(62% * var(--icon-scale, 1)));
+  max-height: min(94%, calc(62% * var(--icon-scale, 1)));
   object-fit: contain;
 }
 
@@ -180,6 +186,11 @@
   line-height: 1.2;
   color: var(--noir-text);
   font-family: var(--font-display);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .description {

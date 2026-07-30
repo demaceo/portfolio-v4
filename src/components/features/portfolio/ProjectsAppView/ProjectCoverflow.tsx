@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useGesture } from "@use-gesture/react";
 import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +18,9 @@ const DOC_CORNER_COLOR = "#0f9d6b"; // --noir-doc
 const CORNER_HUE_START = 21; // --noir-accent's own hue (#d4845a)
 const CORNER_SATURATION = 0.48;
 const CORNER_LIGHTNESS = 0.6;
+
+// Minimum horizontal drag (px) to advance the carousel on release.
+const SWIPE_DISTANCE = 40;
 
 function cornerColorFor(index: number, count: number): string {
   const hue = (CORNER_HUE_START + index * (360 / count)) % 360;
@@ -104,6 +108,44 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
     return () => observer.disconnect();
   }, []);
 
+  // Swipe-to-navigate: refs + the useGesture hook must stay above the
+  // `projects.length === 0` early return below (projects.length can toggle
+  // between 0 and non-zero across renders, e.g. an emptied filter tab, and
+  // hooks can't be called conditionally). goTo only needs projects.length /
+  // setActiveIndex / cardRefs, all available here, so it's relocated
+  // alongside them rather than left further down.
+  const movedRef = useRef(false);
+  const lastDragEndAt = useRef(0);
+
+  const goTo = (index: number, focus = false) => {
+    const next = wrapIndex(index, projects.length);
+    setActiveIndex(next);
+    if (focus) cardRefs.current[next]?.focus();
+  };
+
+  useGesture(
+    {
+      onDrag: ({ swipe: [swipeX], movement: [mx, my], last, first }) => {
+        if (first) movedRef.current = false;
+        if (Math.abs(mx) > 8 || Math.abs(my) > 8) movedRef.current = true;
+        if (!last) return;
+        if (movedRef.current) lastDragEndAt.current = performance.now();
+        // @use-gesture's own `swipe` detection is velocity-gated (a "flick"),
+        // so a deliberate drag-past-the-threshold-then-pause-before-lifting
+        // reads as swipe [0, 0] even though it moved plenty. Fall back to a
+        // plain distance check (same threshold as `drag.swipe.distance`
+        // below) so that release still commits to the next/prev card.
+        if (swipeX === -1 || (swipeX === 0 && mx <= -SWIPE_DISTANCE)) goTo(activeIndex + 1);
+        else if (swipeX === 1 || (swipeX === 0 && mx >= SWIPE_DISTANCE)) goTo(activeIndex - 1);
+      },
+    },
+    {
+      target: viewportRef,
+      eventOptions: { passive: true },
+      drag: { axis: "x", filterTaps: true, swipe: { distance: SWIPE_DISTANCE, velocity: 0.3 } },
+    }
+  );
+
   if (projects.length === 0) return null;
 
   const tier = pickTier(stageSize.width);
@@ -117,13 +159,11 @@ const ProjectCoverflow: React.FC<ProjectCoverflowProps> = ({
   );
   const cornerSize = clampNum(16, cardW * 0.14, 44);
 
-  const goTo = (index: number, focus = false) => {
-    const next = wrapIndex(index, projects.length);
-    setActiveIndex(next);
-    if (focus) cardRefs.current[next]?.focus();
-  };
-
   const selectOrOpen = (index: number, project: Project) => {
+    // Swallow the click that a mouse/trackpad drag-release would otherwise
+    // also fire on the card underneath (touch already suppresses this
+    // natively, but click has no such native guard for pointer/mouse drags).
+    if (performance.now() - lastDragEndAt.current < 80) return;
     if (index === activeIndex) {
       onOpen(project.id);
     } else {

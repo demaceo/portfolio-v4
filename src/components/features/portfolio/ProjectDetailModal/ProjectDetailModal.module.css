@@ -6,6 +6,11 @@
   height: 100%;
   font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
   color: var(--noir-text);
+  /* Swipe left/right (bound on this element) to move to the next/previous
+     project. pan-y (not none) keeps .info's own vertical scroll working —
+     it only opts this element out of the browser's native horizontal
+     panning, which would otherwise fight the JS-driven swipe gesture. */
+  touch-action: pan-y;
 }
 
 .media {
@@ -33,9 +38,18 @@
   pointer-events: none;
 }
 
+/* max-width AND max-height (not a fixed width with auto height) so a
+   portrait icon can't compute a height taller than .media's own box —
+   .media has a small fixed height on mobile (see the max-width:720px rule
+   below), and a width-only constraint let tall icons (e.g. Pinpoint's pin,
+   2:3) overflow it and get clipped top and bottom by .media's overflow:
+   hidden. Same self-adjusting technique already used by the coverflow
+   card's own .iconImg. */
 .iconImg {
-  width: 52%;
+  width: auto;
   height: auto;
+  max-width: 60%;
+  max-height: 75%;
   object-fit: contain;
   position: relative;
   filter: drop-shadow(0 10px 36px rgba(0, 0, 0, 0.4));
@@ -59,6 +73,11 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  /* Restated explicitly (not just inherited from .detail's effective
+     touch-action) because this is itself a scrollable region — without it,
+     a swipe starting here gets claimed for native scroll-gesture handling
+     after the first move and our JS never sees the rest of the drag. */
+  touch-action: pan-y;
 }
 
 .docTag {
