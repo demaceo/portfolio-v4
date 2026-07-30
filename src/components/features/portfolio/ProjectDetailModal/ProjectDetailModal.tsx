@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import { useGesture } from "@use-gesture/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt, faFilm } from "@fortawesome/free-solid-svg-icons";
 import { Project } from "@/lib/types";
@@ -9,17 +10,60 @@ import { ModalFrame } from "@/components/features/modal";
 import ProjectMedia from "../shared/ProjectMedia";
 import styles from "./ProjectDetailModal.module.css";
 
+// Minimum horizontal drag (px) to advance to the next/previous project.
+const SWIPE_DISTANCE = 40;
+
 interface ProjectDetailModalProps {
   project: Project;
   onBack: () => void;
   onOpenDeepDive: (deepDiveKey?: string) => void;
+  onNext: () => void;
+  onPrev: () => void;
 }
 
 const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
   project,
   onBack,
   onOpenDeepDive,
+  onNext,
+  onPrev,
 }) => {
+  const detailRef = useRef<HTMLDivElement>(null);
+  // Guards taps/clicks (Open Project, Resume Deep Dive) from also firing
+  // right as a swipe releases over them — same idiom as the coverflow
+  // carousel's card click guard.
+  const lastDragEndAt = useRef(0);
+
+  useGesture(
+    {
+      onDrag: ({ swipe: [swipeX], movement: [mx, my], last }) => {
+        if (!last) return;
+        if (Math.abs(mx) > 8 || Math.abs(my) > 8) lastDragEndAt.current = performance.now();
+        // @use-gesture's own `swipe` is velocity-gated (a "flick"), so a
+        // deliberate drag-past-the-threshold-then-pause-before-lifting
+        // reads as swipe [0, 0] even though it moved plenty. Fall back to a
+        // plain distance check so that release still navigates.
+        if (swipeX === -1 || (swipeX === 0 && mx <= -SWIPE_DISTANCE)) onNext();
+        else if (swipeX === 1 || (swipeX === 0 && mx >= SWIPE_DISTANCE)) onPrev();
+      },
+    },
+    {
+      target: detailRef,
+      eventOptions: { passive: true },
+      drag: { axis: "x", filterTaps: true, swipe: { distance: SWIPE_DISTANCE, velocity: 0.3 } },
+    }
+  );
+
+  const guardedOpenProject = () => {
+    if (performance.now() - lastDragEndAt.current < 80) return;
+    window.open(project.link, "_blank", "noopener,noreferrer");
+  };
+
+  const guardedOpenDeepDive = () => {
+    if (performance.now() - lastDragEndAt.current < 80) return;
+    onOpenDeepDive(project.deepDiveKey);
+  };
+
   return (
     <ModalFrame
       onClose={onBack}
@@ -29,7 +73,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
       titleId="project-detail-title"
       closeAriaLabel="Back to projects"
     >
-      <div className={styles.detail}>
+      <div className={styles.detail} ref={detailRef}>
         <motion.div
           layoutId={`project-media-${project.id}`}
           className={styles.media}
@@ -80,21 +124,13 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           )}
 
           <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.openBtn}
-              onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
-            >
+            <button type="button" className={styles.openBtn} onClick={guardedOpenProject}>
               <FontAwesomeIcon icon={faExternalLinkAlt} aria-hidden="true" />
               <span>Open Project</span>
             </button>
 
             {project.deepDiveKey && (
-              <button
-                type="button"
-                className={styles.diveBtn}
-                onClick={() => onOpenDeepDive(project.deepDiveKey)}
-              >
+              <button type="button" className={styles.diveBtn} onClick={guardedOpenDeepDive}>
                 Resume Deep Dive
               </button>
             )}

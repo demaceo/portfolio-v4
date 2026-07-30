@@ -42,6 +42,17 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
     setShowResumeHighlights(true);
   };
 
+  // Lets the detail view swipe to the next/previous project without closing
+  // back out to the gallery first. Scoped to (and wraps within) whichever
+  // tab's list the project was opened from, matching the coverflow itself.
+  const handleNavigateProject = (direction: 1 | -1) => {
+    if (visibleProjects.length === 0) return;
+    const currentIndex = visibleProjects.findIndex((p) => p.id === selectedProjectId);
+    if (currentIndex === -1) return;
+    const nextIndex = (currentIndex + direction + visibleProjects.length) % visibleProjects.length;
+    setSelectedProjectId(visibleProjects[nextIndex].id);
+  };
+
   return (
     <>
       <AppView onClose={onClose} title="Projects" titleId="projects-title">
@@ -86,6 +97,8 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
             project={selectedProject}
             onBack={() => setSelectedProjectId(null)}
             onOpenDeepDive={handleOpenDeepDive}
+            onNext={() => handleNavigateProject(1)}
+            onPrev={() => handleNavigateProject(-1)}
           />
         )}
       </AnimatePresence>
