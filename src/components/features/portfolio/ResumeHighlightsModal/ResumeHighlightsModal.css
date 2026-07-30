@@ -439,17 +439,23 @@
 @media (max-width: 900px) {
   .resume-highlights-topbar {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.45rem;
   }
 
-  /* Give the tab pill its own full-width row and let it scroll horizontally
-     rather than forcing three long labels to fit. The old `flex: 1` +
-     `text-align: center` stretched each tab and made its nowrap label spill
-     past both ends, clipping mid-word ("Role Bullets" → "llets"). */
+  /* Size the tab pill to its own content (capped at the row's width) and
+     center it, rather than force-stretching it to `flex: 1 1 100%` — a
+     100%-wide box has nowhere to be centered to, which is why it used to
+     read as pinned left. Each button keeps `flex: 0 0 auto` below (its
+     natural width, never force-shrunk) so the old clipping bug — the old
+     `flex: 1` + `text-align: center` stretched each tab and made its
+     nowrap label spill past both ends, clipping mid-word ("Role Bullets" →
+     "llets") — can't reappear: on wide-enough phones the pill now fits
+     fully centered with no scrolling; on narrower ones it still falls back
+     to the existing horizontal scroll. */
   .resume-highlights-tabs {
-    flex: 1 1 100%;
+    max-width: 100%;
     overflow-x: auto;
-    justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }

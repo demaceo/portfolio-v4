@@ -484,6 +484,25 @@
 /* ── Responsive ───────────────────────────────────────── */
 
 @media (max-width: 640px) {
+  /* Center the tab pill in the row via a 3-column grid (empty spacer /
+     tabs / byline) instead of flex's justify-content: space-between, which
+     just packs the tabs to the left with the (now icon-only) byline on the
+     right. The equal 1fr spacer balances the byline's width so the tabs
+     land at the row's true center. */
+  .skillTopbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .skillTabs {
+    grid-column: 2;
+  }
+
+  .skillStudioByline {
+    grid-column: 3;
+    justify-self: end;
+  }
+
   .skillStudioByline span {
     display: none;
   }
