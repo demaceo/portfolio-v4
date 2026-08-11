@@ -83,11 +83,12 @@ const projectData: Project[] = [
     iconWidth: 1024,
     iconHeight: 1024,
     iconScale: 1.3,
+    archived: true,
   },
   {
     id: 1,
     slug: "payback",
-    name: "Payback",
+    name: "Payback Own",
     yearRange: "2025-2026",
     description:
       "Privacy-first consumer intelligence platform that processes personal data on-device and generates secure behavioral analytics.",
@@ -144,6 +145,7 @@ const projectData: Project[] = [
     iconWidth: 1536,
     iconHeight: 1024,
     iconScale: 1.55,
+    archived: true,
   },
   {
     id: 8,

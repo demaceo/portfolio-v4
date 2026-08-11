@@ -213,9 +213,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   // reusing the same object across updates carries d3's mutated x/y/vx/vy over.
   const nodesRef = useRef(new Map<string, SimNode>());
 
-  const [collapsed, setCollapsed] = useState<Set<string>>(
-    () => new Set(buildToolbeltTree(tools, orderedCategories, signatureStack).map((root) => root.name))
-  );
+  const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
   const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null);
   const toolUsage = useMemo(() => buildToolUsageIndex(services, projects), [services, projects]);
   // Read synchronously so there is no post-mount state flip (which used to force

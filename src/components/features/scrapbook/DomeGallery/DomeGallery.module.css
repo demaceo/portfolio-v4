@@ -164,10 +164,14 @@ main.sphere-main {
   box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
 }
 
+.viewer .enlarge {
+  background: #000;
+}
+
 .viewer .enlarge img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   filter: var(--image-filter, none);
 }
 

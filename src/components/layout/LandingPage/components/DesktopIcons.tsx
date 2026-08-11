@@ -347,35 +347,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
           />
         </svg>
 
-        {/* Per-app position markers riding the same curve as the rows
-            themselves (see getRowMetrics), so the rail reads as a live "N
-            items, you are here" indicator instead of pure decoration. */}
-        <div className="desktop-wheel-rail-ticks" aria-hidden="true">
-          {DESKTOP_APPS.map((app, index) => {
-            const { continuous, t } = getRowMetrics(index, active, dragY);
-            const railX = 8 + 87 * easeRound(t);
-            const railY = 50 + Math.sign(continuous) * t * 50;
-            const isActive = index === active;
-            return (
-              <span
-                key={app.name}
-                className={`desktop-wheel-tick${isActive ? " is-active" : ""}`}
-                style={
-                  {
-                    left: `${railX}%`,
-                    top: `${railY}%`,
-                    "--tick-accent": app.color,
-                    transition:
-                      isDragging || isWheeling || prefersReducedMotion
-                        ? "none"
-                        : "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease",
-                  } as CSSProperties
-                }
-              />
-            );
-          })}
-        </div>
-
         {DESKTOP_APPS.map((app, index) => {
           const { translateY, t, curveX, opacity, scale } = getRowMetrics(index, active, dragY);
           const isActive = index === active;
