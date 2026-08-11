@@ -21,6 +21,7 @@ const ACTIVE_ICON_SIZE = 84; // px
 const BASE_ICON_SIZE = 64; // px, before the recede scale is applied
 const WHEEL_SETTLE_MS = 140; // pause in wheel events before snapping to a row
 const FLING_PROJECTION_MS = 120; // how far a fast drag release "carries" past the drop point
+const WHEEL_JITTER_PX = 8; // below this, a settled wheel offset is noise, not an intended scroll
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -105,10 +106,16 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
     maybePreloadByPath(DESKTOP_APPS[active].path);
   }, [active, maybePreloadByPath]);
 
+  // A positive dragY/offset (drag or scroll "down") walks toward earlier
+  // rows, so it's bounded by how many rows precede `active`; a negative one
+  // walks toward later rows and is bounded by how many follow it. Getting
+  // this backwards (as it was) starves the direction with more rows left to
+  // reach — clamping the gesture after just one row — while letting the
+  // other direction over-travel past the last real row before snapping back.
   const bounds = useMemo(
     () => ({
-      min: -active * ROW_HEIGHT,
-      max: (DESKTOP_APPS.length - 1 - active) * ROW_HEIGHT,
+      min: -(DESKTOP_APPS.length - 1 - active) * ROW_HEIGHT,
+      max: active * ROW_HEIGHT,
     }),
     [active],
   );
@@ -242,7 +249,16 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
 
     function settle() {
       setIsWheeling(false);
-      const rowsMoved = Math.round(offset / ROW_HEIGHT);
+      // A single real scroll notch (mouse wheel, or a short trackpad swipe)
+      // is often well under one row's worth of pixels, which rounded to the
+      // nearest row used to collapse to 0 and settle back in place — so a
+      // deliberate, isolated scroll did nothing. Any offset past the jitter
+      // floor now commits at least one row in the direction scrolled;
+      // rounding still takes over once a gesture spans multiple rows.
+      const rowsMoved =
+        Math.abs(offset) < WHEEL_JITTER_PX
+          ? 0
+          : Math.sign(offset) * Math.max(1, Math.round(Math.abs(offset) / ROW_HEIGHT));
       offset = 0;
       setDragY(0);
       if (rowsMoved !== 0) {
@@ -330,35 +346,6 @@ const DesktopIcons: React.FC<DesktopIconsProps> = ({
             vectorEffect="non-scaling-stroke"
           />
         </svg>
-
-        {/* Per-app position markers riding the same curve as the rows
-            themselves (see getRowMetrics), so the rail reads as a live "N
-            items, you are here" indicator instead of pure decoration. */}
-        <div className="desktop-wheel-rail-ticks" aria-hidden="true">
-          {DESKTOP_APPS.map((app, index) => {
-            const { continuous, t } = getRowMetrics(index, active, dragY);
-            const railX = 8 + 87 * easeRound(t);
-            const railY = 50 + Math.sign(continuous) * t * 50;
-            const isActive = index === active;
-            return (
-              <span
-                key={app.name}
-                className={`desktop-wheel-tick${isActive ? " is-active" : ""}`}
-                style={
-                  {
-                    left: `${railX}%`,
-                    top: `${railY}%`,
-                    "--tick-accent": app.color,
-                    transition:
-                      isDragging || isWheeling || prefersReducedMotion
-                        ? "none"
-                        : "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease, width 0.3s ease, height 0.3s ease",
-                  } as CSSProperties
-                }
-              />
-            );
-          })}
-        </div>
 
         {DESKTOP_APPS.map((app, index) => {
           const { translateY, t, curveX, opacity, scale } = getRowMetrics(index, active, dragY);
