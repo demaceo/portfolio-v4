@@ -7,6 +7,7 @@ import { AppView } from "@/components/features/shell";
 import { FilterBar } from "@/components/ui";
 import { useProjects } from "@/hooks";
 import ProjectCoverflow from "./ProjectCoverflow";
+import ProjectSpinningCarousel from "./ProjectSpinningCarousel";
 import ProjectDetailModal from "../ProjectDetailModal/ProjectDetailModal";
 import ResumeHighlightsModal from "../ResumeHighlightsModal/ResumeHighlightsModal";
 import styles from "./ProjectsAppView.module.css";
@@ -77,12 +78,15 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
             aria-labelledby={`projects-panel-tab-${activeTab}`}
           >
             {visibleProjects.length > 0 ? (
-              <ProjectCoverflow
-                key={activeTab}
-                projects={visibleProjects}
-                onOpen={setSelectedProjectId}
-                initialProjectId={initialProjectId}
-              />
+              activeTab === "featured" ? (
+                <ProjectSpinningCarousel projects={visibleProjects} onOpen={setSelectedProjectId} />
+              ) : (
+                <ProjectCoverflow
+                  projects={visibleProjects}
+                  onOpen={setSelectedProjectId}
+                  initialProjectId={initialProjectId}
+                />
+              )
             ) : (
               <p className={styles.empty}>No projects match this filter.</p>
             )}
