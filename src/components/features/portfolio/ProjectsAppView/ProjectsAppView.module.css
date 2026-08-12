@@ -20,8 +20,10 @@
   background: var(--noir-panel);
 }
 
-/* The coverflow carousel is a fixed 3D viewport, not a scrolling document —
-   it clips its own strip internally, so .stage no longer scrolls. */
+/* Desktop/tablet: the 3D carousel/coverflow clips its own strip internally,
+   so .stage stays non-scrolling here. Mobile (≤480px) swaps to a plain
+   scrolling list — see the media query below, which flips both which
+   child is visible and .stage's own overflow behavior. */
 .stage {
   flex: 1;
   min-height: 0;
@@ -29,6 +31,19 @@
   display: flex;
   flex-direction: column;
   padding: 1rem;
+}
+
+.desktopView {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mobileView {
+  display: none;
 }
 
 .empty {
@@ -45,5 +60,20 @@
 
   .stage {
     padding: 0.75rem;
+    /* The list (unlike the carousel/coverflow) is a real scrolling
+       document, not a self-clipping 3D viewport. */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .desktopView {
+    display: none;
+  }
+
+  .mobileView {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
   }
 }
