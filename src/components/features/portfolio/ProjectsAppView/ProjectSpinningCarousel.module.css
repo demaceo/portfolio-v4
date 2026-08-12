@@ -183,6 +183,7 @@ carousel
 .item {
   --_width: var(--_item-width);
   --_height: var(--_item-height);
+  --_corner: calc(var(--_width) * 0.22);
   --_rotation: calc(360 / var(--_num-elements) * var(--_index) * 1deg);
   left: calc(var(--_radius) - var(--_item-width) / 2);
   top: calc(var(--_radius) - var(--_item-height) / 2);
@@ -191,13 +192,14 @@ carousel
   width: var(--_width);
   height: var(--_height);
   transition: all var(--carousel-transition-duration) var(--carousel-transition-ease);
-  box-shadow: 0 0 var(--carousel-item-glow-size) transparent;
+  box-shadow: 0 0 var(--carousel-item-glow-size) transparent, 0 0.7rem 1.6rem rgba(0, 0, 0, 0.4);
   position: absolute;
 }
 
 .item:hover,
 .item:focus-within {
-  box-shadow: 0 0 var(--carousel-item-glow-size) rgb(var(--carousel-item-glow-color-rgb));
+  box-shadow: 0 0 var(--carousel-item-glow-size) var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
+    0 1.4rem 3.2rem rgba(0, 0, 0, 0.55);
   transform: rotateY(var(--_rotation)) translateZ(calc(var(--_radius) * var(--carousel-item-hover-effect)));
 }
 
@@ -209,78 +211,131 @@ carousel
   height: inherit;
   margin: 0;
   padding: 0;
-  border: 0;
   font: inherit;
   color: inherit;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--lg-edge, rgba(255, 220, 180, 0.16));
+  border-radius: 0.4rem;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--_corner)),
+    calc(100% - var(--_corner)) 100%,
+    0 100%
+  );
   background-color: rgb(var(--carousel-item-empty-color-rgb));
   background-image: var(--_image-url);
   background-repeat: no-repeat;
   background-position: center;
   background-size: var(--_bg-size, cover);
-  transition: filter var(--carousel-transition-duration) var(--carousel-transition-ease);
+  transition: filter var(--carousel-transition-duration) var(--carousel-transition-ease),
+    border-color var(--carousel-transition-duration) var(--carousel-transition-ease);
   filter: grayscale(100%);
+}
+
+@supports (corner-shape: bevel) {
+  .face {
+    clip-path: none;
+    corner-shape: bevel;
+    border-bottom-right-radius: var(--_corner);
+  }
 }
 
 .item:hover .face,
 .item:focus-within .face {
   filter: grayscale(0%);
+  border-color: var(--corner-color, var(--lg-edge-bright, rgba(255, 220, 180, 0.28)));
+}
+
+/* Diagonal glass sheen, same top-left highlight language as the app's
+   Liquid Glass surfaces (--lg-sheen), so a bare icon plate reads as a card
+   facet catching light rather than a flat cutout. */
+.face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 45%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 .faIcon {
   position: absolute;
   inset: 0;
+  z-index: 1;
   margin: auto;
   width: 30%;
   height: 30%;
-  color: rgba(var(--carousel-control-color-rgb), 0.55);
+  color: var(--corner-color, rgba(var(--carousel-control-color-rgb), 0.55));
+  opacity: 0.7;
   pointer-events: none;
 }
 
 /* Accent-color corner triangle — same "view this project" affordance as the
-   Featured coverflow's cards. Lives on ::after (not ::before, which the
-   reflection below already owns on .item). */
+   Featured coverflow's cards. Lives on ::after (::before above owns the
+   sheen, and the reflection below owns ::before on the parent .item). */
 .face::after {
   content: "";
   position: absolute;
   z-index: 2;
   bottom: 0;
   right: 0;
-  width: calc(var(--_width) * 0.22);
+  width: var(--_corner);
   aspect-ratio: 1 / 1;
   background-image: linear-gradient(135deg, var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))) 51%, transparent 0);
   pointer-events: none;
 }
 
 .face:focus-visible {
-  outline: 2px solid rgb(var(--carousel-item-glow-color-rgb));
+  outline: 2px solid var(--corner-color, rgb(var(--carousel-item-glow-color-rgb)));
   outline-offset: 3px;
 }
 
 .caption {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
   width: 100%;
   padding: 0.5rem 0.55rem calc(0.4rem + var(--_width) * 0.05);
-  background: linear-gradient(to top, rgba(var(--carousel-bg-color-rgb), 0.92) 15%, rgba(var(--carousel-bg-color-rgb), 0) 100%);
-  color: rgb(var(--carousel-control-color-rgb));
-  font-family: var(--font-display), inherit;
-  font-size: clamp(0.6rem, calc(var(--_width) * 0.088), 0.8rem);
-  font-weight: 700;
-  line-height: 1.25;
+  background-image:
+    linear-gradient(to top, rgba(var(--carousel-bg-color-rgb), 0.94) 25%, rgba(var(--carousel-bg-color-rgb), 0) 100%),
+    linear-gradient(to right, transparent, var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))) 50%, transparent);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, 100% 1px;
+  background-position: 0 0, top;
   text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   opacity: 0;
   transform: translateY(4px);
   transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease),
     transform var(--carousel-transition-duration) var(--carousel-transition-ease);
   pointer-events: none;
+}
+
+.captionYear {
+  font-family: var(--font-display), inherit;
+  font-size: clamp(0.48rem, calc(var(--_width) * 0.058), 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--corner-color, rgb(var(--carousel-item-glow-color-rgb)));
+}
+
+.captionName {
+  color: rgb(var(--carousel-control-color-rgb));
+  font-family: var(--font-display), inherit;
+  font-size: clamp(0.6rem, calc(var(--_width) * 0.088), 0.8rem);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .item:hover .caption,

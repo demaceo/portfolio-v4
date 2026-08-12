@@ -68,7 +68,12 @@ const ProjectSpinningCarousel: React.FC<ProjectSpinningCarouselProps> = ({ proje
                         aria-hidden="true"
                       />
                     )}
-                    <span className={styles.caption}>{project.name}</span>
+                    <span className={styles.caption}>
+                      {project.yearRange && (
+                        <span className={styles.captionYear}>{project.yearRange}</span>
+                      )}
+                      <span className={styles.captionName}>{project.name}</span>
+                    </span>
                   </button>
                 </li>
               );
