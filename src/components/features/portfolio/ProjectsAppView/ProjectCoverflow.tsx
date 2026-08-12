@@ -3,29 +3,15 @@
 import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useGesture } from "@use-gesture/react";
-import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Project } from "@/lib/types";
 import ProjectMedia from "../shared/ProjectMedia";
+import { cornerColorFor, DOC_CORNER_COLOR } from "../shared/cornerColor";
 import styles from "./ProjectCoverflow.module.css";
-
-// Documentary projects keep the fixed green corner used by the "Documentary"
-// tag elsewhere in the app; every other project gets its own color from a
-// hue rotation anchored at --noir-accent's hue — same pattern already used
-// for per-item coloring in SkillsetAppView/ToolbeltGraph.tsx.
-const DOC_CORNER_COLOR = "#0f9d6b"; // --noir-doc
-const CORNER_HUE_START = 21; // --noir-accent's own hue (#d4845a)
-const CORNER_SATURATION = 0.48;
-const CORNER_LIGHTNESS = 0.6;
 
 // Minimum horizontal drag (px) to advance the carousel on release.
 const SWIPE_DISTANCE = 40;
-
-function cornerColorFor(index: number, count: number): string {
-  const hue = (CORNER_HUE_START + index * (360 / count)) % 360;
-  return d3.hsl(hue, CORNER_SATURATION, CORNER_LIGHTNESS).formatHex();
-}
 
 interface ProjectCoverflowProps {
   projects: Project[];
