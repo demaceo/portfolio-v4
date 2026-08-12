@@ -48,11 +48,20 @@ carousel
 .carousel {
   /* Scale sits on .carousel, not .stage: an element is never its own query
      container, so a @container rule could not re-scale .stage from here. */
-  --_scale: 0.78;
-  --carousel-item-width: calc(11.5rem * var(--_scale));
-  --carousel-item-height: calc(17.5rem * var(--_scale));
-  --carousel-diameter: calc(50rem * var(--_scale));
-  --carousel-item-glow-size: calc(5rem * var(--_scale));
+  /* Ring footprint and card footprint are decoupled: --_ring-scale keeps
+     the ring's diameter identical at every tier (no new container-overflow
+     risk), while --_item-scale is pinned at 2x --_ring-scale so cards
+     double in both dimensions at every tier without the ring growing. */
+  --_ring-scale: 0.78;
+  --_item-scale: calc(var(--_ring-scale) * 2);
+  --carousel-item-width: calc(11.5rem * var(--_item-scale));
+  --carousel-item-height: calc(17.5rem * var(--_item-scale));
+  --carousel-diameter: calc(50rem * var(--_ring-scale));
+  --carousel-item-glow-size: calc(5rem * var(--_item-scale));
+  --carousel-item-glow-size-rest: calc(var(--carousel-item-glow-size) * 0.3);
+  --carousel-item-glow-spread-rest: calc(var(--carousel-item-glow-size) * -0.14);
+  --carousel-item-glow-size-hover: calc(var(--carousel-item-glow-size) * 1.15);
+  --carousel-item-glow-spread-hover: calc(var(--carousel-item-glow-size) * 0.05);
 
   --_diameter: var(--carousel-diameter);
   --_radius: calc(var(--_diameter) / 2);
@@ -67,13 +76,13 @@ carousel
 
 @container (max-width: 42rem) {
   .carousel {
-    --_scale: 0.42;
+    --_ring-scale: 0.42;
   }
 }
 
 @container (max-width: 28rem) {
   .carousel {
-    --_scale: 0.32;
+    --_ring-scale: 0.32;
   }
 }
 
@@ -192,13 +201,16 @@ carousel
   width: var(--_width);
   height: var(--_height);
   transition: all var(--carousel-transition-duration) var(--carousel-transition-ease);
-  box-shadow: 0 0 var(--carousel-item-glow-size) transparent, 0 0.7rem 1.6rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 var(--carousel-item-glow-size-rest) var(--carousel-item-glow-spread-rest)
+      var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
+    0 0.7rem 1.6rem rgba(0, 0, 0, 0.4);
   position: absolute;
 }
 
 .item:hover,
 .item:focus-within {
-  box-shadow: 0 0 var(--carousel-item-glow-size) var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
+  box-shadow: 0 0 var(--carousel-item-glow-size-hover) var(--carousel-item-glow-spread-hover)
+      var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
     0 1.4rem 3.2rem rgba(0, 0, 0, 0.55);
   transform: rotateY(var(--_rotation)) translateZ(calc(var(--_radius) * var(--carousel-item-hover-effect)));
 }
@@ -232,7 +244,7 @@ carousel
   background-size: var(--_bg-size, cover);
   transition: filter var(--carousel-transition-duration) var(--carousel-transition-ease),
     border-color var(--carousel-transition-duration) var(--carousel-transition-ease);
-  filter: grayscale(100%);
+  filter: saturate(1) brightness(1);
 }
 
 @supports (corner-shape: bevel) {
@@ -245,7 +257,7 @@ carousel
 
 .item:hover .face,
 .item:focus-within .face {
-  filter: grayscale(0%);
+  filter: saturate(1.18) brightness(1.06);
   border-color: var(--corner-color, var(--lg-edge-bright, rgba(255, 220, 180, 0.28)));
 }
 
@@ -309,26 +321,26 @@ carousel
   background-size: 100% 100%, 100% 1px;
   background-position: 0 0, top;
   text-align: center;
-  opacity: 0;
   transform: translateY(4px);
-  transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease),
-    transform var(--carousel-transition-duration) var(--carousel-transition-ease);
+  transition: transform var(--carousel-transition-duration) var(--carousel-transition-ease);
   pointer-events: none;
 }
 
 .captionYear {
   font-family: var(--font-display), inherit;
-  font-size: clamp(0.48rem, calc(var(--_width) * 0.058), 0.62rem);
+  font-size: clamp(0.48rem, calc(var(--_width) * 0.058), 1.15rem);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--corner-color, rgb(var(--carousel-item-glow-color-rgb)));
+  opacity: 0.65;
+  transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease);
 }
 
 .captionName {
   color: rgb(var(--carousel-control-color-rgb));
   font-family: var(--font-display), inherit;
-  font-size: clamp(0.6rem, calc(var(--_width) * 0.088), 0.8rem);
+  font-size: clamp(0.6rem, calc(var(--_width) * 0.088), 1.65rem);
   font-weight: 700;
   line-height: 1.25;
   overflow: hidden;
@@ -336,12 +348,20 @@ carousel
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  opacity: 0.82;
+  transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease);
 }
 
 .item:hover .caption,
 .item:focus-within .caption {
-  opacity: 1;
   transform: translateY(0);
+}
+
+.item:hover .captionYear,
+.item:focus-within .captionYear,
+.item:hover .captionName,
+.item:focus-within .captionName {
+  opacity: 1;
 }
 
 /* The reflection: the same artwork flipped flat onto the ground plane. */
@@ -357,17 +377,11 @@ carousel
   background-position: center;
   background-size: var(--_bg-size, cover);
   pointer-events: none;
-  filter: blur(var(--carousel-item-reflection-blur)) grayscale(100%);
-  transition: filter var(--carousel-transition-duration) var(--carousel-transition-ease);
+  filter: blur(var(--carousel-item-reflection-blur));
   transform-style: inherit;
   transform-origin: center bottom;
   transform: rotateX(90deg) rotateZ(180deg) rotateY(180deg);
   position: absolute;
-}
-
-.item:hover::before,
-.item:focus-within::before {
-  filter: blur(var(--carousel-item-reflection-blur)) grayscale(0%);
 }
 
 .ground {
