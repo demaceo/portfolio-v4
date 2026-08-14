@@ -1,7 +1,7 @@
 # Tiny Planet (vendored)
 
 The 3D experience mounted at `/tiny-planet`. Copied verbatim from
-[demaceo/tiny-planet](https://github.com/demaceo/tiny-planet) at commit `517686f`.
+[demaceo/tiny-planet](https://github.com/demaceo/tiny-planet) at commit `a7d2ce2`.
 
 **Edit upstream, not here.** Changes belong in `tiny-planet/src/`, then get re-copied over this
 folder so the two stay diffable. The upstream repo is where the experience can be run standalone

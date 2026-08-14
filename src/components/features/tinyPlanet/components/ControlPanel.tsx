@@ -28,7 +28,7 @@ export function ControlPanel({
 }: Props) {
   return (
     <>
-      <button className={styles.toggle} onClick={onToggle} aria-expanded={open}>
+      <button type="button" className={styles.toggle} onClick={onToggle} aria-expanded={open}>
         {open ? 'Hide controls' : 'Controls'}
       </button>
 

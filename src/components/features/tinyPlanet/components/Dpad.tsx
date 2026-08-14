@@ -19,6 +19,7 @@ export function Dpad({ onPress }: Props) {
       {BUTTONS.map((b) => (
         <button
           key={b.dir}
+          type="button"
           aria-label={b.label}
           style={{ gridArea: b.area }}
           onPointerDown={(e) => {

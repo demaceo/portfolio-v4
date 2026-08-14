@@ -23,11 +23,32 @@ const KEY_MAP: Record<string, Dir> = {
   ArrowRight: 'r',
 };
 
+/**
+ * True when the key belongs to whatever the user is actually typing in.
+ *
+ * Listening on `window` is what lets the world respond immediately, without
+ * making the visitor click the canvas first. The cost is that WASD and the
+ * arrow keys would otherwise be taken from every other control on the page —
+ * including this component's own sliders, where arrow keys are the native way
+ * to nudge a value, and any text field on a host page, where `preventDefault`
+ * would swallow the character outright.
+ */
+function isTypingTarget(target: EventTarget | null): boolean {
+  const el = target as HTMLElement | null;
+  if (!el || typeof el.tagName !== 'string') return false;
+  if (el.isContentEditable) return true;
+  const tag = el.tagName;
+  // Buttons are deliberately absent: they have no native use for these keys, so
+  // walking still works right after clicking the controls toggle or the d-pad.
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+}
+
 export function useInput(input: InputState) {
   const gl = useThree((s) => s.gl);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      if (isTypingTarget(e.target)) return;
       const dir = KEY_MAP[e.code];
       if (dir) {
         input.keys[dir] = true;
@@ -36,6 +57,8 @@ export function useInput(input: InputState) {
       }
     };
     const onKeyUp = (e: KeyboardEvent) => {
+      // Deliberately unguarded: releasing a key can never hijack anything, and
+      // skipping it would strand the walker if focus moved mid-stride.
       const dir = KEY_MAP[e.code];
       if (dir) input.keys[dir] = false;
     };

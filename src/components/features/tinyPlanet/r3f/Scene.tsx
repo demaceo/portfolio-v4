@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type RefObject } from 'react';
+import { memo, useEffect, useMemo, useRef, type RefObject } from 'react';
 import * as THREE from 'three';
 import { WorldProvider, type WorldResources } from './WorldContext';
 import { Sky } from './Sky';
@@ -71,7 +71,14 @@ export interface SceneProps {
   seed?: number;
 }
 
-export function Scene({ controls, input, wander, seed }: SceneProps) {
+/**
+ * Memoized deliberately. Every prop here is a stable ref except `seed`, while
+ * the host re-renders on every `timeOfDay` change — once per frame during the
+ * intro sunrise and on every slider drag. Without this, each of those would
+ * reconcile all several hundred scenery components for no visual change; the
+ * uniform sweep in the frame loop is what actually moves the world.
+ */
+export const Scene = memo(function Scene({ controls, input, wander, seed }: SceneProps) {
   const resources = useResources(seed);
 
   const avatar = useRef<THREE.Group>(null);
@@ -100,4 +107,4 @@ export function Scene({ controls, input, wander, seed }: SceneProps) {
       <AvatarShadow ref={avatarShadow} />
     </WorldProvider>
   );
-}
+});
