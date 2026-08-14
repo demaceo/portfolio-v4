@@ -13,6 +13,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
     "@use-gesture/react": "^10.3.1",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
@@ -24,7 +26,8 @@
     "next": "15.4.10",
     "ogl": "^1.0.11",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -33,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.169.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.2",
     "tailwindcss": "^4",
