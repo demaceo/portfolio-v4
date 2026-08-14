@@ -1,0 +1,44 @@
+/*
+ * Full-bleed shell for the Tiny Planet route.
+ *
+ * globals.css paints a wallpaper on html/body with min-height: 100dvh and no
+ * overflow rule, so this container has to cover that background and stop the
+ * page scrolling behind the canvas.
+ */
+
+.container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  /* Matches the world's daytime horizon, so the first paint and the loading
+     state read as sky rather than as the site wallpaper flashing through. */
+  background-color: #cfe7e6;
+}
+
+/* Shown while the WebGL chunk loads. Deliberately plain — the sunrise
+   animation starts as soon as the real thing mounts. */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  background-color: #cfe7e6;
+}
+
+/*
+ * Chrome theming.
+ *
+ * TinyPlanet.module.css exposes every colour and font as a custom property, so
+ * a host restyles by overriding variables instead of forking the stylesheet.
+ * Here that is fonts only: the cream glass was tuned against this pastel world
+ * and reads as part of the artwork, but the type should be the site's.
+ *
+ * The doubled class is deliberate. TinyPlanetShowcase renders
+ * `${styles.root} ${className}`, and .root declares these same variables — at
+ * equal specificity the winner would come down to CSS source order in the
+ * bundle, which is not something to leave to chance. 0,2,0 beats 0,1,0.
+ */
+.themed.themed {
+  --tp-font-ui: var(--font-primary);
+  --tp-font-display: var(--font-display);
+}
