@@ -1,0 +1,282 @@
+/*
+ * Chrome for the Tiny Planet showcase.
+ *
+ * Scoped as a CSS Module so nothing leaks into a host page, and positioned
+ * against the component's own container (absolute, not fixed) so it can be
+ * embedded in a section rather than owning the viewport.
+ *
+ * Every colour and font is a custom property declared on .root. A host can
+ * restyle the whole panel by overriding these on its own wrapper — no need to
+ * fork this file.
+ */
+
+.root {
+  --tp-accent: #e8643c;
+  --tp-ink: #4a3a26;
+  --tp-ink-soft: #a8916f;
+  --tp-value: #c9502f;
+  --tp-glass: rgba(255, 247, 232, 0.62);
+  --tp-glass-soft: rgba(255, 247, 232, 0.55);
+  --tp-glass-button: rgba(255, 247, 232, 0.6);
+  --tp-glass-border: rgba(255, 255, 255, 0.5);
+  --tp-glass-shadow: 0 10px 34px rgba(60, 40, 20, 0.18);
+  --tp-blur: blur(14px);
+  --tp-title-color: #fff8ec;
+  --tp-title-shadow: 0 3px 18px rgba(40, 30, 10, 0.4), 0 1px 0 rgba(0, 0, 0, 0.15);
+  --tp-hint-color: #2f4a3a;
+  --tp-hint-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+  --tp-font-ui: "Quicksand", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --tp-font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --tp-radius: 22px;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--tp-font-ui);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  animation: tp-fade 1000ms ease both;
+}
+
+/* Chrome sits above the canvas and is click-through except on real controls. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.title {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: tp-fade 1100ms ease 200ms both;
+}
+.title h1 {
+  margin: 0;
+  font-family: var(--tp-font-display);
+  font-weight: 700;
+  font-size: clamp(38px, 6vw, 64px);
+  color: var(--tp-title-color);
+  text-shadow: var(--tp-title-shadow);
+  letter-spacing: 0.3px;
+}
+.title p {
+  margin: 8px 0 0;
+  font-weight: 600;
+  font-size: clamp(14px, 1.7vw, 18px);
+  color: var(--tp-title-color);
+  text-shadow: 0 2px 10px rgba(40, 30, 10, 0.35);
+  opacity: 0.92;
+}
+
+.credit {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--tp-glass-soft);
+  backdrop-filter: var(--tp-blur);
+  -webkit-backdrop-filter: var(--tp-blur);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--tp-ink);
+  white-space: nowrap;
+}
+
+.hint {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tp-hint-color);
+  text-shadow: var(--tp-hint-shadow);
+  white-space: nowrap;
+  transition: opacity 500ms ease;
+}
+
+/* --- controls --- */
+.toggle {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: none;
+  background: var(--tp-glass);
+  backdrop-filter: var(--tp-blur);
+  -webkit-backdrop-filter: var(--tp-blur);
+  box-shadow: var(--tp-glass-shadow);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tp-ink);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.panel {
+  position: absolute;
+  bottom: 76px;
+  left: 18px;
+  width: 238px;
+  padding: 16px 16px 14px;
+  border-radius: var(--tp-radius);
+  background: var(--tp-glass);
+  backdrop-filter: var(--tp-blur);
+  -webkit-backdrop-filter: var(--tp-blur);
+  box-shadow: var(--tp-glass-shadow);
+  border: 1px solid var(--tp-glass-border);
+  pointer-events: auto;
+  animation: tp-pop 200ms ease both;
+}
+.panelHeading {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tp-ink-soft);
+  margin-bottom: 12px;
+}
+.row {
+  margin: 11px 0;
+}
+.row:first-of-type {
+  margin-top: 0;
+}
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+.label label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tp-ink);
+  white-space: nowrap;
+}
+.value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tp-value);
+  font-variant-numeric: tabular-nums;
+}
+.subHint {
+  font-size: 10.5px;
+  color: var(--tp-ink-soft);
+  margin-top: 4px;
+}
+.panel input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+  accent-color: var(--tp-accent);
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tp-ink);
+  cursor: pointer;
+}
+.check input {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  accent-color: var(--tp-accent);
+}
+
+/* --- d-pad (touch) --- */
+.dpad {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(3, 48px);
+  gap: 7px;
+  pointer-events: auto;
+}
+.dpad button {
+  border: none;
+  border-radius: 50%;
+  font-size: 17px;
+  color: var(--tp-ink);
+  background: var(--tp-glass-button);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+}
+.dpad button:active {
+  background: rgba(232, 100, 60, 0.45);
+}
+
+@keyframes tp-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes tp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas,
+  .title,
+  .panel {
+    animation: none;
+  }
+  .hint {
+    transition: none;
+  }
+}
+
+/* Keep the chrome usable on small screens. */
+@media (max-width: 480px) {
+  .panel {
+    width: min(238px, calc(100vw - 36px));
+  }
+  .dpad {
+    grid-template-columns: repeat(3, 42px);
+    grid-template-rows: repeat(3, 42px);
+  }
+  /* Centred and nowrap, the hint runs straight through the Controls button and
+     the d-pad at this width. Tuck it above the button on the left instead, and
+     cap its width so it stops short of the d-pad column. */
+  .hint {
+    left: 18px;
+    bottom: 64px;
+    transform: none;
+    text-align: left;
+    white-space: normal;
+    max-width: calc(100% - 190px);
+    line-height: 1.35;
+  }
+}

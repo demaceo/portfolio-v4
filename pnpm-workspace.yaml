@@ -1,4 +1,8 @@
 allowBuilds:
-  core-js: set this to true or false
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
+  # Postinstall is only a funding message wrapped in try/catch — nothing to run.
+  core-js: false
+  # Both ship prebuilt binaries, so their install scripts normally just verify and exit.
+  # Allowed so the source-build fallback stays available on a platform that has no
+  # prebuilt match (musl, arm, a future Node ABI).
+  sharp: true
+  unrs-resolver: true
