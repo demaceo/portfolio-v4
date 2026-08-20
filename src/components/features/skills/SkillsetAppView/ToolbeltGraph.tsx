@@ -65,6 +65,25 @@ function truncateLabel(name: string, depth: number): string {
   return name.length > max ? `${name.slice(0, max)}…` : name;
 }
 
+// Splits a multi-word category name across two lines at the space nearest its
+// midpoint (e.g. "Package Management" → "Package" / "Management") instead of
+// truncating it. Used only for root labels in the narrow grid layout, where a
+// single line would collide with the neighbouring column's label.
+function wrapRootLabel(name: string): string[] {
+  let splitAt = -1;
+  let bestDelta = Infinity;
+  for (let i = 0; i < name.length; i++) {
+    if (name[i] === " ") {
+      const delta = Math.abs(i - name.length / 2);
+      if (delta < bestDelta) {
+        bestDelta = delta;
+        splitAt = i;
+      }
+    }
+  }
+  return splitAt === -1 ? [name] : [name.slice(0, splitAt), name.slice(splitAt + 1)];
+}
+
 interface NodeDatum {
   id: string;
   name: string;
@@ -125,7 +144,15 @@ const MIN_ROOT_SLOT = 116;
 // columns so labels stop overlapping and the rows fill the height instead of
 // clustering into two thin bands with an empty gap between them. Generalizes to
 // any N.
-function computeRootPositions(count: number, width: number, height: number) {
+// `narrow` tells the label renderer whether it used the tight multi-row grid
+// branch below — root labels wrap to two lines there (see wrapRootLabel)
+// instead of running single-line, since a column this tight is exactly where
+// neighbouring labels start to collide.
+function computeRootPositions(
+  count: number,
+  width: number,
+  height: number
+): { positions: { x: number; y: number }[]; narrow: boolean } {
   const positions: { x: number; y: number }[] = [];
   const fitCols = Math.max(2, Math.floor(width / MIN_ROOT_SLOT));
 
@@ -141,7 +168,7 @@ function computeRootPositions(count: number, width: number, height: number) {
         y: height * (inTopRow ? 0.32 : 0.72),
       });
     }
-    return positions;
+    return { positions, narrow: false };
   }
 
   // Narrow: balanced multi-row grid (e.g. 9 → 3/3/3, not 4/4/1), spread down the
@@ -161,7 +188,7 @@ function computeRootPositions(count: number, width: number, height: number) {
       y: yFrac * height,
     });
   }
-  return positions;
+  return { positions, narrow: true };
 }
 
 function rootColor(index: number, count: number): string {
@@ -171,6 +198,21 @@ function rootColor(index: number, count: number): string {
 
 function radiusFor(depth: number): number {
   return RADIUS_BY_DEPTH[Math.min(depth, RADIUS_BY_DEPTH.length - 1)];
+}
+
+// Same floor the invisible `.hitArea` circle uses (~44px touch target) —
+// reused by the boundary clamp below so a node's tap target never lands
+// off-canvas even when its visible circle is smaller.
+function touchRadiusFor(depth: number): number {
+  return Math.max(radiusFor(depth), 22);
+}
+
+// Distance a node's center must stay from the SVG edge so neither its touch
+// circle nor its label (rendered below/around it) gets clipped by the SVG's
+// own overflow: hidden. Roots carry the longest labels (up to 20 chars,
+// possibly wrapped to two lines — see wrapRootLabel), so they get more room.
+function edgeClearanceFor(depth: number): number {
+  return touchRadiusFor(depth) + (depth === 0 ? 26 : 20);
 }
 
 function linkKey(d: SimLink): string {
@@ -212,6 +254,10 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   // Persistent node objects keyed by id — the crux of incremental updates:
   // reusing the same object across updates carries d3's mutated x/y/vx/vy over.
   const nodesRef = useRef(new Map<string, SimNode>());
+  // Latest measured <svg> size, read by the tick handler's boundary clamp — a
+  // ref (not state) because it's written from the same effect that already
+  // re-runs the simulation; it must never itself trigger a re-render.
+  const dimsRef = useRef({ width: 0, height: 0 });
 
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
   const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null);
@@ -310,6 +356,23 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     simulationRef.current = simulation;
 
     simulation.on("tick", () => {
+      // Boundary clamp: free (non-pinned) nodes are only pulled toward center
+      // by a weak forceX/Y (strength 0.03), so charge + link forces can easily
+      // push a leaf past the SVG edge — the svg clips to its viewBox, so that
+      // leaf (and its label) just goes invisible. Roots are skipped: their
+      // fx/fy pin from computeRootPositions is already kept in-bounds.
+      const { width: boundsWidth, height: boundsHeight } = dimsRef.current;
+      if (boundsWidth > 0 && boundsHeight > 0) {
+        for (const n of simulation.nodes()) {
+          if (n.fx != null) continue;
+          const clearance = edgeClearanceFor(n.depth);
+          const maxX = Math.max(clearance, boundsWidth - clearance);
+          const maxY = Math.max(clearance, boundsHeight - clearance);
+          n.x = Math.min(maxX, Math.max(clearance, n.x ?? 0));
+          n.y = Math.min(maxY, Math.max(clearance, n.y ?? 0));
+        }
+      }
+
       const link = linkSelRef.current;
       const node = nodeSelRef.current;
       link
@@ -358,12 +421,17 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       simulation.stop();
       return;
     }
+    dimsRef.current = { width, height };
 
     d3.select(svgEl).attr("viewBox", `0 0 ${width} ${height}`);
     (simulation.force("x") as d3.ForceX<SimNode>).x(width / 2);
     (simulation.force("y") as d3.ForceY<SimNode>).y(height / 2);
 
-    const rootPositions = computeRootPositions(tree.length, width, height);
+    const { positions: rootPositions, narrow: narrowRootLayout } = computeRootPositions(
+      tree.length,
+      width,
+      height
+    );
     const { nodes: descriptors, links } = flatten(tree, collapsed);
 
     // Reconcile descriptors against persistent node objects.
@@ -494,7 +562,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     // growing visually — see the comment on `.hitArea` in the enter block.
     nodeSel
       .select<SVGCircleElement>(`.${styles.hitArea}`)
-      .attr("r", (d) => Math.max(radiusFor(d.depth), 22));
+      .attr("r", (d) => touchRadiusFor(d.depth));
 
     nodeSel
       .select<SVGCircleElement>(`.${styles.mainCircle}`)
@@ -519,10 +587,23 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       .attr("fill", "currentColor");
 
     nodeSel.select("title").text((d) => d.name);
-    nodeSel
-      .select("text")
-      .text((d) => truncateLabel(d.name, d.depth))
-      .attr("dy", (d) => radiusFor(d.depth) + 10);
+    // Root labels wrap to two lines in the narrow grid layout (see
+    // wrapRootLabel) instead of truncating; tspans are rebuilt on every
+    // update, which is cheap at this node count.
+    nodeSel.select("text").each(function (d) {
+      const text = d3.select(this);
+      text.selectAll("tspan").remove();
+      const lines =
+        d.depth === 0 && narrowRootLayout ? wrapRootLabel(d.name) : [truncateLabel(d.name, d.depth)];
+      const baseDy = radiusFor(d.depth) + 10;
+      lines.forEach((line, i) => {
+        text
+          .append("tspan")
+          .attr("x", 0)
+          .attr("dy", i === 0 ? baseDy : "1.15em")
+          .text(line);
+      });
+    });
 
     // Gentle re-heat: existing nodes are already near equilibrium so they barely
     // move; only new/changed nodes settle. alphaDecay makes reduced-motion snap.
