@@ -35,6 +35,11 @@ export interface Project {
     network?: string;
     archived?: boolean;
     gif?: string; // Optional field for GIFs
+    /** Drives the detail modal's primary action button — label, icon, and
+     *  style all key off this instead of the generic "Open Project" default.
+     *  "appstore" links to an App Store listing, "website" to a live site,
+     *  "watch" to a video. Omitted falls back to "Open Project". */
+    linkType?: "appstore" | "website" | "watch";
 }
 
 export interface ServicePanel {

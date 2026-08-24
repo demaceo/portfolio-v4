@@ -9,6 +9,7 @@ const projectData: Project[] = [
     description:
       "Real-time translation app combining Gemini Live speech translation, multilingual TTS, and location-based social conversation zones.",
     link: "https://apps.apple.com/app/id6759472914",
+    linkType: "appstore",
     deepDiveKey: "yap-united",
     stackPreview: [
       "React Native",
@@ -34,6 +35,7 @@ const projectData: Project[] = [
     description:
       "An eleven-part roundtable debate site pitting fourteen recurring personas against each other on the promise and peril of AI, with every claim traceable to a source and a build-time pipeline that can turn any part into a voiced podcast episode.",
     link: "https://github.com/demaceo/DeusEx",
+    linkType: "website",
     stackPreview: ["React", "TypeScript", "Vite", "Recharts"],
     highlights: [
       "Content-as-data architecture: typed schemas, data files, and one shared component kit render every part.",
@@ -53,6 +55,7 @@ const projectData: Project[] = [
     description:
       "React Native mobile app for civic engagement — find elected officials, analyze policy alignment, and communicate through AI-assisted workflows on iOS and Android.",
     link: "https://apps.apple.com/app/id6759683874",
+    linkType: "appstore",
     deepDiveKey: "pinpoint",
     stackPreview: ["React Native", "Expo SDK 54", "Express", "PostgreSQL"],
     highlights: [
@@ -93,6 +96,7 @@ const projectData: Project[] = [
     description:
       "Privacy-first consumer intelligence platform that processes personal data on-device and generates secure behavioral analytics.",
     link: "https://apps.apple.com/app/id6754859483",
+    linkType: "appstore",
     deepDiveKey: "payback",
     stackPreview: ["React Native", "Node.js", "PostgreSQL", "Gemini 2.5 Pro"],
     highlights: [
@@ -145,7 +149,6 @@ const projectData: Project[] = [
     iconWidth: 1536,
     iconHeight: 1024,
     iconScale: 1.55,
-    archived: true,
   },
   {
     id: 8,
@@ -155,11 +158,11 @@ const projectData: Project[] = [
     description:
       "Featured in documentary exploring technology, innovation, and career development through public interest technology stories.",
     link: "https://www.pbs.org/video/breaking-barriers-tech-for-us-kaq5cy/",
+    linkType: "watch",
     icon: "fas fa-film icon",
     type: "documentary",
     duration: "25:33",
     network: "PBS",
-    archived: true,
   },
   {
     id: 9,
@@ -179,6 +182,7 @@ const projectData: Project[] = [
     description:
       "Personalized career guidance and strategic professional development platform.",
     link: "https://unmasked-coaching.com",
+    linkType: "website",
     icon: "/icons/projects/unmasked-logo.png",
     iconWidth: 1024,
     iconHeight: 1024,

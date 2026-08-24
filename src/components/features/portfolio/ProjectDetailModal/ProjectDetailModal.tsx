@@ -4,7 +4,8 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { useGesture } from "@use-gesture/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt, faFilm } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt, faFilm, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faAppStoreIos } from "@fortawesome/free-brands-svg-icons";
 import { Project } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
 import ProjectMedia from "../shared/ProjectMedia";
@@ -12,6 +13,15 @@ import styles from "./ProjectDetailModal.module.css";
 
 // Minimum horizontal drag (px) to advance to the next/previous project.
 const SWIPE_DISTANCE = 40;
+
+// Primary action button copy/icon per project.linkType, keyed off the same
+// field the button's distinct App Store styling reads. Falls back to the
+// generic "Open Project" for projects with no explicit linkType.
+const OPEN_PROJECT_CTA = {
+  appstore: { label: "View in App Store", icon: faAppStoreIos },
+  website: { label: "View Website", icon: faExternalLinkAlt },
+  watch: { label: "Watch Here", icon: faPlay },
+} as const;
 
 interface ProjectDetailModalProps {
   project: Project;
@@ -63,6 +73,11 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
     if (performance.now() - lastDragEndAt.current < 80) return;
     onOpenDeepDive(project.deepDiveKey);
   };
+
+  const cta = project.linkType
+    ? OPEN_PROJECT_CTA[project.linkType]
+    : { label: "Open Project", icon: faExternalLinkAlt };
+  const isAppStoreCta = project.linkType === "appstore";
 
   return (
     <ModalFrame
@@ -124,9 +139,13 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
           )}
 
           <div className={styles.actions}>
-            <button type="button" className={styles.openBtn} onClick={guardedOpenProject}>
-              <FontAwesomeIcon icon={faExternalLinkAlt} aria-hidden="true" />
-              <span>Open Project</span>
+            <button
+              type="button"
+              className={isAppStoreCta ? styles.appStoreBtn : styles.openBtn}
+              onClick={guardedOpenProject}
+            >
+              <FontAwesomeIcon icon={cta.icon} aria-hidden="true" />
+              <span>{cta.label}</span>
             </button>
 
             {project.deepDiveKey && (
