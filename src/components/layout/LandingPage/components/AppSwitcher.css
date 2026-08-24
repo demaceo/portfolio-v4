@@ -42,7 +42,12 @@
   padding: 8px;
   border: 1px solid var(--lg-edge);
   border-radius: 22px;
-  background: var(--lg-tint);
+  /* background-color (not the `background` shorthand) so this sheen layer
+     can sit alongside it — every other Liquid Glass surface (ModalFrame,
+     AppView, .glass-tab.active) carries this same specular highlight; the
+     dock was the one glass panel in the app missing it. */
+  background-color: var(--lg-tint);
+  background-image: var(--lg-sheen);
   box-shadow: var(--lg-shadow);
   box-sizing: border-box;
 }
@@ -71,8 +76,13 @@
   left: 8px;
   width: calc((100% - 16px) / var(--n-options));
   border-radius: 16px;
-  background: var(--noir-accent);
-  box-shadow: 0 2px 8px var(--noir-accent-glow);
+  /* Same recipe as .glass-tab.active (globals.css): a sheen over the accent
+     fill plus a tight shadow + inset hairline, instead of the wide soft
+     glow this used to have — that wide-blur look is the exact pattern the
+     .glass-tab comment already flags as reading generic. */
+  background-color: var(--noir-accent);
+  background-image: var(--lg-sheen);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
   opacity: 1;
   transform: translateX(calc(var(--active-index) * 100%));
   transform-origin: var(--pill-origin, center);
@@ -158,14 +168,43 @@
    of those colors (Skillset's gold in particular) don't hold up as a
    white-text background at this component's proven ~3:1 contrast. */
 .app-switcher-option .app-switcher-icon-image {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 999px;
-  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--app-accent, transparent) 45%, transparent);
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--app-accent, transparent) 60%, transparent),
+    0 2px 6px -1px color-mix(in srgb, var(--app-accent, transparent) 50%, transparent);
+}
+
+/* icon-glass-base's own rule (LandingPage.css) fills every tile with the
+   same flat rgba(255,255,255,0.16) regardless of app, so the accent ring
+   above was the only thing telling the four tabs apart — everything inside
+   the ring still read as one identical gray badge. Mixing --app-accent into
+   the base tint (against `transparent`, the standard color-mix alpha trick)
+   gives each tile its own tinted glass color instead of a flat gray one.
+   Kept deliberately subtle: measured against real rendered pixels, Skillset's
+   gold is the binding case (highest luminance of the four), and anything
+   much stronger than this drags its glyph contrast under this component's
+   ~3:1 floor — including on hover, which recolors the glyph to --app-accent
+   itself, i.e. a gold glyph on this same gold tint. */
+.app-switcher-icon-image .icon-glass-base {
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--app-accent, transparent) 20%, transparent),
+    color-mix(in srgb, var(--app-accent, transparent) 10%, transparent)
+  );
+}
+
+/* Active state stays off the fill for the same reason the ring comment above
+   gives: a solid accent fill can't carry a white glyph for every hue in
+   DESKTOP_APPS. Brightening the ring/glow instead (outside the glyph, not
+   behind it) keeps "selected" legible regardless of which app it is. */
+.app-switcher-option:has(.app-switcher-input:checked) .app-switcher-icon-image {
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--app-accent, transparent) 85%, transparent),
+    0 0 10px 1px color-mix(in srgb, var(--app-accent, transparent) 55%, transparent);
 }
 
 .app-switcher-icon-image .icon-glass-content {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .app-switcher-label {
