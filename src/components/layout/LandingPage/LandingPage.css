@@ -257,31 +257,28 @@
   will-change: top, right;
 }
 
-/* Same self-adjusting-contrast trick as the icon glyph above: a solid color
-   blended via "difference" against whatever's behind it, rather than a fixed
-   light color plus a shadow to fake contrast. */
-.desktop-wheel-label {
+/* A fixed white + dark drop-shadow reads reliably against any background —
+   the photo, the blurred WebGL-unavailable fallback, or the rain layer —
+   unlike mix-blend-mode: difference (the icon glyph's trick above), which
+   can wash out to near-invisible over a low-contrast/pastel backdrop. No
+   background box on either variant: the active row already reads as
+   selected via its larger icon and inward curve position, so the label
+   doesn't need its own pill to stand out. */
+.desktop-wheel-label,
+.desktop-wheel-label-active {
   color: #ffffff;
-  font-size: 16px;
-  font-weight: 500;
   white-space: nowrap;
-  mix-blend-mode: difference;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 1px 10px rgba(0, 0, 0, 0.6);
+}
+
+.desktop-wheel-label {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .desktop-wheel-label-active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  padding: 8px 20px;
   font-size: 18px;
-  font-weight: 600;
-  white-space: nowrap;
-  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.2);
-  mix-blend-mode: difference;
+  font-weight: 700;
 }
 
 .icon-image {
