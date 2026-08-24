@@ -113,9 +113,14 @@ const ContactForm = ({ onClose }: ModalProps) => {
         form.reset();
         goToView("sent", 1);
       })
-      .catch(() =>
-        setErrorMessage("Something went wrong — please try again, or reach out directly below.")
-      )
+      .catch((error: unknown) => {
+        // EmailJS rejects with { status, text } describing the failure (e.g. a 412
+        // means the connected email service's auth needs to be reconnected in the
+        // EmailJS dashboard) — log it so that reason is visible without digging
+        // through the Network tab.
+        console.error("EmailJS sendForm failed:", error);
+        setErrorMessage("Something went wrong — please try again, or reach out directly below.");
+      })
       .finally(() => setIsSubmitting(false));
   };
 
