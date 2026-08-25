@@ -89,7 +89,7 @@ export default function FlyingBirds() {
       ctx.restore();
     }
 
-    let frameId: number;
+    let frameId: number | null = null;
     function animate(time: number) {
       ctx.clearRect(0, 0, width, height);
       birds.forEach((bird) => {
@@ -106,13 +106,59 @@ export default function FlyingBirds() {
       frameId = requestAnimationFrame(animate);
     }
 
+    // Mirrors DesktopRain's gating. The birds live in the wallpaper margin
+    // around .mac-screen, so when a full-screen AppView takes the screen over
+    // there is nothing left to look at — but the canvas keeps its geometry, so
+    // neither an IntersectionObserver nor rAF's own background-tab throttling
+    // notices. Left ungated, 28 birds kept redrawing a devicePixelRatio-scaled
+    // full-viewport canvas every frame, competing with the open app's own
+    // animations for main-thread time.
+    let started = false;
+    let tabVisible = document.visibilityState === "visible";
+    const macScreen = container.querySelector(".mac-screen");
+    let appViewOpen =
+      macScreen?.classList.contains("mac-screen--app-view-open") ?? false;
+
+    function sync() {
+      const shouldRun = started && tabVisible && !appViewOpen;
+      if (shouldRun && frameId === null) {
+        frameId = requestAnimationFrame(animate);
+      } else if (!shouldRun && frameId !== null) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+        ctx.clearRect(0, 0, width, height);
+      }
+    }
+
+    function onVisibilityChange() {
+      tabVisible = document.visibilityState === "visible";
+      sync();
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const appViewObserver = macScreen
+      ? new MutationObserver(() => {
+          appViewOpen = macScreen.classList.contains(
+            "mac-screen--app-view-open"
+          );
+          sync();
+        })
+      : null;
+    appViewObserver?.observe(macScreen!, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     const startTimeout = window.setTimeout(() => {
-      frameId = requestAnimationFrame(animate);
+      started = true;
+      sync();
     }, START_DELAY_MS);
 
     return () => {
       window.clearTimeout(startTimeout);
-      cancelAnimationFrame(frameId);
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      appViewObserver?.disconnect();
       resizeObserver.disconnect();
     };
   }, []);

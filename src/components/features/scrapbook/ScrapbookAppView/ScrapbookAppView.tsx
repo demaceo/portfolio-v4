@@ -19,9 +19,11 @@ export default function ScrapbookAppView({ onClose }: ScrapbookAppViewProps) {
 
     async function loadImages() {
       try {
+        // The manifest is prerendered at build time (see the route's
+        // `dynamic = "force-static"`), so `no-store` was forcing a network
+        // round trip for a response that can't change until the next deploy.
         const response = await fetch("/api/scrapbook-images", {
           signal: controller.signal,
-          cache: "no-store",
         });
 
         if (!response.ok) {

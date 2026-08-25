@@ -131,7 +131,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
           <Image
             className="my-logo"
             alt="portfolio-logo"
-            src={`${ASSET_PATHS.LOGOS}/PORTFOLIO_LOGO.png`}
+            // 192px derivative rather than the 1024x1024 / 1.7 MB master:
+            // the optimizer would downscale either one, but it has to decode
+            // the source first, and this is rendered at 24px.
+            src={`${ASSET_PATHS.LOGOS}/portfolio-logo-192.png`}
             width={24}
             height={24}
           />

@@ -2,6 +2,10 @@
 import { useEffect, useMemo, useRef, useCallback } from "react";
 import { useGesture } from "@use-gesture/react";
 import Image from "next/image";
+import {
+  optimizedImageSrc,
+  DOME_ENLARGED_WIDTH,
+} from "@/lib/utils/optimizedImageSrc";
 import styles from "./DomeGallery.module.css";
 
 type ImageItem = string | { src: string; alt?: string };
@@ -511,7 +515,12 @@ export default function DomeGallery({
         (el.querySelector("img") as HTMLImageElement)?.src ||
         "";
       const img = document.createElement("img");
-      img.src = rawSrc;
+      // rawSrc is the original file in public/ (scrapbook photos run to 6.5 MB
+      // apiece), and this <img> is built by hand so it never went through
+      // next/image the way the tiles do. Route it through the optimizer for
+      // the size it's actually displayed at.
+      img.src = optimizedImageSrc(rawSrc, DOME_ENLARGED_WIDTH, 80);
+      img.decoding = "async";
       overlay.appendChild(img);
       viewerRef.current!.appendChild(overlay);
 
@@ -801,7 +810,21 @@ export default function DomeGallery({
                     onPointerUp={onTilePointerUp}
                     onTouchEnd={onTileTouchEnd}
                   >
-                    <Image src={it.src} width={774} height={516} draggable={false} alt={it.alt} />
+                    <Image
+                      src={it.src}
+                      width={774}
+                      height={516}
+                      draggable={false}
+                      alt={it.alt}
+                      // Without `sizes`, next/image emits a 1x/2x srcset off
+                      // the 774px intrinsic width, so every retina browser
+                      // downloaded the 1548w variant for a tile that renders
+                      // at ~250-440 CSS px (the sphere's perspective
+                      // magnifies the 3D-transformed tile roughly 2x at the
+                      // front). With 175 tiles on the sphere that dominated
+                      // both transfer size and decoded-image memory.
+                      sizes="(max-width: 768px) 45vw, 350px"
+                    />
                   </div>
                 </div>
               ))}

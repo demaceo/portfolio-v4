@@ -40,10 +40,10 @@ export const preloadModules = {
     resume: withRecovery(() => import("@/components/features/resume/InteractiveResume/InteractiveResume")),
 };
 
-// On-intent network warmup for PBS iframe origin
-export const ensurePBSPreconnect = () => {
+// On-intent network warmup for a third-party origin. Idempotent: repeated
+// calls (hover in, hover out, hover in) reuse the tags already in <head>.
+const ensureOriginPreconnect = (href: string) => {
     if (typeof document === "undefined") return;
-    const href = "https://player.pbs.org";
 
     if (!document.querySelector(`link[rel="preconnect"][href="${href}"]`)) {
         const l = document.createElement("link");
@@ -61,12 +61,38 @@ export const ensurePBSPreconnect = () => {
     }
 };
 
+// On-intent network warmup for PBS iframe origin
+export const ensurePBSPreconnect = () => ensureOriginPreconnect("https://player.pbs.org");
+
+// Origins the *browser* actually connects to inside the Projects view. Only
+// the animated .gif project art qualifies: next/image renders those with
+// `unoptimized`, so they're fetched straight from the CDN, while every other
+// remote image goes through /_next/image and is fetched server-side (which is
+// why image.pbs.org and friends are deliberately absent — preconnecting to
+// them from the browser could never help).
+//
+// These used to be static <link rel="preconnect"> tags in the root layout,
+// which spent a DNS + TCP + TLS handshake on every page load for sockets that
+// only a visitor who opens Projects will ever use.
+const PROJECT_MEDIA_ORIGINS = [
+    "https://media.giphy.com",
+    "https://media3.giphy.com",
+    "https://user-images.githubusercontent.com",
+];
+
+export const ensureProjectMediaPreconnect = () => {
+    PROJECT_MEDIA_ORIGINS.forEach(ensureOriginPreconnect);
+};
+
 // Preload the corresponding dynamic chunk when the user shows intent
 export const preloadByPath = (path: string) => {
     if (path === "/contact") return preloadModules.contact();
     if (path === "/mindset") return preloadModules.about();
     if (path === "/skillset") return preloadModules.skillset();
-    if (path === "/projects") return preloadModules.projects();
+    if (path === "/projects") {
+        ensureProjectMediaPreconnect();
+        return preloadModules.projects();
+    }
     if (path === "/scrapbook") return preloadModules.scrapbook();
     if (path === "/documentary") {
         ensurePBSPreconnect();
