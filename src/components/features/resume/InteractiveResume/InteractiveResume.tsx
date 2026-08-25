@@ -4,8 +4,6 @@ import React, { useRef } from "react";
 import DemaceoResume from "@/data/DemaceoResume";
 import tools from "@/data/toolbelt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import "./InteractiveResume.css";
 import { ModalProps } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
@@ -57,6 +55,15 @@ export default function InteractiveResume({ onClose }: ModalProps) {
   const handleDownloadPdf = async () => {
     if (!resumeRef.current) return;
     const element = resumeRef.current;
+    // html2canvas + jsPDF are ~530 kB of JS between them and are only ever
+    // needed once the user actually clicks "Download PDF". Importing them
+    // here rather than at module scope keeps them out of the resume modal's
+    // chunk, so opening (or merely hover-preloading) the resume no longer
+    // pays for a PDF exporter most visitors never invoke.
+    const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+      import("html2canvas"),
+      import("jspdf"),
+    ]);
     const canvas = await html2canvas(element, { scale: 2 });
     const imageData = canvas.toDataURL("image/png");
     const pdf = new jsPDF({

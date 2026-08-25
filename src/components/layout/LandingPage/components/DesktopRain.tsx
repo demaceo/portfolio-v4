@@ -168,7 +168,9 @@ export default function DesktopRain() {
     gl.clearColor(0, 0, 0, 0);
 
     const image = new Image();
-    image.src = "/images/palmtreeleaves-5.jpg";
+    // Same file the .macintosh-container background already uses (and that
+    // app/page.tsx preloads), so this texture upload costs no extra network.
+    image.src = "/images/palmtreeleaves-5.webp";
 
     // GPU-side objects (buffers, textures, compiled programs) don't survive
     // a WebGL context loss — everything here gets rebuilt from scratch both

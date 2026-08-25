@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { UseAppActionsProps  } from '@/lib/types';
-import { preloadByPath, ensurePBSPreconnect } from '@/lib/utils/preload';
+import { preloadByPath, ensurePBSPreconnect, ensureProjectMediaPreconnect } from '@/lib/utils/preload';
 
 
 
@@ -18,6 +18,10 @@ export function useAppActions({ modalActions }: UseAppActionsProps) {
         } else if (path === "/skillset") {
             modalActions.setShowSkillset(true);
         } else if (path === "/projects") {
+            // Warm the giphy / githubusercontent sockets the project .gifs are
+            // fetched from, for the case where the view is opened without any
+            // preceding hover (keyboard, deep link, mobile tap).
+            ensureProjectMediaPreconnect();
             modalActions.setShowProjects(true);
         } else if (path === "/scrapbook") {
             modalActions.setShowScrapbook(true);

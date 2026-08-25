@@ -6,7 +6,13 @@ import { Project } from "@/lib/types";
 import { PROJECT_ICON_MAP, PROJECT_ICON_FALLBACK } from "@/lib/constants/projectIcons";
 import { resolveProjectMedia } from "../shared/resolveProjectMedia";
 import { cornerColorFor, DOC_CORNER_COLOR } from "../shared/cornerColor";
+import { optimizedImageSrc } from "@/lib/utils/optimizedImageSrc";
 import styles from "./ProjectSpinningCarousel.module.css";
+
+/** Card faces are 11.5rem x 17.5rem scaled by 1.56 (~287x437 CSS px), and the
+ *  ring's perspective magnifies the front-most card a little; 750 is the
+ *  smallest `deviceSizes` entry that still covers that at DPR 2. */
+const CAROUSEL_FACE_WIDTH = 750;
 
 interface ProjectSpinningCarouselProps {
   projects: Project[];
@@ -39,6 +45,13 @@ const ProjectSpinningCarousel: React.FC<ProjectSpinningCarouselProps> = ({ proje
           <ul className={styles.itemWrapper} style={{ "--_num-elements": projects.length } as CSSProperties}>
             {projects.map((project, i) => {
               const { src, fit } = resolveProjectMedia(project);
+              // The ring shows artwork as a CSS background rather than an
+              // <Image>, so it was the one surface in the app that fetched
+              // project art straight out of public/ — several of those icons
+              // are 1024x1536 PNGs over 2 MB apiece, for a card that renders
+              // at roughly 290x440 CSS px. Route them through the same
+              // optimizer <Image> would have used.
+              const bgSrc = src ? optimizedImageSrc(src, CAROUSEL_FACE_WIDTH) : null;
               const cornerColor =
                 project.type === "documentary" ? DOC_CORNER_COLOR : cornerColorFor(i, projects.length);
 
@@ -49,7 +62,7 @@ const ProjectSpinningCarousel: React.FC<ProjectSpinningCarouselProps> = ({ proje
                   style={
                     {
                       "--_index": i + 1,
-                      "--_image-url": src ? `url('${src}')` : "none",
+                      "--_image-url": bgSrc ? `url('${bgSrc}')` : "none",
                       "--_bg-size": fit,
                       "--corner-color": cornerColor,
                     } as CSSProperties

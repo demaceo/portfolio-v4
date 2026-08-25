@@ -4,6 +4,14 @@
   min-height: 100dvh;
   width: 100vw;
   overflow: hidden;
+  /* Wallpaper for this route. Previously inherited from the html/body rule in
+     globals.css, which meant "/" downloaded it too even though nothing there
+     can see it. WebP re-encode at 2560px wide: 470 KB -> 90 KB. */
+  background-color: #1a1615;
+  background-image: url("/images/palmtreeleaves-7.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   /* fallback solid color for environments that don't load the image */
   /* background-color: #cfd8d2;
   background: linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46)),

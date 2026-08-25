@@ -1,133 +1,83 @@
 /**
  * Next.js configuration object for portfolio-v4.
  *
- * - Sets long-term cache headers (`Cache-Control: public, max-age=31536000, immutable`)
- *   for static assets such as JS, CSS, images, and icons to optimize client-side caching.
- * - Applies cache headers conditionally for production builds.
- * - Configures remote image domains for Next.js Image Optimization, allowing images
- *   to be loaded from specified external sources.
+ * Caching is split in two, because the two classes of static asset have very
+ * different invalidation stories:
+ *
+ *  - `/_next/static/*` is content-hashed by the build. A given URL can never
+ *    change contents, so it gets the maximal `immutable` year — the browser
+ *    never even revalidates it on a repeat visit.
+ *  - Everything under `public/` (icons, images, logos) keeps its filename
+ *    across deploys, so an `immutable` year there means a redeployed image
+ *    stays stale in visitors' caches for a year. Those get a short freshness
+ *    window plus a long `stale-while-revalidate`, so repeat visits still
+ *    render instantly from cache while the new bytes are fetched in the
+ *    background.
+ *
+ * Also configures remote image domains for Next.js Image Optimization.
  *
  * @see https://nextjs.org/docs/app/api-reference/next-config-js
  */
 import type { NextConfig } from "next";
-// max age value is initially  31536000 which is 1 year
-// Reduced from 1 year to 10 minutes for development flexibility
-const LONG_CACHE = "public, max-age=600";
+
+// Content-hashed build output: safe to cache forever and never revalidate.
+const IMMUTABLE_CACHE = "public, max-age=31536000, immutable";
+
+// Stable-filename assets in public/: serve from cache for an hour, then keep
+// serving the cached copy for a week while revalidating in the background.
+const REVALIDATING_CACHE =
+  "public, max-age=3600, stale-while-revalidate=604800";
+
+// Every extension served straight out of public/ (i.e. not through the image
+// optimizer or the build pipeline), so the rules below stay in one place.
+const PUBLIC_ASSET_EXTENSIONS = [
+  "css",
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "svg",
+  "webp",
+  "avif",
+  "ico",
+  "mp4",
+];
 
 const nextConfig: NextConfig = {
   async headers() {
     return [
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      // Use valid Next.js glob patterns for static assets
+      // Bare `.js` files served from public/ — NOT build output, which is
+      // matched by the more specific `/_next/static` rule last.
       {
         source: "/:path*.js",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
+        headers: [{ key: "Cache-Control", value: REVALIDATING_CACHE }],
       },
-      ...(process.env.NODE_ENV === 'production'
-        ? [{
-          source: "/:path*.js",
-          headers: [
-            {
-              key: "Cache-Control",
-              value: LONG_CACHE,
-            },
-          ],
-        }]
-        : []),
+      ...PUBLIC_ASSET_EXTENSIONS.map((ext) => ({
+        source: `/:path*.${ext}`,
+        headers: [{ key: "Cache-Control", value: REVALIDATING_CACHE }],
+      })),
       {
-        source: "/:path*.css",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
+        source: "/(icons|images|logos|scrapbook)/:path*",
+        headers: [{ key: "Cache-Control", value: REVALIDATING_CACHE }],
       },
+      // Listed last on purpose: when several `headers()` entries match the
+      // same request, the last one wins for a given header key. `/:path*.js`
+      // above also matches `/_next/static/chunks/*.js`, so this rule has to
+      // come after it to hand build output the immutable policy.
       {
-        source: "/:path*.png",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.jpg",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.jpeg",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.gif",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.svg",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.webp",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/:path*.ico",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: LONG_CACHE,
-          },
-        ],
-      },
-      {
-        source: "/(icons|images|logos)/:path*",
-        headers: [
-          { key: "Cache-Control", value: LONG_CACHE },
-        ],
+        source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: IMMUTABLE_CACHE }],
       },
     ];
   },
   images: {
+    // AVIF first (typically 20-30% smaller than WebP), WebP as the fallback
+    // for browsers that don't accept it.
+    formats: ["image/avif", "image/webp"],
+    // The source art in public/ never changes without a filename change in
+    // practice, so let optimized derivatives live in the CDN cache far longer
+    // than the 60s default instead of being re-encoded on every miss.
+    minimumCacheTTL: 2592000,
     remotePatterns: [
       {
         protocol: 'https',

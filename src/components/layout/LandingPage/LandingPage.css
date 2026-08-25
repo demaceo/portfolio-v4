@@ -104,7 +104,9 @@
   width: 100vw;
   overflow: hidden;
   background: #c0c0c0;
-  background-image: url("/images/palmtreeleaves-5.jpg");
+  /* WebP re-encode of palmtreeleaves-5.jpg: 543 KB -> 333 KB for the
+     same 1242x2208 pixels. Preloaded from app/page.tsx as the LCP image. */
+  background-image: url("/images/palmtreeleaves-5.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
