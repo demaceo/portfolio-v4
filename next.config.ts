@@ -74,10 +74,14 @@ const nextConfig: NextConfig = {
     // AVIF first (typically 20-30% smaller than WebP), WebP as the fallback
     // for browsers that don't accept it.
     formats: ["image/avif", "image/webp"],
-    // The source art in public/ never changes without a filename change in
-    // practice, so let optimized derivatives live in the CDN cache far longer
-    // than the 60s default instead of being re-encoded on every miss.
-    minimumCacheTTL: 2592000,
+    // Re-encoding a 2 MB source PNG is expensive, and the 60s default means
+    // paying for it constantly. A week is long enough to make that cost
+    // negligible while staying bounded by the same window as the
+    // stale-while-revalidate above: this cache is keyed by source URL and
+    // survives redeploys, so replacing an image in place without renaming it
+    // serves the old derivative until this expires. Deliberately not the
+    // `immutable` year that /_next/static gets — public/ filenames get reused.
+    minimumCacheTTL: 604800,
     remotePatterns: [
       {
         protocol: 'https',
