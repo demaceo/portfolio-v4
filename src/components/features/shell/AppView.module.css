@@ -4,7 +4,7 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  /* Glass surface (via .glass-scope's --lg-tint-solid → --gl-surface). */
+  /* Glass surface: near-opaque so the wallpaper only faintly reads through. */
   background: var(--gl-surface);
   color: var(--gl-text);
   font-family: var(--gl-font);

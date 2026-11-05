@@ -1005,14 +1005,32 @@
 
 .workxp-container {
     color: var(--gl-text);
+    /* Inset from the sheet edges, matching the Contact/Project sheets. */
+    padding: 4px clamp(20px, 4vw, 40px) 36px;
 }
 
-/* The global .shadowed-text is cream (#e4e2e2dc) Lato with a drop shadow —
-   built for the dark desktop, illegible on light Glass. */
+/* The global .shadowed-text is cream (#e4e2e2dc), ultra-light, uppercase,
+   centered Lato with a drop shadow — built for the dark desktop. Inside the
+   résumé it becomes Glass type: dark/light text token, bold, sentence case,
+   left-aligned like every other Glass heading. */
 .workxp-container .shadowed-text {
     color: var(--gl-text);
     font-family: var(--gl-font);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    text-align: left;
     text-shadow: none;
+}
+
+.workxp-container h1.shadowed-text {
+    margin: 0 0 4px;
+    font-size: clamp(28px, 4vw, 36px);
+}
+
+.workxp-container h2.shadowed-text {
+    margin: 32px 0 12px;
+    font-size: 20px;
 }
 
 .workxp-header p {

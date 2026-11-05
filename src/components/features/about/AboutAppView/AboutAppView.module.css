@@ -20,7 +20,7 @@
   flex: 1;
   min-height: 0;
   color: var(--about-text);
-  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
+  font-family: var(--gl-font);
 }
 
 /* ── Chapter rail ─────────────────────────────────────── */
@@ -72,7 +72,7 @@
 }
 
 .aboutRailItem:hover:not(.active) {
-  color: rgba(240, 236, 232, 0.78);
+  color: var(--about-text);
 }
 
 .aboutRailItem.active {
@@ -107,7 +107,7 @@
 .aboutRailItem:focus-visible,
 .aboutProgArrow:focus-visible,
 .aboutIndexTrigger:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -227,7 +227,9 @@
   font-size: clamp(1.2rem, calc(0.95rem + 1.2vw), 1.85rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: oklch(72% 0.14 calc(35deg + var(--i) * 6deg));
+  /* One Glass accent for every word (was a per-word copper hue ramp that
+     fell under 3:1 on the light surface); focus comes from the animation. */
+  color: var(--about-accent);
   opacity: 0.2;
   filter: brightness(0.4);
   transform: scale(0.92);
@@ -456,7 +458,7 @@
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: rgba(240, 236, 232, 0.45);
+  color: var(--about-faint);
   font-size: 0.72rem;
   cursor: pointer;
   display: flex;
@@ -496,12 +498,12 @@
 }
 
 .aboutProgSep {
-  color: rgba(240, 236, 232, 0.18);
+  color: var(--about-faint);
   margin: 0 0.15em;
 }
 
 .aboutProgTotal {
-  color: rgba(240, 236, 232, 0.25);
+  color: var(--about-faint);
 }
 
 /* ── Featured chapter ─────────────────────────────────── */
@@ -531,7 +533,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #0f0f0f;
+  background: var(--gl-chip);
 }
 
 .aboutFeaturedThumbImg {
@@ -559,7 +561,7 @@
 
 .aboutFeaturedThumbOverlay:focus-visible {
   background: rgba(0, 0, 0, 0.22);
-  outline: 2px solid var(--noir-accent, #d4845a);
+  outline: 2px solid var(--gl-focus);
   outline-offset: -2px;
 }
 
@@ -605,7 +607,7 @@
   border-radius: 999px;
   border: 1px solid var(--about-border);
   color: var(--about-muted);
-  background: var(--about-faint, rgba(43, 42, 40, 0.04));
+  background: var(--gl-chip);
 }
 
 .aboutFeaturedBadgePbs {
@@ -615,7 +617,8 @@
 }
 
 .aboutFeaturedBadgeSxsw {
-  background: #e94c3d;
+  /* Darkened from #e94c3d (3.6:1) so the white label clears 4.5:1. */
+  background: #c0392b;
   color: #fff;
   border-color: transparent;
 }
@@ -658,7 +661,7 @@
 
 .aboutFeaturedCta:hover {
   background: var(--about-accent);
-  color: #fff;
+  color: var(--gl-on-accent);
   transform: translateY(-1px);
 }
 

@@ -115,7 +115,7 @@
 }
 
 .card:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 3px;
 }
 
@@ -157,7 +157,7 @@
 
 .faIcon {
   font-size: clamp(1.2rem, calc(var(--card-w) * 0.16), 2rem);
-  color: rgba(212, 132, 90, 0.5);
+  color: color-mix(in srgb, var(--gl-accent) 70%, transparent);
 }
 
 .content {
@@ -244,7 +244,7 @@
 }
 
 .navArrow:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -269,7 +269,7 @@
   cursor: pointer;
   border-radius: 999px;
   height: 8px;
-  background: rgba(240, 236, 232, 0.3);
+  background: color-mix(in srgb, var(--gl-text) 28%, transparent);
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
@@ -284,7 +284,7 @@
 
 .dot:focus-visible,
 .dotActive:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 

@@ -15,7 +15,11 @@ sources:
   - code: src/components/layout/LandingPage/LandingPage.menu.css
   - code: src/hooks/useMediaQuery.ts
   - code: tsconfig.json
-verified_at: 0b8fabb
+  - code: src/components/features/resume/InteractiveResume/InteractiveResume.tsx
+  - code: src/components/features/resume/InteractiveResume/InteractiveResume.css
+  - code: src/components/features/skills/SkillsetAppView/ToolbeltGraph.tsx
+  - code: src/components/layout/LandingPage/components/MobileSearchButton.tsx
+verified_at: aca0ae9
 ---
 
 # Glass overlays
@@ -31,12 +35,13 @@ All Glass colors are `--gl-*` custom properties in `src/app/globals.css:105` (li
 `:root`) with dark overrides under `prefers-color-scheme: dark` at
 `src/app/globals.css:142`. There is no in-app theme toggle: the overlays follow the
 visitor's OS appearance. `--gl-surface` (`src/app/globals.css:177`) is the near-opaque
-full-bleed background for AppViews, which have no blur scrim behind them.
+full-bleed background for AppViews, which have no blur scrim behind them;
+`--gl-surface-solid` (`src/app/globals.css:181`) is its fully opaque twin.
 
 ## The token bridge (`.glass-scope`)
 
 Most content stylesheets were written against the older Warm Noir tokens (`--noir-*`,
-`--lg-*`). Instead of rewriting them, `.glass-scope` (`src/app/globals.css:194`)
+`--lg-*`). Instead of rewriting them, `.glass-scope` (`src/app/globals.css:198`)
 re-declares those variable names to point at `--gl-*` values. `ModalFrame` and `AppView`
 put `glass-scope` on their root element, so any content inside resolves the old names to
 Glass colors and follows light/dark automatically. The MenuBar sits outside the scope, so
@@ -49,6 +54,10 @@ the same variable names still give it Warm Noir there.
 
 > ⚠️ New code should use `--gl-*` directly. The `--noir-*`/`--lg-*` names mean different
 > colors inside and outside `.glass-scope`, which is only acceptable for legacy content.
+
+> ⚠️ `--lg-tint-solid` must map to an *opaque* Glass color (`--gl-surface-solid`), not
+> `--gl-surface`. Legacy users rely on it being solid — the Projects Coverflow card face
+> and the Toolbelt tool card would otherwise let overlapping content bleed through.
 
 ## Shells
 
@@ -99,6 +108,31 @@ media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPa
 > (`src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.module.css:51`).
 > Never add `border-radius` or `object-fit: cover` to icon artwork — icons are transparent
 > PNGs and must show in full.
+
+## Per-surface notes
+
+- **Toolbelt graph** (`src/components/features/skills/SkillsetAppView/ToolbeltGraph.tsx:573`):
+  d3 sets only `--node-hue`/`--node-depth` on each node; the CSS derives the fill, so nodes
+  follow light/dark without re-rendering.
+
+> ⚠️ Don't hard-code colors in d3 (`.attr("fill", "#…")`) for anything inside a Glass
+> surface — they can't follow the OS theme. Set a CSS custom property and color it in CSS.
+
+> ⚠️ Avoid `color-mix()` inside the résumé (`.workxp-container`). The PDF export uses
+> html2canvas 1.4.1, which can't parse the `color(srgb …)` values browsers compute for
+> `color-mix()`; an unparseable color can make the export throw (unverified, from the
+> library's known limits). Use plain tokens there.
+
+> ⚠️ The PDF export must stay light regardless of the viewer's theme: `onclone` marks the
+> captured clone with `data-pdf-export`
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:72`) and the CSS
+> pins light tokens and a white page for it
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.css:1072`).
+> Without it a dark-mode export renders light text on the PDF's white page.
+
+> ⚠️ Most selectors in `src/components/features/resume/InteractiveResume/InteractiveResume.css` above the final "Glass" block match no
+> markup (legacy `.resume-modal-*`, `.pdf-download-*`, `.skill-tag`…). Style the classes
+> the TSX actually renders (`.workxp-container`, `.experience-card`, `.tool-item`).
 
 ## Imports
 

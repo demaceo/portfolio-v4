@@ -16,3 +16,8 @@ Append-only. Newest entries at the bottom.
 - Wrote [[glass-overlays]] from the code of the overlay redesign (PR #79):
   tokens, token bridge, shells, palette, icon-sizing and containing-block traps.
 - Other areas intentionally undocumented until work touches them.
+
+## [2026-11-05] grow | Glass migration of every overlay
+
+- [[glass-overlays]] extended: opaque-surface trap, Toolbelt d3 theming, résumé PDF
+  export and html2canvas `color-mix()` traps, dead résumé selectors.

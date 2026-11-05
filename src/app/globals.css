@@ -176,11 +176,15 @@
    sits behind them, so they can't be as translucent as --gl-material). */
 :root {
   --gl-surface: rgba(246, 246, 248, 0.94);
+  /* Fully opaque twin, for surfaces that must not let what's behind them
+     bleed through (e.g. overlapping Coverflow card faces). */
+  --gl-surface-solid: #f6f6f8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --gl-surface: rgba(24, 24, 27, 0.95);
+    --gl-surface-solid: #18181b;
   }
 }
 
@@ -208,7 +212,7 @@
 
   --lg-tint: var(--gl-group);
   --lg-tint-strong: var(--gl-material-strong);
-  --lg-tint-solid: var(--gl-surface);
+  --lg-tint-solid: var(--gl-surface-solid); /* legacy users needed it opaque */
   --lg-edge: var(--gl-sep);
   --lg-edge-bright: var(--gl-edge);
   --lg-sheen: none;
