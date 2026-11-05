@@ -1,9 +1,8 @@
 /* ===== DOCUMENTARY PLAYER =====
    Content styles for the "Watch Documentary" modal, rendered inside
-   ModalFrame's Warm Noir / Liquid Glass shell. Colors alias the shared
-   --noir- and --lg- tokens from globals.css so this content reads as part
-   of the same dark glass system as every other modal (ContactForm,
-   Projects, ResumeHighlights, InteractiveResume). */
+   ModalFrame's .glass-scope. Colors use the --gl- tokens (or the legacy
+   --noir-/--lg- names, which .glass-scope re-points at Glass) so the content
+   follows Glass light/dark like every other modal. */
 
 .documentary-player-content {
   display: flex;
@@ -23,9 +22,9 @@
   height: 30px;
   flex-shrink: 0;
   border-radius: 50%;
-  border: 1px solid var(--lg-edge);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--noir-muted);
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-chip);
+  color: var(--gl-muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -35,8 +34,8 @@
 }
 
 .documentary-frame-button:hover {
-  color: var(--noir-text);
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--gl-text);
+  background: color-mix(in srgb, var(--gl-text) 12%, transparent);
   transform: scale(1.06);
 }
 
@@ -45,10 +44,10 @@
 }
 
 .documentary-frame-button.active {
-  background: var(--noir-accent);
-  border-color: var(--noir-accent);
-  color: #fff;
-  box-shadow: 0 2px 10px var(--noir-accent-glow);
+  background: var(--gl-accent);
+  border-color: var(--gl-accent);
+  color: var(--gl-on-accent);
+  box-shadow: none;
 }
 
 /* === Episode selector ("Choose Episode") === */
@@ -103,9 +102,9 @@
 }
 
 .episode-item.selected {
-  background: var(--noir-accent);
-  border-color: var(--noir-accent);
-  box-shadow: 0 4px 16px var(--noir-accent-glow);
+  background: var(--gl-accent);
+  border-color: var(--gl-accent);
+  box-shadow: none;
 }
 
 .episode-info {
@@ -125,7 +124,7 @@
 }
 
 .episode-item.selected .episode-title {
-  color: #fff;
+  color: var(--gl-on-accent);
 }
 
 .episode-duration {
@@ -139,7 +138,7 @@
 }
 
 .episode-item.selected .episode-duration {
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--gl-on-accent);
 }
 
 /* === Info dropdown (episode description + actions) === */
@@ -201,9 +200,9 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid var(--lg-edge);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--noir-muted);
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-chip);
+  color: var(--gl-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,8 +211,8 @@
 }
 
 .content-expand-button:hover {
-  color: var(--noir-text);
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--gl-text);
+  background: color-mix(in srgb, var(--gl-text) 12%, transparent);
 }
 
 .documentary-description {
@@ -306,9 +305,9 @@
 }
 
 .action-button.secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--lg-edge);
-  color: var(--noir-text);
+  background: var(--gl-chip);
+  border-color: transparent;
+  color: var(--gl-text);
 }
 
 .action-button.secondary:hover {
@@ -317,14 +316,14 @@
 }
 
 .action-button.donate {
-  background: linear-gradient(135deg, #e0526b 0%, var(--noir-accent) 100%);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(224, 82, 107, 0.28);
+  background: var(--gl-accent);
+  color: var(--gl-on-accent);
+  box-shadow: none;
 }
 
 .action-button.donate:hover {
+  background: var(--gl-accent-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(224, 82, 107, 0.36);
 }
 
 .donate-message {
@@ -335,9 +334,9 @@
   text-align: center;
   font-size: 0.72rem;
   line-height: 1.4;
-  color: var(--noir-muted);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--lg-edge);
+  color: var(--gl-muted);
+  background: var(--gl-group);
+  border: 1px solid var(--gl-sep);
   border-radius: 0.7rem;
 }
 
@@ -348,6 +347,7 @@
   aspect-ratio: 16 / 9;
   max-height: 60vh;
   flex-shrink: 0;
+  /* Intentionally black in both modes: letterbox behind the video. */
   background: #000;
   overflow: hidden;
 }
@@ -449,7 +449,7 @@
 .episode-item:focus-visible,
 .content-expand-button:focus-visible,
 .action-button:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 

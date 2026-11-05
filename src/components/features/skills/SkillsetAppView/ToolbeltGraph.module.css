@@ -12,6 +12,23 @@
   height: 100%;
   min-height: 420px;
   padding: 16px 20px 20px;
+
+  /* Node fill recipe (hue + depth come from ToolbeltGraph.tsx). Light mode:
+     soft pastels under dark --gl-text icons; dark mode: deep tones under
+     light --gl-text icons. Leaves sit closer to the background than roots. */
+  --tb-node-sat: 52%;
+  --tb-node-l: 68%;
+  --tb-node-l-step: 12%;
+  --tb-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .stage {
+    --tb-node-sat: 40%;
+    --tb-node-l: 34%;
+    --tb-node-l-step: -8%;
+    --tb-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .controlsRow {
@@ -42,7 +59,7 @@
 }
 
 .expandToggle:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -80,6 +97,10 @@
 }
 
 .mainCircle {
+  fill: hsl(
+    var(--node-hue, 210) var(--tb-node-sat)
+      calc(var(--tb-node-l) + var(--node-depth, 0) * var(--tb-node-l-step))
+  );
   stroke: var(--noir-border);
   stroke-width: 1px;
   transition: stroke 0.18s ease, stroke-width 0.18s ease;
@@ -113,7 +134,7 @@
 
 .nodeIcon {
   pointer-events: none;
-  color: var(--noir-text);
+  color: var(--gl-text);
 }
 
 .node.signature .mainCircle {
@@ -163,7 +184,7 @@
   background: var(--lg-tint-solid);
   backdrop-filter: var(--lg-blur);
   -webkit-backdrop-filter: var(--lg-blur);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--tb-card-shadow);
   animation: toolCardIn 0.18s ease-out;
 }
 
@@ -240,7 +261,7 @@
 }
 
 .toolCardClose:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -285,7 +306,7 @@
 }
 
 .toolCardChip:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 

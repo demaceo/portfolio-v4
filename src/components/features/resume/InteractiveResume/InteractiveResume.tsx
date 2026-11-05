@@ -64,7 +64,15 @@ export default function InteractiveResume({ onClose }: ModalProps) {
       import("html2canvas"),
       import("jspdf"),
     ]);
-    const canvas = await html2canvas(element, { scale: 2 });
+    // The modal follows the viewer's light/dark scheme, but the PDF is a white
+    // page: tag the clone so InteractiveResume.css forces the light palette.
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+      onclone: (_doc, clonedElement) => {
+        clonedElement.setAttribute("data-pdf-export", "");
+      },
+    });
     const imageData = canvas.toDataURL("image/png");
     const pdf = new jsPDF({
       orientation: "portrait",

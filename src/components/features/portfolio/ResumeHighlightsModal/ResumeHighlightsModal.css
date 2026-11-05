@@ -18,7 +18,7 @@
   flex: 1;
   min-height: 0;
   color: var(--resume-text);
-  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
+  font-family: var(--gl-font);
 }
 
 /* ── Top bar: tabs + byline ───────────────────────────── */
@@ -37,10 +37,8 @@
 .resume-highlights-tabs {
   display: flex;
   gap: 0.2rem;
-  background: var(--lg-tint);
-  border: 1px solid var(--lg-edge);
-  backdrop-filter: var(--lg-blur);
-  -webkit-backdrop-filter: var(--lg-blur);
+  background: var(--gl-seg-bg);
+  border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.2rem;
 }
@@ -52,7 +50,7 @@
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--resume-faint);
+  color: var(--gl-muted);
   font-size: 0.64rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -67,15 +65,12 @@
   color: var(--resume-text);
 }
 
-/* Layering --lg-sheen (the same specular highlight used on ModalFrame/AppView
-   surfaces) over the accent fill gives the active pill a glass sheen
-   instead of a flat color block; the tight shadow + inset hairline ground
-   it without the old wide, generic-looking glow. */
+/* Glass segmented control: the active segment lifts onto --gl-seg-on with
+   full-strength text, mirroring ContactForm's segment idiom. */
 .resume-highlights-tab.active {
-  color: #fff;
-  background-color: var(--resume-accent);
-  background-image: var(--lg-sheen);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  color: var(--gl-text);
+  background-color: var(--gl-seg-on);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 @media (pointer: coarse) {
@@ -292,10 +287,10 @@
 }
 
 .resume-project-picker-btn.active {
-  color: #fff;
-  border-color: var(--resume-accent);
-  background: var(--resume-accent);
-  box-shadow: 0 2px 10px var(--resume-accent-glow);
+  color: var(--gl-on-accent);
+  border-color: var(--gl-accent);
+  background: var(--gl-accent);
+  box-shadow: none;
 }
 
 /* ── Project detail ──────────────────────────────────── */
@@ -446,7 +441,7 @@
 .resume-highlights-tab:focus-visible,
 .resume-role-group-trigger:focus-visible,
 .resume-project-picker-btn:focus-visible {
-  outline: 2px solid var(--resume-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
   border-radius: 6px;
 }
