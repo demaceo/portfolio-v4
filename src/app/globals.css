@@ -95,6 +95,83 @@
     0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* ===== Glass overlay tokens (`--gl-` prefix) =====
+   The premium overlay system: Project Detail sheet, Contact, the ⌘K command
+   palette and the MenuBar popovers. A modal opts in with
+   <ModalFrame variant="glass">. Light by default; follows the visitor's OS
+   appearance via prefers-color-scheme (dark values below). The desktop,
+   wallpaper and MenuBar chrome are intentionally NOT themed by these.
+   Text tokens are tuned for ≥4.5:1 against --gl-material over the scrim. */
+:root {
+  --gl-font: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+
+  --gl-scrim: rgba(235, 238, 242, 0.32);
+  --gl-material: rgba(255, 255, 255, 0.8);
+  --gl-material-strong: rgba(255, 255, 255, 0.9);
+  --gl-bar: rgba(255, 255, 255, 0.6);
+  --gl-edge: rgba(255, 255, 255, 0.8);
+  --gl-sep: rgba(0, 0, 0, 0.08);
+  --gl-group: rgba(255, 255, 255, 0.72);
+  --gl-chip: rgba(0, 0, 0, 0.06);
+  --gl-handle: rgba(0, 0, 0, 0.18);
+  --gl-hero: rgba(0, 102, 204, 0.08);
+
+  --gl-text: #1d1d1f;
+  --gl-muted: #48484d;
+  --gl-faint: #636368;
+
+  --gl-accent: #0066cc;
+  --gl-accent-hover: #0057ad;
+  --gl-accent-soft: rgba(0, 102, 204, 0.1);
+  --gl-on-accent: #ffffff;
+  --gl-focus: rgba(0, 102, 204, 0.55);
+
+  --gl-seg-bg: rgba(0, 0, 0, 0.06);
+  --gl-seg-on: #ffffff;
+  --gl-danger: #b42318;
+  --gl-danger-soft: rgba(180, 35, 24, 0.08);
+
+  --gl-blur: blur(28px) saturate(180%);
+  --gl-shadow: 0 40px 120px rgba(0, 0, 0, 0.28), 0 8px 24px rgba(0, 0, 0, 0.12);
+  --gl-shadow-sheet: 0 -20px 60px rgba(0, 0, 0, 0.22);
+  --gl-radius: 30px;
+  --gl-radius-sheet: 34px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gl-scrim: rgba(0, 0, 0, 0.42);
+    --gl-material: rgba(34, 34, 38, 0.84);
+    --gl-material-strong: rgba(40, 40, 44, 0.92);
+    --gl-bar: rgba(28, 28, 32, 0.6);
+    --gl-edge: rgba(255, 255, 255, 0.14);
+    --gl-sep: rgba(255, 255, 255, 0.1);
+    --gl-group: rgba(255, 255, 255, 0.06);
+    --gl-chip: rgba(255, 255, 255, 0.1);
+    --gl-handle: rgba(255, 255, 255, 0.25);
+    --gl-hero: rgba(77, 163, 255, 0.12);
+
+    --gl-text: #f5f5f7;
+    --gl-muted: #c7c7cc;
+    --gl-faint: #a1a1a6;
+
+    --gl-accent: #4da3ff;
+    --gl-accent-hover: #6fb5ff;
+    --gl-accent-soft: rgba(77, 163, 255, 0.16);
+    --gl-on-accent: #00172e;
+    --gl-focus: rgba(77, 163, 255, 0.7);
+
+    --gl-seg-bg: rgba(255, 255, 255, 0.08);
+    --gl-seg-on: rgba(255, 255, 255, 0.18);
+    --gl-danger: #ff8a80;
+    --gl-danger-soft: rgba(255, 138, 128, 0.12);
+
+    --gl-shadow: 0 40px 120px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.3);
+    --gl-shadow-sheet: 0 -20px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
 /* Strict CSS reset for html and body */
 html,
 body {

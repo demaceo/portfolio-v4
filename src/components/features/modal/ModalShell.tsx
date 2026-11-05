@@ -10,8 +10,11 @@ const ModalShell: React.FC<ModalShellProps> = ({
   onClose,
   children,
   titleId,
+  ariaLabel,
   overlayClassName,
   dialogClassName,
+  motionPreset = "pop",
+  initialFocusRef,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const instanceId = useRef(Symbol("modal")).current;
@@ -34,7 +37,7 @@ const ModalShell: React.FC<ModalShellProps> = ({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    dialogRef.current?.focus();
+    (initialFocusRef?.current ?? dialogRef.current)?.focus();
 
     return () => {
       popOverlay(instanceId);
@@ -42,6 +45,8 @@ const ModalShell: React.FC<ModalShellProps> = ({
       unlockBodyScroll();
       previouslyFocused?.focus?.();
     };
+    // initialFocusRef is a stable ref object; only its .current is read once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClose, instanceId]);
 
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -64,6 +69,17 @@ const ModalShell: React.FC<ModalShellProps> = ({
         initial: { opacity: 0 },
         animate: { opacity: 1, transition: { duration: 0.15 } },
         exit: { opacity: 0, transition: { duration: 0.12 } },
+      }
+    : motionPreset === "sheet"
+    ? {
+        // Bottom sheet: slide the full sheet height up from the edge. Slightly
+        // softer spring than "pop" so a tall sheet settles rather than snaps.
+        initial: { y: "100%" },
+        animate: {
+          y: 0,
+          transition: { type: "spring", stiffness: 260, damping: 32, mass: 0.9 },
+        },
+        exit: { y: "100%", transition: { duration: 0.22, ease: [0.4, 0, 1, 1] } },
       }
     : {
         initial: { opacity: 0, y: 18, scale: 0.98 },
@@ -96,7 +112,7 @@ const ModalShell: React.FC<ModalShellProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-label={titleId ? undefined : "Modal dialog"}
+        aria-label={titleId ? undefined : ariaLabel ?? "Modal dialog"}
         tabIndex={-1}
         variants={dialogVariants}
         initial="initial"

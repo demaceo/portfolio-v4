@@ -2,28 +2,25 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import services from "@/data/services";
-import { useProjects } from "@/hooks";
-import {
-  PROJECT_ICON_MAP,
-  PROJECT_ICON_FALLBACK,
-  isImageIcon,
-} from "@/lib/constants/projectIcons";
 import Image from "next/image";
 
 interface MenuBarProps {
   setShowAboutMe: (show: boolean) => void;
-  setShowProjects: (show: boolean) => void;
   setShowSkillset: (show: boolean) => void;
   setSelectedServiceId: (id: string | null) => void;
-  setSelectedProjectId: (id: number | null) => void;
+  /** "Projects" and the ⌘K button open the command palette (rendered by
+   *  LandingPage, outside this bar — see the comment there). */
+  onOpenPalette: () => void;
+  isPaletteOpen: boolean;
   preload: {
     about: () => void;
     contact: () => void;
     projects: () => void;
     skillset: () => void;
+    palette: () => void;
   };
   TimeDisplay: React.ComponentType;
   /** True while a full-screen AppView is open — swaps the logo for a back
@@ -53,10 +50,10 @@ const getServicePreview = (description: string) => {
 
 const MenuBar: React.FC<MenuBarProps> = ({
   setShowAboutMe,
-  setShowProjects,
   setShowSkillset,
   setSelectedServiceId,
-  setSelectedProjectId,
+  onOpenPalette,
+  isPaletteOpen,
   preload,
   TimeDisplay,
   isAppViewOpen,
@@ -65,14 +62,16 @@ const MenuBar: React.FC<MenuBarProps> = ({
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const { activeProjects } = useProjects();
 
   const toggleDropdown = (key: string) =>
     setOpenDropdown(openDropdown === key ? null : key);
 
   const preloadFor = (key: string) => {
     if (key === "about") preload.about();
-    else if (key === "projects") preload.projects();
+    else if (key === "projects") {
+      preload.palette();
+      preload.projects();
+    }
     else if (key === "services") preload.skillset();
   };
 
@@ -148,17 +147,34 @@ const MenuBar: React.FC<MenuBarProps> = ({
                 isOpen ? " menu-item-wrapper-active" : ""
               }`}
             >
-              <button
-                type="button"
-                className={`menu-item${isOpen ? " menu-item-active" : ""}`}
-                onMouseEnter={() => preloadFor(item.key)}
-                onFocus={() => preloadFor(item.key)}
-                onClick={() => toggleDropdown(item.key)}
-                aria-haspopup="menu"
-                aria-expanded={isOpen}
-              >
-                {item.label}
-              </button>
+              {item.key === "projects" ? (
+                <button
+                  type="button"
+                  className={`menu-item${isPaletteOpen ? " menu-item-active" : ""}`}
+                  onMouseEnter={() => preloadFor(item.key)}
+                  onFocus={() => preloadFor(item.key)}
+                  onClick={() => {
+                    setOpenDropdown(null);
+                    onOpenPalette();
+                  }}
+                  aria-haspopup="dialog"
+                  aria-expanded={isPaletteOpen}
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className={`menu-item${isOpen ? " menu-item-active" : ""}`}
+                  onMouseEnter={() => preloadFor(item.key)}
+                  onFocus={() => preloadFor(item.key)}
+                  onClick={() => toggleDropdown(item.key)}
+                  aria-haspopup="menu"
+                  aria-expanded={isOpen}
+                >
+                  {item.label}
+                </button>
+              )}
               {isOpen && (
                 <div
                   className="menu-dropdown"
@@ -232,77 +248,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
                     </ul>
                   )}
 
-                  {item.key === "projects" && (
-                    <ul className="menu-dropdown-projects">
-                      {activeProjects.map((proj) => {
-                        const openProject = () => {
-                          setSelectedProjectId(proj.id);
-                          setShowProjects(true);
-                          setOpenDropdown(null);
-                        };
-                        let projectVisual: React.ReactNode = null;
-                        if (isImageIcon(proj.icon)) {
-                          projectVisual = (
-                            <span className="menu-dropdown-project-img menu-dropdown-project-img-icon">
-                              <Image
-                                src={proj.icon as string}
-                                alt=""
-                                className="menu-dropdown-project-img-media"
-                                width={34}
-                                height={34}
-                              />
-                            </span>
-                          );
-                        } else if (proj.icon) {
-                          projectVisual = (
-                            <span className="menu-dropdown-project-img menu-dropdown-project-icon">
-                              <FontAwesomeIcon
-                                icon={
-                                  PROJECT_ICON_MAP[proj.icon as string] ||
-                                  PROJECT_ICON_FALLBACK
-                                }
-                              />
-                            </span>
-                          );
-                        } else if (proj.image) {
-                          projectVisual = (
-                            <Image
-                              src={proj.image}
-                              alt=""
-                              className="menu-dropdown-project-img"
-                              width={52}
-                              height={52}
-                            />
-                          );
-                        }
-                        return (
-                          <li
-                            key={proj.id}
-                            className="menu-dropdown-project-item menu-dropdown-row"
-                            role="menuitem"
-                            tabIndex={0}
-                            onClick={openProject}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                openProject();
-                              }
-                            }}
-                          >
-                            {projectVisual}
-                            <div className="menu-dropdown-project-info">
-                              <div className="menu-dropdown-project-title">
-                                {proj.name}
-                              </div>
-                              <div className="menu-dropdown-project-desc">
-                                {proj.description}
-                              </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
                 </div>
               )}
             </div>
@@ -315,6 +260,22 @@ const MenuBar: React.FC<MenuBarProps> = ({
         </span>
       )}
       <div className="menu-right">
+        <button
+          type="button"
+          className="menu-command"
+          onClick={() => {
+            setOpenDropdown(null);
+            onOpenPalette();
+          }}
+          onMouseEnter={preload.palette}
+          onFocus={preload.palette}
+          aria-label="Search projects and actions (Command K)"
+          aria-haspopup="dialog"
+          aria-expanded={isPaletteOpen}
+        >
+          <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
+          <kbd aria-hidden="true">⌘K</kbd>
+        </button>
         <TimeDisplay />
       </div>
     </div>

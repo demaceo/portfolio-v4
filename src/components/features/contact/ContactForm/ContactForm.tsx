@@ -29,6 +29,10 @@ declare global {
 
 type ContactView = "choose" | "message" | "sent";
 
+// Sent as `project_type` alongside the existing EmailJS fields. The EmailJS
+// template only shows it once {{project_type}} is added to the template.
+const PROJECT_TYPES = ["Web app", "Mobile app", "Something else"] as const;
+
 const viewVariants = {
   enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 48 : -48 }),
   center: { opacity: 1, x: 0 },
@@ -129,7 +133,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
       onClose={onClose}
       title="Contact"
       size="sm"
-      variant="light"
+      variant="glass"
       titleId="contact-title"
       closeAriaLabel="Close contact modal"
     >
@@ -246,38 +250,58 @@ const ContactForm = ({ onClose }: ModalProps) => {
               </header>
 
               <form className="contact-form" onSubmit={sendEmail}>
-                <div className="field">
-                  <input
-                    ref={nameInputRef}
-                    type="text"
-                    name="from_name"
-                    id="from_name"
-                    placeholder=" "
-                    required
-                  />
-                  <label htmlFor="from_name">Your name</label>
+                <div className="field-group">
+                  <div className="field-row">
+                    <label htmlFor="from_name">Name</label>
+                    <input
+                      ref={nameInputRef}
+                      type="text"
+                      name="from_name"
+                      id="from_name"
+                      placeholder="Jane Appleseed"
+                      autoComplete="name"
+                      required
+                    />
+                  </div>
+                  <div className="field-row">
+                    <label htmlFor="reply_to">Email</label>
+                    <input
+                      type="email"
+                      name="reply_to"
+                      id="reply_to"
+                      placeholder="jane@company.com"
+                      autoComplete="email"
+                      required
+                    />
+                  </div>
                 </div>
 
-                <div className="field">
-                  <input
-                    type="email"
-                    name="reply_to"
-                    id="reply_to"
-                    placeholder=" "
-                    required
-                  />
-                  <label htmlFor="reply_to">Your email</label>
-                </div>
+                <fieldset className="contact-segment">
+                  <legend>What&apos;s it for?</legend>
+                  <div className="segment-track">
+                    {PROJECT_TYPES.map((type, i) => (
+                      <label key={type} className="segment-option">
+                        <input
+                          type="radio"
+                          name="project_type"
+                          value={type}
+                          defaultChecked={i === 0}
+                        />
+                        <span>{type}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
 
-                <div className="field">
+                <div className="field-stack">
+                  <label htmlFor="message">Message</label>
                   <textarea
                     name="message"
                     id="message"
-                    placeholder=" "
-                    rows={4}
+                    placeholder="A few lines on the project, timeline and budget…"
+                    rows={5}
                     required
                   />
-                  <label htmlFor="message">Your message</label>
                 </div>
 
                 {errorMessage && (

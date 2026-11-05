@@ -149,19 +149,22 @@
 
 /* --- Dropdown shell --- */
 .menu-dropdown {
+  /* Glass popover (--gl- tokens: light/dark follow the OS) — same material
+     as the ⌘K palette and the glass modals. No backdrop-filter here: see the
+     .menu-bar comment above. */
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
   min-width: 240px;
-  background: var(--lg-tint-strong);
-  color: var(--noir-text);
-  box-shadow: var(--lg-shadow-float);
-  border: 1px solid var(--lg-edge);
-  border-radius: 14px;
-  padding: 10px;
+  background: var(--gl-material-strong);
+  color: var(--gl-text);
+  box-shadow: var(--gl-shadow);
+  border: 1px solid var(--gl-edge);
+  border-radius: 18px;
+  padding: 8px;
   z-index: 1011;
   animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: var(--font-primary);
+  font-family: var(--gl-font);
   font-size: 14px;
   box-sizing: border-box;
 }
@@ -178,40 +181,20 @@
   }
 }
 
-.menu-dropdown::before {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: 24px;
-  width: 12px;
-  height: 12px;
-  background: var(--lg-tint-strong);
-  border-left: 1px solid var(--lg-edge);
-  border-top: 1px solid var(--lg-edge);
-  transform: rotate(45deg);
-  z-index: -1;
-}
-
 /* Shared row treatment — every interactive dropdown row (Services, Projects)
    uses this instead of each dropdown inventing its own hover/shadow scale.
    Mirrors Card.module.css's `.interactive`. */
 .menu-dropdown-row {
-  background: var(--noir-panel);
-  border: 1px solid var(--noir-border);
-  border-radius: 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition: background-color 0.15s ease;
 }
 
 .menu-dropdown-row:hover,
 .menu-dropdown-row:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: var(--lg-shadow-float);
-  border-color: var(--lg-edge-bright);
-}
-
-.menu-dropdown-row:active {
-  transform: translateY(-1px);
+  background: var(--gl-accent-soft);
 }
 
 /* --- About Dropdown: short bio + a single action --- */
@@ -225,7 +208,7 @@
 
 .menu-dropdown-about-bio {
   margin: 0;
-  color: var(--noir-muted);
+  color: var(--gl-muted);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -235,7 +218,7 @@
   background: transparent;
   border: none;
   padding: 0;
-  color: var(--noir-accent);
+  color: var(--gl-accent);
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -244,7 +227,7 @@
 }
 
 .menu-dropdown-about-link:hover {
-  color: var(--noir-text);
+  color: var(--gl-accent-hover);
 }
 
 /* --- Services Dropdown --- */
@@ -255,7 +238,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
   max-height: 440px;
   overflow-y: auto;
 }
@@ -272,8 +255,7 @@
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: var(--noir-panel-strong);
-  border: 1px solid var(--noir-border);
+  background: var(--gl-chip);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,7 +266,6 @@
   width: 26px;
   height: 26px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
 }
 
 .menu-dropdown-service-info {
@@ -296,7 +277,7 @@
 }
 
 .menu-dropdown-service-title {
-  color: var(--noir-text);
+  color: var(--gl-text);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -304,7 +285,7 @@
 }
 
 .menu-dropdown-service-desc {
-  color: var(--noir-muted);
+  color: var(--gl-muted);
   font-size: 12px;
   line-height: 1.45;
   display: -webkit-box;
@@ -314,124 +295,43 @@
   overflow: hidden;
 }
 
-/* --- Projects Dropdown --- */
-.menu-dropdown-projects {
-  margin: 0;
-  padding: 2px;
-  width: fit-content;
-  max-width: 90vw;
-  max-height: 480px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  list-style: none;
-}
-
-.menu-dropdown-project-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 12px;
-  max-width: 340px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.menu-dropdown-project-img {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  background: var(--noir-panel-strong);
-  border: 1px solid var(--noir-border);
-  flex-shrink: 0;
-}
-
-.menu-dropdown-project-img-icon,
-.menu-dropdown-project-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: var(--noir-muted);
-}
-
-.menu-dropdown-project-img-media {
-  width: 34px !important;
-  height: 34px !important;
-  display: block;
-  object-fit: contain;
-  border-radius: 6px;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
-}
-
-.menu-dropdown-project-icon .svg-inline--fa {
-  display: block;
-  vertical-align: 0;
-}
-
-.menu-dropdown-project-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-}
-
-.menu-dropdown-project-title {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--noir-text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-.menu-dropdown-project-desc {
-  font-size: 12px;
-  color: var(--noir-muted);
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .menu-right {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+/* ⌘K trigger — sits with the clock, styled as quiet menu-bar chrome. */
+.menu-command {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 9px;
+  border: 1px solid var(--lg-edge);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--noir-muted);
+  font: 500 11.5px var(--font-primary);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.menu-command kbd {
+  font: inherit;
+}
+
+.menu-command:hover,
+.menu-command[aria-expanded="true"] {
+  background: var(--lg-tint-strong);
+  border-color: var(--lg-edge-bright);
+  color: var(--noir-text);
 }
 
 /* --- Scrollbars (token-based) --- */
-.menu-dropdown-projects,
 .menu-dropdown-services {
   scrollbar-width: thin;
-  scrollbar-color: var(--noir-muted) var(--lg-tint);
-}
-
-.menu-dropdown-projects::-webkit-scrollbar,
-.menu-dropdown-services::-webkit-scrollbar {
-  width: 6px;
-}
-
-.menu-dropdown-projects::-webkit-scrollbar-track,
-.menu-dropdown-services::-webkit-scrollbar-track {
-  background: var(--lg-tint);
-  border-radius: 3px;
-}
-
-.menu-dropdown-projects::-webkit-scrollbar-thumb,
-.menu-dropdown-services::-webkit-scrollbar-thumb {
-  background: var(--noir-faint);
-  border-radius: 3px;
-}
-
-.menu-dropdown-projects::-webkit-scrollbar-thumb:hover,
-.menu-dropdown-services::-webkit-scrollbar-thumb:hover {
-  background: var(--noir-muted);
+  scrollbar-color: var(--gl-handle) transparent;
 }
 
 /* ==========================================================================
@@ -449,7 +349,6 @@
     font-size: 13px;
   }
 
-  .menu-dropdown-projects,
   .menu-dropdown-services {
     max-width: 85vw;
   }
@@ -477,8 +376,13 @@
   }
 }
 
-:where(.menu-item, .menu-dropdown-row, .menu-dropdown-about-link):focus-visible {
+:where(.menu-item, .menu-command):focus-visible {
   outline: 2px solid var(--noir-accent);
+  outline-offset: 2px;
+}
+
+:where(.menu-dropdown-row, .menu-dropdown-about-link):focus-visible {
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 

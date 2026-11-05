@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ChunkErrorRecoveryListener from "@/components/ChunkErrorRecoveryListener";
@@ -18,6 +18,16 @@ const sora = Sora({
   // variable .woff2 covering 400-800 rather than five static files.
   display: "swap",
   variable: "--font-sora",
+});
+
+// Glass overlay typeface (--gl-font in globals.css). Variable font, one file.
+// preload: false — it's only painted once an overlay opens, so it shouldn't
+// compete with the desktop's first paint for bandwidth.
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -58,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={sora.variable}>
+    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       {/* No <head> preconnects here on purpose. The giphy / githubusercontent
           origins are only ever hit by the browser for the unoptimized .gif
           project art inside the Projects app view, and image.pbs.org is

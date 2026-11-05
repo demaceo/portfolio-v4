@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import "./LandingPage.css";
 import "./LandingPage.menu.css";
@@ -22,12 +23,55 @@ import {
 } from "@/hooks";
 import { preloadModules } from "@/lib/utils/preload";
 
+// Code-split: the palette only downloads on first ⌘K / Projects click (or on
+// MenuBar hover/focus via preloadModules.palette).
+const CommandPalette = dynamic(
+  () => import("@/components/features/command/CommandPalette"),
+  { ssr: false }
+);
+
 const LandingPage = () => {
   // Initialize hooks
   const { modalState, actions: modalActions } = useModalState();
   const { handleAppClick, maybePreloadByPath } = useAppActions({
     modalActions,
   });
+
+  const [showPalette, setShowPalette] = useState(false);
+  const openPalette = useCallback(() => setShowPalette(true), []);
+  const closePalette = useCallback(() => setShowPalette(false), []);
+
+  // ⌘K (macOS) / Ctrl+K (elsewhere) toggles the palette from anywhere.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setShowPalette((open) => !open);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  const { setSelectedProjectId } = modalActions;
+  const paletteOpenProject = useCallback(
+    (id: number) => {
+      setShowPalette(false);
+      setSelectedProjectId(id);
+      handleAppClick("/projects");
+    },
+    [setSelectedProjectId, handleAppClick]
+  );
+  const paletteOpenContact = useCallback(() => {
+    setShowPalette(false);
+    // handleAppClick("/contact") toggles (and clears the badge) — only fire it
+    // when Contact isn't already open, so this always means "open".
+    if (!modalState.showContactForm) handleAppClick("/contact");
+  }, [modalState.showContactForm, handleAppClick]);
+  const paletteOpenResume = useCallback(() => {
+    setShowPalette(false);
+    handleAppClick("/resume");
+  }, [handleAppClick]);
 
   // Initialize desktop with preloading
   // useDesktopInitialization();
@@ -77,10 +121,10 @@ const LandingPage = () => {
       >
         <MenuBar
           setShowAboutMe={modalActions.setShowAboutMe}
-          setShowProjects={modalActions.setShowProjects}
           setShowSkillset={modalActions.setShowSkillset}
           setSelectedServiceId={modalActions.setSelectedServiceId}
-          setSelectedProjectId={modalActions.setSelectedProjectId}
+          onOpenPalette={openPalette}
+          isPaletteOpen={showPalette}
           preload={preloadModules}
           TimeDisplay={TimeDisplay}
           isAppViewOpen={isAppViewOpen}
@@ -142,6 +186,20 @@ const LandingPage = () => {
         showDocumentary={modalState.showDocumentary}
         setShowDocumentary={modalActions.setShowDocumentary}
       />
+
+      {/* Rendered here, not inside MenuBar: .menu-bar's backdrop-filter would
+          become the containing block for the palette's position:fixed overlay. */}
+      <AnimatePresence>
+        {showPalette && (
+          <CommandPalette
+            key="command-palette"
+            onClose={closePalette}
+            onOpenProject={paletteOpenProject}
+            onOpenContact={paletteOpenContact}
+            onOpenResume={paletteOpenResume}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

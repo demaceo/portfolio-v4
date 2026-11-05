@@ -26,6 +26,19 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     initialProjectId ?? null
   );
+  // The ⌘K palette can pick a project while this view is already open, which
+  // changes initialProjectId without remounting. Adopt the new id during
+  // render (React's "adjust state when a prop changes" pattern — no effect,
+  // no extra frame), and jump to the Featured tab since the palette only
+  // lists active projects.
+  const [prevInitialProjectId, setPrevInitialProjectId] = useState(initialProjectId);
+  if (initialProjectId !== prevInitialProjectId) {
+    setPrevInitialProjectId(initialProjectId);
+    if (initialProjectId != null) {
+      setSelectedProjectId(initialProjectId);
+      setActiveTab("featured");
+    }
+  }
   const [showResumeHighlights, setShowResumeHighlights] = useState(false);
   const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
     string | undefined

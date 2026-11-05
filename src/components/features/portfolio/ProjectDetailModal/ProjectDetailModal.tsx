@@ -4,7 +4,14 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { useGesture } from "@use-gesture/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt, faFilm, faPlay } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faCheck,
+  faChevronLeft,
+  faChevronRight,
+  faFilm,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import { faAppStoreIos } from "@fortawesome/free-brands-svg-icons";
 import { Project } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
@@ -14,14 +21,15 @@ import styles from "./ProjectDetailModal.module.css";
 // Minimum horizontal drag (px) to advance to the next/previous project.
 const SWIPE_DISTANCE = 40;
 
-// Primary action button copy/icon per project.linkType, keyed off the same
-// field the button's distinct App Store styling reads. Falls back to the
-// generic "Open Project" for projects with no explicit linkType.
-const OPEN_PROJECT_CTA = {
-  appstore: { label: "View in App Store", icon: faAppStoreIos },
-  website: { label: "View Website", icon: faExternalLinkAlt },
-  watch: { label: "Watch Here", icon: faPlay },
+// Primary action copy/icon + status chip per project.linkType. Falls back to
+// the generic "Open Project" for projects with no explicit linkType.
+const LINK_TYPE_META = {
+  appstore: { cta: "View on App Store", icon: faAppStoreIos, status: "Live on the App Store" },
+  website: { cta: "Visit website", icon: faArrowUpRightFromSquare, status: "Live website" },
+  watch: { cta: "Watch now", icon: faPlay, status: "Watch online" },
 } as const;
+
+const DEFAULT_META = { cta: "Open project", icon: faArrowUpRightFromSquare, status: null };
 
 interface ProjectDetailModalProps {
   project: Project;
@@ -39,9 +47,8 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
   onPrev,
 }) => {
   const detailRef = useRef<HTMLDivElement>(null);
-  // Guards taps/clicks (Open Project, Resume Deep Dive) from also firing
-  // right as a swipe releases over them — same idiom as the coverflow
-  // carousel's card click guard.
+  // Guards taps/clicks (primary CTA, Deep Dive) from also firing right as a
+  // swipe releases over them — same idiom as the coverflow card click guard.
   const lastDragEndAt = useRef(0);
 
   useGesture(
@@ -50,9 +57,8 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
         if (!last) return;
         if (Math.abs(mx) > 8 || Math.abs(my) > 8) lastDragEndAt.current = performance.now();
         // @use-gesture's own `swipe` is velocity-gated (a "flick"), so a
-        // deliberate drag-past-the-threshold-then-pause-before-lifting
-        // reads as swipe [0, 0] even though it moved plenty. Fall back to a
-        // plain distance check so that release still navigates.
+        // deliberate drag-past-the-threshold-then-pause reads as swipe [0, 0]
+        // even though it moved plenty. Fall back to a plain distance check.
         if (swipeX === -1 || (swipeX === 0 && mx <= -SWIPE_DISTANCE)) onNext();
         else if (swipeX === 1 || (swipeX === 0 && mx >= SWIPE_DISTANCE)) onPrev();
       },
@@ -64,95 +70,126 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
     }
   );
 
-  const guardedOpenProject = () => {
+  const swipeGuard = (fn: () => void) => () => {
     if (performance.now() - lastDragEndAt.current < 80) return;
-    window.open(project.link, "_blank", "noopener,noreferrer");
+    fn();
   };
 
-  const guardedOpenDeepDive = () => {
-    if (performance.now() - lastDragEndAt.current < 80) return;
-    onOpenDeepDive(project.deepDiveKey);
-  };
+  const meta = project.linkType ? LINK_TYPE_META[project.linkType] : DEFAULT_META;
 
-  const cta = project.linkType
-    ? OPEN_PROJECT_CTA[project.linkType]
-    : { label: "Open Project", icon: faExternalLinkAlt };
-  const isAppStoreCta = project.linkType === "appstore";
+  const navButtons = (
+    <>
+      <button type="button" className={styles.navBtn} onClick={onPrev} aria-label="Previous project">
+        <FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" />
+      </button>
+      <button type="button" className={styles.navBtn} onClick={onNext} aria-label="Next project">
+        <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />
+      </button>
+    </>
+  );
 
   return (
     <ModalFrame
       onClose={onBack}
       title={project.name}
       size="lg"
-      variant="light"
+      variant="glass"
+      presentation="sheet"
+      eyebrow={<>Projects&nbsp;&nbsp;›&nbsp;&nbsp;{project.name}</>}
+      headerActions={navButtons}
       titleId="project-detail-title"
       closeAriaLabel="Back to projects"
     >
       <div className={styles.detail} ref={detailRef}>
-        <motion.div
-          layoutId={`project-media-${project.id}`}
-          className={styles.media}
-          aria-hidden="true"
-        >
-          <ProjectMedia
-            project={project}
-            iconImageClassName={styles.iconImg}
-            heroImageClassName={styles.heroImg}
-            faIconClassName={styles.faIcon}
-            sizes="(max-width: 640px) 100vw, 42vw"
-          />
-          <div className={styles.vignette} aria-hidden="true" />
-        </motion.div>
+        <div className={styles.body}>
+          <motion.div
+            layoutId={`project-media-${project.id}`}
+            className={styles.hero}
+            aria-hidden="true"
+          >
+            <ProjectMedia
+              project={project}
+              iconImageClassName={styles.iconImg}
+              heroImageClassName={styles.heroImg}
+              faIconClassName={styles.faIcon}
+              sizes="(max-width: 768px) 100vw, 430px"
+            />
+          </motion.div>
 
-        <div className={styles.info}>
-          {project.type === "documentary" && (
-            <div className={styles.docTag} aria-label="Documentary">
-              <FontAwesomeIcon icon={faFilm} aria-hidden="true" />
-              <span>Documentary</span>
+          <div className={styles.info}>
+            <div className={styles.chips}>
+              {project.type === "documentary" && (
+                <span className={`${styles.chip} ${styles.chipAccent}`}>
+                  <FontAwesomeIcon icon={faFilm} aria-hidden="true" />
+                  Documentary
+                </span>
+              )}
+              {meta.status && (
+                <span className={`${styles.chip} ${styles.chipAccent}`}>
+                  <span className={styles.dot} aria-hidden="true" />
+                  {meta.status}
+                </span>
+              )}
+              {project.yearRange && (
+                <span className={styles.chip}>{project.yearRange.replace("-", " – ")}</span>
+              )}
             </div>
-          )}
 
-          <h2 className={styles.name}>{project.name}</h2>
+            <div>
+              <h2 className={styles.name}>{project.name}</h2>
+              <p className={styles.description}>{project.description}</p>
+            </div>
 
-          {project.yearRange && (
-            <p className={styles.year} aria-label={`Year range: ${project.yearRange}`}>
-              {project.yearRange}
-            </p>
-          )}
+            {project.highlights && project.highlights.length > 0 && (
+              <section aria-labelledby="project-highlights-heading">
+                <h3 id="project-highlights-heading" className={styles.sectionLabel}>
+                  What&apos;s inside
+                </h3>
+                <ul className={styles.highlights}>
+                  {project.highlights.map((h) => (
+                    <li key={h}>
+                      <span className={styles.check} aria-hidden="true">
+                        <FontAwesomeIcon icon={faCheck} />
+                      </span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
+        </div>
 
-          <p className={styles.description}>{project.description}</p>
-
+        <div className={styles.footer}>
           {project.stackPreview && project.stackPreview.length > 0 && (
-            <div className={styles.stack} aria-label="Technology stack">
+            <ul className={styles.stack} aria-label="Technology stack">
               {project.stackPreview.map((tech) => (
-                <span key={tech}>{tech}</span>
-              ))}
-            </div>
-          )}
-
-          {project.highlights && project.highlights.length > 0 && (
-            <ul className={styles.highlights} aria-label="Project highlights">
-              {project.highlights.map((h) => (
-                <li key={h}>{h}</li>
+                <li key={tech}>{tech}</li>
               ))}
             </ul>
           )}
-
           <div className={styles.actions}>
-            <button
-              type="button"
-              className={isAppStoreCta ? styles.appStoreBtn : styles.openBtn}
-              onClick={guardedOpenProject}
-            >
-              <FontAwesomeIcon icon={cta.icon} aria-hidden="true" />
-              <span>{cta.label}</span>
-            </button>
-
             {project.deepDiveKey && (
-              <button type="button" className={styles.diveBtn} onClick={guardedOpenDeepDive}>
-                Resume Deep Dive
+              <button
+                type="button"
+                className={styles.secondaryBtn}
+                onClick={swipeGuard(() => onOpenDeepDive(project.deepDiveKey))}
+              >
+                Read case study
               </button>
             )}
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.primaryBtn}
+              onClick={(e) => {
+                if (performance.now() - lastDragEndAt.current < 80) e.preventDefault();
+              }}
+            >
+              <FontAwesomeIcon icon={meta.icon} aria-hidden="true" />
+              <span>{meta.cta}</span>
+            </a>
           </div>
         </div>
       </div>

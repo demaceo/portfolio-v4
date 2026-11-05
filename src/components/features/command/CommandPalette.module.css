@@ -1,0 +1,270 @@
+/* ==========================================================================
+   ⌘K Command palette — Glass. Desktop: floating panel near the top of the
+   viewport. Phones: bottom sheet. Same overlay-blurs / panel-doesn't
+   performance split as the glass ModalFrame.
+   ========================================================================== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: max(12vh, 72px) 16px 16px;
+  box-sizing: border-box;
+  background: var(--gl-scrim);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.palette {
+  width: min(620px, 100%);
+  /* Tall enough that the Actions group shows without scrolling at 900px. */
+  max-height: min(700px, 82vh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  outline: none;
+  font-family: var(--gl-font);
+  color: var(--gl-text);
+  background: var(--gl-material-strong);
+  border: 1px solid var(--gl-edge);
+  border-radius: 24px;
+  box-shadow: var(--gl-shadow);
+  will-change: transform;
+}
+
+.handleRow {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.handle {
+  width: 38px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--gl-handle);
+}
+
+/* --- Search ---------------------------------------------------------------- */
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--gl-sep);
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  color: var(--gl-faint);
+  font-size: 17px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  font: 400 17px var(--gl-font);
+  color: var(--gl-text);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--gl-faint);
+}
+
+.kbd {
+  font: 600 11px var(--gl-font);
+  color: var(--gl-faint);
+  background: var(--gl-chip);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.cancel {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--gl-accent);
+  font: 500 16px var(--gl-font);
+  cursor: pointer;
+}
+
+/* --- Results --------------------------------------------------------------- */
+
+.results {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+}
+
+.groupLabel {
+  padding: 10px 12px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gl-faint);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.optionActive {
+  background: var(--gl-accent-soft);
+}
+
+.optionLabel {
+  flex-shrink: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.optionMeta {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--gl-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tag {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--gl-chip);
+  color: var(--gl-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* Fixed tile; artwork inside is contain-fit so it is never cropped. */
+.thumb {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--gl-chip);
+  color: var(--gl-muted);
+  font-size: 15px;
+  overflow: hidden;
+}
+
+.thumbImg {
+  width: auto;
+  height: auto;
+  max-width: 82%;
+  max-height: 82%;
+  object-fit: contain;
+}
+
+.thumbCover {
+  object-fit: cover;
+}
+
+.actionThumb {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+}
+
+.empty {
+  margin: 0;
+  padding: 28px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--gl-muted);
+}
+
+/* --- Footer ---------------------------------------------------------------- */
+
+.footer {
+  display: flex;
+  gap: 20px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--gl-sep);
+  font-size: 12px;
+  color: var(--gl-faint);
+  flex-shrink: 0;
+}
+
+.footerEnd {
+  margin-left: auto;
+}
+
+/* --- Phones: bottom sheet -------------------------------------------------- */
+@media (max-width: 768px) {
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .palette {
+    width: 100%;
+    height: calc(100svh - 96px);
+    max-height: none;
+    border-radius: 28px 28px 0 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    box-shadow: var(--gl-shadow-sheet);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .searchRow {
+    border-bottom: 0;
+    padding: 4px 16px 8px;
+  }
+
+  .input {
+    font-size: 16px; /* no iOS zoom-on-focus */
+  }
+
+  .option {
+    min-height: 60px;
+  }
+
+  .optionMeta {
+    display: none;
+  }
+
+  .footer {
+    display: none;
+  }
+}
+
+@media (prefers-contrast: more), (forced-colors: active) {
+  .palette {
+    background: Canvas;
+    color: CanvasText;
+    border: 1px solid CanvasText;
+  }
+
+  .optionActive {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
