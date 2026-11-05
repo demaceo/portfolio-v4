@@ -93,7 +93,6 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
       onClose={onBack}
       title={project.name}
       size="lg"
-      variant="glass"
       presentation="sheet"
       eyebrow={<>Projects&nbsp;&nbsp;›&nbsp;&nbsp;{project.name}</>}
       headerActions={navButtons}

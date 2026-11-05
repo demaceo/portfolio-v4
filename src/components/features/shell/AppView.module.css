@@ -4,21 +4,12 @@
   z-index: 5;
   display: flex;
   flex-direction: column;
-  background: var(--lg-tint-solid);
+  /* Glass surface (via .glass-scope's --lg-tint-solid → --gl-surface). */
+  background: var(--gl-surface);
+  color: var(--gl-text);
+  font-family: var(--gl-font);
   outline: none;
   overflow: hidden;
-}
-
-/* 135deg white->transparent sheen, matching ModalFrame's ".frame::before" —
-   same liquid-glass identity, just on a full-bleed surface instead of a
-   floating card. */
-.appView::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--lg-sheen);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .titleBar,
@@ -33,27 +24,9 @@
   justify-content: space-between;
   min-height: 52px;
   padding: 0 18px;
-  border-bottom: 1px solid var(--lg-edge);
+  border-bottom: 1px solid var(--gl-sep);
   flex-shrink: 0;
-  background: linear-gradient(180deg, rgba(13, 10, 9, 0.62) 0%, rgba(13, 10, 9, 0.48) 100%);
-}
-
-.titleBar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(212, 132, 90, 0.32) 25%,
-    rgba(212, 132, 90, 0.5) 50%,
-    rgba(212, 132, 90, 0.32) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
+  background: var(--gl-bar);
 }
 
 .headerControls {
@@ -68,14 +41,14 @@
 .backButton {
   width: 28px;
   height: 28px;
-  border: 1px solid var(--lg-edge-bright);
+  border: 0;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(240, 236, 232, 0.4);
+  background: var(--gl-chip);
+  color: var(--gl-muted);
   font-size: 12px;
   transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease,
     color 0.18s ease;
@@ -83,9 +56,7 @@
 
 .backButton:hover {
   transform: scale(1.08);
-  background: rgba(212, 132, 90, 0.18);
-  border-color: rgba(212, 132, 90, 0.45);
-  color: #d4845a;
+  color: var(--gl-text);
 }
 
 .backButton:active {
@@ -93,7 +64,7 @@
 }
 
 .backButton:focus-visible {
-  outline: 2px solid rgba(212, 132, 90, 0.6);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -102,12 +73,9 @@
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(240, 236, 232, 0.45);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gl-text);
   text-align: center;
   white-space: nowrap;
   user-select: none;
@@ -144,7 +112,7 @@
   }
 
   .titleText {
-    font-size: 9px;
+    font-size: 15px;
   }
 }
 
@@ -157,16 +125,6 @@
   .headerSpacer {
     width: 40px;
     height: 40px;
-  }
-}
-
-@supports not (backdrop-filter: blur(1px)) {
-  .appView {
-    background: rgba(13, 10, 9, 0.98);
-  }
-
-  .titleBar {
-    background: linear-gradient(180deg, rgba(13, 10, 9, 0.98) 0%, rgba(16, 12, 10, 0.96) 100%);
   }
 }
 

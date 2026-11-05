@@ -5,7 +5,6 @@ import { ModalFrameProps, ModalSize } from "@/lib/types";
 import { useMediaQuery, SHEET_MEDIA_QUERY } from "@/hooks";
 import ModalShell from "./ModalShell";
 import styles from "./ModalFrame.module.css";
-import glass from "./GlassFrame.module.css";
 
 const sizeClassMap: Record<ModalSize, string> = {
   sm: styles.sizeSm,
@@ -20,6 +19,16 @@ const CloseIcon = () => (
   </svg>
 );
 
+/**
+ * Glass modal shell shared by every floating overlay. No macOS title bar: a
+ * grab handle (sheets only), an eyebrow line (defaults to `title`), header
+ * actions and a round close button. The dialog's accessible name comes from a
+ * visually-hidden element carrying `titleId` — one id, never duplicated by
+ * consumers, who render their own visible <h2> where they want one.
+ *
+ * `glass-scope` (globals.css) re-points the legacy --noir-/--lg- tokens at the
+ * --gl- palette, so content styled with those tokens follows Glass light/dark.
+ */
 const ModalFrame: React.FC<ModalFrameProps> = ({
   onClose,
   title,
@@ -28,97 +37,52 @@ const ModalFrame: React.FC<ModalFrameProps> = ({
   headerActions,
   closeAriaLabel,
   titleId,
-  variant = "noir",
   presentation = "window",
   eyebrow,
 }) => {
   const generatedId = useId().replace(/:/g, "");
   const resolvedTitleId = titleId ?? `modal-title-${generatedId}`;
   const isPhone = useMediaQuery(SHEET_MEDIA_QUERY);
-
-  /* ---------------------------------------------------------------------
-     Glass: premium overlay chrome. No macOS title bar — a grab handle (sheets
-     only), an optional eyebrow, header actions and a round close button. The
-     visible heading lives in the content (each consumer renders its own
-     <h2>), so the dialog's accessible name comes from a visually-hidden
-     element carrying `titleId` — one id, never duplicated by consumers.
-     --------------------------------------------------------------------- */
-  if (variant === "glass") {
-    const asSheet = presentation === "sheet" || isPhone;
-    return (
-      <ModalShell
-        onClose={onClose}
-        titleId={resolvedTitleId}
-        motionPreset={asSheet ? "sheet" : "pop"}
-        overlayClassName={`${glass.overlay} ${asSheet ? glass.overlaySheet : ""}`}
-        dialogClassName={[
-          glass.frame,
-          sizeClassMap[size],
-          asSheet ? glass.sheet : glass.window,
-          presentation === "sheet" ? glass.fill : "",
-        ].join(" ")}
-      >
-        {asSheet && (
-          <div className={glass.handleRow} aria-hidden="true">
-            <span className={glass.handle} />
-          </div>
-        )}
-        <div className={glass.header}>
-          <span id={resolvedTitleId} className={glass.srOnly}>
-            {title}
-          </span>
-          {eyebrow ? (
-            <span className={glass.eyebrow} aria-hidden="true">
-              {eyebrow}
-            </span>
-          ) : (
-            <span />
-          )}
-          <div className={glass.headerActions}>
-            {headerActions}
-            <button
-              type="button"
-              className={glass.close}
-              onClick={onClose}
-              aria-label={closeAriaLabel ?? "Close"}
-            >
-              <CloseIcon />
-            </button>
-          </div>
-        </div>
-        <div className={glass.content}>{children}</div>
-      </ModalShell>
-    );
-  }
-
-  const variantClass = variant === "light" ? styles.light : "";
+  const asSheet = presentation === "sheet" || isPhone;
 
   return (
     <ModalShell
       onClose={onClose}
       titleId={resolvedTitleId}
-      overlayClassName={`${styles.overlay} ${variantClass}`}
-      dialogClassName={`${styles.frame} ${sizeClassMap[size]} ${variantClass}`}
+      motionPreset={asSheet ? "sheet" : "pop"}
+      overlayClassName={`${styles.overlay} ${asSheet ? styles.overlaySheet : ""}`}
+      dialogClassName={[
+        "glass-scope",
+        styles.frame,
+        sizeClassMap[size],
+        asSheet ? styles.sheet : styles.window,
+        presentation === "sheet" ? styles.fill : "",
+      ].join(" ")}
     >
-      <div className={styles.titleBar}>
-        <div className={styles.windowControls}>
-          <button
-            type="button"
-            className={styles.closeButton}
-            onClick={onClose}
-            aria-label={closeAriaLabel ?? "Close modal"}
-          />
+      {asSheet && (
+        <div className={styles.handleRow} aria-hidden="true">
+          <span className={styles.handle} />
         </div>
-
-        <span id={resolvedTitleId} className={styles.windowTitle}>
+      )}
+      <div className={styles.header}>
+        <span id={resolvedTitleId} className={styles.srOnly}>
           {title}
         </span>
-
+        <span className={styles.eyebrow} aria-hidden="true">
+          {eyebrow ?? title}
+        </span>
         <div className={styles.headerActions}>
-          {headerActions ?? <div className={styles.headerSpacer} aria-hidden="true" />}
+          {headerActions}
+          <button
+            type="button"
+            className={styles.close}
+            onClick={onClose}
+            aria-label={closeAriaLabel ?? "Close"}
+          >
+            <CloseIcon />
+          </button>
         </div>
       </div>
-
       <div className={styles.content}>{children}</div>
     </ModalShell>
   );

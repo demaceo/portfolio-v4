@@ -172,6 +172,50 @@
   }
 }
 
+/* Opaque-enough full-bleed surface for the AppView takeovers (no blur scrim
+   sits behind them, so they can't be as translucent as --gl-material). */
+:root {
+  --gl-surface: rgba(246, 246, 248, 0.94);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gl-surface: rgba(24, 24, 27, 0.95);
+  }
+}
+
+/* ===== Token bridge: legacy Warm Noir → Glass =====
+   Every overlay (ModalFrame) and every AppView renders inside `.glass-scope`.
+   Content stylesheets written against the older --noir-/--lg- tokens keep
+   their variable names; inside the scope those names resolve to the Glass
+   palette, so the content follows Glass light/dark without a rewrite. The
+   MenuBar sits outside the scope and keeps the Warm Noir chrome.
+   New code should use the --gl- tokens directly. */
+.glass-scope {
+  --font-display: var(--gl-font);
+
+  --noir-accent: var(--gl-accent);
+  --noir-accent-soft: var(--gl-accent-soft);
+  --noir-accent-glow: var(--gl-accent-soft);
+  --noir-accent-line: color-mix(in srgb, var(--gl-accent) 38%, transparent);
+  --noir-text: var(--gl-text);
+  --noir-muted: var(--gl-muted);
+  --noir-faint: var(--gl-faint);
+  --noir-border: var(--gl-sep);
+  --noir-panel: var(--gl-group);
+  --noir-panel-strong: var(--gl-chip);
+  --noir-surface: var(--gl-group);
+
+  --lg-tint: var(--gl-group);
+  --lg-tint-strong: var(--gl-material-strong);
+  --lg-tint-solid: var(--gl-surface);
+  --lg-edge: var(--gl-sep);
+  --lg-edge-bright: var(--gl-edge);
+  --lg-sheen: none;
+  --lg-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --lg-shadow-float: var(--gl-shadow);
+}
+
 /* Strict CSS reset for html and body */
 html,
 body {

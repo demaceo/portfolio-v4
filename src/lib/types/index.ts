@@ -82,11 +82,8 @@ export interface ModalProps {
 
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 
-/** "glass" is the premium overlay system (see the --gl- tokens in globals.css). */
-export type ModalVariant = "noir" | "light" | "glass";
-
-/** "window" floats centered; "sheet" docks to the bottom edge. Glass modals
- *  always render as sheets on phones regardless of this prop. */
+/** "window" floats centered; "sheet" docks to the bottom edge. Every modal
+ *  renders as a sheet on phones regardless of this prop. */
 export type ModalPresentation = "window" | "sheet";
 
 /** Enter/exit motion: "pop" = spring scale-in, "sheet" = slide up from the
@@ -115,12 +112,10 @@ export interface ModalFrameProps {
     headerActions?: ReactNode;
     closeAriaLabel?: string;
     titleId?: string;
-    /** Visual theme of the shared shell. Defaults to "noir". */
-    variant?: ModalVariant;
-    /** Glass only. Defaults to "window". */
+    /** Defaults to "window". Every modal is a bottom sheet on phones. */
     presentation?: ModalPresentation;
-    /** Glass only: small breadcrumb-style line shown left of the close button
-     *  instead of the uppercase window title (e.g. "Projects › Pinpoint"). */
+    /** Small line left of the close button (e.g. "Projects › Pinpoint").
+     *  Defaults to `title`. */
     eyebrow?: ReactNode;
 }
 

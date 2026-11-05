@@ -418,3 +418,51 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   Phone & touch-tablet entry point to the ⌘K palette (MobileSearchButton).
+   Hidden by default; shown under the exact query that hides .menu-bar above,
+   so exactly one palette trigger is visible at any viewport.
+   ========================================================================== */
+.mobile-search-button {
+  display: none;
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+  .mobile-search-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 6;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--gl-edge);
+    background: var(--gl-material);
+    color: var(--gl-text);
+    font-size: 17px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease;
+  }
+
+  .mobile-search-button:active {
+    transform: scale(0.94);
+  }
+
+  .mobile-search-button:focus-visible {
+    outline: 2px solid var(--gl-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-search-button {
+    transition: none;
+  }
+}

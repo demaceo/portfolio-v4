@@ -71,7 +71,7 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
   return (
     <motion.div
       ref={containerRef}
-      className={styles.appView}
+      className={`glass-scope ${styles.appView}`}
       role="region"
       aria-labelledby={resolvedTitleId}
       tabIndex={-1}

@@ -1,0 +1,18 @@
+# Work log
+
+Append-only. Newest entries at the bottom.
+
+---
+
+## [2026-11-05] setup | docs/ wiki scaffolded
+
+- Categories: concepts - architecture - subsystems - decisions - reference - operations - history
+- Baseline commit: `0b8fabb`
+- Created: `docs/{CLAUDE,index,log}.md`, `raw/`, 4 `.claude/commands/docs-*`,
+  and `.claude/scripts/docs-lint.py`
+
+## [2026-11-05] grow | started in grow mode
+
+- Wrote [[glass-overlays]] from the code of the overlay redesign (PR #79):
+  tokens, token bridge, shells, palette, icon-sizing and containing-block traps.
+- Other areas intentionally undocumented until work touches them.

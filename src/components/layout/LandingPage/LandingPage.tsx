@@ -15,6 +15,7 @@ import {
   AppViews,
   TimeDisplay,
   FlyingBirds,
+  MobileSearchButton,
 } from "./components";
 import {
   useModalState,
@@ -131,6 +132,14 @@ const LandingPage = () => {
           activeAppTitle={activeAppTitle}
           onBack={modalActions.closeAllModals}
         />
+
+        {!isAppViewOpen && (
+          <MobileSearchButton
+            onOpen={openPalette}
+            onPreload={preloadModules.palette}
+            isOpen={showPalette}
+          />
+        )}
 
         <DesktopIcons
           showContactNotification={modalState.showContactNotification}

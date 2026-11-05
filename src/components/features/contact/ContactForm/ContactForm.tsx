@@ -133,7 +133,6 @@ const ContactForm = ({ onClose }: ModalProps) => {
       onClose={onClose}
       title="Contact"
       size="sm"
-      variant="glass"
       titleId="contact-title"
       closeAriaLabel="Close contact modal"
     >
