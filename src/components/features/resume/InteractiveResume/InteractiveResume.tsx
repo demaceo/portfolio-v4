@@ -7,6 +7,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./InteractiveResume.css";
 import { ModalProps } from "@/lib/types";
 import { ModalFrame } from "@/components/features/modal";
+import {
+  LETTER_PT,
+  measureBreakCandidates,
+  planPageSlices,
+} from "@/lib/utils/pdfPagination";
+
+// PDF export tuning. Capture at 2x for crisp text; 0.5in page margins.
+const PDF_CAPTURE_SCALE = 2;
+const PDF_MARGIN_PT = 36;
+// Safe places to start a new page: the top of a section heading, a job, an
+// education entry or a skill row. Breaking at a heading's top keeps it with
+// the content beneath it.
+const PDF_BREAK_SELECTOR =
+  ".xp-section > h2, .experience-card, .education-item, .tool-item";
 
 function ExperienceCard({
   exp,
@@ -66,20 +80,52 @@ export default function InteractiveResume({ onClose }: ModalProps) {
     ]);
     // The modal follows the viewer's light/dark scheme, but the PDF is a white
     // page: tag the clone so InteractiveResume.css forces the light palette.
+    // Break points are measured on that same clone (not the live node) so
+    // they match the layout html2canvas actually rasterises.
+    let breakCandidates: number[] = [];
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: PDF_CAPTURE_SCALE,
       backgroundColor: "#ffffff",
       onclone: (_doc, clonedElement) => {
         clonedElement.setAttribute("data-pdf-export", "");
+        breakCandidates = measureBreakCandidates(clonedElement, PDF_BREAK_SELECTOR);
       },
     });
-    const imageData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "px",
-      format: [canvas.width, canvas.height],
+
+    // Letter pages with 0.5in margins. The capture is scaled to the content
+    // width, and each page holds as much as fits, breaking at the top of a
+    // heading / job / education / skill row rather than mid-line.
+    const contentWidthPt = LETTER_PT.width - PDF_MARGIN_PT * 2;
+    const contentHeightPt = LETTER_PT.height - PDF_MARGIN_PT * 2;
+    const pxPerPt = canvas.width / contentWidthPt;
+    const slices = planPageSlices(
+      canvas.height,
+      Math.floor(contentHeightPt * pxPerPt),
+      breakCandidates.map((y) => y * PDF_CAPTURE_SCALE)
+    );
+
+    const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
+    const pageCanvas = document.createElement("canvas");
+    const ctx = pageCanvas.getContext("2d");
+    if (!ctx) return;
+    pageCanvas.width = canvas.width;
+
+    slices.forEach(({ start, end }, index) => {
+      const height = end - start;
+      pageCanvas.height = height;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, pageCanvas.width, height);
+      ctx.drawImage(canvas, 0, start, canvas.width, height, 0, 0, canvas.width, height);
+      if (index > 0) pdf.addPage("letter", "portrait");
+      pdf.addImage(
+        pageCanvas.toDataURL("image/png"),
+        "PNG",
+        PDF_MARGIN_PT,
+        PDF_MARGIN_PT,
+        contentWidthPt,
+        height / pxPerPt
+      );
     });
-    pdf.addImage(imageData, "PNG", 0, 0, canvas.width, canvas.height);
     pdf.save("Demaceo_Howard_Resume.pdf");
   };
 

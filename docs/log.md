@@ -21,3 +21,8 @@ Append-only. Newest entries at the bottom.
 
 - [[glass-overlays]] extended: opaque-surface trap, Toolbelt d3 theming, résumé PDF
   export and html2canvas `color-mix()` traps, dead résumé selectors.
+
+## [2026-11-05] grow | résumé PDF pagination
+
+- [[glass-overlays]]: Letter pagination of the résumé export and its two traps
+  (measure on the clone; extend `PDF_BREAK_SELECTOR` for new block types).

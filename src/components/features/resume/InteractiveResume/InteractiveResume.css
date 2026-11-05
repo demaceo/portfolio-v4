@@ -1069,7 +1069,16 @@
    data-pdf-export, so the captured node is always the light palette on white
    regardless of the viewer's color scheme (dark-mode text on the PDF's white
    page would be unreadable). Values mirror the light :root --gl- tokens. */
+/* Lay the export out at print size: 720 CSS px = 7.5in at 96dpi, the Letter
+   content width once the PDF's 0.5in margins are applied, so 1 CSS px prints
+   as 0.75pt and body text keeps its real size. The page margins come from the
+   PDF itself, hence no padding here. */
 .workxp-container[data-pdf-export] {
+    width: 720px;
+    max-width: none;
+    box-sizing: border-box;
+    padding: 0;
+
     --gl-text: #1d1d1f;
     --gl-muted: #48484d;
     --gl-faint: #636368;

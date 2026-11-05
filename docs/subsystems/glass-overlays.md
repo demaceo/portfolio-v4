@@ -19,7 +19,8 @@ sources:
   - code: src/components/features/resume/InteractiveResume/InteractiveResume.css
   - code: src/components/features/skills/SkillsetAppView/ToolbeltGraph.tsx
   - code: src/components/layout/LandingPage/components/MobileSearchButton.tsx
-verified_at: 5333b12
+  - code: src/lib/utils/pdfPagination.ts
+verified_at: 2d97d00
 ---
 
 # Glass overlays
@@ -125,10 +126,26 @@ media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPa
 
 > ⚠️ The PDF export must stay light regardless of the viewer's theme: `onclone` marks the
 > captured clone with `data-pdf-export`
-> (`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:72`) and the CSS
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:89`) and the CSS
 > pins light tokens and a white page for it
-> (`src/components/features/resume/InteractiveResume/InteractiveResume.css:1072`).
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.css:1076`).
 > Without it a dark-mode export renders light text on the PDF's white page.
+
+The résumé PDF is paginated into US Letter pages with 0.5in margins. The export clone is
+laid out at 720 CSS px (7.5in at 96dpi, the Letter content width), so text prints at its
+real size; `planPageSlices` (`src/lib/utils/pdfPagination.ts:27`) then cuts the single
+html2canvas capture at the latest safe boundary that fits each page — the top of a section
+heading, job, education entry or skill row (`PDF_BREAK_SELECTOR`,
+`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:22`).
+
+> ⚠️ Measure page-break candidates on the html2canvas *clone* inside `onclone`
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:91`), never on
+> the live node. The clone is laid out at the 720px print width with no padding, so the
+> live node's offsets are for a different layout and would cut lines in half.
+
+> ⚠️ A new block type in the résumé (a new section, a list) needs a selector in
+> `PDF_BREAK_SELECTOR`, or the paginator can't break inside it and falls back to a hard
+> cut at the page height, which can split a line of text.
 
 > ⚠️ Most selectors in `src/components/features/resume/InteractiveResume/InteractiveResume.css` above the final "Glass" block match no
 > markup (legacy `.resume-modal-*`, `.pdf-download-*`, `.skill-tag`…). Style the classes
