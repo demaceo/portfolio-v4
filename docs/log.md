@@ -31,3 +31,8 @@ Append-only. Newest entries at the bottom.
 
 - [[glass-overlays]]: replaced the "dead selectors" note with the global-stylesheet and
   undefined-`var()` traps found while deleting 820 lines of dead résumé CSS.
+
+## [2026-11-05] grow | résumé now serves the owner's PDF
+
+- [[glass-overlays]]: replaced the html2canvas/pagination notes (code removed) with the
+  static-PDF setup and its sync and phone-redaction traps.

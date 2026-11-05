@@ -136,33 +136,29 @@
 }
 
 /* ===== Rendered markup (inside ModalFrame's .glass-scope) =====
-   InteractiveResume.tsx renders .resume-download-btn / .workxp-container /
-   .experience-card / .tool-item, which the legacy rules above mostly don't
-   target. These rules set colors, borders and fonts only (no layout), all
-   from --gl- tokens so they follow light/dark. Plain tokens only (no
-   color-mix) inside .workxp-container: html2canvas can't parse the
-   color(srgb …) values browsers compute for color-mix(). */
+   Styles for what InteractiveResume.tsx renders. Colors are --gl- tokens so
+   the résumé follows Glass light/dark. Content mirrors the downloadable PDF
+   (public/resume/), which is served as a static file. */
 
-/* Header action: accent pill, same idiom as the Contact/Project sheets. */
-
+/* Header action: accent pill linking to the PDF. */
 .resume-download-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 7px 14px;
-    border: 0;
     border-radius: 999px;
     background: var(--gl-accent);
     color: var(--gl-on-accent);
     font-family: var(--gl-font);
     font-size: 13px;
     font-weight: 600;
-    cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .resume-download-btn:hover {
     background: var(--gl-accent-hover);
+    color: var(--gl-on-accent);
 }
 
 .resume-download-btn:active {
@@ -183,13 +179,17 @@
     color: var(--gl-text);
     /* Inset from the sheet edges, matching the Contact/Project sheets. */
     padding: 4px clamp(20px, 4vw, 40px) 36px;
+    font-size: 15px;
+    line-height: 1.55;
 }
 
-/* The global .shadowed-text is cream (#e4e2e2dc), ultra-light, uppercase,
-   centered Lato with a drop shadow — built for the dark desktop. Inside the
-   résumé it becomes Glass type: dark/light text token, bold, sentence case,
-   left-aligned like every other Glass heading. */
+.workxp-container p {
+    margin: 0;
+}
 
+/* The global .shadowed-text is cream, ultra-light, uppercase, centered Lato
+   with a drop shadow — built for the dark desktop. Inside the résumé it
+   becomes Glass type: bold, sentence case, left-aligned. */
 .workxp-container .shadowed-text {
     color: var(--gl-text);
     font-family: var(--gl-font);
@@ -206,15 +206,23 @@
 }
 
 .workxp-container h2.shadowed-text {
-    margin: 32px 0 12px;
+    margin: 0 0 12px;
     font-size: 20px;
 }
 
-.workxp-header p {
+.resume-title-line {
     color: var(--gl-muted);
+    font-size: 16px;
 }
 
-.workxp-header nav {
+.resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
     color: var(--gl-faint);
 }
 
@@ -226,45 +234,118 @@
     color: var(--gl-accent-hover);
 }
 
-.experience-date,
-.experience-card p,
-.education-item .program {
+.resume-body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+/* Summary: the PDF's accent-ruled lead paragraph. */
+.resume-summary {
+    padding-left: 16px;
+    border-left: 3px solid var(--gl-accent);
+    font-size: 16px;
     color: var(--gl-muted);
 }
 
-.tool-icon {
+.resume-summary strong {
+    color: var(--gl-text);
+}
+
+.resume-work + .resume-work,
+.resume-speaking + .resume-speaking,
+.education-item + .education-item {
+    margin-top: 14px;
+}
+
+.workxp-container h3 {
+    margin: 0 0 2px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gl-text);
+}
+
+.resume-dot {
     color: var(--gl-accent);
 }
 
-.workxp-container a:focus-visible,
-.tool-item:focus-visible {
+.resume-tagline {
+    font-weight: 500;
+    color: var(--gl-muted);
+}
+
+.resume-work p,
+.experience-card > p:last-child,
+.xp-section > p {
+    color: var(--gl-muted);
+}
+
+.resume-meta {
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--gl-faint);
+}
+
+/* Experience entries: padded so the hover tint (legacy rule above) reads as
+   a soft card, pulled back by the same amount so text stays aligned. */
+.experience-card {
+    margin: 0 -14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+}
+
+.experience-card + .experience-card {
+    margin-top: 2px;
+}
+
+.experience-card .resume-meta {
+    margin-bottom: 6px;
+}
+
+.resume-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+}
+
+.resume-speaking-title,
+.education-item .program {
+    font-weight: 600;
+    color: var(--gl-text);
+}
+
+.education-item .institution {
+    color: var(--gl-muted);
+}
+
+.resume-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.resume-chips li {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--gl-chip);
+    color: var(--gl-text);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.workxp-container a:focus-visible {
     outline: 2px solid var(--gl-focus);
     outline-offset: 2px;
 }
 
-/* PDF export: handleDownloadPdf marks the html2canvas clone with
-   data-pdf-export, so the captured node is always the light palette on white
-   regardless of the viewer's color scheme (dark-mode text on the PDF's white
-   page would be unreadable). Values mirror the light :root --gl- tokens. */
-
-/* Lay the export out at print size: 720 CSS px = 7.5in at 96dpi, the Letter
-   content width once the PDF's 0.5in margins are applied, so 1 CSS px prints
-   as 0.75pt and body text keeps its real size. The page margins come from the
-   PDF itself, hence no padding here. */
-
-.workxp-container[data-pdf-export] {
-    width: 720px;
-    max-width: none;
-    box-sizing: border-box;
-    padding: 0;
-
-    --gl-text: #1d1d1f;
-    --gl-muted: #48484d;
-    --gl-faint: #636368;
-    --gl-accent: #0066cc;
-    --gl-accent-hover: #0057ad;
-    background: #ffffff;
-    color: var(--gl-text);
+@media (max-width: 640px) {
+    .resume-columns {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (forced-colors: active) {
@@ -274,8 +355,11 @@
 
     .resume-download-btn:focus-visible,
     .workxp-container a:focus-visible,
-    .tool-item:focus-visible,
     .experience-card:focus-visible {
         outline-color: Highlight;
+    }
+
+    .resume-summary {
+        border-left-color: CanvasText;
     }
 }
