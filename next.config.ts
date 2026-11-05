@@ -14,6 +14,10 @@
  *    render instantly from cache while the new bytes are fetched in the
  *    background.
  *
+ * `/versus` is the game *Hasan vs.*, a separate Vercel project (demaceo/make-me-viral)
+ * served under this domain by a rewrite: the address bar stays on demaceo.com while the
+ * game's own deployment answers. The two deploy independently.
+ *
  * Also configures remote image domains for Next.js Image Optimization.
  *
  * @see https://nextjs.org/docs/app/api-reference/next-config-js
@@ -27,6 +31,10 @@ const IMMUTABLE_CACHE = "public, max-age=31536000, immutable";
 // serving the cached copy for a week while revalidating in the background.
 const REVALIDATING_CACHE =
   "public, max-age=3600, stale-while-revalidate=604800";
+
+// The game's production address (the `versus` project's stable alias). Its build is made
+// with Vite's `base: '/versus/'`, so every URL it emits already starts with /versus/.
+const VERSUS_ORIGIN = "https://versus.vercel.app";
 
 // Every extension served straight out of public/ (i.e. not through the image
 // optimizer or the build pipeline), so the rules below stay in one place.
@@ -44,6 +52,12 @@ const PUBLIC_ASSET_EXTENSIONS = [
 ];
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      { source: "/versus", destination: `${VERSUS_ORIGIN}/versus` },
+      { source: "/versus/:path*", destination: `${VERSUS_ORIGIN}/versus/:path*` },
+    ];
+  },
   async headers() {
     return [
       // Bare `.js` files served from public/ — NOT build output, which is
@@ -66,6 +80,13 @@ const nextConfig: NextConfig = {
       // come after it to hand build output the immutable policy.
       {
         source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: IMMUTABLE_CACHE }],
+      },
+      // The game's content-hashed bundles. Also last on purpose: `/:path*.js` and
+      // `/:path*.css` above match them too, and would cut their year down to an hour.
+      // The game's index.html is not matched here and keeps its own must-revalidate.
+      {
+        source: "/versus/assets/:path*",
         headers: [{ key: "Cache-Control", value: IMMUTABLE_CACHE }],
       },
     ];
