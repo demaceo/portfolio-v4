@@ -1,364 +1,25 @@
-/* ===== INTERACTIVE RESUME — Glass =====
-   Every color resolves to a --gl- token (light + dark in globals.css). The
-   local aliases below keep the rules readable; they only re-point at Glass. */
+/* ===== INTERACTIVE RESUME =====
+   Global stylesheet (imported by InteractiveResume.tsx, not a CSS module).
+   Colors are --gl- tokens (light + dark in globals.css). The rules for the
+   markup InteractiveResume.tsx renders are in the "Rendered markup" block
+   below; this top part holds the few legacy rules that still apply. */
 
-/* Variables scoped to resume modal to prevent global leakage */
-.resume-modal-overlay {
-    /* Glass surfaces */
-    --glass-bg: var(--gl-material);
-    --glass-bg-dark: var(--gl-chip);
-    --glass-border: var(--gl-sep);
-    --glass-shadow: rgba(0, 0, 0, 0.12);
-    --backdrop-blur: blur(40px);
-    --backdrop-saturate: saturate(180%);
+/* Experience cards: hover lift with a soft Glass tint. */
 
-    /* Color Palette (legacy names → Glass tokens) */
-    --ios-blue: var(--gl-accent);
-    --ios-blue-light: var(--gl-accent-soft);
-    --ios-blue-dark: var(--gl-accent-hover);
-    --ios-red: var(--gl-danger);
-    --ios-green: var(--gl-accent);
-    --ios-purple: var(--gl-accent);
-    --ios-teal: var(--gl-accent);
-    --ios-text-primary: var(--gl-text);
-    --ios-text-secondary: var(--gl-muted);
-    --ios-text-tertiary: var(--gl-faint);
-    --ios-surface: var(--gl-group);
-    --ios-surface-elevated: var(--gl-material-strong);
-    --ios-surface-secondary: var(--gl-chip);
-
-    /* Typography Scale */
-    --text-xs: 11px;
-    --text-sm: 13px;
-    --text-base: 15px;
-    --text-lg: 17px;
-    --text-xl: 19px;
-    --text-2xl: 22px;
-    --text-3xl: 28px;
-    --text-4xl: 34px;
-
-    /* Spacing Scale */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
-
-    /* Border Radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --radius-2xl: 24px;
-    --radius-3xl: 30px;
-
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.16);
-    --shadow-2xl: var(--gl-shadow);
-}
-
-/* Modal Overlay */
-.resume-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: var(--gl-scrim);
-    backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: var(--space-6);
-    animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    font-family: var(--gl-font);
-}
-
-/* Modal Container */
-.resume-modal-container {
-    width: 100%;
-    max-width: 1100px;
-    max-height: 90vh;
-    background: var(--glass-bg);
-    backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-3xl);
-    box-shadow: var(--shadow-2xl);
-    overflow: hidden;
-    animation: resumeSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Header */
-.resume-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
-    padding: 0 var(--space-8);
-    background: var(--ios-surface-elevated);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border-bottom: 1px solid var(--gl-sep);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-shrink: 0;
-}
-
-.resume-title {
-    font-size: var(--text-3xl);
-    font-weight: 800;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.03em;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.resume-header-controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-left: auto;
-}
-
-/* PDF Download Section */
-.pdf-download-section {
-    background: var(--ios-surface-secondary);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border-bottom: 1px solid var(--gl-sep);
-    padding: var(--space-6) var(--space-8);
-    animation: pdfSectionSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    flex-shrink: 0;
-    text-align: center;
-}
-
-.pdf-download-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.pdf-download-text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    text-align: center;
-}
-
-.pdf-download-title {
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.02em;
-}
-
-.pdf-download-description {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-    line-height: 1.5;
-}
-
-.pdf-download-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-6);
-    background: var(--gl-accent);
-    color: var(--gl-on-accent);
-    border: none;
-    border-radius: 999px;
-    font-size: var(--text-base);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: none;
-    letter-spacing: -0.01em;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    min-height: 52px;
-    text-decoration: none;
-}
-
-.pdf-download-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    /* Decorative sheen removed for Glass (flat accent pill). */
-    background: none;
-    transition: left 0.5s ease;
-}
-
-.pdf-download-button:hover::before {
-    left: 100%;
-}
-
-.pdf-download-button:hover {
-    transform: translateY(-2px);
-    background: var(--gl-accent-hover);
-}
-
-.pdf-download-button:active {
-    transform: translateY(0);
-    transition: transform 0.1s ease;
-}
-
-.pdf-icon {
-    font-size: var(--text-lg);
-}
-
-/* Resume Content */
-.resume-content {
-    flex: 1;
-    padding: var(--space-8);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    overscroll-behavior: contain;
-}
-
-.resume-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.resume-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.resume-content::-webkit-scrollbar-thumb {
-    background: var(--gl-handle);
-    border-radius: 3px;
-}
-
-/* Experience Timeline */
-.experience-timeline {
-    position: relative;
-    padding-left: var(--space-8);
-    animation: timelineFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.experience-timeline::before {
-    content: '';
-    position: absolute;
-    left: var(--space-4);
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--gl-sep);
-    border-radius: 1px;
-}
-
-.timeline-section {
-    margin-bottom: var(--space-12);
-    animation: timelineSectionSlide 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation-fill-mode: both;
-}
-
-.timeline-section:nth-child(1) {
-    animation-delay: 0ms;
-}
-
-.timeline-section:nth-child(2) {
-    animation-delay: 150ms;
-}
-
-.timeline-section:nth-child(3) {
-    animation-delay: 300ms;
-}
-
-.timeline-section:nth-child(4) {
-    animation-delay: 450ms;
-}
-
-.timeline-section:nth-child(5) {
-    animation-delay: 600ms;
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
-    position: relative;
-}
-
-.section-marker {
-    position: absolute;
-    left: calc(-1 * var(--space-8) + var(--space-3));
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--gl-accent);
-    box-shadow: none;
-    z-index: 2;
-}
-
-.section-title {
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.03em;
-}
-
-.section-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-}
-
-/* Experience Cards */
 .experience-card {
-    background: var(--ios-surface);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-6);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .experience-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: var(--gl-chip);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
-    border-radius: var(--radius-2xl);
 }
 
 .experience-card:hover::before {
@@ -367,166 +28,15 @@
 
 .experience-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--ios-blue);
 }
 
-.experience-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--space-4);
-    gap: var(--space-4);
-}
+/* .control-button — NOT résumé markup: DocumentaryHeader.tsx renders it, and
+   these global rules style those buttons. Left exactly as they were: the
+   var()s below are undefined (their definitions sat on a class that never
+   rendered), which makes those declarations act as `unset`. Removing them
+   could change which other rule wins, so treat a change here as a Documentary
+   change and check it visually. */
 
-.experience-info {
-    flex: 1;
-}
-
-.experience-role {
-    font-size: var(--text-lg);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-}
-
-.experience-company {
-    font-size: var(--text-base);
-    font-weight: 600;
-    color: var(--ios-blue);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.01em;
-}
-
-.experience-location {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-}
-
-.experience-period {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    background: var(--gl-chip);
-    color: var(--gl-text);
-    border-radius: 999px;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    box-shadow: none;
-    flex-shrink: 0;
-}
-
-.experience-description {
-    margin-bottom: var(--space-5);
-}
-
-.experience-description ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.experience-description li {
-    font-size: var(--text-sm);
-    line-height: 1.6;
-    color: var(--ios-text-secondary);
-    position: relative;
-    padding-left: var(--space-5);
-}
-
-.experience-description li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--ios-blue);
-    font-weight: bold;
-    font-size: var(--text-base);
-}
-
-/* Skills Section */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: var(--space-3);
-    margin-top: var(--space-4);
-}
-
-.skill-tag {
-    padding: var(--space-2) var(--space-4);
-    background: var(--ios-surface-secondary);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--ios-text-primary);
-    text-align: center;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    transition: all 0.3s ease;
-}
-
-.skill-tag:hover {
-    background: var(--ios-blue-light);
-    color: var(--ios-blue);
-    border-color: var(--ios-blue);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-/* Education & Certifications */
-.education-card,
-.certification-card {
-    background: var(--ios-surface);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-5);
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
-}
-
-.education-card:hover,
-.certification-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--ios-blue);
-}
-
-.education-degree,
-.certification-name {
-    font-size: var(--text-base);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.01em;
-}
-
-.education-school,
-.certification-issuer {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--ios-blue);
-    margin: 0 0 var(--space-1) 0;
-}
-
-.education-year,
-.certification-year {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-}
-
-/* Control Buttons */
 .control-button {
     width: 44px;
     height: 44px;
@@ -574,193 +84,7 @@
     transition: transform 0.1s ease;
 }
 
-/* Animations */
-@keyframes overlayFadeIn {
-    from {
-        opacity: 0;
-        backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
-    }
-
-    to {
-        opacity: 1;
-        backdrop-filter: var(--backdrop-blur);
-        -webkit-backdrop-filter: var(--backdrop-blur);
-    }
-}
-
-@keyframes resumeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes pdfSectionSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes timelineFade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes timelineSectionSlide {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .resume-modal-container {
-        max-width: 95vw;
-    }
-
-    .experience-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-3);
-    }
-
-    .experience-period {
-        align-self: flex-start;
-    }
-}
-
 @media (max-width: 768px) {
-    .resume-modal-overlay {
-        padding: var(--space-4);
-    }
-
-    .resume-modal-container {
-        max-width: 100%;
-        max-height: 95vh;
-        border-radius: var(--radius-2xl);
-    }
-
-    .resume-modal-header {
-        height: 64px;
-        padding: 0 var(--space-6);
-    }
-
-    .resume-title {
-        font-size: var(--text-2xl);
-    }
-
-    .pdf-download-section {
-        padding: var(--space-5) var(--space-6);
-    }
-
-    .pdf-download-title {
-        font-size: var(--text-lg);
-    }
-
-    .pdf-download-description {
-        font-size: var(--text-xs);
-    }
-
-    .pdf-download-button {
-        padding: var(--space-3) var(--space-5);
-        font-size: var(--text-sm);
-        min-height: 48px;
-    }
-
-    .resume-content {
-        padding: var(--space-6);
-    }
-
-    .experience-timeline {
-        padding-left: var(--space-6);
-    }
-
-    .section-marker {
-        left: calc(-1 * var(--space-6) + var(--space-3));
-    }
-
-    .section-title {
-        font-size: var(--text-xl);
-    }
-
-    .experience-card {
-        padding: var(--space-5);
-    }
-
-    .experience-role {
-        font-size: var(--text-base);
-    }
-
-    .experience-company {
-        font-size: var(--text-sm);
-    }
-
-    .experience-location {
-        font-size: var(--text-xs);
-    }
-
-    .experience-period {
-        font-size: var(--text-xs);
-        padding: var(--space-1) var(--space-3);
-    }
-
-    .experience-description li {
-        font-size: var(--text-xs);
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: var(--space-2);
-    }
-
-    .skill-tag {
-        padding: var(--space-1) var(--space-3);
-        font-size: var(--text-xs);
-    }
-
-    .education-card,
-    .certification-card {
-        padding: var(--space-4);
-    }
-
-    .education-degree,
-    .certification-name {
-        font-size: var(--text-sm);
-    }
-
-    .education-school,
-    .certification-issuer {
-        font-size: var(--text-xs);
-    }
-
-    .education-year,
-    .certification-year {
-        font-size: var(--text-xs);
-    }
-
     .control-button {
         width: 40px;
         height: 40px;
@@ -768,115 +92,6 @@
 }
 
 @media (max-width: 480px) {
-    .resume-modal-overlay {
-        padding: var(--space-3);
-    }
-
-    .resume-modal-container {
-        border-radius: var(--radius-xl);
-    }
-
-    .resume-modal-header {
-        height: 56px;
-        padding: 0 var(--space-5);
-    }
-
-    .resume-title {
-        font-size: var(--text-xl);
-    }
-
-    .pdf-download-section {
-        padding: var(--space-4) var(--space-5);
-    }
-
-    .pdf-download-title {
-        font-size: var(--text-base);
-    }
-
-    .pdf-download-description {
-        font-size: 11px;
-    }
-
-    .pdf-download-button {
-        padding: var(--space-2) var(--space-4);
-        font-size: var(--text-xs);
-        min-height: 44px;
-        border-radius: var(--radius-lg);
-    }
-
-    .resume-content {
-        padding: var(--space-5);
-    }
-
-    .experience-timeline {
-        padding-left: var(--space-5);
-    }
-
-    .section-marker {
-        left: calc(-1 * var(--space-5) + var(--space-3));
-        width: 10px;
-        height: 10px;
-    }
-
-    .section-title {
-        font-size: var(--text-lg);
-    }
-
-    .experience-card {
-        padding: var(--space-4);
-    }
-
-    .experience-role {
-        font-size: var(--text-sm);
-    }
-
-    .experience-company {
-        font-size: var(--text-xs);
-    }
-
-    .experience-location {
-        font-size: 11px;
-    }
-
-    .experience-period {
-        font-size: 11px;
-        padding: 2px var(--space-2);
-    }
-
-    .experience-description li {
-        font-size: 11px;
-        padding-left: var(--space-4);
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    }
-
-    .skill-tag {
-        padding: 2px var(--space-2);
-        font-size: 11px;
-    }
-
-    .education-card,
-    .certification-card {
-        padding: var(--space-3);
-    }
-
-    .education-degree,
-    .certification-name {
-        font-size: var(--text-xs);
-    }
-
-    .education-school,
-    .certification-issuer {
-        font-size: 11px;
-    }
-
-    .education-year,
-    .certification-year {
-        font-size: 11px;
-    }
-
     .control-button {
         width: 36px;
         height: 36px;
@@ -884,26 +99,9 @@
     }
 }
 
-/* Landscape Orientation */
-@media (max-height: 600px) and (orientation: landscape) {
-    .resume-modal-container {
-        max-height: 95vh;
-    }
-
-    .resume-modal-header {
-        height: 56px;
-    }
-
-    .pdf-download-section {
-        padding: var(--space-4) var(--space-6);
-    }
-
-    .resume-content {
-        padding: var(--space-5) var(--space-6);
-    }
-}
-
 /* Accessibility */
+
+/* Site-wide (this sheet is global): honor reduced motion everywhere. */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -912,49 +110,26 @@
     }
 }
 
-/* Focus States for Accessibility */
 .control-button:focus-visible,
-.pdf-download-button:focus-visible,
-.experience-card:focus-visible,
-.skill-tag:focus-visible {
+.experience-card:focus-visible {
     outline: 2px solid var(--gl-focus);
     outline-offset: 2px;
 }
 
-/* High Contrast Mode */
 @media (prefers-contrast: high) {
-    .resume-modal-overlay {
-        --glass-border: color-mix(in srgb, var(--gl-text) 40%, transparent);
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .control-button,
-    .experience-card,
-    .pdf-download-button {
+    .control-button {
         border-width: 2px;
     }
 }
 
-/* Dark Mode Support */
-/* No overrides needed: every color above is a --gl- token, which flips with
-   prefers-color-scheme in globals.css. */
-
-/* Touch-specific optimizations */
+/* Touch: no hover lift on cards; full-size tap targets. */
 @media (hover: none) and (pointer: coarse) {
-
-    .control-button,
-    .pdf-download-button,
-    .skill-tag {
+    .control-button {
         min-height: 44px;
         min-width: 44px;
     }
 
-    .experience-card {
-        transform: none;
-    }
-
+    .experience-card,
     .experience-card:hover {
         transform: none;
     }
@@ -969,6 +144,7 @@
    color(srgb …) values browsers compute for color-mix(). */
 
 /* Header action: accent pill, same idiom as the Contact/Project sheets. */
+
 .resume-download-btn {
     display: inline-flex;
     align-items: center;
@@ -1013,6 +189,7 @@
    centered Lato with a drop shadow — built for the dark desktop. Inside the
    résumé it becomes Glass type: dark/light text token, bold, sentence case,
    left-aligned like every other Glass heading. */
+
 .workxp-container .shadowed-text {
     color: var(--gl-text);
     font-family: var(--gl-font);
@@ -1069,10 +246,12 @@
    data-pdf-export, so the captured node is always the light palette on white
    regardless of the viewer's color scheme (dark-mode text on the PDF's white
    page would be unreadable). Values mirror the light :root --gl- tokens. */
+
 /* Lay the export out at print size: 720 CSS px = 7.5in at 96dpi, the Letter
    content width once the PDF's 0.5in margins are applied, so 1 CSS px prints
    as 0.75pt and body text keeps its real size. The page margins come from the
    PDF itself, hence no padding here. */
+
 .workxp-container[data-pdf-export] {
     width: 720px;
     max-width: none;

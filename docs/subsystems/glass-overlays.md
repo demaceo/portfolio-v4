@@ -128,7 +128,7 @@ media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPa
 > captured clone with `data-pdf-export`
 > (`src/components/features/resume/InteractiveResume/InteractiveResume.tsx:89`) and the CSS
 > pins light tokens and a white page for it
-> (`src/components/features/resume/InteractiveResume/InteractiveResume.css:1076`).
+> (`src/components/features/resume/InteractiveResume/InteractiveResume.css:255`).
 > Without it a dark-mode export renders light text on the PDF's white page.
 
 The résumé PDF is paginated into US Letter pages with 0.5in margins. The export clone is
@@ -147,9 +147,17 @@ heading, job, education entry or skill row (`PDF_BREAK_SELECTOR`,
 > `PDF_BREAK_SELECTOR`, or the paginator can't break inside it and falls back to a hard
 > cut at the page height, which can split a line of text.
 
-> ⚠️ Most selectors in `src/components/features/resume/InteractiveResume/InteractiveResume.css` above the final "Glass" block match no
-> markup (legacy `.resume-modal-*`, `.pdf-download-*`, `.skill-tag`…). Style the classes
-> the TSX actually renders (`.workxp-container`, `.experience-card`, `.tool-item`).
+> ⚠️ `src/components/features/resume/InteractiveResume/InteractiveResume.css` is a *global*
+> stylesheet, not a CSS module: its rules apply site-wide. Its `.control-button` rules
+> style the Documentary header buttons (`DocumentaryHeader.tsx`), not the résumé, and its
+> reduced-motion `*` rule affects every page. Before deleting a rule here, grep all of
+> `src` for the class, not just the résumé.
+
+> ⚠️ A `var()` with no fallback whose custom property is never defined makes that
+> declaration behave as `unset`, which can still override another rule for the same
+> element. The résumé's old `--ios-*`/`--space-*`/`--shadow-*` variables were defined on a
+> class that never rendered, so the `.control-button` declarations that use them are
+> "dead" but not inert — leave them unless you check the Documentary visually.
 
 ## Imports
 

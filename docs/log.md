@@ -26,3 +26,8 @@ Append-only. Newest entries at the bottom.
 
 - [[glass-overlays]]: Letter pagination of the résumé export and its two traps
   (measure on the clone; extend `PDF_BREAK_SELECTOR` for new block types).
+
+## [2026-11-05] grow | dead résumé CSS removed
+
+- [[glass-overlays]]: replaced the "dead selectors" note with the global-stylesheet and
+  undefined-`var()` traps found while deleting 820 lines of dead résumé CSS.
