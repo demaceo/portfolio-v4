@@ -184,6 +184,11 @@
   object-fit: cover;
 }
 
+.thumbFa {
+  display: grid;
+  place-items: center;
+}
+
 .actionThumb {
   background: var(--gl-accent-soft);
   color: var(--gl-accent);

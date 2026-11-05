@@ -2,6 +2,20 @@
 
 import { useCallback, useSyncExternalStore } from 'react';
 
+// One MediaQueryList per query string for the life of the page. Calling
+// window.matchMedia() inside getSnapshot would allocate and parse a new list
+// on every render (useSyncExternalStore calls getSnapshot repeatedly).
+const mediaQueryLists = new Map<string, MediaQueryList>();
+
+function getMediaQueryList(query: string): MediaQueryList {
+    let mql = mediaQueryLists.get(query);
+    if (!mql) {
+        mql = window.matchMedia(query);
+        mediaQueryLists.set(query, mql);
+    }
+    return mql;
+}
+
 /**
  * Subscribes to a CSS media query. SSR-safe: the server snapshot is `false`,
  * so markup renders the desktop variant first and hydrates to the real value.
@@ -11,7 +25,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 export function useMediaQuery(query: string): boolean {
     const subscribe = useCallback(
         (onChange: () => void) => {
-            const mql = window.matchMedia(query);
+            const mql = getMediaQueryList(query);
             mql.addEventListener('change', onChange);
             return () => mql.removeEventListener('change', onChange);
         },
@@ -20,7 +34,7 @@ export function useMediaQuery(query: string): boolean {
 
     return useSyncExternalStore(
         subscribe,
-        () => window.matchMedia(query).matches,
+        () => getMediaQueryList(query).matches,
         () => false
     );
 }

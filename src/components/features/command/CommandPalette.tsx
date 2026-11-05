@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useId, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   type IconDefinition,
@@ -10,12 +9,8 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { ModalShell } from "@/components/features/modal";
-import { useProjects, useMediaQuery, SHEET_MEDIA_QUERY } from "@/hooks";
-import {
-  PROJECT_ICON_MAP,
-  PROJECT_ICON_FALLBACK,
-  isImageIcon,
-} from "@/lib/constants/projectIcons";
+import { useProjects, useMediaQuery, useShortcutLabel, SHEET_MEDIA_QUERY } from "@/hooks";
+import ProjectMedia from "@/components/features/portfolio/shared/ProjectMedia";
 import type { Project } from "@/lib/types";
 import styles from "./CommandPalette.module.css";
 
@@ -30,42 +25,28 @@ type PaletteItem =
   | { kind: "project"; key: string; label: string; meta: string; project: Project; run: () => void }
   | { kind: "action"; key: string; label: string; icon: IconDefinition; run: () => void };
 
-const matches = (query: string, ...fields: (string | undefined)[]) =>
-  fields.some((f) => f?.toLowerCase().includes(query));
+/** Lowercase and strip diacritics, so "resume" matches "résumé". */
+const fold = (value: string) =>
+  value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
 
-/** Project artwork, always whole: contain-fit inside a fixed tile, sized from
- *  the icon's real aspect ratio so tall art (Pinpoint) isn't cropped. */
-const ProjectThumb: React.FC<{ project: Project }> = ({ project }) => {
-  if (isImageIcon(project.icon)) {
-    return (
-      <span className={styles.thumb}>
-        <Image
-          src={project.icon as string}
-          alt=""
-          width={project.iconWidth ?? 64}
-          height={project.iconHeight ?? 64}
-          sizes="34px"
-          className={styles.thumbImg}
-        />
-      </span>
-    );
-  }
-  if (typeof project.image === "string") {
-    return (
-      <span className={styles.thumb}>
-        <Image src={project.image} alt="" fill sizes="34px" className={styles.thumbCover} />
-      </span>
-    );
-  }
-  return (
-    <span className={styles.thumb}>
-      <FontAwesomeIcon
-        icon={PROJECT_ICON_MAP[project.icon as string] || PROJECT_ICON_FALLBACK}
-        aria-hidden="true"
-      />
-    </span>
-  );
-};
+const matches = (foldedQuery: string, ...fields: (string | undefined)[]) =>
+  fields.some((f) => f !== undefined && fold(f).includes(foldedQuery));
+
+/** Project artwork in a fixed tile, via the shared ProjectMedia (icon → hero
+ *  image → FontAwesome fallback). Icons are contain-fit so tall art such as
+ *  Pinpoint's pin is never cropped. */
+const ProjectThumb: React.FC<{ project: Project }> = ({ project }) => (
+  <span className={styles.thumb}>
+    <ProjectMedia
+      project={project}
+      decorative
+      sizes="34px"
+      iconImageClassName={styles.thumbImg}
+      heroImageClassName={styles.thumbCover}
+      faIconClassName={styles.thumbFa}
+    />
+  </span>
+);
 
 /**
  * ⌘K command palette: search + jump to any active project, plus quick
@@ -83,11 +64,12 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
   const isPhone = useMediaQuery(SHEET_MEDIA_QUERY);
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
+  const shortcut = useShortcutLabel("k");
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { projectItems, actionItems } = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = fold(query.trim());
     const projectItems: PaletteItem[] = activeProjects
       .filter((p) => !q || matches(q, p.name, p.description, ...(p.stackPreview ?? [])))
       .map((p) => ({
@@ -120,6 +102,9 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (items.length === 0) return;
+    // An IME (Japanese, Chinese, Korean…) uses Enter/arrows to pick a
+    // candidate; those keys belong to the composition, not the list.
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIndex((clampedIndex + 1) % items.length);
@@ -247,7 +232,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       <div className={styles.footer} aria-hidden="true">
         <span>↑↓ to navigate</span>
         <span>↵ to open</span>
-        <span className={styles.footerEnd}>⌘K from anywhere</span>
+        <span className={styles.footerEnd}>{shortcut.label} from anywhere</span>
       </div>
     </ModalShell>
   );

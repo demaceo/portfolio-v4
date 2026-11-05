@@ -15,11 +15,14 @@ import styles from "./ProjectsAppView.module.css";
 
 interface ProjectsAppViewProps extends ModalProps {
   initialProjectId?: number;
+  /** Changes on every external "open this project" request (⌘K palette). */
+  projectRequestKey?: number;
 }
 
 const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
   onClose,
   initialProjectId,
+  projectRequestKey,
 }) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
   const [activeTab, setActiveTab] = useState<"featured" | "more">("featured");
@@ -27,13 +30,15 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
     initialProjectId ?? null
   );
   // The ⌘K palette can pick a project while this view is already open, which
-  // changes initialProjectId without remounting. Adopt the new id during
-  // render (React's "adjust state when a prop changes" pattern — no effect,
-  // no extra frame), and jump to the Featured tab since the palette only
-  // lists active projects.
-  const [prevInitialProjectId, setPrevInitialProjectId] = useState(initialProjectId);
-  if (initialProjectId !== prevInitialProjectId) {
-    setPrevInitialProjectId(initialProjectId);
+  // changes initialProjectId (or, for the same project picked again, only
+  // projectRequestKey) without remounting. Adopt the request during render
+  // (React's "adjust state when a prop changes" pattern — no effect, no extra
+  // frame), and jump to the Featured tab since the palette only lists active
+  // projects.
+  const requestSignature = `${initialProjectId ?? ""}|${projectRequestKey ?? 0}`;
+  const [prevRequestSignature, setPrevRequestSignature] = useState(requestSignature);
+  if (requestSignature !== prevRequestSignature) {
+    setPrevRequestSignature(requestSignature);
     if (initialProjectId != null) {
       setSelectedProjectId(initialProjectId);
       setActiveTab("featured");

@@ -23,6 +23,7 @@ import {
   // useDesktopInitialization,
 } from "@/hooks";
 import { preloadModules } from "@/lib/utils/preload";
+import { PaletteContext } from "@/components/features/command/PaletteContext";
 
 // Code-split: the palette only downloads on first ⌘K / Projects click (or on
 // MenuBar hover/focus via preloadModules.palette).
@@ -39,6 +40,8 @@ const LandingPage = () => {
   });
 
   const [showPalette, setShowPalette] = useState(false);
+  // Incremented per palette project pick (see AppViews' projectRequestKey).
+  const [projectRequestKey, setProjectRequestKey] = useState(0);
   const openPalette = useCallback(() => setShowPalette(true), []);
   const closePalette = useCallback(() => setShowPalette(false), []);
 
@@ -47,6 +50,9 @@ const LandingPage = () => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey && e.key.toLowerCase() === "k") {
         e.preventDefault();
+        // Holding the keys auto-repeats keydown; toggling on each repeat would
+        // flicker the palette open/closed.
+        if (e.repeat) return;
         setShowPalette((open) => !open);
       }
     };
@@ -59,6 +65,7 @@ const LandingPage = () => {
     (id: number) => {
       setShowPalette(false);
       setSelectedProjectId(id);
+      setProjectRequestKey((k) => k + 1);
       handleAppClick("/projects");
     },
     [setSelectedProjectId, handleAppClick]
@@ -112,104 +119,107 @@ const LandingPage = () => {
     : null;
 
   return (
-    <div className="macintosh-container">
-      <FlyingBirds />
+    <PaletteContext.Provider value={openPalette}>
+      <div className="macintosh-container">
+        <FlyingBirds />
 
-      <div
-        className={`mac-screen${
-          isAppViewOpen ? " mac-screen--app-view-open" : ""
-        }`}
-      >
-        <MenuBar
-          setShowAboutMe={modalActions.setShowAboutMe}
-          setShowSkillset={modalActions.setShowSkillset}
-          setSelectedServiceId={modalActions.setSelectedServiceId}
-          onOpenPalette={openPalette}
-          isPaletteOpen={showPalette}
-          preload={preloadModules}
-          TimeDisplay={TimeDisplay}
-          isAppViewOpen={isAppViewOpen}
-          activeAppTitle={activeAppTitle}
-          onBack={modalActions.closeAllModals}
-        />
-
-        {!isAppViewOpen && (
-          <MobileSearchButton
-            onOpen={openPalette}
-            onPreload={preloadModules.palette}
-            isOpen={showPalette}
+        <div
+          className={`mac-screen${
+            isAppViewOpen ? " mac-screen--app-view-open" : ""
+          }`}
+        >
+          <MenuBar
+            setShowAboutMe={modalActions.setShowAboutMe}
+            setShowSkillset={modalActions.setShowSkillset}
+            setSelectedServiceId={modalActions.setSelectedServiceId}
+            onOpenPalette={openPalette}
+            isPaletteOpen={showPalette}
+            preload={preloadModules}
+            TimeDisplay={TimeDisplay}
+            isAppViewOpen={isAppViewOpen}
+            activeAppTitle={activeAppTitle}
+            onBack={modalActions.closeAllModals}
           />
-        )}
 
-        <DesktopIcons
-          showContactNotification={modalState.showContactNotification}
-          handleAppClick={handleAppClick}
-          maybePreloadByPath={maybePreloadByPath}
+          {!isAppViewOpen && (
+            <MobileSearchButton
+              onOpen={openPalette}
+              onPreload={preloadModules.palette}
+              isOpen={showPalette}
+            />
+          )}
+
+          <DesktopIcons
+            showContactNotification={modalState.showContactNotification}
+            handleAppClick={handleAppClick}
+            maybePreloadByPath={maybePreloadByPath}
+          />
+
+          <AppSwitcher
+            showContactNotification={modalState.showContactNotification}
+            activeAppPath={activeAppPath}
+            handleAppClick={handleAppClick}
+            maybePreloadByPath={maybePreloadByPath}
+          />
+
+          <AnimatePresence>
+            {modalState.showWelcomeWindow && (
+              <WelcomeWindow
+                key="welcome-window"
+                onClose={() => modalActions.setShowWelcomeWindow(false)}
+                handleAppClick={handleAppClick}
+                preload={preloadModules}
+              />
+            )}
+          </AnimatePresence>
+
+          <Taskbar
+            showWelcomeWindow={modalState.showWelcomeWindow}
+            onTogglePortfolio={modalActions.toggleWelcomeWindow}
+          />
+
+          <AppViews
+            showAboutMe={modalState.showAboutMe}
+            setShowAboutMe={modalActions.setShowAboutMe}
+            showSkillset={modalState.showSkillset}
+            setShowSkillset={modalActions.setShowSkillset}
+            showProjects={modalState.showProjects}
+            setShowProjects={modalActions.setShowProjects}
+            showScrapbook={modalState.showScrapbook}
+            setShowScrapbook={modalActions.setShowScrapbook}
+            selectedServiceId={modalState.selectedServiceId}
+            setSelectedServiceId={modalActions.setSelectedServiceId}
+            selectedProjectId={modalState.selectedProjectId}
+            setSelectedProjectId={modalActions.setSelectedProjectId}
+            projectRequestKey={projectRequestKey}
+            onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
+          />
+        </div>
+
+        <Modals
+          showContactForm={modalState.showContactForm}
+          setShowContactForm={modalActions.setShowContactForm}
+          showResume={modalState.showResume}
+          setShowResume={modalActions.setShowResume}
+          showDocumentary={modalState.showDocumentary}
+          setShowDocumentary={modalActions.setShowDocumentary}
         />
 
-        <AppSwitcher
-          showContactNotification={modalState.showContactNotification}
-          activeAppPath={activeAppPath}
-          handleAppClick={handleAppClick}
-          maybePreloadByPath={maybePreloadByPath}
-        />
-
+        {/* Rendered here, not inside MenuBar: .menu-bar's backdrop-filter would
+            become the containing block for the palette's position:fixed overlay. */}
         <AnimatePresence>
-          {modalState.showWelcomeWindow && (
-            <WelcomeWindow
-              key="welcome-window"
-              onClose={() => modalActions.setShowWelcomeWindow(false)}
-              handleAppClick={handleAppClick}
-              preload={preloadModules}
+          {showPalette && (
+            <CommandPalette
+              key="command-palette"
+              onClose={closePalette}
+              onOpenProject={paletteOpenProject}
+              onOpenContact={paletteOpenContact}
+              onOpenResume={paletteOpenResume}
             />
           )}
         </AnimatePresence>
-
-        <Taskbar
-          showWelcomeWindow={modalState.showWelcomeWindow}
-          onTogglePortfolio={modalActions.toggleWelcomeWindow}
-        />
-
-        <AppViews
-          showAboutMe={modalState.showAboutMe}
-          setShowAboutMe={modalActions.setShowAboutMe}
-          showSkillset={modalState.showSkillset}
-          setShowSkillset={modalActions.setShowSkillset}
-          showProjects={modalState.showProjects}
-          setShowProjects={modalActions.setShowProjects}
-          showScrapbook={modalState.showScrapbook}
-          setShowScrapbook={modalActions.setShowScrapbook}
-          selectedServiceId={modalState.selectedServiceId}
-          setSelectedServiceId={modalActions.setSelectedServiceId}
-          selectedProjectId={modalState.selectedProjectId}
-          setSelectedProjectId={modalActions.setSelectedProjectId}
-          onOpenDocumentary={() => modalActions.setShowDocumentary(true)}
-        />
       </div>
-
-      <Modals
-        showContactForm={modalState.showContactForm}
-        setShowContactForm={modalActions.setShowContactForm}
-        showResume={modalState.showResume}
-        setShowResume={modalActions.setShowResume}
-        showDocumentary={modalState.showDocumentary}
-        setShowDocumentary={modalActions.setShowDocumentary}
-      />
-
-      {/* Rendered here, not inside MenuBar: .menu-bar's backdrop-filter would
-          become the containing block for the palette's position:fixed overlay. */}
-      <AnimatePresence>
-        {showPalette && (
-          <CommandPalette
-            key="command-palette"
-            onClose={closePalette}
-            onOpenProject={paletteOpenProject}
-            onOpenContact={paletteOpenContact}
-            onOpenResume={paletteOpenResume}
-          />
-        )}
-      </AnimatePresence>
-    </div>
+    </PaletteContext.Provider>
   );
 };
 

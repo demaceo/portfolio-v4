@@ -6,6 +6,7 @@ import { faChevronLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-ic
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import services from "@/data/services";
 import Image from "next/image";
+import { useShortcutLabel } from "@/hooks";
 
 interface MenuBarProps {
   setShowAboutMe: (show: boolean) => void;
@@ -61,6 +62,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   onBack,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
+  const shortcut = useShortcutLabel("k");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const toggleDropdown = (key: string) =>
@@ -269,12 +271,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
           }}
           onMouseEnter={preload.palette}
           onFocus={preload.palette}
-          aria-label="Search projects and actions (Command K)"
+          aria-label={`Search projects and actions (${shortcut.spoken})`}
           aria-haspopup="dialog"
           aria-expanded={isPaletteOpen}
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
-          <kbd aria-hidden="true">⌘K</kbd>
+          <kbd aria-hidden="true">{shortcut.label}</kbd>
         </button>
         <TimeDisplay />
       </div>

@@ -5,3 +5,4 @@ export { useModalState } from './useModalState';
 export { useAppActions } from './useAppActions';
 export { useDesktopInitialization } from './useDesktopInitialization';
 export { useMediaQuery, SHEET_MEDIA_QUERY } from './useMediaQuery';
+export { useShortcutLabel } from './useShortcutLabel';

@@ -3,10 +3,11 @@
 import React, { useEffect, useId, useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { AppViewProps } from "@/lib/types";
 import { pushOverlay, popOverlay, isTopmostOverlay, lockBodyScroll, unlockBodyScroll } from "@/lib/utils/overlayStack";
 import { trapTabKey } from "@/lib/utils/focusTrap";
+import { usePaletteOpener } from "@/components/features/command/PaletteContext";
 import styles from "./AppView.module.css";
 
 /**
@@ -25,6 +26,9 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
   const prefersReducedMotion = useReducedMotion();
   const generatedId = useId().replace(/:/g, "");
   const resolvedTitleId = titleId ?? `app-view-title-${generatedId}`;
+  // The title bar is only visible on phones / touch devices (where the
+  // MenuBar's palette triggers are hidden), so it offers the palette there.
+  const openPalette = usePaletteOpener();
 
   useEffect(() => {
     pushOverlay(instanceId);
@@ -98,7 +102,20 @@ const AppView: React.FC<AppViewProps> = ({ onClose, title, headerActions, titleI
         </h1>
 
         <div className={styles.headerActions}>
-          {headerActions ?? <div className={styles.headerSpacer} aria-hidden="true" />}
+          {headerActions ??
+            (openPalette ? (
+              <button
+                type="button"
+                className={styles.backButton}
+                onClick={openPalette}
+                aria-label="Search projects and actions"
+                aria-haspopup="dialog"
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
+              </button>
+            ) : (
+              <div className={styles.headerSpacer} aria-hidden="true" />
+            ))}
         </div>
       </div>
 

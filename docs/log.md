@@ -36,3 +36,8 @@ Append-only. Newest entries at the bottom.
 
 - [[glass-overlays]]: replaced the html2canvas/pagination notes (code removed) with the
   static-PDF setup and its sync and phone-redaction traps.
+
+## [2026-11-05] grow | code-review fixes
+
+- [[glass-overlays]]: palette re-pick (`projectRequestKey`), diacritic-folding search and
+  IME guard, AppView palette button via `PaletteContext`, and the contact-form clipping trap.

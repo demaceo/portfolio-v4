@@ -14,6 +14,9 @@ sources:
   - code: src/components/layout/LandingPage/LandingPage.tsx
   - code: src/components/layout/LandingPage/LandingPage.menu.css
   - code: src/hooks/useMediaQuery.ts
+  - code: src/hooks/useShortcutLabel.ts
+  - code: src/components/features/command/PaletteContext.ts
+  - code: src/components/features/contact/ContactForm/ContactForm.css
   - code: tsconfig.json
   - code: src/components/features/resume/InteractiveResume/InteractiveResume.tsx
   - code: src/components/features/resume/InteractiveResume/InteractiveResume.css
@@ -96,10 +99,24 @@ media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPa
 > filter becomes the containing block for `position: fixed` descendants — a palette
 > rendered inside the bar is positioned and clipped relative to the bar, not the viewport.
 
-> ⚠️ Picking a project from the palette while the Projects AppView is already open only
-> changes `initialProjectId`; it does not remount the view. `ProjectsAppView` adopts the
-> new id during render (`src/components/features/portfolio/ProjectsAppView/ProjectsAppView.tsx:34`).
-> Removing that block makes palette picks silently do nothing while Projects is open.
+> ⚠️ Picking a project from the palette while the Projects AppView is already open does
+> not remount the view. `ProjectsAppView` adopts the request during render, keyed on
+> `initialProjectId` *and* `projectRequestKey`
+> (`src/components/features/portfolio/ProjectsAppView/ProjectsAppView.tsx:40`), which
+> LandingPage bumps on every pick. Keying on the id alone made re-picking the same project
+> (after closing its sheet) a silent no-op.
+
+> ⚠️ Palette search folds case *and* diacritics (`fold`,
+> `src/components/features/command/CommandPalette.tsx:29`) so "resume" finds "résumé", and
+> its key handler ignores keys while an IME is composing
+> (`src/components/features/command/CommandPalette.tsx:107`); without that, Enter that
+> commits a Japanese/Chinese/Korean word also opens the highlighted result.
+
+On phones and touch devices the palette is reachable from the home-screen
+`MobileSearchButton` and from a search button in every AppView title bar
+(`src/components/features/shell/AppView.tsx:31`), which reads the opener from
+`PaletteContext` (provided by LandingPage) — so shells don't need to know who renders the
+palette.
 
 ## Project artwork
 
@@ -147,6 +164,14 @@ exporter that rasterised the modal was removed with the switch.)
 > element. The résumé's old `--ios-*`/`--space-*`/`--shadow-*` variables were defined on a
 > class that never rendered, so the `.control-button` declarations that use them are
 > "dead" but not inert — leave them unless you check the Documentary visually.
+
+## Contact form
+
+> ⚠️ `.contact-invite` must keep its natural height (`flex: none`) and clip only the x-axis
+> (`overflow-x: clip`, `src/components/features/contact/ContactForm/ContactForm.css:26`).
+> `overflow: hidden` with `flex: 1; min-height: 0` made it shrink to the sheet and clip the
+> message step on short phones, hiding the Send button; the sheet's `.content` is the
+> scroll container.
 
 ## Imports
 

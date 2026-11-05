@@ -13,13 +13,17 @@
   --cf-group: var(--gl-group);
   --cf-chip: var(--gl-chip);
 
-  flex: 1;
-  min-height: 0;
+  /* Natural height: the sheet's .content is the scroll container, so a form
+     taller than the sheet (short phones, keyboard open) scrolls instead of
+     being clipped. Only the x-axis is clipped, to hide the ±48px slide
+     between steps; `clip` (unlike `hidden`) does not make this element a
+     scroll container or force overflow-y to auto. */
+  flex: none;
   display: flex;
   flex-direction: column;
   font-family: var(--gl-font);
   color: var(--cf-text);
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 .contact-stage {
