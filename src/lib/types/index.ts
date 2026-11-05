@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import type { ReactNode } from "react";
+import type { ReactNode, RefObject } from "react";
 
 export interface AboutMePill {
     label: string;
@@ -82,14 +82,26 @@ export interface ModalProps {
 
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 
-export type ModalVariant = "noir" | "light";
+/** "window" floats centered; "sheet" docks to the bottom edge. Every modal
+ *  renders as a sheet on phones regardless of this prop. */
+export type ModalPresentation = "window" | "sheet";
+
+/** Enter/exit motion: "pop" = spring scale-in, "sheet" = slide up from the
+ *  bottom edge. Reduced-motion users get a cross-fade for both. */
+export type ModalMotionPreset = "pop" | "sheet";
 
 export interface ModalShellProps {
     onClose: () => void;
     children: ReactNode;
     titleId?: string;
+    /** Accessible name when there is no visible title element to point at. */
+    ariaLabel?: string;
     overlayClassName?: string;
     dialogClassName?: string;
+    motionPreset?: ModalMotionPreset;
+    /** Element to focus on open instead of the dialog container (e.g. a
+     *  search input). */
+    initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
 export interface ModalFrameProps {
@@ -100,8 +112,11 @@ export interface ModalFrameProps {
     headerActions?: ReactNode;
     closeAriaLabel?: string;
     titleId?: string;
-    /** Visual theme of the shared shell. Defaults to "noir". */
-    variant?: ModalVariant;
+    /** Defaults to "window". Every modal is a bottom sheet on phones. */
+    presentation?: ModalPresentation;
+    /** Small line left of the close button (e.g. "Projects › Pinpoint").
+     *  Defaults to `title`. */
+    eyebrow?: ReactNode;
 }
 
 export interface AppViewProps {

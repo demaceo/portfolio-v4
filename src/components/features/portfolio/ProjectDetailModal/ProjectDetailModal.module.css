@@ -1,58 +1,60 @@
+/* ==========================================================================
+   Project Detail — Glass bottom sheet (hero card + info, pinned action bar).
+   Shell/chrome come from <ModalFrame variant="glass" presentation="sheet">;
+   colors are --gl- tokens only, so light/dark follow the OS automatically.
+   ========================================================================== */
+
 .detail {
-  display: grid;
-  grid-template-columns: 42% 1fr;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
-  height: 100%;
-  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
-  color: var(--noir-text);
-  /* Swipe left/right (bound on this element) to move to the next/previous
-     project. pan-y (not none) keeps .info's own vertical scroll working —
-     it only opts this element out of the browser's native horizontal
-     panning, which would otherwise fight the JS-driven swipe gesture. */
+  /* Swipe left/right (bound on this element) to move between projects.
+     pan-y keeps the body's own vertical scroll working while opting out of
+     native horizontal panning, which would fight the JS swipe gesture. */
   touch-action: pan-y;
 }
 
-.media {
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  display: grid;
+  grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+  padding: 12px clamp(20px, 4vw, 52px) 24px;
+}
+
+/* --- Hero card ------------------------------------------------------------ */
+
+.hero {
   position: relative;
-  background: var(--noir-panel-strong);
-  border-right: 1px solid var(--noir-border);
+  aspect-ratio: 4 / 3;
+  border-radius: 26px;
+  background: var(--gl-hero);
+  border: 1px solid var(--gl-sep);
+  display: grid;
+  place-items: center;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.media::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, rgba(212, 132, 90, 0.08) 0%, transparent 68%);
-  pointer-events: none;
-}
-
-.vignette {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
-  pointer-events: none;
-}
-
-/* max-width AND max-height (not a fixed width with auto height) so a
-   portrait icon can't compute a height taller than .media's own box —
-   .media has a small fixed height on mobile (see the max-width:720px rule
-   below), and a width-only constraint let tall icons (e.g. Pinpoint's pin,
-   2:3) overflow it and get clipped top and bottom by .media's overflow:
-   hidden. Same self-adjusting technique already used by the coverflow
-   card's own .iconImg. */
+/* The whole icon, never cropped. The image is pinned to an explicit box
+   (absolute insets — percentages there always resolve against .hero's real
+   size, unlike max-height:% on a grid item, which silently fell back to
+   `none` and let Pinpoint's 2:3 pin overflow and get clipped) and
+   object-fit: contain scales the artwork to fit that box on BOTH axes.
+   No border-radius on the image: icons are transparent artwork. */
 .iconImg {
-  width: auto;
-  height: auto;
-  max-width: 60%;
-  max-height: 75%;
+  position: absolute;
+  inset: 11% 19%;
+  width: 62%;
+  height: 78%;
   object-fit: contain;
-  position: relative;
-  filter: drop-shadow(0 10px 36px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.22));
 }
 
 .heroImg {
@@ -60,237 +62,277 @@
 }
 
 .faIcon {
-  position: relative;
-  font-size: 3.5rem;
-  color: rgba(212, 132, 90, 0.55);
+  font-size: 4rem;
+  color: var(--gl-accent);
 }
+
+/* --- Info column ---------------------------------------------------------- */
 
 .info {
-  padding: 1.6rem 1.5rem 1.3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  /* Restated explicitly (not just inherited from .detail's effective
-     touch-action) because this is itself a scrollable region — without it,
-     a swipe starting here gets claimed for native scroll-gesture handling
-     after the first move and our JS never sees the rest of the drag. */
-  touch-action: pan-y;
+  gap: 20px;
+  min-width: 0;
 }
 
-.docTag {
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.32rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--noir-doc);
-  border: 1px solid var(--noir-doc-line);
-  background: var(--noir-doc-soft);
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 999px;
-  padding: 0.18rem 0.48rem;
-  width: fit-content;
+  background: var(--gl-chip);
+  color: var(--gl-text);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.chipAccent {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .name {
   margin: 0;
-  font-size: 1.65rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--noir-text);
-  line-height: 1.12;
-  font-family: var(--font-display);
-}
-
-.year {
-  margin: 0;
-  font-size: 0.72rem;
+  font-size: clamp(32px, 4vw, 44px);
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--noir-accent);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--gl-text);
 }
 
 .description {
-  margin: 0;
-  font-size: 0.84rem;
-  line-height: 1.58;
-  color: var(--noir-muted);
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--gl-muted);
 }
 
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
-
-.stack span {
-  border: 1px solid var(--noir-border);
-  border-radius: 999px;
-  background: var(--noir-panel);
-  color: var(--noir-muted);
-  padding: 0.16rem 0.46rem;
-  font-size: 0.68rem;
+.sectionLabel {
+  margin: 0 0 10px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  color: var(--gl-faint);
 }
 
+/* Inset grouped list (iOS settings style) — handles any highlight count. */
 .highlights {
   margin: 0;
-  padding-left: 1rem;
-  display: grid;
-  gap: 0.3rem;
-  flex: 1;
+  padding: 0;
+  list-style: none;
+  border-radius: 18px;
+  background: var(--gl-group);
+  border: 1px solid var(--gl-sep);
+  overflow: hidden;
 }
 
 .highlights li {
-  font-size: 0.79rem;
-  line-height: 1.48;
-  color: var(--noir-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--gl-text);
 }
 
-.highlights li::marker {
-  color: var(--noir-accent);
+.highlights li + li {
+  border-top: 1px solid var(--gl-sep);
+}
+
+.check {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+  font-size: 13px;
+}
+
+/* --- Pinned action bar ---------------------------------------------------- */
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px clamp(20px, 4vw, 52px) 18px;
+  border-top: 1px solid var(--gl-sep);
+  background: var(--gl-bar);
+}
+
+.stack {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack li {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--gl-chip);
+  color: var(--gl-text);
+  font-size: 12.5px;
+  font-weight: 500;
 }
 
 .actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding-top: 0.25rem;
-  margin-top: auto;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
-.openBtn,
-.appStoreBtn,
-.diveBtn {
-  border-radius: 999px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  padding: 0.44rem 0.88rem;
-  cursor: pointer;
+.primaryBtn,
+.secondaryBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.34rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 0;
+  font: 600 15px var(--gl-font);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.openBtn {
-  background: var(--noir-accent);
-  border: 1px solid var(--noir-accent);
-  color: #fff;
-  box-shadow: 0 4px 16px var(--noir-accent-glow);
+.primaryBtn {
+  background: var(--gl-accent);
+  color: var(--gl-on-accent);
 }
 
-.openBtn:hover {
+.primaryBtn:hover {
+  background: var(--gl-accent-hover);
+  color: var(--gl-on-accent);
   transform: translateY(-1px);
-  box-shadow: 0 6px 22px var(--noir-accent-glow);
 }
 
-.openBtn:active {
-  transform: translateY(0);
+.secondaryBtn {
+  background: var(--gl-chip);
+  color: var(--gl-text);
 }
 
-/* Apple App Store badge — deliberately breaks from the accent-colored
-   .openBtn so it reads as "this opens the App Store", not a generic link,
-   echoing Apple's own black/white badge styling. */
-.appStoreBtn {
-  background: #000;
-  border: 1px solid #000;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-}
-
-.appStoreBtn svg {
-  font-size: 1.1em;
-}
-
-.appStoreBtn:hover {
+.secondaryBtn:hover {
   transform: translateY(-1px);
-  background: #1a1a1a;
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.36);
 }
 
-.appStoreBtn:active {
-  transform: translateY(0);
-}
-
-.appStoreBtn:focus-visible {
-  outline: 2px solid var(--noir-accent);
+.primaryBtn:focus-visible,
+.secondaryBtn:focus-visible,
+.navBtn:focus-visible {
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
-.diveBtn {
-  background: var(--noir-surface);
-  border: 1px solid var(--noir-border);
-  color: var(--noir-text);
+/* Prev/next in the sheet header, sized to match the close button. */
+.navBtn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gl-muted);
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.diveBtn:hover {
-  border-color: var(--noir-accent-line);
-  color: var(--noir-accent);
-  background: var(--noir-accent-soft);
-  transform: translateY(-1px);
+.navBtn:hover {
+  background: var(--gl-chip);
+  color: var(--gl-text);
 }
 
-.openBtn:focus-visible,
-.diveBtn:focus-visible {
-  outline: 2px solid var(--noir-accent);
-  outline-offset: 2px;
-}
-
-@media (max-width: 720px) {
-  .detail {
+/* --- Phones: single column, full-width stacked actions --------------------- */
+@media (max-width: 768px) {
+  .body {
     grid-template-columns: 1fr;
-    grid-template-rows: 220px 1fr;
+    gap: 16px;
+    padding: 4px 20px 20px;
   }
 
-  .media {
-    border-right: none;
-    border-bottom: 1px solid var(--noir-border);
-    min-height: 220px;
-  }
-
-  .vignette {
-    background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
+  .hero {
+    aspect-ratio: auto;
+    height: 200px;
+    border-radius: 22px;
   }
 
   .info {
-    padding: 1rem 1rem 0.85rem;
-    gap: 0.5rem;
-  }
-
-  .name {
-    font-size: 1.28rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .detail {
-    grid-template-rows: 180px 1fr;
-  }
-
-  .info {
-    padding: 0.85rem;
-  }
-
-  .name {
-    font-size: 1.1rem;
+    gap: 16px;
   }
 
   .description {
-    font-size: 0.8rem;
+    font-size: 15px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 20px 16px;
+  }
+
+  .actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  /* min-width: 0 lets the two pills share the row instead of their nowrap
+     labels pushing the primary one past the screen edge. */
+  .primaryBtn,
+  .secondaryBtn {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 50px;
+    padding: 0 14px;
+  }
+
+  .primaryBtn {
+    flex-grow: 1.4;
+  }
+
+  .primaryBtn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Swipe handles prev/next on touch; keep the header to the close button. */
+  .navBtn {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openBtn,
-  .appStoreBtn,
-  .diveBtn {
+  .primaryBtn,
+  .secondaryBtn {
     transition: none;
+  }
+
+  .primaryBtn:hover,
+  .secondaryBtn:hover {
+    transform: none;
   }
 }

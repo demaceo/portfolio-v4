@@ -188,12 +188,14 @@ main.sphere-main {
   pointer-events: none;
 }
 
+/* Fade the sphere's edges into the AppView surface (light or dark) rather
+   than a black vignette that only reads on a dark background. */
 .edge-fade--top {
   top: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0));
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--gl-surface) 70%, transparent), transparent);
 }
 
 .edge-fade--bottom {
   bottom: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, color-mix(in srgb, var(--gl-surface) 60%, transparent), transparent);
 }

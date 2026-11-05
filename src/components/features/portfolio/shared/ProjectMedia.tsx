@@ -22,6 +22,9 @@ interface ProjectMediaProps {
    *  icon image so the caller's CSS can size icons per-project. Opt-in so
    *  other callers (e.g. the detail modal) are unaffected by default. */
   applyIconScale?: boolean;
+  /** Empty alt text, for callers that already name the project next to the
+   *  image (e.g. a palette option), so screen readers don't hear it twice. */
+  decorative?: boolean;
 }
 
 /**
@@ -36,6 +39,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   faIconClassName = "",
   sizes = "(max-width: 640px) 100vw, 42vw",
   applyIconScale = false,
+  decorative = false,
 }) => {
   const iconIsImage = isImageIcon(project.icon);
   const imageStr = typeof project.image === "string" ? project.image : undefined;
@@ -44,7 +48,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
     return (
       <Image
         src={project.icon as string}
-        alt={`${project.name} icon`}
+        alt={decorative ? "" : `${project.name} icon`}
         width={project.iconWidth ?? 200}
         height={project.iconHeight ?? 200}
         className={iconImageClassName}
@@ -62,7 +66,7 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
     return (
       <Image
         src={imageStr}
-        alt={project.name}
+        alt={decorative ? "" : project.name}
         fill
         className={heroImageClassName}
         loading="lazy"

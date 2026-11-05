@@ -40,7 +40,7 @@
 }
 
 .rowButton:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: -2px;
 }
 
@@ -91,7 +91,7 @@
   width: 100%;
   height: 100%;
   font-size: 1.1rem;
-  color: rgba(212, 132, 90, 0.5);
+  color: color-mix(in srgb, var(--gl-accent) 70%, transparent);
 }
 
 .meta {

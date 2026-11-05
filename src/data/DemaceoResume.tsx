@@ -1,148 +1,162 @@
-export type Role =
-  | "Lead Front-End Engineer"
-  | "Tech Consultant"
-  | "Front-End Engineer"
-  | "Roadtripper"
-  | "Teaching Assistant"
-  | "Student Alumni Mentor"
-  | "Software Engineer: Integrations Team"
-  | "Support Engineer: Product Operations Team";
+// Résumé content for the on-screen InteractiveResume. Mirrors the owner's
+// preferred PDF (public/resume/Demaceo_Vincent_Howard_Resume.pdf), which is
+// what the "Download PDF" button serves — keep the two in sync when either
+// changes. The phone number is intentionally omitted here and redacted from
+// the published PDF.
 
-interface WorkExperience {
-  organization: string;
-  role: Role;
-  startDate: string;
-  endDate?: string;
+interface ResumeLink {
+  label: string;
+  href: string;
+}
+
+interface SelectedWork {
+  name: string;
+  tagline: string;
   summary: string;
 }
 
+interface WorkExperience {
+  role: string;
+  organization: string;
+  dates: string;
+  /** One-line description of the company / context. */
+  context: string;
+  summary: string;
+}
+
+interface SpeakingItem {
+  title: string;
+  detail: string;
+}
+
 interface Education {
-  institution: string;
   program: string;
-  years: string;
+  institution: string;
 }
 
 interface DemaceoProfile {
   name: string;
   title: string;
   location: string;
-  email: string;
-  website: string;
-  linkedin: string;
-  languages: string[];
-  certifications: string[];
-  skills: string[];
-  interests: string[];
+  availability: string;
+  links: ResumeLink[];
+  /** Bolded opening words of the summary paragraph. */
+  summaryLead: string;
+  summary: string;
+  selectedWork: SelectedWork[];
   experiences: WorkExperience[];
+  teaching: string;
+  speaking: SpeakingItem[];
+  coreStack: string[];
+  aiTools: string[];
   education: Education[];
+  pdf: { href: string; filename: string };
 }
 
 export const DemaceoResume: DemaceoProfile = {
-  name: "Demaceo Vincent",
-  title: "Developer | Designer",
-  location: "Colorado",
-  email: "hdemaceo@gmail.com",
-  website: "https://www.demaceo.com",
-  linkedin: "https://www.linkedin.com/in/demaceo",
-  languages: ["English (Native)", "Spanish (Limited)"],
-  certifications: [
-    "Front-End Engineering, UI/UX",
-    "GenAI for Business Leaders",
+  name: "Demaceo Vincent Howard",
+  title: "Senior Full-Stack & Mobile Engineer · React, TypeScript & Node",
+  location: "Denver, CO",
+  availability: "Onsite-ready",
+  links: [
+    { label: "demaceo.com", href: "https://www.demaceo.com" },
+    { label: "linkedin.com/in/demaceo", href: "https://www.linkedin.com/in/demaceo" },
+    { label: "anappidea.llc", href: "https://anappidea.llc" },
   ],
-  skills: [
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "HTML5",
-    "CSS3",
-    "UI/UX Design",
-    "Performance Optimization",
-    "Mentorship",
-    "API Integration",
-    "Accessibility",
-  ],
-  interests: [
-    "Public Interest Technology",
-    "Sustainable Development",
-    "Community-Centered Solutions",
-    "Scuba Diving",
-    "Coding",
+  summaryLead: "Senior full-stack engineer",
+  summary:
+    " specializing in React, TypeScript, and Node. Through An App Idea LLC I've shipped more than five production applications end to end, pairing React and React Native front ends with TypeScript-strict Node and PostgreSQL backends, secured APIs, production AI integration, and CI/CD. Before that I built responsive React interfaces at a generative-AI platform and full-stack features across React and Ruby on Rails at a fintech serving small businesses. I move quickly across the stack, lean on AI development tools throughout my workflow, and sweat the details that keep software reliable for real users.",
+  selectedWork: [
+    {
+      name: "Pinpoint",
+      tagline: "Full-Stack Web & Mobile Platform",
+      summary:
+        "React front end on a Node and PostgreSQL backend, with JWT-secured REST APIs, SSE streaming, and AI-powered analysis via the Gemini API.",
+    },
+    {
+      name: "Payback",
+      tagline: "Privacy-First Behavioral Analytics",
+      summary:
+        "On-device insights using AES-256 encryption, anonymized tracking, and GDPR and CCPA data-deletion flows built in React Native and TypeScript.",
+    },
+    {
+      name: "The Yap App",
+      tagline: "Real-Time Multilingual Translation",
+      summary:
+        "Live cross-language conversation over the Gemini Live API, with resilient auto-reconnect and earbud-aware voice assignment across concurrent audio streams.",
+    },
   ],
   experiences: [
     {
-      organization: "Engineer My Career",
-      role: "Lead Front-End Engineer",
-      startDate: "Feb 2025",
+      role: "Founder & Full-Stack / Mobile Engineer",
+      organization: "An App Idea LLC",
+      dates: "Jan 2025 – Present",
+      context: "independent software studio",
       summary:
-        "Lead the front-end development of career-oriented web applications using React, TypeScript, and modern UI/UX practices. Collaborate closely with designers and backend engineers to create intuitive, responsive, and accessible user interfaces. Implement best practices for performance optimization, resulting in faster load times and improved user engagement. Mentor junior developers, conduct regular code reviews, and maintain coding standards.",
+        "Solo-built and shipped 5+ production React and React Native apps (Expo SDK 51–54) end to end, owning product, architecture, TypeScript-strict Node and PostgreSQL backends, production AI/LLM integration, CI/CD, and App Store and Google Play releases.",
     },
     {
-      organization: "RentHarbor",
-      role: "Tech Consultant",
-      startDate: "April 2025",
+      role: "Front End Engineer",
+      organization: "Hypercard AI",
+      dates: "Oct 2023 – Apr 2024",
+      context: "generative-AI platform",
       summary:
-        "Provide strategic technical guidance for the implementation and enhancement of RentHarbor’s web platform. Collaborate with stakeholders to identify requirements, design technical solutions, and optimize product functionality. Assist in integrating and managing third-party services, ensuring robust and secure data handling.",
+        "Built responsive React and TypeScript interfaces and a customizable multi-format export system (PPT, PDF, CSV, DOCX, XLSX, JSON).",
     },
     {
-      organization: "Roadtrip Nation",
-      role: "Roadtripper",
-      startDate: "Aug 2024",
-      endDate: "Sept 2024",
-      summary:
-        "Participated in the filming of a documentary focused on Public Interest Technology (PIT). Conducted interviews with influential leaders and professionals nationwide to highlight impactful technology initiatives. Engaged actively in discussions around technology’s role in fostering equitable and community-centered solutions.",
-    },
-    {
-      organization: "HypercardAI",
-      role: "Front-End Engineer",
-      startDate: "Oct 2023",
-      endDate: "Apr 2024",
-      summary:
-        "Utilized React and TypeScript to enhance UI/UX, resulting in a streamlined user experience and a 15% increase in user engagement. Led the development of a customizable data export feature, allowing users to download project data in multiple formats (PPT, PDF, CSV, DOCX, XLSX, JSON), which boosted data accessibility by 25%. Implemented various customization options for PDF, DOCX, and PPT exports, enabling users to tailor background color, font style, and font color, leading to an 80% user satisfaction rate for document customization.",
-    },
-    {
-      organization: "Upright Education",
-      role: "Teaching Assistant",
-      startDate: "Oct 2023",
-      summary:
-        "Teach full-stack JavaScript software development, including front-end, back-end, and database management. Facilitate learning through practical exercises, code reviews, and comprehensive weekly projects. Mentor students individually, ensuring skill mastery in agile methodologies, version control, and UI/UX principles.",
-    },
-    {
-      organization: "Turing School of Software & Design",
-      role: "Student Alumni Mentor",
-      startDate: "June 2021",
-      endDate: "Dec 2024",
-      summary:
-        "Led individual mentoring sessions and provided detailed feedback on students’ GitHub projects. Offered professional development support through mock interviews, UI/UX design critiques, and coding exercises.",
-    },
-    {
+      role: "Software Engineer",
       organization: "Human Interest",
-      role: "Software Engineer: Integrations Team",
-      startDate: "Sep 2021",
-      endDate: "Feb 2023",
+      dates: "May 2021 – Feb 2023",
+      context: "fintech expanding retirement access for small businesses",
       summary:
-        "Contributed to various aspects of the application (Front-End, Back-End, data ingestion), consistently delivering high-quality results. Tested and integrated over 95% of partner APIs, enhancing partnerships and streamlining processes. Created automation scripts for the CI/CD pipeline, reducing integration time by 30%. Developed external/internal UI tools to eliminate engineering efforts, cutting manual tasks by 50%. Logged, tracked, and debugged production incidents as on-call engineer, ensuring application stability.",
-    },
-    {
-      organization: "Human Interest",
-      role: "Support Engineer: Product Operations Team",
-      startDate: "May 2021",
-      endDate: "Sep 2021",
-      summary:
-        "Collaborated with a global team to improve processes through documentation and reporting, reducing issue resolution time by 25%. Executed manual and automated test scripts, boosting regression coverage and contributing to a 15% increase in product stability. Utilized data management skills to troubleshoot, optimize performance, and implement enhancements, leading to a 20% performance improvement.",
+        "Full-stack work across React, Ruby on Rails, and data-ingestion pipelines; integrated 95%+ of partner APIs and built CI/CD automation that cut integration time 30%.",
     },
   ],
+  teaching:
+    "Upright Education (Teaching Assistant) and Turing School (Alumni Mentor): taught full-stack JavaScript to cohorts of 15 to 25 and mentored developers through code reviews, pairing, and mock interviews; mentees placed at technology companies.",
+  speaking: [
+    {
+      title: "SXSW EDU 2025 · Panelist",
+      detail: "“Behind the Wheel: Youth Driving Tech & Media”",
+    },
+    {
+      title: "PBS · “Tech For Us”",
+      detail: "Featured engineer · nationally televised 2025",
+    },
+  ],
+  coreStack: [
+    "React",
+    "React Native",
+    "TypeScript",
+    "JavaScript",
+    "Node",
+    "Next.js",
+    "REST APIs",
+    "PostgreSQL",
+    "Prisma",
+    "Supabase",
+    "Firebase",
+    "Python",
+    "FastAPI",
+    "Tailwind",
+    "CI/CD",
+    "Vercel",
+    "Gemini",
+    "OpenAI",
+    "Git",
+  ],
+  aiTools: ["Claude Code", "Cursor", "GitHub Copilot", "ChatGPT"],
   education: [
     {
+      program: "Front-End Engineering & UI/UX",
       institution: "Turing School of Software & Design",
-      program: "Front-End Engineering, UI/UX",
-      years: "",
     },
-    {
-      institution: "Cornell College",
-      program: "Bachelor of Science in Biology",
-      years: "",
-    },
+    { program: "B.S., Biology", institution: "Cornell College" },
   ],
+  pdf: {
+    href: "/resume/Demaceo_Vincent_Howard_Resume.pdf",
+    filename: "Demaceo_Vincent_Howard_Resume.pdf",
+  },
 };
 
 export default DemaceoResume;

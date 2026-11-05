@@ -1,383 +1,25 @@
-/* ===== INTERACTIVE RESUME - APPLE LIQUID GLASS DESIGN ===== */
+/* ===== INTERACTIVE RESUME =====
+   Global stylesheet (imported by InteractiveResume.tsx, not a CSS module).
+   Colors are --gl- tokens (light + dark in globals.css). The rules for the
+   markup InteractiveResume.tsx renders are in the "Rendered markup" block
+   below; this top part holds the few legacy rules that still apply. */
 
-/* Apple Design System Variables */
-/* Variables scoped to resume modal to prevent global leakage */
-.resume-modal-overlay {
-    /* Light Glass Colors */
-    --glass-bg: rgba(255, 255, 255, 0.25);
-    --glass-bg-dark: rgba(0, 0, 0, 0.15);
-    --glass-border: rgba(203, 213, 225, 0.4);
-    --glass-shadow: rgba(0, 0, 0, 0.12);
-    --backdrop-blur: blur(40px);
-    --backdrop-saturate: saturate(180%);
+/* Experience cards: hover lift with a soft Glass tint. */
 
-    /* Color Palette */
-    --ios-blue: #3b82f6;
-    --ios-blue-light: rgba(59, 130, 246, 0.1);
-    --ios-blue-dark: rgba(59, 130, 246, 0.8);
-    --ios-red: #ff3b30;
-    --ios-green: #10b981;
-    --ios-orange: #ff9500;
-    --ios-purple: #0ea5e9;
-    --ios-pink: #ff2d92;
-    --ios-indigo: #5856d6;
-    --ios-teal: #0ea5e9;
-    --ios-yellow: #ffcc00;
-    --ios-text-primary: #0f172a;
-    --ios-text-secondary: #64748b;
-    --ios-text-tertiary: #94a3b8;
-    --ios-surface: rgba(255, 255, 255, 0.8);
-    --ios-surface-elevated: rgba(255, 255, 255, 0.95);
-    --ios-surface-secondary: rgba(242, 242, 247, 0.8);
-
-    /* Typography Scale */
-    --text-xs: 11px;
-    --text-sm: 13px;
-    --text-base: 15px;
-    --text-lg: 17px;
-    --text-xl: 19px;
-    --text-2xl: 22px;
-    --text-3xl: 28px;
-    --text-4xl: 34px;
-
-    /* Spacing Scale */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
-
-    /* Border Radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --radius-2xl: 24px;
-    --radius-3xl: 30px;
-
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.16);
-    --shadow-2xl: 0 25px 80px rgba(0, 0, 0, 0.25);
-}
-
-/* Modal Overlay */
-.resume-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.06) 0%,
-            rgba(14, 165, 233, 0.06) 50%,
-            rgba(16, 185, 129, 0.06) 100%);
-    backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: var(--space-6);
-    animation: overlayFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-}
-
-/* Modal Container */
-.resume-modal-container {
-    width: 100%;
-    max-width: 1100px;
-    max-height: 90vh;
-    background: var(--glass-bg);
-    backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-3xl);
-    box-shadow: var(--shadow-2xl);
-    overflow: hidden;
-    animation: resumeSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Header */
-.resume-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
-    padding: 0 var(--space-8);
-    background: var(--ios-surface-elevated);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-shrink: 0;
-}
-
-.resume-title {
-    font-size: var(--text-3xl);
-    font-weight: 800;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, var(--ios-green) 0%, var(--ios-blue) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.resume-header-controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-left: auto;
-}
-
-/* PDF Download Section */
-.pdf-download-section {
-    background: var(--ios-surface-secondary);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    padding: var(--space-6) var(--space-8);
-    animation: pdfSectionSlide 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    flex-shrink: 0;
-    text-align: center;
-}
-
-.pdf-download-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.pdf-download-text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    text-align: center;
-}
-
-.pdf-download-title {
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.02em;
-}
-
-.pdf-download-description {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-    line-height: 1.5;
-}
-
-.pdf-download-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-4) var(--space-6);
-    background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-teal) 100%);
-    color: white;
-    border: none;
-    border-radius: var(--radius-xl);
-    font-size: var(--text-base);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: var(--shadow-lg);
-    letter-spacing: -0.01em;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    min-height: 52px;
-    text-decoration: none;
-}
-
-.pdf-download-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s ease;
-}
-
-.pdf-download-button:hover::before {
-    left: 100%;
-}
-
-.pdf-download-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3), var(--shadow-xl);
-}
-
-.pdf-download-button:active {
-    transform: translateY(0);
-    transition: transform 0.1s ease;
-}
-
-.pdf-icon {
-    font-size: var(--text-lg);
-}
-
-/* Resume Content */
-.resume-content {
-    flex: 1;
-    padding: var(--space-8);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    overscroll-behavior: contain;
-}
-
-.resume-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.resume-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.resume-content::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.3);
-    border-radius: 3px;
-}
-
-/* Experience Timeline */
-.experience-timeline {
-    position: relative;
-    padding-left: var(--space-8);
-    animation: timelineFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.experience-timeline::before {
-    content: '';
-    position: absolute;
-    left: var(--space-4);
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg,
-            var(--ios-green) 0%,
-            var(--ios-blue) 50%,
-            var(--ios-purple) 100%);
-    border-radius: 1px;
-}
-
-.timeline-section {
-    margin-bottom: var(--space-12);
-    animation: timelineSectionSlide 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation-fill-mode: both;
-}
-
-.timeline-section:nth-child(1) {
-    animation-delay: 0ms;
-}
-
-.timeline-section:nth-child(2) {
-    animation-delay: 150ms;
-}
-
-.timeline-section:nth-child(3) {
-    animation-delay: 300ms;
-}
-
-.timeline-section:nth-child(4) {
-    animation-delay: 450ms;
-}
-
-.timeline-section:nth-child(5) {
-    animation-delay: 600ms;
-}
-
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-6);
-    position: relative;
-}
-
-.section-marker {
-    position: absolute;
-    left: calc(-1 * var(--space-8) + var(--space-3));
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--ios-green) 0%, var(--ios-blue) 100%);
-    box-shadow: var(--shadow-md);
-    z-index: 2;
-}
-
-.section-title {
-    font-size: var(--text-2xl);
-    font-weight: 800;
-    color: var(--ios-text-primary);
-    margin: 0;
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, var(--ios-text-primary) 0%, var(--ios-blue) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.section-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-}
-
-/* Experience Cards */
 .experience-card {
-    background: var(--ios-surface);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-6);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .experience-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.05) 0%,
-            rgba(14, 165, 233, 0.05) 50%,
-            rgba(16, 185, 129, 0.05) 100%);
+    inset: 0;
+    background: var(--gl-chip);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
-    border-radius: var(--radius-2xl);
 }
 
 .experience-card:hover::before {
@@ -386,166 +28,15 @@
 
 .experience-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--ios-blue);
 }
 
-.experience-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--space-4);
-    gap: var(--space-4);
-}
+/* .control-button — NOT résumé markup: DocumentaryHeader.tsx renders it, and
+   these global rules style those buttons. Left exactly as they were: the
+   var()s below are undefined (their definitions sat on a class that never
+   rendered), which makes those declarations act as `unset`. Removing them
+   could change which other rule wins, so treat a change here as a Documentary
+   change and check it visually. */
 
-.experience-info {
-    flex: 1;
-}
-
-.experience-role {
-    font-size: var(--text-lg);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-}
-
-.experience-company {
-    font-size: var(--text-base);
-    font-weight: 600;
-    color: var(--ios-blue);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.01em;
-}
-
-.experience-location {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-}
-
-.experience-period {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    background: var(--ios-green);
-    color: white;
-    border-radius: var(--radius-lg);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-    box-shadow: var(--shadow-sm);
-    flex-shrink: 0;
-}
-
-.experience-description {
-    margin-bottom: var(--space-5);
-}
-
-.experience-description ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.experience-description li {
-    font-size: var(--text-sm);
-    line-height: 1.6;
-    color: var(--ios-text-secondary);
-    position: relative;
-    padding-left: var(--space-5);
-}
-
-.experience-description li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--ios-blue);
-    font-weight: bold;
-    font-size: var(--text-base);
-}
-
-/* Skills Section */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: var(--space-3);
-    margin-top: var(--space-4);
-}
-
-.skill-tag {
-    padding: var(--space-2) var(--space-4);
-    background: var(--ios-surface-secondary);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--ios-text-primary);
-    text-align: center;
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    transition: all 0.3s ease;
-}
-
-.skill-tag:hover {
-    background: var(--ios-blue-light);
-    color: var(--ios-blue);
-    border-color: var(--ios-blue);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-/* Education & Certifications */
-.education-card,
-.certification-card {
-    background: var(--ios-surface);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-5);
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
-}
-
-.education-card:hover,
-.certification-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--ios-blue);
-}
-
-.education-degree,
-.certification-name {
-    font-size: var(--text-base);
-    font-weight: 700;
-    color: var(--ios-text-primary);
-    margin: 0 0 var(--space-1) 0;
-    letter-spacing: -0.01em;
-}
-
-.education-school,
-.certification-issuer {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--ios-blue);
-    margin: 0 0 var(--space-1) 0;
-}
-
-.education-year,
-.certification-year {
-    font-size: var(--text-sm);
-    color: var(--ios-text-secondary);
-    margin: 0;
-}
-
-/* Control Buttons */
 .control-button {
     width: 44px;
     height: 44px;
@@ -593,193 +84,7 @@
     transition: transform 0.1s ease;
 }
 
-/* Animations */
-@keyframes overlayFadeIn {
-    from {
-        opacity: 0;
-        backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
-    }
-
-    to {
-        opacity: 1;
-        backdrop-filter: var(--backdrop-blur);
-        -webkit-backdrop-filter: var(--backdrop-blur);
-    }
-}
-
-@keyframes resumeSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes pdfSectionSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes timelineFade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes timelineSectionSlide {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .resume-modal-container {
-        max-width: 95vw;
-    }
-
-    .experience-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-3);
-    }
-
-    .experience-period {
-        align-self: flex-start;
-    }
-}
-
 @media (max-width: 768px) {
-    .resume-modal-overlay {
-        padding: var(--space-4);
-    }
-
-    .resume-modal-container {
-        max-width: 100%;
-        max-height: 95vh;
-        border-radius: var(--radius-2xl);
-    }
-
-    .resume-modal-header {
-        height: 64px;
-        padding: 0 var(--space-6);
-    }
-
-    .resume-title {
-        font-size: var(--text-2xl);
-    }
-
-    .pdf-download-section {
-        padding: var(--space-5) var(--space-6);
-    }
-
-    .pdf-download-title {
-        font-size: var(--text-lg);
-    }
-
-    .pdf-download-description {
-        font-size: var(--text-xs);
-    }
-
-    .pdf-download-button {
-        padding: var(--space-3) var(--space-5);
-        font-size: var(--text-sm);
-        min-height: 48px;
-    }
-
-    .resume-content {
-        padding: var(--space-6);
-    }
-
-    .experience-timeline {
-        padding-left: var(--space-6);
-    }
-
-    .section-marker {
-        left: calc(-1 * var(--space-6) + var(--space-3));
-    }
-
-    .section-title {
-        font-size: var(--text-xl);
-    }
-
-    .experience-card {
-        padding: var(--space-5);
-    }
-
-    .experience-role {
-        font-size: var(--text-base);
-    }
-
-    .experience-company {
-        font-size: var(--text-sm);
-    }
-
-    .experience-location {
-        font-size: var(--text-xs);
-    }
-
-    .experience-period {
-        font-size: var(--text-xs);
-        padding: var(--space-1) var(--space-3);
-    }
-
-    .experience-description li {
-        font-size: var(--text-xs);
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: var(--space-2);
-    }
-
-    .skill-tag {
-        padding: var(--space-1) var(--space-3);
-        font-size: var(--text-xs);
-    }
-
-    .education-card,
-    .certification-card {
-        padding: var(--space-4);
-    }
-
-    .education-degree,
-    .certification-name {
-        font-size: var(--text-sm);
-    }
-
-    .education-school,
-    .certification-issuer {
-        font-size: var(--text-xs);
-    }
-
-    .education-year,
-    .certification-year {
-        font-size: var(--text-xs);
-    }
-
     .control-button {
         width: 40px;
         height: 40px;
@@ -787,115 +92,6 @@
 }
 
 @media (max-width: 480px) {
-    .resume-modal-overlay {
-        padding: var(--space-3);
-    }
-
-    .resume-modal-container {
-        border-radius: var(--radius-xl);
-    }
-
-    .resume-modal-header {
-        height: 56px;
-        padding: 0 var(--space-5);
-    }
-
-    .resume-title {
-        font-size: var(--text-xl);
-    }
-
-    .pdf-download-section {
-        padding: var(--space-4) var(--space-5);
-    }
-
-    .pdf-download-title {
-        font-size: var(--text-base);
-    }
-
-    .pdf-download-description {
-        font-size: 11px;
-    }
-
-    .pdf-download-button {
-        padding: var(--space-2) var(--space-4);
-        font-size: var(--text-xs);
-        min-height: 44px;
-        border-radius: var(--radius-lg);
-    }
-
-    .resume-content {
-        padding: var(--space-5);
-    }
-
-    .experience-timeline {
-        padding-left: var(--space-5);
-    }
-
-    .section-marker {
-        left: calc(-1 * var(--space-5) + var(--space-3));
-        width: 10px;
-        height: 10px;
-    }
-
-    .section-title {
-        font-size: var(--text-lg);
-    }
-
-    .experience-card {
-        padding: var(--space-4);
-    }
-
-    .experience-role {
-        font-size: var(--text-sm);
-    }
-
-    .experience-company {
-        font-size: var(--text-xs);
-    }
-
-    .experience-location {
-        font-size: 11px;
-    }
-
-    .experience-period {
-        font-size: 11px;
-        padding: 2px var(--space-2);
-    }
-
-    .experience-description li {
-        font-size: 11px;
-        padding-left: var(--space-4);
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    }
-
-    .skill-tag {
-        padding: 2px var(--space-2);
-        font-size: 11px;
-    }
-
-    .education-card,
-    .certification-card {
-        padding: var(--space-3);
-    }
-
-    .education-degree,
-    .certification-name {
-        font-size: var(--text-xs);
-    }
-
-    .education-school,
-    .certification-issuer {
-        font-size: 11px;
-    }
-
-    .education-year,
-    .certification-year {
-        font-size: 11px;
-    }
-
     .control-button {
         width: 36px;
         height: 36px;
@@ -903,26 +99,9 @@
     }
 }
 
-/* Landscape Orientation */
-@media (max-height: 600px) and (orientation: landscape) {
-    .resume-modal-container {
-        max-height: 95vh;
-    }
-
-    .resume-modal-header {
-        height: 56px;
-    }
-
-    .pdf-download-section {
-        padding: var(--space-4) var(--space-6);
-    }
-
-    .resume-content {
-        padding: var(--space-5) var(--space-6);
-    }
-}
-
 /* Accessibility */
+
+/* Site-wide (this sheet is global): honor reduced motion everywhere. */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -931,49 +110,256 @@
     }
 }
 
-/* Focus States for Accessibility */
 .control-button:focus-visible,
-.pdf-download-button:focus-visible,
-.experience-card:focus-visible,
-.skill-tag:focus-visible {
-    outline: 2px solid var(--ios-blue);
+.experience-card:focus-visible {
+    outline: 2px solid var(--gl-focus);
     outline-offset: 2px;
 }
 
-/* High Contrast Mode */
 @media (prefers-contrast: high) {
-    .resume-modal-overlay {
-        --glass-border: rgba(0, 0, 0, 0.4);
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .control-button,
-    .experience-card,
-    .pdf-download-button {
+    .control-button {
         border-width: 2px;
     }
 }
 
-/* Dark Mode Support */
-/* Dark mode override removed — LandingPage is always light-themed */
-
-/* Touch-specific optimizations */
+/* Touch: no hover lift on cards; full-size tap targets. */
 @media (hover: none) and (pointer: coarse) {
-
-    .control-button,
-    .pdf-download-button,
-    .skill-tag {
+    .control-button {
         min-height: 44px;
         min-width: 44px;
     }
 
-    .experience-card {
-        transform: none;
-    }
-
+    .experience-card,
     .experience-card:hover {
         transform: none;
+    }
+}
+
+/* ===== Rendered markup (inside ModalFrame's .glass-scope) =====
+   Styles for what InteractiveResume.tsx renders. Colors are --gl- tokens so
+   the résumé follows Glass light/dark. Content mirrors the downloadable PDF
+   (public/resume/), which is served as a static file. */
+
+/* Header action: accent pill linking to the PDF. */
+.resume-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--gl-accent);
+    color: var(--gl-on-accent);
+    font-family: var(--gl-font);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.resume-download-btn:hover {
+    background: var(--gl-accent-hover);
+    color: var(--gl-on-accent);
+}
+
+.resume-download-btn:active {
+    transform: scale(0.97);
+}
+
+.resume-download-btn:focus-visible {
+    outline: 2px solid var(--gl-focus);
+    outline-offset: 2px;
+}
+
+.resume-content-wrapper {
+    font-family: var(--gl-font);
+    color: var(--gl-text);
+}
+
+.workxp-container {
+    color: var(--gl-text);
+    /* Inset from the sheet edges, matching the Contact/Project sheets. */
+    padding: 4px clamp(20px, 4vw, 40px) 36px;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.workxp-container p {
+    margin: 0;
+}
+
+/* The global .shadowed-text is cream, ultra-light, uppercase, centered Lato
+   with a drop shadow — built for the dark desktop. Inside the résumé it
+   becomes Glass type: bold, sentence case, left-aligned. */
+.workxp-container .shadowed-text {
+    color: var(--gl-text);
+    font-family: var(--gl-font);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    text-align: left;
+    text-shadow: none;
+}
+
+.workxp-container h1.shadowed-text {
+    margin: 0 0 4px;
+    font-size: clamp(28px, 4vw, 36px);
+}
+
+.workxp-container h2.shadowed-text {
+    margin: 0 0 12px;
+    font-size: 20px;
+}
+
+.resume-title-line {
+    color: var(--gl-muted);
+    font-size: 16px;
+}
+
+.resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    color: var(--gl-faint);
+}
+
+.workxp-container a {
+    color: var(--gl-accent);
+}
+
+.workxp-container a:hover {
+    color: var(--gl-accent-hover);
+}
+
+.resume-body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+/* Summary: the PDF's accent-ruled lead paragraph. */
+.resume-summary {
+    padding-left: 16px;
+    border-left: 3px solid var(--gl-accent);
+    font-size: 16px;
+    color: var(--gl-muted);
+}
+
+.resume-summary strong {
+    color: var(--gl-text);
+}
+
+.resume-work + .resume-work,
+.resume-speaking + .resume-speaking,
+.education-item + .education-item {
+    margin-top: 14px;
+}
+
+.workxp-container h3 {
+    margin: 0 0 2px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gl-text);
+}
+
+.resume-dot {
+    color: var(--gl-accent);
+}
+
+.resume-tagline {
+    font-weight: 500;
+    color: var(--gl-muted);
+}
+
+.resume-work p,
+.experience-card > p:last-child,
+.xp-section > p {
+    color: var(--gl-muted);
+}
+
+.resume-meta {
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--gl-faint);
+}
+
+/* Experience entries: padded so the hover tint (legacy rule above) reads as
+   a soft card, pulled back by the same amount so text stays aligned. */
+.experience-card {
+    margin: 0 -14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+}
+
+.experience-card + .experience-card {
+    margin-top: 2px;
+}
+
+.experience-card .resume-meta {
+    margin-bottom: 6px;
+}
+
+.resume-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+}
+
+.resume-speaking-title,
+.education-item .program {
+    font-weight: 600;
+    color: var(--gl-text);
+}
+
+.education-item .institution {
+    color: var(--gl-muted);
+}
+
+.resume-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.resume-chips li {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--gl-chip);
+    color: var(--gl-text);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.workxp-container a:focus-visible {
+    outline: 2px solid var(--gl-focus);
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .resume-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (forced-colors: active) {
+    .resume-download-btn {
+        border: 1px solid ButtonText;
+    }
+
+    .resume-download-btn:focus-visible,
+    .workxp-container a:focus-visible,
+    .experience-card:focus-visible {
+        outline-color: Highlight;
+    }
+
+    .resume-summary {
+        border-left-color: CanvasText;
     }
 }

@@ -1,4 +1,4 @@
-/* ===== SKILLSET — WARM NOIR: PLATES + TOOLBELT GRAPH ===== */
+/* ===== SKILLSET — GLASS: PLATES + TOOLBELT GRAPH ===== */
 
 .skillset {
   --skill-accent: var(--noir-accent);
@@ -15,7 +15,7 @@
   flex: 1;
   min-height: 0;
   color: var(--skill-text);
-  font-family: var(--font-display), "Manrope", "Segoe UI", sans-serif;
+  font-family: var(--gl-font);
 }
 
 /* ── Top bar: tabs + studio byline ────────────────────── */
@@ -34,10 +34,8 @@
 .skillTabs {
   display: flex;
   gap: 0.2rem;
-  background: var(--lg-tint);
-  border: 1px solid var(--lg-edge);
-  backdrop-filter: var(--lg-blur);
-  -webkit-backdrop-filter: var(--lg-blur);
+  background: var(--gl-seg-bg);
+  border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.2rem;
 }
@@ -49,7 +47,7 @@
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(240, 236, 232, 0.4);
+  color: var(--gl-muted);
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -59,19 +57,16 @@
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Layering --lg-sheen (the same specular highlight used on ModalFrame/AppView
-   surfaces) over the accent fill gives the active pill a glass sheen
-   instead of a flat color block; the tight shadow + inset hairline ground
-   it without the old wide, generic-looking glow. */
+/* Glass segmented control: the active segment lifts onto --gl-seg-on with
+   full-strength text, mirroring ContactForm's segment idiom. */
 .skillTab.active {
-  background-color: var(--skill-accent);
-  background-image: var(--lg-sheen);
-  color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  background-color: var(--gl-seg-on);
+  color: var(--gl-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .skillTab:hover:not(.active) {
-  color: rgba(240, 236, 232, 0.7);
+  color: var(--gl-text);
 }
 
 @media (pointer: coarse) {
@@ -88,14 +83,14 @@
 .plateVArrow:focus-visible,
 .plateVDot:focus-visible,
 .skillStudioByline:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
 /* The stage itself is keyboard-focusable (arrow-key nav); draw the ring inset
    so it isn't clipped by the panel edges or the top/bottom bars. */
 .plateStage:focus-visible {
-  outline: 2px solid var(--noir-accent);
+  outline: 2px solid var(--gl-focus);
   outline-offset: -2px;
 }
 
@@ -165,8 +160,8 @@
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 45%,
-    rgba(212, 132, 90, 0.18) 0%,
-    rgba(212, 132, 90, 0.05) 55%,
+    color-mix(in srgb, var(--gl-accent) 14%, transparent) 0%,
+    color-mix(in srgb, var(--gl-accent) 4%, transparent) 55%,
     transparent 72%
   );
   margin-bottom: 0.2rem;
@@ -184,7 +179,9 @@
   width: 72px;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 8px 24px rgba(212, 132, 90, 0.28));
+  filter: drop-shadow(
+    0 8px 24px color-mix(in srgb, var(--gl-accent) 22%, transparent)
+  );
 }
 
 .plateCounter {
@@ -199,12 +196,12 @@
 }
 
 .counterSep {
-  color: rgba(240, 236, 232, 0.18);
+  color: var(--gl-faint);
   margin: 0 0.15em;
 }
 
 .counterTotal {
-  color: rgba(240, 236, 232, 0.25);
+  color: var(--gl-faint);
 }
 
 .plateTitle {
@@ -342,8 +339,8 @@
   height: 32px;
   border-radius: 50%;
   background: var(--skill-panel);
-  border: 1px solid rgba(240, 236, 232, 0.14);
-  color: rgba(240, 236, 232, 0.45);
+  border: 1px solid var(--gl-sep);
+  color: var(--gl-muted);
   font-size: 0.72rem;
   cursor: pointer;
   display: flex;
@@ -418,8 +415,8 @@
   height: 30px;
   border-radius: 50%;
   background: var(--skill-panel);
-  border: 1px solid rgba(240, 236, 232, 0.14);
-  color: rgba(240, 236, 232, 0.45);
+  border: 1px solid var(--gl-sep);
+  color: var(--gl-muted);
   font-size: 0.68rem;
   cursor: pointer;
   display: flex;

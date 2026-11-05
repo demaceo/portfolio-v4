@@ -15,17 +15,35 @@ import styles from "./ProjectsAppView.module.css";
 
 interface ProjectsAppViewProps extends ModalProps {
   initialProjectId?: number;
+  /** Changes on every external "open this project" request (⌘K palette). */
+  projectRequestKey?: number;
 }
 
 const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
   onClose,
   initialProjectId,
+  projectRequestKey,
 }) => {
   const { activeProjects, archivedProjects, getProjectById } = useProjects();
   const [activeTab, setActiveTab] = useState<"featured" | "more">("featured");
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
     initialProjectId ?? null
   );
+  // The ⌘K palette can pick a project while this view is already open, which
+  // changes initialProjectId (or, for the same project picked again, only
+  // projectRequestKey) without remounting. Adopt the request during render
+  // (React's "adjust state when a prop changes" pattern — no effect, no extra
+  // frame), and jump to the Featured tab since the palette only lists active
+  // projects.
+  const requestSignature = `${initialProjectId ?? ""}|${projectRequestKey ?? 0}`;
+  const [prevRequestSignature, setPrevRequestSignature] = useState(requestSignature);
+  if (requestSignature !== prevRequestSignature) {
+    setPrevRequestSignature(requestSignature);
+    if (initialProjectId != null) {
+      setSelectedProjectId(initialProjectId);
+      setActiveTab("featured");
+    }
+  }
   const [showResumeHighlights, setShowResumeHighlights] = useState(false);
   const [resumeHighlightsProjectKey, setResumeHighlightsProjectKey] = useState<
     string | undefined

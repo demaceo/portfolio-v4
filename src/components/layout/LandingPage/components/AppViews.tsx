@@ -49,6 +49,9 @@ interface AppViewsProps {
   setSelectedServiceId: (id: string | null) => void;
   selectedProjectId: number | null;
   setSelectedProjectId: (id: number | null) => void;
+  /** Bumped on every palette pick, so picking the same project again still
+   *  re-opens it in an already-open ProjectsAppView. */
+  projectRequestKey: number;
   onOpenDocumentary: () => void;
 }
 
@@ -69,6 +72,7 @@ const AppViews: React.FC<AppViewsProps> = ({
   setSelectedServiceId,
   selectedProjectId,
   setSelectedProjectId,
+  projectRequestKey,
   onOpenDocumentary,
 }) => {
   return (
@@ -103,6 +107,7 @@ const AppViews: React.FC<AppViewsProps> = ({
               setSelectedProjectId(null);
             }}
             initialProjectId={selectedProjectId ?? undefined}
+            projectRequestKey={projectRequestKey}
           />
         )}
       </AnimatePresence>

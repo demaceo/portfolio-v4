@@ -2,8 +2,8 @@
    keyframes, the direction-flip radios and the per-item hover/reflection
    mechanics are unchanged. What's adapted for the app: .stage fills its
    flex parent instead of a fixed demo-card height (matches ProjectCoverflow's
-   own .viewport sizing), the tuning variables are recolored to the Warm Noir
-   palette, `a` becomes a real `<button>` so a click can open the project
+   own .viewport sizing), the tuning variables are recolored to the Glass
+   tokens (light + dark), `a` becomes a real `<button>` so a click can open the project
    detail view, and each item gains a name caption + accent corner that
    share the same hover/focus reveal as the photo's color/lift. */
 
@@ -21,17 +21,17 @@
 
   --carousel-transition-duration: 250ms;
   --carousel-transition-ease: ease-out;
-  --carousel-bg-color-rgb: 13, 10, 9; /* --lg-tint-solid's base */
-  --carousel-shadow-color-rgb: 150, 120, 100;
+  --carousel-bg-color: var(--gl-surface);
+  --carousel-shadow-color: color-mix(in srgb, var(--gl-text) 22%, transparent);
   --carousel-item-hover-effect: 1.075;
   --carousel-item-reflection-blur: 0.25rem;
-  --carousel-item-empty-color-rgb: 13, 10, 9;
-  --carousel-item-glow-color-rgb: 212, 132, 90; /* --noir-accent */
+  --carousel-item-empty-color: var(--gl-surface);
+  --carousel-item-glow-color: var(--gl-accent);
   --carousel-3d-perspective: 1000px;
   --carousel-3d-perspective-origin: 50% 20%;
   --carousel-control-button-width: 1.25rem;
   --carousel-control-button-height: 4rem;
-  --carousel-control-color-rgb: 240, 236, 232; /* --noir-text */
+  --carousel-control-color: var(--gl-text);
   --carousel-animation-duration: 32s;
   --carousel-animation-play-state: running;
   --carousel-direction-animation-play-state: paused;
@@ -92,7 +92,7 @@ carousel
   z-index: 1;
   width: var(--_width);
   height: var(--_height);
-  background-color: rgb(var(--carousel-control-color-rgb));
+  background-color: var(--carousel-control-color);
   opacity: 0.2;
   transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease);
   position: absolute;
@@ -116,7 +116,7 @@ carousel
 
 .controlButton input:focus-visible {
   opacity: 1;
-  outline: 2px solid rgb(var(--carousel-control-color-rgb));
+  outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
@@ -202,7 +202,7 @@ carousel
   height: var(--_height);
   transition: all var(--carousel-transition-duration) var(--carousel-transition-ease);
   box-shadow: 0 0 var(--carousel-item-glow-size-rest) var(--carousel-item-glow-spread-rest)
-      var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
+      var(--corner-color, var(--carousel-item-glow-color)),
     0 0.7rem 1.6rem rgba(0, 0, 0, 0.4);
   position: absolute;
 }
@@ -210,7 +210,7 @@ carousel
 .item:hover,
 .item:focus-within {
   box-shadow: 0 0 var(--carousel-item-glow-size-hover) var(--carousel-item-glow-spread-hover)
-      var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))),
+      var(--corner-color, var(--carousel-item-glow-color)),
     0 1.4rem 3.2rem rgba(0, 0, 0, 0.55);
   transform: rotateY(var(--_rotation)) translateZ(calc(var(--_radius) * var(--carousel-item-hover-effect)));
 }
@@ -228,7 +228,7 @@ carousel
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--lg-edge, rgba(255, 220, 180, 0.16));
+  border: 1px solid var(--gl-sep);
   border-radius: 0.4rem;
   clip-path: polygon(
     0 0,
@@ -237,7 +237,7 @@ carousel
     calc(100% - var(--_corner)) 100%,
     0 100%
   );
-  background-color: rgb(var(--carousel-item-empty-color-rgb));
+  background-color: var(--carousel-item-empty-color);
   background-image: var(--_image-url);
   background-repeat: no-repeat;
   background-position: center;
@@ -258,7 +258,7 @@ carousel
 .item:hover .face,
 .item:focus-within .face {
   filter: saturate(1.18) brightness(1.06);
-  border-color: var(--corner-color, var(--lg-edge-bright, rgba(255, 220, 180, 0.28)));
+  border-color: var(--corner-color, var(--gl-edge));
 }
 
 /* Diagonal glass sheen, same top-left highlight language as the app's
@@ -281,7 +281,7 @@ carousel
   margin: auto;
   width: 30%;
   height: 30%;
-  color: var(--corner-color, rgba(var(--carousel-control-color-rgb), 0.55));
+  color: var(--corner-color, color-mix(in srgb, var(--carousel-control-color) 55%, transparent));
   opacity: 0.7;
   pointer-events: none;
 }
@@ -297,12 +297,12 @@ carousel
   right: 0;
   width: var(--_corner);
   aspect-ratio: 1 / 1;
-  background-image: linear-gradient(135deg, var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))) 51%, transparent 0);
+  background-image: linear-gradient(135deg, var(--corner-color, var(--carousel-item-glow-color)) 51%, transparent 0);
   pointer-events: none;
 }
 
 .face:focus-visible {
-  outline: 2px solid var(--corner-color, rgb(var(--carousel-item-glow-color-rgb)));
+  outline: 2px solid var(--gl-focus);
   outline-offset: 3px;
 }
 
@@ -315,8 +315,8 @@ carousel
   width: 100%;
   padding: 0.5rem 0.55rem calc(0.4rem + var(--_width) * 0.05);
   background-image:
-    linear-gradient(to top, rgba(var(--carousel-bg-color-rgb), 0.94) 25%, rgba(var(--carousel-bg-color-rgb), 0) 100%),
-    linear-gradient(to right, transparent, var(--corner-color, rgb(var(--carousel-item-glow-color-rgb))) 50%, transparent);
+    linear-gradient(to top, color-mix(in srgb, var(--carousel-bg-color) 94%, transparent) 25%, transparent 100%),
+    linear-gradient(to right, transparent, var(--corner-color, var(--carousel-item-glow-color)) 50%, transparent);
   background-repeat: no-repeat, no-repeat;
   background-size: 100% 100%, 100% 1px;
   background-position: 0 0, top;
@@ -332,13 +332,15 @@ carousel
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--corner-color, rgb(var(--carousel-item-glow-color-rgb)));
+  /* Was the per-project corner hue; those mid-lightness hues fall under
+     4.5:1 on the light caption, so the year uses the Glass text color. */
+  color: var(--gl-text);
   opacity: 0.65;
   transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease);
 }
 
 .captionName {
-  color: rgb(var(--carousel-control-color-rgb));
+  color: var(--gl-text);
   font-family: var(--font-display), inherit;
   font-size: clamp(0.6rem, calc(var(--_width) * 0.088), 1.65rem);
   font-weight: 700;
@@ -369,9 +371,9 @@ carousel
   content: "";
   width: inherit;
   height: inherit;
-  background-color: rgb(var(--carousel-item-empty-color-rgb));
+  background-color: var(--carousel-item-empty-color);
   background-image:
-    linear-gradient(to top, rgba(var(--carousel-bg-color-rgb), 0.25) 0%, rgba(var(--carousel-bg-color-rgb), 1) 75%),
+    linear-gradient(to top, color-mix(in srgb, var(--carousel-bg-color) 25%, transparent) 0%, var(--carousel-bg-color) 75%),
     var(--_image-url);
   background-repeat: no-repeat;
   background-position: center;
@@ -395,8 +397,8 @@ carousel
   height: var(--_height);
   border-radius: 50%;
   background: radial-gradient(
-    rgba(var(--carousel-shadow-color-rgb), 0.55) 15%,
-    rgba(var(--carousel-bg-color-rgb), 0) 60%
+    var(--carousel-shadow-color) 15%,
+    transparent 60%
   );
   opacity: 0.5;
   transition: opacity var(--carousel-transition-duration) var(--carousel-transition-ease);

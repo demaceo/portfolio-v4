@@ -38,6 +38,7 @@ export const preloadModules = {
         import("@/components/features/media").then((m) => m.DocumentaryPlayer)
     ),
     resume: withRecovery(() => import("@/components/features/resume/InteractiveResume/InteractiveResume")),
+    palette: withRecovery(() => import("@/components/features/command/CommandPalette")),
 };
 
 // On-intent network warmup for a third-party origin. Idempotent: repeated

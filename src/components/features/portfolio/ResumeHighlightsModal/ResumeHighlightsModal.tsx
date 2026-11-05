@@ -62,7 +62,6 @@ const ResumeHighlightsModal: React.FC<ResumeHighlightsModalProps> = ({
       onClose={onClose}
       title="Resume Highlights (2025-2026)"
       size="xl"
-      variant="light"
       titleId="resume-highlights-title"
       closeAriaLabel="Close resume highlights"
     >

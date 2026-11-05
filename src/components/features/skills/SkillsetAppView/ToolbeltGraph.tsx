@@ -46,9 +46,11 @@ interface SimLink {
 // Only 2 depth levels exist here (category root -> tool leaf), unlike the
 // codepenz "force-directed-node-tree" pen's up-to-3-level coffee flavor wheel.
 const RADIUS_BY_DEPTH = [26, 13];
-const ROOT_HUE_START = 21; // --noir-accent's own hue (#d4845a)
-const ROOT_SATURATION = 0.48;
-const ROOT_LIGHTNESS = 0.6;
+// Categorical hues start at --gl-accent's own hue (#0066cc ≈ 210°). Only the
+// hue and depth are set from JS; saturation/lightness live in
+// ToolbeltGraph.module.css (`.mainCircle`) so node fills follow Glass
+// light/dark via prefers-color-scheme without re-rendering the graph.
+const ROOT_HUE_START = 210;
 const RESIZE_DEBOUNCE_MS = 150;
 
 function nodeId(path: string[]): string {
@@ -191,9 +193,8 @@ function computeRootPositions(
   return { positions, narrow: true };
 }
 
-function rootColor(index: number, count: number): string {
-  const hue = (ROOT_HUE_START + index * (360 / count)) % 360;
-  return d3.hsl(hue, ROOT_SATURATION, ROOT_LIGHTNESS).formatHex();
+function rootHue(index: number, count: number): number {
+  return Math.round((ROOT_HUE_START + index * (360 / count)) % 360);
 }
 
 function radiusFor(depth: number): number {
@@ -567,11 +568,10 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     nodeSel
       .select<SVGCircleElement>(`.${styles.mainCircle}`)
       .attr("r", (d) => radiusFor(d.depth))
-      .attr("fill", (d) => {
-        const base = d3.hsl(rootColor(d.rootIndex, tree.length));
-        base.l = Math.min(0.85, base.l + d.depth * 0.14);
-        return base.formatHex();
-      });
+      // Fill is computed in CSS from these two custom properties (see
+      // `.mainCircle`), so it adapts to light/dark mode.
+      .style("--node-hue", (d) => String(rootHue(d.rootIndex, tree.length)))
+      .style("--node-depth", (d) => String(Math.min(d.depth, 1)));
 
     const iconSvg = nodeSel.select<SVGSVGElement>("svg");
     iconSvg
