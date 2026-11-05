@@ -24,7 +24,7 @@ sources:
   - code: src/components/layout/LandingPage/components/MobileSearchButton.tsx
   - code: src/data/DemaceoResume.tsx
   - code: public/resume/Demaceo_Vincent_Howard_Resume.pdf
-verified_at: 5d5ecf0
+verified_at: 5f3bf32
 ---
 
 # Glass overlays
