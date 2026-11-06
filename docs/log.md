@@ -41,3 +41,11 @@ Append-only. Newest entries at the bottom.
 
 - [[glass-overlays]]: palette re-pick (`projectRequestKey`), diacritic-folding search and
   IME guard, AppView palette button via `PaletteContext`, and the contact-form clipping trap.
+
+## [2026-11-06] config | Squabble Up served at squabble.demaceo.com
+
+- `next.config.ts`: Host-scoped `beforeFiles` rewrite proxies `squabble.demaceo.com/*` to the
+  `hasanv-web` Cloudflare Worker; `/squabble` on the main domain 307s there. public/ caching
+  rules are kept off that host with `missing`. A subdomain rather than a path because the game
+  assumes it is at the root of its origin; a Cloudflare custom domain was ruled out because
+  demaceo.com's DNS is at name.com.
