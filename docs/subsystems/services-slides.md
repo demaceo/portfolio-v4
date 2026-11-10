@@ -7,7 +7,8 @@ sources:
   - code: src/components/features/skills/SkillsetAppView/SkillsetAppView.tsx
   - code: src/components/features/skills/SkillsetAppView/SkillsetAppView.module.css
   - code: src/data/services.ts
-verified_at: 5655253
+  - code: public/logos/an-app-idea.svg
+verified_at: 68fdc69
 ---
 
 # Services slides
@@ -33,3 +34,9 @@ sits behind the copy, which becomes a frosted Glass card near the bottom.
 
 > ⚠️ Anything placed over the illustration needs its own backing to stay visible: the vertical
 > rail (`.plateVRail`) has a frosted pill for this reason.
+
+> ⚠️ The An App Idea logo in the byline (`public/logos/an-app-idea.svg`) is 1.5px light-purple and
+> gold strokes on transparency, built for a dark surface. Directly on the light top bar it is
+> ~2.7:1, under the 3:1 minimum for graphics, so `.skillStudioLogo` seats it on a dark chip. Do not
+> drop the chip. It is an SVG, so the `Image` is `unoptimized` and sized to its 60:82 viewBox.
+

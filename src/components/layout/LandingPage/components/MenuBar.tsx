@@ -2,11 +2,10 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { ASSET_PATHS } from "@/lib/constants/paths";
 import services from "@/data/services";
 import Image from "next/image";
-import { useShortcutLabel } from "@/hooks";
 
 interface MenuBarProps {
   setShowAboutMe: (show: boolean) => void;
@@ -62,7 +61,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
   onBack,
 }) => {
   const menuBarRef = useRef<HTMLDivElement>(null);
-  const shortcut = useShortcutLabel("k");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const toggleDropdown = (key: string) =>
@@ -262,22 +260,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
         </span>
       )}
       <div className="menu-right">
-        <button
-          type="button"
-          className="menu-command"
-          onClick={() => {
-            setOpenDropdown(null);
-            onOpenPalette();
-          }}
-          onMouseEnter={preload.palette}
-          onFocus={preload.palette}
-          aria-label={`Search projects and actions (${shortcut.spoken})`}
-          aria-haspopup="dialog"
-          aria-expanded={isPaletteOpen}
-        >
-          <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
-          <kbd aria-hidden="true">{shortcut.label}</kbd>
-        </button>
         <TimeDisplay />
       </div>
     </div>

@@ -21,7 +21,7 @@ sources:
   - code: src/components/features/resume/InteractiveResume/InteractiveResume.tsx
   - code: src/components/features/resume/InteractiveResume/InteractiveResume.css
   - code: src/components/features/skills/SkillsetAppView/ToolbeltGraph.tsx
-  - code: src/components/layout/LandingPage/components/MobileSearchButton.tsx
+  - code: src/components/layout/LandingPage/components/SearchButton.tsx
   - code: src/data/DemaceoResume.tsx
   - code: public/resume/Demaceo_Vincent_Howard_Resume.pdf
 verified_at: 5f3bf32
@@ -89,10 +89,17 @@ the same variable names still give it Warm Noir there.
 (contact, résumé). It uses the combobox/listbox pattern: focus stays in the input and ↑/↓
 move `aria-activedescendant` (`src/components/features/command/CommandPalette.tsx:198`); options use `onMouseDown`
 preventDefault so clicking doesn't steal focus (`src/components/features/command/CommandPalette.tsx:152`). It opens from
-the MenuBar "Projects" item, the MenuBar ⌘K button, the global Cmd/Ctrl+K listener
-(`src/components/layout/LandingPage/LandingPage.tsx:48`) and, on phones/touch, the
-floating `MobileSearchButton` (`src/components/layout/LandingPage/LandingPage.tsx:137`), which is shown only under the same
-media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPage.menu.css:431`).
+the MenuBar "Projects" item, the global Cmd/Ctrl+K listener
+(`src/components/layout/LandingPage/LandingPage.tsx:48`) and the one on-screen `SearchButton`
+(`src/components/layout/LandingPage/components/SearchButton.tsx`). That component has two looks,
+picked by CSS in `src/components/layout/LandingPage/LandingPage.menu.css`: on a mouse desktop a
+compact pill with the shortcut label seated in the taskbar strip (floating in the corner while an app is open), and on
+phones/touch (the media query that hides the MenuBar) an icon-only circle at the top right.
+
+> ⚠️ Keep the desktop pill inside the taskbar strip, not floating above it. The icon wheel's lowest
+> rows curve into the bottom-right corner; a pill above the strip covered the "Contact" label at
+> 1366×768 and crowded "Scrapbook" on larger screens. The wheel is clipped at the strip's top edge,
+> so the strip is the one place they cannot meet.
 
 > ⚠️ The palette is rendered from `LandingPage`, not inside `MenuBar`
 > (`src/components/layout/LandingPage/LandingPage.tsx:199`). `.menu-bar` has a `backdrop-filter`, and an ancestor with a
@@ -113,7 +120,7 @@ media query that hides the MenuBar (`src/components/layout/LandingPage/LandingPa
 > commits a Japanese/Chinese/Korean word also opens the highlighted result.
 
 On phones and touch devices the palette is reachable from the home-screen
-`MobileSearchButton` and from a search button in every AppView title bar
+`SearchButton` and from a search button in every AppView title bar
 (`src/components/features/shell/AppView.tsx:31`), which reads the opener from
 `PaletteContext` (provided by LandingPage) — so shells don't need to know who renders the
 palette.

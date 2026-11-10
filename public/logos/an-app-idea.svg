@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 10 60 82" role="img" aria-label="An App Idea logo, banner version">
+  <title>An App Idea logo, banner version</title>
+  <defs>
+    <filter id="halo" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M46.5 45 Q42.3 45 42.3 49.2 V52.7 Q42.3 55.5 39.5 55.5 Q42.3 55.5 42.3 58.3 V61.8 Q42.3 66 46.5 66 M53.5 45 Q57.7 45 57.7 49.2 V52.7 Q57.7 55.5 60.5 55.5 Q57.7 55.5 57.7 58.3 V61.8 Q57.7 66 53.5 66" stroke="#9b6dff" stroke-width="4.5" opacity=".5" filter="url(#halo)"/>
+    <path d="M38 66 C29 58 26 50 26 40 A24 24 0 1 1 74 40 C74 50 71 58 62 66 Z" stroke="#9d95ff" stroke-width="1.5"/>
+    <path d="M46.5 45 Q42.3 45 42.3 49.2 V52.7 Q42.3 55.5 39.5 55.5 Q42.3 55.5 42.3 58.3 V61.8 Q42.3 66 46.5 66 M53.5 45 Q57.7 45 57.7 49.2 V52.7 Q57.7 55.5 60.5 55.5 Q57.7 55.5 57.7 58.3 V61.8 Q57.7 66 53.5 66" stroke="#9d95ff" stroke-width="1.5"/>
+    <path d="M39 72 H61 M42 79 H58 M46 86 H54" stroke="#c99a2b" stroke-width="1.5"/>
+  </g>
+</svg>

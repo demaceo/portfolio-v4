@@ -86,3 +86,17 @@ Append-only. Newest entries at the bottom.
   slowly (CSS keyframes, off under `prefers-reduced-motion`). Phones (≤640px): illustration behind,
   copy in a frosted card near the bottom. The vertical panel rail got a frosted backing so it stays
   visible over the art. Chosen from mockups (layout C, phone M2).
+
+## [2026-11-10] ui | An App Idea logo replaced
+
+- Skillset byline now uses `public/logos/an-app-idea.svg` (the new bulb logo) instead of
+  `public/logos/mhi-logo.png`, which nothing references any more (left in place, not deleted).
+- See [[services-slides]] for the contrast trap: the logo is thin strokes designed for a dark
+  surface, so it sits on a dark chip.
+
+## [2026-11-10] ui | ⌘K search button moved out of the top bar
+
+- The ⌘K button left the MenuBar (it sat beside the clock). `MobileSearchButton` became the single
+  `SearchButton` for every device: a compact pill in the taskbar strip (bottom-right) on a mouse
+  desktop, floating in the corner while an app is open; the round top-right button on phones/touch,
+  unchanged. See [[glass-overlays]] for the trap (keep it in the strip, not above it).
