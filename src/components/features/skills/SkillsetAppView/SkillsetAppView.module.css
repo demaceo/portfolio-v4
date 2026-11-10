@@ -116,9 +116,14 @@
   background: var(--skill-accent-soft);
 }
 
+/* The logo is thin light-purple/gold strokes on transparency, designed for a dark
+   surface: on this light bar it falls to ~2.7:1, under the 3:1 minimum for graphics.
+   It sits on a small dark chip (the menu bar's near-black) instead. */
 .skillStudioLogo {
-  border-radius: 6px;
-  background: var(--skill-panel);
+  box-sizing: content-box;
+  padding: 5px 6px;
+  border-radius: 9px;
+  background: #17171c;
 }
 
 /* ── Services: capability plates ──────────────────────── */

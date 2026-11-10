@@ -86,3 +86,10 @@ Append-only. Newest entries at the bottom.
   slowly (CSS keyframes, off under `prefers-reduced-motion`). Phones (≤640px): illustration behind,
   copy in a frosted card near the bottom. The vertical panel rail got a frosted backing so it stays
   visible over the art. Chosen from mockups (layout C, phone M2).
+
+## [2026-11-10] ui | An App Idea logo replaced
+
+- Skillset byline now uses `public/logos/an-app-idea.svg` (the new bulb logo) instead of
+  `public/logos/mhi-logo.png`, which nothing references any more (left in place, not deleted).
+- See [[services-slides]] for the contrast trap: the logo is thin strokes designed for a dark
+  surface, so it sits on a dark chip.

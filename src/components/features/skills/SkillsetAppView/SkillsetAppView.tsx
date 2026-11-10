@@ -215,11 +215,14 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
+            {/* SVG, so it skips the image optimizer. Its viewBox is 60x82 (a
+                bulb), so the box keeps that ratio instead of the old square. */}
             <Image
-              src="/logos/mhi-logo.png"
+              src="/logos/an-app-idea.svg"
               alt="An App Idea, LLC"
-              width={22}
-              height={22}
+              width={18}
+              height={25}
+              unoptimized
               className={styles.skillStudioLogo}
             />
             <span>An App Idea, LLC</span>
