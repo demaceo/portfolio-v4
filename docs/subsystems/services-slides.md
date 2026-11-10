@@ -7,7 +7,8 @@ sources:
   - code: src/components/features/skills/SkillsetAppView/SkillsetAppView.tsx
   - code: src/components/features/skills/SkillsetAppView/SkillsetAppView.module.css
   - code: src/data/services.ts
-verified_at: 5206a77
+  - code: public/logos/an-app-idea.svg
+verified_at: 68fdc69
 ---
 
 # Services slides
