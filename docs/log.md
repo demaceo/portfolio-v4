@@ -63,3 +63,17 @@ Append-only. Newest entries at the bottom.
 - See [[seo-indexing]]. Left out of the sitemap on purpose: `/woozyx3` (secret-code gate), `/versus` (other project,
   sends `noindex`), `squabble.demaceo.com` (different host). Not listed in robots.txt either,
   since a `Disallow` line is public.
+
+## [2026-11-10] grow | apps get real URLs and a crawlable text layer
+
+- New [[app-routes]]: `/mindset`, `/skillset`, `/projects`, `/scrapbook` now exist. `useModalState`
+  reads the open app from the URL and pushes history entries; the desktop moved into a `(desktop)`
+  route group so it stays mounted between apps. Overlays remain client-only (hydration-gated).
+- Each route server-renders an inert, visually hidden text layer from the same data modules as the
+  overlays (before: ~390 characters, no `<h1>`, no links). `profileHighlights` moved to
+  `src/data/aboutMePills.ts` so both read it.
+- [[seo-indexing]] rewritten: per-route metadata via `pageMetadata()`, JSON-LD, sitemap now driven by
+  `APP_ROUTES`, canonical trap updated (set per page; the home page file moved into the `(desktop)` group).
+- Title/description copy was rewritten from claims the site already makes; it is meant to be tuned in
+  `src/lib/constants/site.ts` and `src/lib/constants/appRoutes.ts`.
+

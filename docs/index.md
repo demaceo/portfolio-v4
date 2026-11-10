@@ -24,7 +24,8 @@ _No pages yet._
 ## subsystems
 
 - [[glass-overlays]] -- Glass tokens, `.glass-scope` bridge, ModalFrame/AppView shells, ⌘K palette, icon sizing
-- [[seo-indexing]] -- sitemap.xml, robots.txt, `SITE_URL` canonical host, what is deliberately not indexed
+- [[app-routes]] -- `/mindset` `/skillset` `/projects` `/scrapbook`: URL-driven overlays, `useModalState`, the inert text layer
+- [[seo-indexing]] -- sitemap.xml, robots.txt, `SITE_URL` canonical host, per-route metadata and JSON-LD, what is deliberately not indexed
 
 ## decisions
 

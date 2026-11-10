@@ -1,41 +1,63 @@
 ---
-title: SEO indexing (sitemap, robots, canonical host)
+title: SEO indexing (sitemap, robots, canonical host, metadata)
 type: subsystem
 created: 2026-11-10
 updated: 2026-11-10
 sources:
   - code: src/lib/constants/site.ts
+  - code: src/lib/seo.ts
   - code: src/app/sitemap.ts
   - code: src/app/robots.ts
   - code: src/app/layout.tsx
-  - code: src/app/page.tsx
+  - code: src/app/(desktop)/page.tsx
+  - code: src/app/(desktop)/[app]/page.tsx
+  - code: src/app/(desktop)/layout.tsx
   - code: next.config.ts
-verified_at: ab3b40b
+verified_at: 0e5a56e
 ---
 
 # SEO indexing
 
 `/sitemap.xml` and `/robots.txt` are Next metadata routes (`src/app/sitemap.ts`,
-`src/app/robots.ts`), not files in `public/`. Both, plus `metadataBase` in
-`src/app/layout.tsx` and the home canonical in `src/app/page.tsx`, take their host from one
-constant, `SITE_URL` in `src/lib/constants/site.ts`.
+`src/app/robots.ts`), not files in `public/`. Every host, title and description comes from
+`src/lib/constants/site.ts`; per-route values from `APP_ROUTES` in
+`src/lib/constants/appRoutes.ts` (see [[app-routes]] for how the routes themselves work).
 
-The sitemap lists only `/`: the portfolio is one page and its apps are overlays, not routes.
-Search Console (a Domain property for `demaceo.com`) is given
-`https://www.demaceo.com/sitemap.xml` by hand; nothing in the code submits it.
+- **Sitemap**: the home page plus every `APP_ROUTES` entry with `indexable: true`
+  (`/mindset`, `/skillset`, `/projects`). Adding an indexable app there adds it to the sitemap.
+- **Metadata**: `pageMetadata()` in `src/lib/seo.ts` builds title, description, canonical and
+  Open Graph for the home page (`src/app/(desktop)/page.tsx`) and for each app route
+  (`generateMetadata` in `src/app/(desktop)/[app]/page.tsx`). The root layout holds only the
+  site-wide defaults and the title template (`%s | Demaceo Vincent`).
+- **Structured data**: one `Person` + `WebSite` JSON-LD block, emitted by the `(desktop)` layout
+  (so `/woozyx3` has none). `sameAs` is the GitHub and LinkedIn URLs from `EXTERNAL_LINKS`.
+- **Search Console** is a Domain property for `demaceo.com`; the sitemap
+  (`https://www.demaceo.com/sitemap.xml`) is submitted there by hand. Nothing in the code does it.
 
 > ⚠️ `SITE_URL` must be the host that actually serves pages. `demaceo.com` 308-redirects to
 > `www.demaceo.com` (checked live 2026-11-10), so it is the `www` host. `metadataBase` once
 > pointed at `demaceovincent.com`, which made every canonical and Open Graph URL resolve to a
 > foreign host. If the redirect direction in the Vercel domain settings changes, change `SITE_URL`.
 
-> ⚠️ Keep `/woozyx3` (secret-code gate) out of `src/app/sitemap.ts`, and do not add it to `src/app/robots.ts`:
-> a `Disallow` line is public and would advertise the path. `/versus` is another project mounted
-> by a rewrite in `next.config.ts` and sends `noindex` itself.
+> ⚠️ Keep `/woozyx3` (secret-code gate) out of `src/app/sitemap.ts`, and do not add it to
+> `src/app/robots.ts`: a `Disallow` line is public and would advertise the path. `/versus` is
+> another project mounted by a rewrite in `next.config.ts` and sends `noindex` itself.
 
-> ⚠️ The canonical lives in `src/app/page.tsx`, not the root layout. A layout-level canonical of
-> `/` would be inherited by `/woozyx3` and tell crawlers it is a duplicate of the home page.
+> ⚠️ Canonicals are set per page (`pageMetadata`), never in the root layout. A layout-level
+> canonical would be inherited by `/woozyx3` and tell crawlers it is a duplicate of another page.
+
+> ⚠️ Next replaces `openGraph` wholesale when a page sets its own; nested fields are not merged.
+> A page that writes its own `openGraph` object silently loses the image. Build it with
+> `siteOpenGraph()` in `src/lib/seo.ts`, which is the one place the image is declared.
+
+> ⚠️ `/scrapbook` is a real route but `indexable: false` in `APP_ROUTES`: it is `noindex` and not
+> in the sitemap (photos and captions, nothing to summarise). Flip the flag to change both at once;
+> do not set one without the other.
 
 > ⚠️ `squabble.demaceo.com` is a different host: the `beforeFiles` rewrite in `next.config.ts`
 > proxies every path on it, `/sitemap.xml` and `/robots.txt` included, to the Worker. This app's
 > sitemap cannot cover it; it would need its own, served by that project.
+
+> ⚠️ The title and description copy (`SITE_TITLE`, `SITE_DESCRIPTION`, and each route's entry in
+> `APP_ROUTES`) was written from claims the site already makes, not from keyword research. It is
+> meant to be edited in those two files; nothing else hard-codes it.
