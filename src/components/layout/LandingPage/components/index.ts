@@ -8,4 +8,4 @@ export { default as Modals } from './Modals';
 export { default as AppViews } from './AppViews';
 export { default as AppSwitcher } from './AppSwitcher';
 export { default as TimeDisplay } from './TimeDisplay';
-export { default as MobileSearchButton } from './MobileSearchButton';
+export { default as SearchButton } from './SearchButton';
