@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { LandingPage } from "@/components/layout";
 import "./globals.css";
+
+// Declared here, not in the root layout, so /woozyx3 doesn't inherit a canonical pointing at
+// the home page. Resolved against `metadataBase` (SITE_URL).
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
