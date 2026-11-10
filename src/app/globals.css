@@ -561,3 +561,18 @@ h6 {
     align-items: center;
   }
 }
+
+/* Server-rendered text mirror of the page's overlays (components/seo/SeoLayer.tsx). Visually
+   hidden with the standard clip pattern, not display:none, so it stays in the HTML crawlers
+   read; the element is also `inert`, so it never takes focus or reaches screen readers. */
+.seo-layer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { aboutMePills } from "@/data/aboutMePills";
+import { aboutMePills, profileHighlights } from "@/data/aboutMePills";
 import { AppView } from "@/components/features/shell";
 import styles from "./AboutAppView.module.css";
 
@@ -30,25 +30,6 @@ const ABOUT_HERO_WORDS = [
   "Products",
 ];
 const ABOUT_HERO_START_INDEX = 5;
-
-const profileHighlights = [
-  {
-    label: "Shipped",
-    value: "Five production apps in twelve months, solo — civic tech, privacy AI, PropTech, spatial AI, and real-time voice.",
-  },
-  {
-    label: "Built",
-    value: "Firebase tokens verified straight against Google's JWKS — no Admin SDK, no service account sitting on a server to leak.",
-  },
-  {
-    label: "Owned",
-    value: "Architecture, security, compliance docs, 3D graphics. Nothing handed off because it wasn't my job.",
-  },
-  {
-    label: "On Record",
-    value: "A PBS documentary on public interest tech, and a panel at SXSW EDU 2025.",
-  },
-];
 
 type Chapter =
   | { id: string; label: string; kind: "profile" }

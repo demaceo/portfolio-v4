@@ -3,6 +3,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { UseAppActionsProps  } from '@/lib/types';
+import { APP_PATHS } from '@/lib/constants/appRoutes';
 import { preloadByPath, ensurePBSPreconnect, ensureProjectMediaPreconnect } from '@/lib/utils/preload';
 
 
@@ -13,17 +14,17 @@ export function useAppActions({ modalActions }: UseAppActionsProps) {
     const handleAppClick = useCallback((path: string, isToggle?: boolean): void => {
         if (path === "/contact" || isToggle) {
             modalActions.toggleContactForm();
-        } else if (path === "/mindset") {
+        } else if (path === APP_PATHS.mindset) {
             modalActions.setShowAboutMe(true);
-        } else if (path === "/skillset") {
+        } else if (path === APP_PATHS.skillset) {
             modalActions.setShowSkillset(true);
-        } else if (path === "/projects") {
+        } else if (path === APP_PATHS.projects) {
             // Warm the giphy / githubusercontent sockets the project .gifs are
             // fetched from, for the case where the view is opened without any
             // preceding hover (keyboard, deep link, mobile tap).
             ensureProjectMediaPreconnect();
             modalActions.setShowProjects(true);
-        } else if (path === "/scrapbook") {
+        } else if (path === APP_PATHS.scrapbook) {
             modalActions.setShowScrapbook(true);
         } else if (path === "/documentary") {
             ensurePBSPreconnect();
