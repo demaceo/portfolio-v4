@@ -77,3 +77,12 @@ Append-only. Newest entries at the bottom.
 - Title/description copy was rewritten from claims the site already makes; it is meant to be tuned in
   `src/lib/constants/site.ts` and `src/lib/constants/appRoutes.ts`.
 
+
+## [2026-11-10] ui | Services slides: oversized illustration layout
+
+- `SkillsetAppView`: each service's illustration is now shown oversized, tilted and cropped off
+  the top-right (`.plateArt`, masked on its left edge so it fades before the copy), with a
+  left-aligned copy column (large counter, uppercase title). It eases in per service and drifts
+  slowly (CSS keyframes, off under `prefers-reduced-motion`). Phones (≤640px): illustration behind,
+  copy in a frosted card near the bottom. The vertical panel rail got a frosted backing so it stays
+  visible over the art. Chosen from mockups (layout C, phone M2).
