@@ -140,51 +140,81 @@
 }
 
 .servicePlate {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
-  gap: 0.6rem;
+  text-align: left;
   padding: 1.8rem 2rem;
   width: 100%;
+  isolation: isolate;
 }
 
-.plateIconHalo {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 112px;
-  height: 112px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 45%,
-    color-mix(in srgb, var(--gl-accent) 14%, transparent) 0%,
-    color-mix(in srgb, var(--gl-accent) 4%, transparent) 55%,
-    transparent 72%
-  );
-  margin-bottom: 0.2rem;
+/* The service illustration, oversized and cropped off the top-right corner.
+   Its left edge is masked out so wherever it reaches the copy (narrow
+   windows), it fades rather than sitting under the text. Positioned with
+   offsets, not transforms: framer-motion owns this element's transform for
+   the entrance scale. */
+.plateArt {
+  position: absolute;
+  z-index: 0;
+  top: -16%;
+  right: -10%;
+  width: min(66%, 820px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 45%);
 }
 
-.plateIconHalo::after {
+.plateArt::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -10%;
   border-radius: 50%;
-  border: 1px solid var(--noir-accent-line);
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--gl-accent) 18%, transparent) 0%,
+    color-mix(in srgb, var(--gl-accent) 5%, transparent) 45%,
+    transparent 70%
+  );
 }
 
-.plateIcon {
-  width: 72px;
-  height: auto;
+.plateArtImg {
   object-fit: contain;
+  transform: rotate(-6deg);
   filter: drop-shadow(
-    0 8px 24px color-mix(in srgb, var(--gl-accent) 22%, transparent)
+    0 40px 70px color-mix(in srgb, var(--gl-accent) 22%, transparent)
   );
+  animation: plateDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes plateDrift {
+  from {
+    transform: rotate(-6deg) scale(1) translate(0, 0);
+  }
+  to {
+    transform: rotate(-4deg) scale(1.05) translate(-1.5%, 1.5%);
+  }
+}
+
+.plateCopy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: min(54%, 640px);
 }
 
 .plateCounter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -193,11 +223,10 @@
 
 .counterCurrent {
   color: var(--noir-accent);
-}
-
-.counterSep {
-  color: var(--gl-faint);
-  margin: 0 0.15em;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
 }
 
 .counterTotal {
@@ -209,7 +238,8 @@
   font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.12;
+  line-height: 1.02;
+  text-transform: uppercase;
   color: var(--skill-text);
 }
 
@@ -244,13 +274,13 @@
   overflow: hidden;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .panelSlide {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
   width: 100%;
 }
@@ -296,7 +326,7 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.32rem;
   max-width: 46ch;
 }
@@ -408,6 +438,15 @@
   align-items: center;
   gap: 0.7rem;
   z-index: 2;
+  /* Frosted pill: the rail now sits over the illustration, so it needs its
+     own backing to stay visible whatever colors are behind it. */
+  padding: 0.4rem 0.25rem;
+  border-radius: 999px;
+  background: var(--gl-material);
+  -webkit-backdrop-filter: var(--gl-blur);
+  backdrop-filter: var(--gl-blur);
+  border: 1px solid var(--gl-edge);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .plateVArrow {
@@ -524,22 +563,45 @@
   /* Extra right padding keeps body text clear of the vertical rail. Padding
      and gap are trimmed further here (vs. the pre-icon values) to make room
      for the larger Tech & tools icons within the fixed plate height. */
+  /* Phones: the illustration sits behind the copy (faded toward the bottom),
+     and the copy moves into a frosted card near the bottom so it stays
+     readable over any illustration. Extra right padding keeps the card clear
+     of the vertical rail. */
   .servicePlate {
-    padding: 1rem 2.2rem;
+    justify-content: flex-end;
+    padding: 0.75rem 2.2rem 0.9rem 0.9rem;
+  }
+
+  .plateArt {
+    top: -4%;
+    right: auto;
+    left: 50%;
+    margin-left: -55%;
+    width: 110%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 45%, transparent 92%);
+    opacity: 0.9;
+  }
+
+  .plateCopy {
+    max-width: none;
     gap: 0.45rem;
+    box-sizing: border-box;
+    padding: 1.1rem 1.15rem;
+    border-radius: 22px;
+    background: var(--gl-material);
+    -webkit-backdrop-filter: var(--gl-blur);
+    backdrop-filter: var(--gl-blur);
+    border: 1px solid var(--gl-edge);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14);
   }
 
-  .plateIconHalo {
-    width: 80px;
-    height: 80px;
-  }
-
-  .plateIcon {
-    width: 48px;
+  .counterCurrent {
+    font-size: 1.6rem;
   }
 
   .plateTitle {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
   }
 
   .plateDescription {
@@ -571,26 +633,24 @@
    leaving it small-and-centered. */
 @media (min-width: 900px) {
   .servicePlate {
+    padding: 2.4rem 4rem 2.4rem 5rem;
+  }
+
+  .plateCopy {
     gap: 0.9rem;
-    padding: 2.4rem 3rem;
-  }
-
-  .plateIconHalo {
-    width: 168px;
-    height: 168px;
-  }
-
-  .plateIcon {
-    width: 108px;
   }
 
   .plateCounter {
     font-size: 0.85rem;
   }
 
+  .counterCurrent {
+    font-size: clamp(3rem, 5.2vw, 4.75rem);
+  }
+
   .plateTitle {
-    font-size: 2.6rem;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.4rem, 4.6vw, 4.25rem);
+    letter-spacing: -0.045em;
   }
 
   .plateOutcome {
@@ -638,6 +698,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .plateArtImg {
+    animation: none;
+  }
+
   .servicePlate,
   .plateDot,
   .plateArrow,

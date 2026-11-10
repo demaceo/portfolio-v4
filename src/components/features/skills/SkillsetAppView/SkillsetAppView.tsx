@@ -270,16 +270,28 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                       }
                     }}
                   >
-                    <div className={styles.plateIconHalo} aria-hidden="true">
+                    {/* The service's illustration, oversized and cropped off the
+                        top-right corner (behind the copy on phones). Decorative:
+                        the title names the service, so it's hidden from AT. It
+                        eases in on each service change, then drifts slowly (CSS,
+                        off under prefers-reduced-motion). */}
+                    <motion.div
+                      className={styles.plateArt}
+                      aria-hidden="true"
+                      initial={reduceMotion ? false : { opacity: 0, scale: 1.06 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    >
                       <Image
                         src={service.icon}
-                        alt={service.title}
-                        width={72}
-                        height={72}
-                        className={styles.plateIcon}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 120vw, 820px"
+                        className={styles.plateArtImg}
                       />
-                    </div>
+                    </motion.div>
 
+                    <div className={styles.plateCopy}>
                     <span
                       className={styles.plateCounter}
                       aria-label={`Service ${serviceIndex + 1} of ${services.length}`}
@@ -287,8 +299,8 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                       <span className={styles.counterCurrent}>
                         {String(serviceIndex + 1).padStart(2, "0")}
                       </span>
-                      <span className={styles.counterSep}> / </span>
                       <span className={styles.counterTotal}>
+                        {" / "}
                         {String(services.length).padStart(2, "0")}
                       </span>
                     </span>
@@ -352,6 +364,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                             ))}
                         </motion.div>
                       </AnimatePresence>
+                    </div>
                     </div>
                   </motion.article>
                 </AnimatePresence>
