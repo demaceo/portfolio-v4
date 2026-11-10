@@ -24,6 +24,7 @@ _No pages yet._
 ## subsystems
 
 - [[glass-overlays]] -- Glass tokens, `.glass-scope` bridge, ModalFrame/AppView shells, ⌘K palette, icon sizing
+- [[seo-indexing]] -- sitemap.xml, robots.txt, `SITE_URL` canonical host, what is deliberately not indexed
 
 ## decisions
 

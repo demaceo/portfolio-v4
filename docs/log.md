@@ -60,6 +60,6 @@ Append-only. Newest entries at the bottom.
   resolved against a host that is not this site; it now uses `SITE_URL`.
 - The canonical link is set in `src/app/page.tsx`, not the root layout, so `/woozyx3` does not
   inherit a canonical pointing at the home page.
-- Left out of the sitemap on purpose: `/woozyx3` (secret-code gate), `/versus` (other project,
+- See [[seo-indexing]]. Left out of the sitemap on purpose: `/woozyx3` (secret-code gate), `/versus` (other project,
   sends `noindex`), `squabble.demaceo.com` (different host). Not listed in robots.txt either,
   since a `Disallow` line is public.
