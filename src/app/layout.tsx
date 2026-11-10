@@ -3,7 +3,8 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ChunkErrorRecoveryListener from "@/components/ChunkErrorRecoveryListener";
-import { SITE_URL } from "@/lib/constants/site";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/constants/site";
+import { siteOpenGraph } from "@/lib/seo";
 
 // Self-hosted from the build output instead of the `@import
 // url("https://fonts.googleapis.com/...")` that used to sit at the top of
@@ -33,9 +34,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Demaceo Vincent's portfolio",
-  description:
-    "Welcome to my portfolio website showcasing my projects and skills.",
+  // Pages give a short title ("Projects"); the template adds the site name after it.
+  title: { default: SITE_TITLE, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
   icons: {
     // Derived from logos/PORTFOLIO_LOGO.png, which is a 1024x1024 / 1.7 MB
     // master. Favicons and apple-touch-icons are served straight from
@@ -45,22 +46,11 @@ export const metadata: Metadata = {
     icon: "/logos/portfolio-logo-192.png",
     apple: "/logos/portfolio-logo-192.png",
   },
-  openGraph: {
-    title: "Demaceo Vincent's portfolio",
-    description:
-      "Welcome to my portfolio website showcasing my projects and skills.",
-    images: [
-      {
-        // Was the same 1.7 MB square master, declared as 1200x630 but not
-        // actually that shape — so crawlers downloaded it and then letterboxed
-        // it themselves. This one really is 1200x630.
-        url: "/logos/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Demaceo Vincent's Portfolio Logo",
-      },
-    ],
-  },
+  // Declared via siteOpenGraph (not inline) because Next replaces `openGraph` wholesale when a
+  // page sets its own, so every page has to repeat the image; that helper is the one copy.
+  // The image really is 1200x630 — the square 1.7 MB master it replaced was declared that size
+  // but wasn't, so crawlers downloaded it and then letterboxed it themselves.
+  openGraph: siteOpenGraph(SITE_TITLE, SITE_DESCRIPTION),
 };
 
 export default function RootLayout({
