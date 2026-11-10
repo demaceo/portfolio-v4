@@ -3,6 +3,7 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ChunkErrorRecoveryListener from "@/components/ChunkErrorRecoveryListener";
+import { SITE_URL } from "@/lib/constants/site";
 
 // Self-hosted from the build output instead of the `@import
 // url("https://fonts.googleapis.com/...")` that used to sit at the top of
@@ -31,7 +32,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://demaceovincent.com"),
+  metadataBase: new URL(SITE_URL),
   title: "Demaceo Vincent's portfolio",
   description:
     "Welcome to my portfolio website showcasing my projects and skills.",

@@ -49,3 +49,17 @@ Append-only. Newest entries at the bottom.
   rules are kept off that host with `missing`. A subdomain rather than a path because the game
   assumes it is at the root of its origin; a Cloudflare custom domain was ruled out because
   demaceo.com's DNS is at name.com.
+
+## [2026-11-10] config | sitemap.xml and robots.txt added
+
+- `src/app/sitemap.ts` (lists `/` only) and `src/app/robots.ts` (allow all but `/api/`, points at
+  the sitemap) are served by Next's metadata routes; both take the host from
+  `src/lib/constants/site.ts` (`SITE_URL`).
+- `SITE_URL` is `https://www.demaceo.com`: the apex 308s to `www`. `metadataBase` in
+  `src/app/layout.tsx` previously pointed at `demaceovincent.com`, so every canonical/OG URL
+  resolved against a host that is not this site; it now uses `SITE_URL`.
+- The canonical link is set in `src/app/page.tsx`, not the root layout, so `/woozyx3` does not
+  inherit a canonical pointing at the home page.
+- Left out of the sitemap on purpose: `/woozyx3` (secret-code gate), `/versus` (other project,
+  sends `noindex`), `squabble.demaceo.com` (different host). Not listed in robots.txt either,
+  since a `Disallow` line is public.
