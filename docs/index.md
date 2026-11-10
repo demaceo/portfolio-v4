@@ -25,6 +25,7 @@ _No pages yet._
 
 - [[glass-overlays]] -- Glass tokens, `.glass-scope` bridge, ModalFrame/AppView shells, ⌘K palette, icon sizing
 - [[app-routes]] -- `/mindset` `/skillset` `/projects` `/scrapbook`: URL-driven overlays, `useModalState`, the inert text layer
+- [[services-slides]] -- Skillset → Services: oversized illustration layout, phone card, carousels
 - [[seo-indexing]] -- sitemap.xml, robots.txt, `SITE_URL` canonical host, per-route metadata and JSON-LD, what is deliberately not indexed
 
 ## decisions
