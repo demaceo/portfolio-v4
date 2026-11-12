@@ -2,7 +2,7 @@
 title: SEO indexing (sitemap, robots, canonical host, metadata)
 type: subsystem
 created: 2026-11-10
-updated: 2026-11-10
+updated: 2026-11-12
 sources:
   - code: src/lib/constants/site.ts
   - code: src/lib/seo.ts
@@ -12,8 +12,9 @@ sources:
   - code: src/app/(desktop)/page.tsx
   - code: src/app/(desktop)/[app]/page.tsx
   - code: src/app/(desktop)/layout.tsx
+  - code: src/lib/constants/appRoutes.ts
   - code: next.config.ts
-verified_at: 0e5a56e
+verified_at: 2429066
 ---
 
 # SEO indexing
@@ -58,6 +59,17 @@ verified_at: 0e5a56e
 > proxies every path on it, `/sitemap.xml` and `/robots.txt` included, to the Worker. This app's
 > sitemap cannot cover it; it would need its own, served by that project.
 
-> ⚠️ The title and description copy (`SITE_TITLE`, `SITE_DESCRIPTION`, and each route's entry in
-> `APP_ROUTES`) was written from claims the site already makes, not from keyword research. It is
-> meant to be edited in those two files; nothing else hard-codes it.
+> ⚠️ The copy is aimed at employers and recruiters and leads with the résumé's role and stack. It
+> lives only in `src/lib/constants/site.ts` (home title, description, role, names) and
+> `src/lib/constants/appRoutes.ts` (per-route titles and descriptions); nothing else hard-codes it.
+> The welcome window and the text layer read the same constants, so the title, the structured data
+> and what the page shows cannot drift apart. The taskbar's "Developer | Designer" is deliberate and
+> is separate from the role constant.
+
+> ⚠️ Two names are in play on purpose: `SITE_FULL_NAME` ("Demaceo Vincent Howard", the résumé name)
+> leads the home title and the JSON-LD `name`, and `SITE_NAME` ("Demaceo Vincent") is the short form
+> used in sub-page titles and as the JSON-LD `alternateName`. Keep both, so a search for either
+> connects.
+
+> ⚠️ No em dashes in any of this copy (see `CLAUDE.md`). The home title uses a colon between the name
+> and the role for that reason; `npx eslint src` fails on a violation.

@@ -325,7 +325,7 @@ const CoverflowSlide = React.forwardRef<HTMLButtonElement, CoverflowSlideProps>(
         aria-current={isActive || undefined}
         aria-hidden={!isVisible || undefined}
         aria-label={`${project.name}${project.yearRange ? `, ${project.yearRange}` : ""}${
-          isActive ? "" : " — select to view"
+          isActive ? "" : ", select to view"
         }`}
         tabIndex={isActive ? 0 : -1}
       >

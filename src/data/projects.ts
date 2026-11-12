@@ -53,7 +53,7 @@ const projectData: Project[] = [
     name: "Pinpoint",
     yearRange: "2025-2026",
     description:
-      "React Native mobile app for civic engagement — find elected officials, analyze policy alignment, and communicate through AI-assisted workflows on iOS and Android.",
+      "React Native mobile app for civic engagement: find elected officials, analyze policy alignment, and communicate through AI-assisted workflows on iOS and Android.",
     link: "https://apps.apple.com/app/id6759683874",
     linkType: "appstore",
     deepDiveKey: "pinpoint",

@@ -42,7 +42,7 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
   {
     role: "Senior Software Engineer",
     summary:
-      "Full-stack architecture across mobile and web — secure auth, real-time AI streaming, caching and rate-limiting, and zero-downtime deploys.",
+      "Full-stack architecture across mobile and web: secure auth, real-time AI streaming, caching and rate-limiting, and zero-downtime deploys.",
     bullets: [
       {
         project: "PINPOINT",
@@ -149,7 +149,7 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
   {
     role: "Project Manager",
     summary:
-      "Sole product owner across 5 concurrent production apps — moderation workflows, marketplace access flows, compliance docs, and deployment runbooks.",
+      "Sole product owner across 5 concurrent production apps: moderation workflows, marketplace access flows, compliance docs, and deployment runbooks.",
     bullets: [
       {
         text: "Served as sole product owner and developer across 5 concurrent production apps in civic tech, consumer intelligence, PropTech, spatial AI, and real-time communication, all shipped within a 12-month period.",
@@ -181,7 +181,7 @@ export const resumeRoleBullets: ResumeRoleBulletGroup[] = [
   {
     role: "UI/UX Designer",
     summary:
-      "Multi-theme design systems and spatial interfaces — civic dashboards, privacy-as-identity visualizations, and procedural creation flows.",
+      "Multi-theme design systems and spatial interfaces: civic dashboards, privacy-as-identity visualizations, and procedural creation flows.",
     bullets: [
       {
         project: "PINPOINT",

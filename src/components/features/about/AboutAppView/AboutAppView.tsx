@@ -100,7 +100,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
           <div className={styles.aboutFeaturedThumbnail}>
             <Image
               src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
-              alt="Tech For Us — Breaking Barriers on PBS"
+              alt="Tech For Us: Breaking Barriers on PBS"
               width={480}
               height={270}
               className={styles.aboutFeaturedThumbImg}
@@ -109,7 +109,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               type="button"
               className={styles.aboutFeaturedThumbOverlay}
               onClick={() => onOpenDocumentary?.()}
-              aria-label="Play Tech For Us — Breaking Barriers documentary"
+              aria-label="Play Tech For Us: Breaking Barriers documentary"
             >
               <FontAwesomeIcon icon={faPlay} className={styles.aboutFeaturedPlayIcon} />
             </button>
@@ -119,7 +119,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
               <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgePbs}`}>PBS</span>
               <span className={styles.aboutFeaturedBadge}>Documentary</span>
             </div>
-            <h3 className={styles.aboutFeaturedTitle}>Tech For Us — Breaking Barriers</h3>
+            <h3 className={styles.aboutFeaturedTitle}>Tech For Us: Breaking Barriers</h3>
             <p className={styles.aboutFeaturedDesc}>
               Featured in a Roadtrip Nation documentary exploring technology, innovation, and career development through public interest technology stories.
             </p>
@@ -143,7 +143,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
             </div>
             <h3 className={styles.aboutFeaturedTitle}>Behind the Wheel: Youth Driving Tech &amp; Media</h3>
             <p className={styles.aboutFeaturedDesc}>
-              Panelist at SXSW EDU 2025 in Austin, TX — discussing how young people are shaping the future of technology and media.
+              Panelist at SXSW EDU 2025 in Austin, TX, discussing how young people are shaping the future of technology and media.
             </p>
             <a
               href="https://schedule.sxswedu.com/2025/events/PP156313"
@@ -189,7 +189,7 @@ const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary 
           <p className={styles.aboutEyebrow}>Profile</p>
           <h2 className={styles.aboutChapterTitle}>Hello, I&apos;m Demaceo Vincent</h2>
           <p className={styles.aboutLede}>
-            Full-stack engineer who ships solo, fast, and end-to-end — from civic
+            Full-stack engineer who ships solo, fast, and end-to-end, from civic
             platforms to privacy-first AI tools.
           </p>
           <p className={styles.aboutCredit}>

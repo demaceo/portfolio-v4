@@ -35,7 +35,7 @@ export const APP_ROUTES: readonly AppRoute[] = [
     path: APP_PATHS.mindset,
     title: "About & Mindset",
     description:
-      "How Demaceo Vincent builds: a solo full-stack shipper with a security-first, compliance-minded approach to production AI, and the design principles behind the work.",
+      "Senior full-stack & mobile engineer who ships solo: security-first, compliance-minded production AI, plus the design principles behind the work.",
     indexable: true,
   },
   {
@@ -43,7 +43,7 @@ export const APP_ROUTES: readonly AppRoute[] = [
     path: APP_PATHS.skillset,
     title: "Skills & Services",
     description:
-      "Services from Demaceo Vincent: web apps, mobile app design, front end development, APIs, cloud and DevOps, databases, and automation.",
+      "Full-stack and mobile engineering services: web apps, mobile app design, front end development, APIs, cloud and DevOps, databases, and automation.",
     indexable: true,
   },
   {
@@ -51,7 +51,7 @@ export const APP_ROUTES: readonly AppRoute[] = [
     path: APP_PATHS.projects,
     title: "Projects",
     description:
-      "Production apps and experiments by Demaceo Vincent, including The Yap App, Pinpoint, The Reckoning and Payback Own, with stacks and highlights.",
+      "Production apps by Demaceo Vincent, including The Yap App, Pinpoint, The Reckoning and Payback Own, built with React Native, TypeScript, Node and PostgreSQL.",
     indexable: true,
   },
   {

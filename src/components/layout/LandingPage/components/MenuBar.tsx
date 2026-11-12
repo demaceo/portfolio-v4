@@ -38,7 +38,7 @@ const MENU_ITEMS = [
 ] as const;
 
 const ABOUT_BIO =
-  "Full-stack engineer who ships solo — 5 production apps in 12 months, from civic tech to privacy-first AI, architected end to end.";
+  "Full-stack engineer who ships solo: 5 production apps in 12 months, from civic tech to privacy-first AI, architected end to end.";
 
 const getServicePreview = (description: string) => {
   const normalizedDescription = description.replace(/\s+/g, " ").trim();

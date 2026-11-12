@@ -245,7 +245,7 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
                 tabIndex={0}
                 role="group"
                 aria-roledescription="carousel"
-                aria-label="Services — swipe or use arrow keys: left/right to change service, up/down for details"
+                aria-label="Services. Swipe or use arrow keys: left/right to change service, up/down for details"
                 onKeyDown={onStageKeyDown}
               >
                 <AnimatePresence mode="wait" custom={direction}>

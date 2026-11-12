@@ -5,7 +5,7 @@ const services: Service[] = [
     id: "sb1",
     title: "Web Apps & Corporate Sites",
     description:
-      "I craft websites and web apps that don't just look good — they serve a function. Whether it's a responsive marketing site or a fully-interactive dashboard, I merge aesthetic with utility to create experiences that work across browsers, devices, and humans.",
+      "I craft websites and web apps that don't just look good. They serve a function. Whether it's a responsive marketing site or a fully-interactive dashboard, I merge aesthetic with utility to create experiences that work across browsers, devices, and humans.",
     icon: "/icons/services/WACS.png",
     outcome: "Conversion-focused web experiences with production analytics.",
     panels: [
@@ -20,7 +20,7 @@ const services: Service[] = [
       },
       {
         label: "How I work",
-        body: "Design-first and component-driven — I set performance budgets and accessibility checks early, then build in small, reviewable increments.",
+        body: "Design-first and component-driven. I set performance budgets and accessibility checks early, then build in small, reviewable increments.",
       },
       {
         label: "Tech & tools",
@@ -40,7 +40,7 @@ const services: Service[] = [
       },
       {
         label: "Ideal for",
-        body: "Founders and teams who need a site that looks sharp and does real work — not just a pretty brochure.",
+        body: "Founders and teams who need a site that looks sharp and does real work, not just a pretty brochure.",
       },
     ],
   },
@@ -106,7 +106,7 @@ const services: Service[] = [
       },
       {
         label: "How I work",
-        body: "Semantic markup first, then styling and motion — I keep components small, typed, and easy for the next dev to read.",
+        body: "Semantic markup first, then styling and motion. I keep components small, typed, and easy for the next dev to read.",
       },
       {
         label: "Tech & tools",
@@ -192,7 +192,7 @@ const services: Service[] = [
       },
       {
         label: "How I work",
-        body: "I automate the tedious, error-prone steps so shipping is boring in the best way — predictable and low-drama.",
+        body: "I automate the tedious, error-prone steps so shipping is boring in the best way: predictable and low-drama.",
       },
       {
         label: "Tech & tools",

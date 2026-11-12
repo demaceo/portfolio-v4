@@ -148,7 +148,7 @@ export default function DesktopRain() {
     // intentional fallback. This isn't an error, just an unsupported capability.
     if (!isWebGLAvailable()) {
       console.info(
-        "[desktop-rain] WebGL unavailable — keeping the static frosted-glass background."
+        "[desktop-rain] WebGL unavailable, keeping the static frosted-glass background."
       );
       return;
     }
@@ -158,7 +158,7 @@ export default function DesktopRain() {
       renderer = new Renderer({ alpha: true });
     } catch (err) {
       console.warn(
-        "[desktop-rain] WebGL init failed — keeping the static frosted-glass background.",
+        "[desktop-rain] WebGL init failed, keeping the static frosted-glass background.",
         err
       );
       return;

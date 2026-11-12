@@ -72,7 +72,7 @@ const ProjectSpinningCarousel: React.FC<ProjectSpinningCarouselProps> = ({ proje
                     type="button"
                     className={styles.face}
                     onClick={() => onOpen(project.id)}
-                    aria-label={`${project.name}${project.yearRange ? `, ${project.yearRange}` : ""} — view project`}
+                    aria-label={`${project.name}${project.yearRange ? `, ${project.yearRange}` : ""}, view project`}
                   >
                     {!src && (
                       <FontAwesomeIcon

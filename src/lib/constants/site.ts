@@ -11,15 +11,19 @@ import { EXTERNAL_LINKS } from "@/lib/constants/paths";
  */
 export const SITE_URL = "https://www.demaceo.com";
 
+/** The short form, used in sub-page titles ("Projects | Demaceo Vincent") and as an alternate name. */
 export const SITE_NAME = "Demaceo Vincent";
+/** The full name as it appears on the résumé; the home title and the structured data lead with it. */
+export const SITE_FULL_NAME = "Demaceo Vincent Howard";
 
-// Search-result copy. Written from what the site already claims (the welcome window's
-// "Developer | Designer" and the About app's shipped-apps line), so it can be tuned here
-// in one place: the root layout, every route's metadata, JSON-LD and the text layer read it.
-export const SITE_JOB_TITLE = "Developer & Designer";
-export const SITE_TITLE = `${SITE_NAME} — ${SITE_JOB_TITLE}`;
+// Search-result copy, aimed at employers and recruiters: the role matches the résumé headline
+// and the stack line matches its summary. Tune it here in one place: the root layout, every
+// route's metadata, the JSON-LD, the text layer and the welcome window all read it.
+// House style: no em dashes in anything visitors read (see CLAUDE.md).
+export const SITE_JOB_TITLE = "Senior Full-Stack & Mobile Engineer";
+export const SITE_TITLE = `${SITE_FULL_NAME}: ${SITE_JOB_TITLE}`;
 export const SITE_DESCRIPTION =
-  "Portfolio of Demaceo Vincent, a developer and designer who ships production apps solo — civic tech, privacy AI, PropTech, and real-time voice.";
+  "Senior full-stack & mobile engineer (React, TypeScript, Node). Shipped 5+ production apps solo: civic tech, privacy AI, PropTech and real-time voice.";
 
 /** Profiles that are verifiably this person; emitted as `sameAs` in the JSON-LD. */
 export const SOCIAL_PROFILES = [EXTERNAL_LINKS.GITHUB, EXTERNAL_LINKS.LINKEDIN] as const;
