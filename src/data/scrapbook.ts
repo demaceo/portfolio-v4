@@ -150,7 +150,7 @@ export const scrapbookItems: ScrapbookItem[] = [
     category: "memory",
     title: "SXSW EDU Panel",
     blurb: "Panelist on youth, technology, and media: a full-circle moment.",
-    image: "/scrapbook/sxsw-panel02.jpg",
+    image: "/scrapbook/sxsw_panel02.jpg",
     date: "2025",
   },
   {
