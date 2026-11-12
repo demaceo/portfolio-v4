@@ -46,11 +46,11 @@ interface SimLink {
 // Only 2 depth levels exist here (category root -> tool leaf), unlike the
 // codepenz "force-directed-node-tree" pen's up-to-3-level coffee flavor wheel.
 const RADIUS_BY_DEPTH = [26, 13];
-// Categorical hues start at --gl-accent's own hue (#0066cc ≈ 210°). Only the
+// Categorical hues start at --gl-accent's own hue (copper #a4502a ≈ 20°). Only the
 // hue and depth are set from JS; saturation/lightness live in
 // ToolbeltGraph.module.css (`.mainCircle`) so node fills follow Glass
 // light/dark via prefers-color-scheme without re-rendering the graph.
-const ROOT_HUE_START = 210;
+const ROOT_HUE_START = 20;
 const RESIZE_DEBOUNCE_MS = 150;
 
 function nodeId(path: string[]): string {

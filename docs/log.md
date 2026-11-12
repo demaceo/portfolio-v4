@@ -135,3 +135,9 @@ Append-only. Newest entries at the bottom.
   résumé card; Featured becomes two equal cards, with the SXSW panel photo.
 - Old \`public/scrapbook/headshot.jpg\` deleted at the owner's request; the new headshot goes at
   \`public/images/headshot.jpg\` (uploaded by the owner).
+
+## [2026-11-12] ui | Glass accent is copper instead of blue
+
+- [[glass-overlays]]: \`--gl-accent\` (and hover, soft, focus, hero, on-accent) moved from blue to copper in
+  both schemes, matching the MenuBar's Warm Noir accent; all overlays, Contact included, follow the token.
+  \`ToolbeltGraph\` root hue moved to match. Scrapbook SXSW image path fixed (underscore filename).
