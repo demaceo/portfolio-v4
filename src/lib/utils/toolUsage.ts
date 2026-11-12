@@ -55,3 +55,22 @@ export function buildToolUsageIndex(
 
   return index;
 }
+
+/**
+ * Usage for one tool under its own name and every alias, de-duplicated (a
+ * project listing both "Gemini API" and "Gemini Live API" counts once).
+ */
+export function usageForTool(
+  index: Map<string, ToolUsage>,
+  name: string,
+  aliases: string[] = []
+): ToolUsage {
+  const services = new Map<string, ToolUsageService>();
+  const projects = new Map<number, ToolUsageProject>();
+  for (const key of [name, ...aliases]) {
+    const entry = index.get(key);
+    entry?.services.forEach((s) => services.set(s.id, s));
+    entry?.projects.forEach((p) => projects.set(p.id, p));
+  }
+  return { services: [...services.values()], projects: [...projects.values()] };
+}

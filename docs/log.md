@@ -141,3 +141,9 @@ Append-only. Newest entries at the bottom.
 - [[glass-overlays]]: \`--gl-accent\` (and hover, soft, focus, hero, on-accent) moved from blue to copper in
   both schemes, matching the MenuBar's Warm Noir accent; all overlays, Contact included, follow the token.
   \`ToolbeltGraph\` root hue moved to match. Scrapbook SXSW image path fixed (underscore filename).
+
+## [2026-11-12] ui | Toolbelt rebuilt: real stack, neutral graph, list on smaller screens
+
+- [[toolbelt]] (new page): tool list synced with shipped projects (React Native, Expo, TypeScript,
+  Supabase, Three.js, Gemini, ElevenLabs added; stale entries removed), core stack in copper on
+  neutrals, leaves on per-category rings, details panel beside the graph, grouped list at ≤1300px.

@@ -27,6 +27,7 @@ _No pages yet._
 - [[app-routes]] -- `/mindset` `/skillset` `/projects` `/scrapbook`: URL-driven overlays, `useModalState`, the inert text layer
 - [[services-slides]] -- Skillset → Services: oversized illustration layout, phone card, carousels
 - [[about-chapters]] -- About: Profile / Strengths / Featured plates, bottom tab bar, fit-to-screen rules
+- [[toolbelt]] -- Skillset → Toolbelt: tool data, ring-slot graph on wide screens, grouped list below 1300px
 - [[project-detail-modal]] -- Projects → one project: Services-style plate, browser frame for screenshots, fixed card height
 - [[seo-indexing]] -- sitemap.xml, robots.txt, `SITE_URL` canonical host, per-route metadata and JSON-LD, what is deliberately not indexed
 

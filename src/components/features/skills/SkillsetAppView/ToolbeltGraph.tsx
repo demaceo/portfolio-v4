@@ -5,16 +5,19 @@ import * as d3 from "d3";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { buildToolbeltTree, type ToolbeltToolDatum, type ToolbeltTreeNode } from "@/lib/utils/toolbeltTree";
-import { buildToolUsageIndex } from "@/lib/utils/toolUsage";
+import {
+  buildToolbeltTree,
+  type ToolbeltToolDatum,
+  type ToolbeltTreeNode,
+} from "@/lib/utils/toolbeltTree";
+import { buildToolUsageIndex, usageForTool } from "@/lib/utils/toolUsage";
+import { useMediaQuery } from "@/hooks";
 import { pushOverlay, popOverlay, isTopmostOverlay } from "@/lib/utils/overlayStack";
 import type { Service, Project } from "@/lib/types";
 import styles from "./ToolbeltGraph.module.css";
 
 interface ToolbeltGraphProps {
   tools: ToolbeltToolDatum[];
-  orderedCategories: string[];
-  signatureStack: string[];
   services: Service[];
   projects: Project[];
   /** Whether the Toolbelt tab is currently shown. The graph only lays out /
@@ -34,6 +37,9 @@ interface SimNode extends d3.SimulationNodeDatum {
   hasChildren: boolean;
   isSignature?: boolean;
   icon?: IconDefinition;
+  /** Leaf's slot among its siblings (0..siblingCount-1), for the ring layout. */
+  slot: number;
+  siblingCount: number;
   fx?: number | null;
   fy?: number | null;
 }
@@ -46,11 +52,6 @@ interface SimLink {
 // Only 2 depth levels exist here (category root -> tool leaf), unlike the
 // codepenz "force-directed-node-tree" pen's up-to-3-level coffee flavor wheel.
 const RADIUS_BY_DEPTH = [26, 13];
-// Categorical hues start at --gl-accent's own hue (copper #a4502a ≈ 20°). Only the
-// hue and depth are set from JS; saturation/lightness live in
-// ToolbeltGraph.module.css (`.mainCircle`) so node fills follow Glass
-// light/dark via prefers-color-scheme without re-rendering the graph.
-const ROOT_HUE_START = 20;
 const RESIZE_DEBOUNCE_MS = 150;
 
 function nodeId(path: string[]): string {
@@ -60,11 +61,6 @@ function nodeId(path: string[]): string {
 function iconPathData(icon: IconDefinition): string {
   const d = icon.icon[4];
   return Array.isArray(d) ? d[0] : d;
-}
-
-function truncateLabel(name: string, depth: number): string {
-  const max = depth === 0 ? 20 : 11;
-  return name.length > max ? `${name.slice(0, max)}…` : name;
 }
 
 // Splits a multi-word category name across two lines at the space nearest its
@@ -95,6 +91,8 @@ interface NodeDatum {
   hasChildren: boolean;
   isSignature?: boolean;
   icon?: IconDefinition;
+  slot: number;
+  siblingCount: number;
 }
 
 interface SelectedTool {
@@ -111,7 +109,14 @@ function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
   const nodes: NodeDatum[] = [];
   const links: SimLink[] = [];
 
-  function visit(item: ToolbeltTreeNode, path: string[], depth: number, rootIndex: number) {
+  function visit(
+    item: ToolbeltTreeNode,
+    path: string[],
+    depth: number,
+    rootIndex: number,
+    slot = 0,
+    siblingCount = 1
+  ) {
     const id = nodeId(path);
     nodes.push({
       id,
@@ -122,12 +127,17 @@ function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
       hasChildren: Boolean(item.children?.length),
       isSignature: item.isSignature,
       icon: item.icon,
+      slot,
+      siblingCount,
     });
     if (path.length > 1) {
       links.push({ source: nodeId(path.slice(0, -1)), target: id });
     }
     if (item.children && !collapsed.has(id)) {
-      item.children.forEach((child) => visit(child, [...path, child.name], depth + 1, rootIndex));
+      const count = item.children.length;
+      item.children.forEach((child, i) =>
+        visit(child, [...path, child.name], depth + 1, rootIndex, i, count)
+      );
     }
   }
 
@@ -139,7 +149,13 @@ function flatten(tree: ToolbeltTreeNode[], collapsed: Set<string>) {
 // clears its neighbour's. Below this per-column budget we shed a column and add
 // a row instead. `forceCollide` only knows circle radii, so column spacing is
 // the only thing keeping the (wider) labels from colliding.
-const MIN_ROOT_SLOT = 116;
+// Not the label width alone: each category also needs room for its fanned-out
+// tools (Frontend has 11), or neighbouring clusters interleave.
+const MIN_ROOT_SLOT = 170;
+
+// Below this width the graph canvas (beside the details panel) is too small
+// for ~40 labelled tools, so tablets and phones get the grouped list instead.
+const LIST_MEDIA_QUERY = "(max-width: 1300px)";
 
 // Roots are pinned into a grid. Wide screens keep the original balanced two-row
 // layout; narrow screens (phones / small tablets) get more rows and fewer
@@ -154,7 +170,13 @@ function computeRootPositions(
   count: number,
   width: number,
   height: number
-): { positions: { x: number; y: number }[]; narrow: boolean } {
+): {
+  positions: { x: number; y: number }[];
+  narrow: boolean;
+  /** Distance between neighbouring roots, which bounds each leaf ring. */
+  colSpacing: number;
+  rowSpacing: number;
+} {
   const positions: { x: number; y: number }[] = [];
   const fitCols = Math.max(2, Math.floor(width / MIN_ROOT_SLOT));
 
@@ -170,7 +192,7 @@ function computeRootPositions(
         y: height * (inTopRow ? 0.32 : 0.72),
       });
     }
-    return { positions, narrow: false };
+    return { positions, narrow: false, colSpacing: width / (topCount + 1), rowSpacing: height * 0.4 };
   }
 
   // Narrow: balanced multi-row grid (e.g. 9 → 3/3/3, not 4/4/1), spread down the
@@ -190,11 +212,12 @@ function computeRootPositions(
       y: yFrac * height,
     });
   }
-  return { positions, narrow: true };
-}
-
-function rootHue(index: number, count: number): number {
-  return Math.round((ROOT_HUE_START + index * (360 / count)) % 360);
+  return {
+    positions,
+    narrow: true,
+    colSpacing: width / (perRow + 1),
+    rowSpacing: rows === 1 ? height : (0.66 * height) / (rows - 1),
+  };
 }
 
 function radiusFor(depth: number): number {
@@ -214,6 +237,27 @@ function touchRadiusFor(depth: number): number {
 // possibly wrapped to two lines — see wrapRootLabel), so they get more room.
 function edgeClearanceFor(depth: number): number {
   return touchRadiusFor(depth) + (depth === 0 ? 26 : 20);
+}
+
+// Where a leaf rests: an evenly spaced slot on an ellipse around its category
+// root. The ellipse is wider than tall because labels are horizontal, and grows
+// with the sibling count so 11 Frontend tools get as much room as 3 AI ones.
+// Starts at the top-left so the category label (drawn below the root) stays
+// clear: the bottom-center slot is skipped.
+function ringOffset(
+  slot: number,
+  count: number,
+  maxRx = Infinity,
+  maxRy = Infinity
+): { dx: number; dy: number } {
+  const base = count > 8 ? 84 : count > 5 ? 74 : 64;
+  const rx = Math.max(46, Math.min(base * 1.35, maxRx));
+  // A ring squeezed narrower grows taller instead, keeping room for its labels.
+  const ry = Math.max(40, Math.min(base * ((base * 1.35) / rx), maxRy));
+  // count + 1 positions, leaving the one straight below the root empty.
+  const step = (Math.PI * 2) / (count + 1);
+  const angle = Math.PI / 2 + step * (slot + 1);
+  return { dx: Math.cos(angle) * rx, dy: Math.sin(angle) * ry };
 }
 
 function linkKey(d: SimLink): string {
@@ -236,8 +280,6 @@ function linkKey(d: SimLink): string {
  */
 const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   tools,
-  orderedCategories,
-  signatureStack,
   services,
   projects,
   active,
@@ -263,6 +305,10 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set());
   const [selectedTool, setSelectedTool] = useState<SelectedTool | null>(null);
   const toolUsage = useMemo(() => buildToolUsageIndex(services, projects), [services, projects]);
+  const toolByName = useMemo(() => new Map(tools.map((t) => [t.tooltip, t])), [tools]);
+  // Tablets and phones get a grouped list instead of the graph (see
+  // LIST_MEDIA_QUERY), and the details become a bottom sheet.
+  const isCompact = useMediaQuery(LIST_MEDIA_QUERY);
   // Read synchronously so there is no post-mount state flip (which used to force
   // an extra full rebuild).
   const [prefersReducedMotion] = useState(
@@ -292,8 +338,9 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
   // the same overlayStack the enclosing AppView uses for its own Escape
   // handler — otherwise both fire on one Escape press and closing the card
   // closes the whole Skillset window with it.
+  // Desktop's details panel is not modal, so this only applies to the compact sheet.
   useEffect(() => {
-    if (!selectedTool) return;
+    if (!selectedTool || !isCompact) return;
     const overlayId = Symbol("toolbelt-tool-card");
     pushOverlay(overlayId);
     closeButtonRef.current?.focus();
@@ -307,12 +354,9 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       popOverlay(overlayId);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [selectedTool]);
+  }, [selectedTool, isCompact]);
 
-  const tree = useMemo(
-    () => buildToolbeltTree(tools, orderedCategories, signatureStack),
-    [tools, orderedCategories, signatureStack]
-  );
+  const tree = useMemo(() => buildToolbeltTree(tools), [tools]);
 
   const allExpanded = tree.length > 0 && collapsed.size === 0;
   const toggleAllCategories = useCallback(() => {
@@ -346,11 +390,23 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       .alphaDecay(prefersReducedMotion ? 0.3 : 0.0228)
       .force(
         "link",
-        d3.forceLink<SimNode, SimLink>().id((d) => d.id).distance(90).strength(0.7)
+        // Weak: the ring targets (forceX/Y below) place leaves; links mostly
+        // just draw the lines.
+        d3.forceLink<SimNode, SimLink>().id((d) => d.id).distance(80).strength(0.05)
       )
-      .force("charge", d3.forceManyBody().strength(-90))
-      .force("collide", d3.forceCollide<SimNode>((d) => radiusFor(d.depth) + 6))
-      // Centers are set to the real half-width/height in the update effect.
+      // No many-body repulsion: ring slots already space the leaves, and charge
+      // pushed tools into neighbouring categories.
+      // Leaf labels are drawn in full (no truncation), so a leaf's collision
+      // radius also covers part of its label width (~2.2px per char at 10px).
+      .force(
+        "collide",
+        d3.forceCollide<SimNode>((d) =>
+          // Roots also reserve their uppercase label (drawn below the circle,
+          // ~3.6px per char) so leaves can't land on "CLOUD & DATA".
+          Math.max(radiusFor(d.depth) + 4, d.name.length * (d.depth === 0 ? 3.6 : 2.2))
+        )
+      )
+      // Targets are set per node (its category root) in the update effect.
       .force("x", d3.forceX<SimNode>(0).strength(0.03))
       .force("y", d3.forceY<SimNode>(0).strength(0.03))
       .stop();
@@ -395,7 +451,8 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       nodeSelRef.current = null;
       nodesMap.clear();
     };
-  }, [prefersReducedMotion]);
+    // isCompact: the <svg> only exists in the wide layout, so rebuild when it (re)appears.
+  }, [prefersReducedMotion, isCompact]);
 
   // ── Incremental update: reconcile nodes/links, re-join, gently re-heat ──
   useEffect(() => {
@@ -425,14 +482,29 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     dimsRef.current = { width, height };
 
     d3.select(svgEl).attr("viewBox", `0 0 ${width} ${height}`);
-    (simulation.force("x") as d3.ForceX<SimNode>).x(width / 2);
-    (simulation.force("y") as d3.ForceY<SimNode>).y(height / 2);
-
-    const { positions: rootPositions, narrow: narrowRootLayout } = computeRootPositions(
+    const {
+      positions: rootPositions,
+      narrow: narrowRootLayout,
+      colSpacing,
+      rowSpacing,
+    } = computeRootPositions(
       tree.length,
       width,
       height
     );
+
+    // Pull each leaf toward its own category root (not the canvas center), so
+    // dense categories don't spill into their neighbours' clusters.
+    // Neighbouring rings share the gap between their roots, so each gets just
+    // under half of it (minus room for labels) and clusters never interleave.
+    const maxRx = colSpacing / 2 - 32;
+    const maxRy = rowSpacing / 2 - 24;
+    const ring = (d: SimNode | NodeDatum) =>
+      d.depth === 0 ? { dx: 0, dy: 0 } : ringOffset(d.slot, d.siblingCount, maxRx, maxRy);
+    const rootX = (d: SimNode) => (rootPositions[d.rootIndex]?.x ?? width / 2) + ring(d).dx;
+    const rootY = (d: SimNode) => (rootPositions[d.rootIndex]?.y ?? height / 2) + ring(d).dy;
+    (simulation.force("x") as d3.ForceX<SimNode>).x(rootX).strength(0.35);
+    (simulation.force("y") as d3.ForceY<SimNode>).y(rootY).strength(0.35);
     const { nodes: descriptors, links } = flatten(tree, collapsed);
 
     // Reconcile descriptors against persistent node objects.
@@ -451,17 +523,15 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
         existing.hasChildren = desc.hasChildren;
         existing.isSignature = desc.isSignature;
         existing.icon = desc.icon;
+        existing.slot = desc.slot;
+        existing.siblingCount = desc.siblingCount;
         return existing;
       }
       // New node: seed near its category root so it fans out rather than flying
       // in from the origin.
       const root = rootPositions[desc.rootIndex] ?? { x: width / 2, y: height / 2 };
-      const jitter = () => (Math.random() - 0.5) * 40;
-      const created: SimNode = {
-        ...desc,
-        x: root.x + (desc.depth === 0 ? 0 : jitter()),
-        y: root.y + (desc.depth === 0 ? 0 : jitter()),
-      };
+      const offset = ring(desc);
+      const created: SimNode = { ...desc, x: root.x + offset.dx, y: root.y + offset.dy };
       map.set(desc.id, created);
       return created;
     });
@@ -567,11 +637,11 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
 
     nodeSel
       .select<SVGCircleElement>(`.${styles.mainCircle}`)
-      .attr("r", (d) => radiusFor(d.depth))
-      // Fill is computed in CSS from these two custom properties (see
-      // `.mainCircle`), so it adapts to light/dark mode.
-      .style("--node-hue", (d) => String(rootHue(d.rootIndex, tree.length)))
-      .style("--node-depth", (d) => String(Math.min(d.depth, 1)));
+      .attr("r", (d) => radiusFor(d.depth));
+    nodeSel.classed(styles.root, (d) => d.depth === 0);
+    // Paint category roots last (on top) so their labels are never covered by a
+    // neighbouring tool's circle.
+    nodeSel.sort((a, b) => b.depth - a.depth);
 
     const iconSvg = nodeSel.select<SVGSVGElement>("svg");
     iconSvg
@@ -594,7 +664,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
       const text = d3.select(this);
       text.selectAll("tspan").remove();
       const lines =
-        d.depth === 0 && narrowRootLayout ? wrapRootLabel(d.name) : [truncateLabel(d.name, d.depth)];
+        d.depth === 0 && narrowRootLayout ? wrapRootLabel(d.name) : [d.name];
       const baseDy = radiusFor(d.depth) + 10;
       lines.forEach((line, i) => {
         text
@@ -608,7 +678,7 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     // Gentle re-heat: existing nodes are already near equilibrium so they barely
     // move; only new/changed nodes settle. alphaDecay makes reduced-motion snap.
     simulation.alpha(0.3).restart();
-  }, [tree, collapsed, resizeTick, active, prefersReducedMotion, toggleCategory]);
+  }, [tree, collapsed, resizeTick, active, prefersReducedMotion, toggleCategory, isCompact]);
 
   // Ring-highlight the selected leaf. Kept separate from the layout effect
   // above so opening the details card never re-heats/re-jiggles the graph.
@@ -616,11 +686,174 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
     nodeSelRef.current?.classed(styles.selected, (d) => d.id === selectedTool?.id);
   }, [selectedTool]);
 
-  const usage = selectedTool ? toolUsage.get(selectedTool.name) : undefined;
+  const selectTool = (name: string, category: string) => {
+    const tool = toolByName.get(name);
+    setSelectedTool({ id: nodeId([category, name]), name, category, icon: tool?.icon });
+  };
+
+  const selectedDatum = selectedTool ? toolByName.get(selectedTool.name) : undefined;
+  const usage = selectedTool
+    ? usageForTool(toolUsage, selectedTool.name, selectedDatum?.aliases)
+    : undefined;
+  const signatureTools = tools.filter((t) => t.signature);
+
+  // Shared by the desktop side panel and the phone bottom sheet.
+  const details = selectedTool && (
+    <>
+      <div className={styles.toolCardHeader}>
+        {selectedTool.icon && (
+          <span
+            className={`${styles.toolCardIcon} ${selectedDatum?.signature ? styles.toolCardIconCore : ""}`}
+            aria-hidden="true"
+          >
+            <FontAwesomeIcon icon={selectedTool.icon} />
+          </span>
+        )}
+        <div className={styles.toolCardHeading}>
+          <span className={styles.toolCardTitle}>{selectedTool.name}</span>
+          <span className={styles.toolCardCategory}>
+            {selectedTool.category}
+            {selectedDatum?.signature && <span className={styles.coreBadge}>Core stack</span>}
+          </span>
+        </div>
+        <button
+          type="button"
+          ref={closeButtonRef}
+          className={styles.toolCardClose}
+          onClick={() => setSelectedTool(null)}
+          aria-label="Close tool details"
+        >
+          <FontAwesomeIcon icon={faXmark} />
+        </button>
+      </div>
+
+      {usage?.projects.length ? (
+        <div className={styles.toolCardSection}>
+          <span className={styles.toolCardSectionLabel}>Shipped in</span>
+          <div className={styles.toolCardChips}>
+            {usage.projects.map((project) => (
+              <a
+                key={project.id}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.toolCardChip}
+              >
+                {project.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {usage?.services.length ? (
+        <div className={styles.toolCardSection}>
+          <span className={styles.toolCardSectionLabel}>Used in</span>
+          <div className={styles.toolCardChips}>
+            {usage.services.map((service) => (
+              <button
+                key={service.id}
+                type="button"
+                className={styles.toolCardChip}
+                onClick={() => onSelectService(service.id)}
+              >
+                {service.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {!usage?.services.length && !usage?.projects.length && (
+        <p className={styles.toolCardEmpty}>Part of the {selectedTool.category} toolkit.</p>
+      )}
+    </>
+  );
+
+  if (isCompact) {
+    return (
+      <div ref={wrapRef} className={styles.stage}>
+        <p className={styles.legend}>
+          <span className={styles.legendDot} aria-hidden="true" />
+          Core stack
+          <span className={`${styles.legendDot} ${styles.legendDotPlain}`} aria-hidden="true" />
+          Also in the kit
+        </p>
+        <div className={styles.list}>
+          {tree.map((category) => (
+            <section key={category.name} className={styles.listGroup} aria-label={category.name}>
+              <h3 className={styles.listHeading}>
+                {category.name}
+                <span className={styles.listCount}>{category.children?.length ?? 0}</span>
+              </h3>
+              <ul className={styles.listChips}>
+                {category.children?.map((tool) => (
+                  <li key={tool.name}>
+                    <button
+                      type="button"
+                      className={`${styles.listChip} ${tool.isSignature ? styles.listChipCore : ""}`}
+                      onClick={() => selectTool(tool.name, category.name)}
+                      aria-haspopup="dialog"
+                    >
+                      {tool.icon && <FontAwesomeIcon icon={tool.icon} aria-hidden="true" />}
+                      {tool.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        {selectedTool && (
+          <div className={styles.toolCard} role="dialog" aria-label={`${selectedTool.name} details`}>
+            {details}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div ref={wrapRef} className={styles.stage}>
-      <div className={styles.controlsRow}>
+    <div ref={wrapRef} className={`${styles.stage} ${styles.stageDesktop}`}>
+      <svg ref={svgRef} className={styles.svg} role="group" aria-label="Toolbelt skills graph" />
+
+      <aside className={styles.panel} aria-live="polite">
+        {selectedTool ? (
+          <div className={styles.panelDetails}>{details}</div>
+        ) : (
+          <div className={styles.panelIntro}>
+            <p className={styles.panelEyebrow}>Toolbelt</p>
+            <h3 className={styles.panelTitle}>What I build with</h3>
+            <p className={styles.panelText}>
+              {tools.length} tools across {tree.length} areas. Pick any tool to see where it has
+              shipped; drag nodes to rearrange.
+            </p>
+            <p className={styles.legend}>
+              <span className={styles.legendDot} aria-hidden="true" />
+              Core stack
+              <span className={`${styles.legendDot} ${styles.legendDotPlain}`} aria-hidden="true" />
+              Also in the kit
+            </p>
+            <div className={styles.toolCardSection}>
+              <span className={styles.toolCardSectionLabel}>Core stack</span>
+              <div className={styles.toolCardChips}>
+                {signatureTools.map((t) => (
+                  <button
+                    key={t.tooltip}
+                    type="button"
+                    className={`${styles.toolCardChip} ${styles.toolCardChipCore}`}
+                    onClick={() => selectTool(t.tooltip, t.category)}
+                  >
+                    <FontAwesomeIcon icon={t.icon} aria-hidden="true" />
+                    {t.tooltip}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {tree.length > 0 && (
           <button
             type="button"
@@ -628,87 +861,10 @@ const ToolbeltGraph: React.FC<ToolbeltGraphProps> = ({
             onClick={toggleAllCategories}
             aria-pressed={allExpanded}
           >
-            {allExpanded ? "Collapse all" : "Expand all"}
+            {allExpanded ? "Collapse all categories" : "Expand all categories"}
           </button>
         )}
-      </div>
-
-      <p className={styles.hint}>
-        Click a category to expand or collapse it. Click a tool for details. Drag any node to reposition it.
-      </p>
-
-      <svg
-        ref={svgRef}
-        className={styles.svg}
-        role="group"
-        aria-label="Toolbelt skills graph"
-      />
-
-      {selectedTool && (
-        <div className={styles.toolCard} role="dialog" aria-label={`${selectedTool.name} details`}>
-          <div className={styles.toolCardHeader}>
-            {selectedTool.icon && (
-              <span className={styles.toolCardIcon} aria-hidden="true">
-                <FontAwesomeIcon icon={selectedTool.icon} />
-              </span>
-            )}
-            <div className={styles.toolCardHeading}>
-              <span className={styles.toolCardTitle}>{selectedTool.name}</span>
-              <span className={styles.toolCardCategory}>{selectedTool.category}</span>
-            </div>
-            <button
-              type="button"
-              ref={closeButtonRef}
-              className={styles.toolCardClose}
-              onClick={() => setSelectedTool(null)}
-              aria-label="Close tool details"
-            >
-              <FontAwesomeIcon icon={faXmark} />
-            </button>
-          </div>
-
-          {usage?.services.length ? (
-            <div className={styles.toolCardSection}>
-              <span className={styles.toolCardSectionLabel}>Used in</span>
-              <div className={styles.toolCardChips}>
-                {usage.services.map((service) => (
-                  <button
-                    key={service.id}
-                    type="button"
-                    className={styles.toolCardChip}
-                    onClick={() => onSelectService(service.id)}
-                  >
-                    {service.title}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          {usage?.projects.length ? (
-            <div className={styles.toolCardSection}>
-              <span className={styles.toolCardSectionLabel}>Shipped in</span>
-              <div className={styles.toolCardChips}>
-                {usage.projects.map((project) => (
-                  <a
-                    key={project.id}
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.toolCardChip}
-                  >
-                    {project.name}
-                  </a>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          {!usage?.services.length && !usage?.projects.length && (
-            <p className={styles.toolCardEmpty}>Part of the {selectedTool.category} toolkit.</p>
-          )}
-        </div>
-      )}
+      </aside>
     </div>
   );
 };

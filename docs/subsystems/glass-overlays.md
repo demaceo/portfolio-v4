@@ -43,9 +43,8 @@ visitor's OS appearance. `--gl-surface` (`src/app/globals.css:177`) is the near-
 full-bleed background for AppViews, which have no blur scrim behind them;
 `--gl-surface-solid` (`src/app/globals.css:181`) is its fully opaque twin.
 
-> ⚠️ The accent is copper (\`--gl-accent\`, the Warm Noir hue tuned for contrast), not blue.
-> \`ToolbeltGraph.tsx\` hard-codes that hue as \`ROOT_HUE_START\` (about 20°) so its first category
-> matches the accent: change both together.
+> ⚠️ The accent is copper (`--gl-accent`, the Warm Noir hue tuned for contrast), not blue. It is
+> the only hue in the overlays: the Toolbelt graph uses neutrals plus this accent (see [[toolbelt]]).
 
 ## The token bridge (`.glass-scope`)
 
