@@ -7,7 +7,7 @@ sources:
   - code: src/components/features/about/AboutAppView/AboutAppView.tsx
   - code: src/components/features/about/AboutAppView/AboutAppView.module.css
   - code: src/data/aboutMePills.ts
-verified_at: b6159e5
+verified_at: 8dbf89c
 ---
 
 # About chapters
