@@ -129,9 +129,9 @@ palette.
 
 > ⚠️ Never size project icons with `max-width/max-height: %` on a grid item whose box
 > comes from `aspect-ratio`: the percentage does not resolve, the cap is ignored, and tall
-> art (Pinpoint's 2:3 pin) overflows and is clipped by `overflow: hidden`. The detail
-> sheet pins the image to absolute insets and uses `object-fit: contain`
-> (`src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.module.css:51`).
+> art (Pinpoint's 2:3 pin) overflows and is clipped by `overflow: hidden`. The project
+> detail card pins the image to an explicit box and uses `object-fit: contain`; see
+> [[project-detail-modal]].
 > Never add `border-radius` or `object-fit: cover` to icon artwork — icons are transparent
 > PNGs and must show in full.
 

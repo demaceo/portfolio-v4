@@ -119,3 +119,11 @@ Append-only. Newest entries at the bottom.
   ten were solo; the About page keeps its own specific "five apps in twelve months, solo" claim.
 - Role wording stays "Senior Full-Stack & Mobile Engineer" and is the wording to use on GitHub and
   LinkedIn too (see [[seo-indexing]]).
+
+## [2026-11-12] ui | project detail modal redesigned as a Services-style plate
+
+- [[project-detail-modal]] (new page): the modal is now a centered floating card (was a
+  bottom-docked sheet that looked cut off) with a fixed height, so short projects no longer leave
+  half the card empty. Artwork bleeds off the right edge like the Services slides; screenshots get a
+  tilted browser frame; counter, dots and arrows moved to a bottom bar; ←/→ navigate.
+- `ProjectMedia` exports `getProjectMediaKind`. [[glass-overlays]] trap repointed to the new page.

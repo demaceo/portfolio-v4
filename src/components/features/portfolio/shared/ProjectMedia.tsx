@@ -27,6 +27,20 @@ interface ProjectMediaProps {
   decorative?: boolean;
 }
 
+export type ProjectMediaKind = "icon" | "image" | "glyph";
+
+/**
+ * Which visual `ProjectMedia` will render for a project, so callers can frame
+ * it differently (e.g. a browser chrome around screenshots) without
+ * re-deriving the rules: a non-empty `image` wins, then an image `icon`, then
+ * the FontAwesome glyph fallback.
+ */
+export const getProjectMediaKind = (project: Project): ProjectMediaKind => {
+  if (typeof project.image === "string" && project.image) return "image";
+  if (isImageIcon(project.icon)) return "icon";
+  return "glyph";
+};
+
 /**
  * Renders a project's visual: an image-as-icon, a full hero image, or a
  * FontAwesome fallback for legacy projects whose `icon` is a FA class string.
@@ -41,10 +55,10 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   applyIconScale = false,
   decorative = false,
 }) => {
-  const iconIsImage = isImageIcon(project.icon);
-  const imageStr = typeof project.image === "string" ? project.image : undefined;
+  const kind = getProjectMediaKind(project);
+  const imageStr = kind === "image" ? (project.image as string) : undefined;
 
-  if (iconIsImage && !imageStr) {
+  if (kind === "icon") {
     return (
       <Image
         src={project.icon as string}

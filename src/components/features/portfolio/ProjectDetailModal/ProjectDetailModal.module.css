@@ -1,95 +1,271 @@
 /* ==========================================================================
-   Project Detail — Glass bottom sheet (hero card + info, pinned action bar).
-   Shell/chrome come from <ModalFrame variant="glass" presentation="sheet">;
-   colors are --gl- tokens only, so light/dark follow the OS automatically.
+   Project Detail: a floating Glass card laid out like the Skillset > Services
+   plates. Artwork bleeds off the top-right corner behind a left copy column;
+   a bottom bar holds prev/dots/next and the actions.
+   Shell/chrome come from <ModalFrame> (window on desktop, bottom sheet on
+   phones); colors are --gl- tokens only, so light/dark follow the OS.
    ========================================================================== */
 
 .detail {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  /* flex: none, not 1: a zero flex-basis in the auto-height content column
+     would ignore the height below and shrink-wrap to the copy. */
+  flex: none;
   min-height: 0;
+  /* Fixed plate height on desktop so prev/next never makes the card jump.
+     90svh is ModalFrame's window cap; 56px leaves room for its header. */
+  height: min(600px, calc(90svh - 56px));
   /* Swipe left/right (bound on this element) to move between projects.
-     pan-y keeps the body's own vertical scroll working while opting out of
-     native horizontal panning, which would fight the JS swipe gesture. */
+     pan-y keeps vertical scroll working while opting out of native
+     horizontal panning, which would fight the JS swipe gesture. */
   touch-action: pan-y;
 }
 
-.body {
+/* --- Plate ---------------------------------------------------------------- */
+
+.plate {
+  position: relative;
   flex: 1;
   min-height: 0;
+  display: flex;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Art box. Positioned with offsets only: framer-motion owns its transform
+   (shared layoutId with the coverflow card). Overrides per media kind below. */
+.art {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.artInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Icon illustration (transparent PNG): oversized and bleeding off the right
+   edge, faded out on its left edge before the copy column. The box spans the
+   plate's full height: cropping it at the top left a hard cut under the
+   header (the plate, not the frame, is the clip edge here). */
+.plate[data-media="icon"] .art,
+.plate[data-media="glyph"] .art {
+  top: 0;
+  bottom: 0;
+  right: -8%;
+  width: min(56%, 600px);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 42%);
+}
+
+.plate[data-media="icon"] .artInner::before,
+.plate[data-media="glyph"] .artInner::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--gl-accent) 20%, transparent) 0%,
+    color-mix(in srgb, var(--gl-accent) 6%, transparent) 45%,
+    transparent 70%
+  );
+}
+
+/* --icon-scale (per project, from ProjectMedia) compensates for how much
+   padding each icon's canvas has around its artwork; capped so the tallest
+   icons can't swamp the plate. */
+.illustration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(62% * min(var(--icon-scale, 1), 1.5));
+  height: calc(62% * min(var(--icon-scale, 1), 1.5));
+  object-fit: contain;
+  filter: drop-shadow(0 36px 60px color-mix(in srgb, var(--gl-accent) 24%, transparent));
+  transform: translate(-50%, -50%) rotate(-6deg);
+  animation: plateDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes plateDrift {
+  from {
+    transform: translate(-50%, -50%) rotate(-6deg) scale(1);
+  }
+  to {
+    transform: translate(-51.5%, -48.5%) rotate(-4deg) scale(1.05);
+  }
+}
+
+/* FontAwesome fallback (older projects without artwork). */
+.glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(120px, 16vw, 200px);
+  color: color-mix(in srgb, var(--gl-accent) 70%, transparent);
+  transform: rotate(-8deg);
+}
+
+/* Screenshot / GIF media: a tilted browser window bleeding off the right
+   edge, vertically centered (top/bottom 0 + auto margins, since a transform
+   here would be overwritten by framer-motion). */
+.plate[data-media="image"] .art {
+  top: 0;
+  bottom: 0;
+  right: -7%;
+  width: min(54%, 600px);
+  height: fit-content;
+  margin-block: auto;
+}
+
+/* The tilt lives on .browser: framer-motion writes an inline transform on
+   .artInner (its entrance scale), which would wipe a CSS transform there. */
+.browser {
+  transform: perspective(1400px) rotateY(-12deg) rotate(-3deg);
+  transform-origin: left center;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--gl-surface-solid);
+  border: 1px solid var(--gl-edge);
+  box-shadow:
+    0 40px 80px color-mix(in srgb, var(--gl-accent) 18%, rgba(0, 0, 0, 0.3)),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.browserBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 30px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--gl-sep);
+  background: var(--gl-chip);
+}
+
+.browserDots {
+  display: flex;
+  gap: 6px;
+}
+
+.browserDots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gl-handle);
+}
+
+.browserUrl {
+  flex: 1;
+  max-width: 60%;
+  margin-inline: auto;
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: var(--gl-group);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gl-faint);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browserView {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--gl-hero);
+}
+
+.screenshot {
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* --- Copy column ---------------------------------------------------------- */
+
+/* The scroller fills the plate; .copy centers itself with auto margins, which
+   (unlike justify-content: center) never clips the top when it overflows. */
+.scroll {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  display: grid;
-  grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 44px);
-  align-items: start;
-  padding: 12px clamp(20px, 4vw, 52px) 24px;
-}
-
-/* --- Hero card ------------------------------------------------------------ */
-
-.hero {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 26px;
-  background: var(--gl-hero);
-  border: 1px solid var(--gl-sep);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-/* The whole icon, never cropped. The image is pinned to an explicit box
-   (absolute insets — percentages there always resolve against .hero's real
-   size, unlike max-height:% on a grid item, which silently fell back to
-   `none` and let Pinpoint's 2:3 pin overflow and get clipped) and
-   object-fit: contain scales the artwork to fit that box on BOTH axes.
-   No border-radius on the image: icons are transparent artwork. */
-.iconImg {
-  position: absolute;
-  inset: 11% 19%;
-  width: 62%;
-  height: 78%;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.22));
-}
-
-.heroImg {
-  object-fit: cover;
-}
-
-.faIcon {
-  font-size: 4rem;
-  color: var(--gl-accent);
-}
-
-/* --- Info column ---------------------------------------------------------- */
-
-.info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  min-width: 0;
+  padding: 16px clamp(28px, 5vw, 64px) 28px;
 }
 
-.chips {
+.scroll:focus-visible {
+  outline: 2px solid var(--gl-focus);
+  outline-offset: -4px;
+  border-radius: 12px;
+}
+
+.copy {
+  margin-block: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  max-width: min(52%, 540px);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.counterCurrent {
+  color: var(--gl-accent);
+  font-size: clamp(40px, 4.6vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.counterTotal {
+  color: var(--gl-faint);
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(30px, 3.6vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gl-text);
+  overflow-wrap: anywhere;
+}
+
+.meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 11px;
   border-radius: 999px;
   background: var(--gl-chip);
   color: var(--gl-text);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -105,96 +281,152 @@
   background: currentColor;
 }
 
-.name {
-  margin: 0;
-  font-size: clamp(32px, 4vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--gl-text);
-}
-
 .description {
-  margin: 10px 0 0;
+  margin: 0;
   font-size: 16px;
   line-height: 1.6;
   color: var(--gl-muted);
+  max-width: 54ch;
 }
 
-.sectionLabel {
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-weight: 600;
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--gl-faint);
 }
 
-/* Inset grouped list (iOS settings style) — handles any highlight count. */
-.highlights {
+.points {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-radius: 18px;
-  background: var(--gl-group);
-  border: 1px solid var(--gl-sep);
-  overflow: hidden;
+  display: grid;
+  gap: 8px;
 }
 
-.highlights li {
+.point {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 14px 18px;
+  gap: 10px;
   font-size: 14.5px;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--gl-text);
 }
 
-.highlights li + li {
-  border-top: 1px solid var(--gl-sep);
-}
-
-.check {
-  width: 30px;
-  height: 30px;
+.pointIcon {
   flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 9px;
-  background: var(--gl-accent-soft);
+  width: 12px;
+  font-size: 12px;
+  margin-top: 0.36em;
   color: var(--gl-accent);
-  font-size: 13px;
 }
 
-/* --- Pinned action bar ---------------------------------------------------- */
+.tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-group);
+  color: var(--gl-text);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* --- Bottom bar: nav + actions --------------------------------------------- */
 
 .footer {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px clamp(20px, 4vw, 52px) 18px;
+  gap: 16px;
+  padding: 14px clamp(20px, 4vw, 40px);
   border-top: 1px solid var(--gl-sep);
   background: var(--gl-bar);
 }
 
-.stack {
-  flex: 1;
-  min-width: 0;
+.nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
 }
 
-.stack li {
-  padding: 5px 11px;
+.arrow {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-group);
+  color: var(--gl-muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.arrow:hover {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+  transform: scale(1.05);
+}
+
+.arrow:active {
+  transform: scale(0.94);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.navDot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
-  background: var(--gl-chip);
-  color: var(--gl-text);
-  font-size: 12.5px;
-  font-weight: 500;
+  background: var(--gl-handle);
+  cursor: pointer;
+  transition: background-color 0.22s ease, width 0.22s ease;
+}
+
+/* 6px visual, ~20x24px tap target. */
+.navDot::after {
+  content: "";
+  position: absolute;
+  inset: -9px -7px;
+}
+
+.navDot.active {
+  width: 22px;
+  background: var(--gl-accent);
+}
+
+.navDot:hover:not(.active) {
+  background: var(--gl-faint);
 }
 
 .actions {
@@ -210,7 +442,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 46px;
+  height: 44px;
   padding: 0 22px;
   border-radius: 999px;
   border: 0;
@@ -243,46 +475,96 @@
 
 .primaryBtn:focus-visible,
 .secondaryBtn:focus-visible,
-.navBtn:focus-visible {
+.arrow:focus-visible,
+.navDot:focus-visible {
   outline: 2px solid var(--gl-focus);
   outline-offset: 2px;
 }
 
-/* Prev/next in the sheet header, sized to match the close button. */
-.navBtn {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--gl-muted);
-  font-size: 13px;
-  cursor: pointer;
+/* --- Tablets: narrower card, art pulled in a little ------------------------ */
+@media (max-width: 1024px) {
+  .copy {
+    max-width: 56%;
+  }
+
+  .plate[data-media="image"] .art {
+    right: -14%;
+  }
 }
 
-.navBtn:hover {
-  background: var(--gl-chip);
-  color: var(--gl-text);
-}
-
-/* --- Phones: single column, full-width stacked actions --------------------- */
+/* --- Phones: bottom sheet. Art becomes a banner above the copy, and the
+   whole plate scrolls as one column under a pinned action bar. ------------- */
 @media (max-width: 768px) {
-  .body {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .detail {
+    flex: 1 1 auto;
+    height: auto;
+  }
+
+  .plate {
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .plate .art,
+  .plate[data-media="icon"] .art,
+  .plate[data-media="glyph"] .art,
+  .plate[data-media="image"] .art {
+    position: relative;
+    inset: auto;
+    flex-shrink: 0;
+    width: 100%;
+    height: 200px;
+    margin: 0;
+    aspect-ratio: auto;
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  }
+
+  /* Height follows the 16:10 frame, so it never overlaps the copy. */
+  .plate[data-media="image"] .art {
+    height: auto;
+    padding-bottom: 20px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .plate[data-media="image"] .artInner {
+    width: 84%;
+    margin: 18px auto 0;
+  }
+
+  .browser {
+    transform: rotate(-2deg);
+  }
+
+  .illustration {
+    width: calc(150px * min(var(--icon-scale, 1), 1.5));
+    height: calc(150px * min(var(--icon-scale, 1), 1.5));
+  }
+
+  .glyph {
+    font-size: 110px;
+  }
+
+  .scroll {
+    flex: none;
+    overflow: visible;
     padding: 4px 20px 20px;
   }
 
-  .hero {
-    aspect-ratio: auto;
-    height: 200px;
-    border-radius: 22px;
+  .copy {
+    max-width: none;
+    gap: 12px;
   }
 
-  .info {
-    gap: 16px;
+  .counterCurrent {
+    font-size: 30px;
+  }
+
+  .name {
+    font-size: 28px;
   }
 
   .description {
@@ -290,9 +572,12 @@
   }
 
   .footer {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px 20px 16px;
+    padding: 12px 16px 14px;
+  }
+
+  /* Swipe moves between projects on touch; the counter shows position. */
+  .nav {
+    display: none;
   }
 
   .actions {
@@ -300,8 +585,8 @@
     margin-left: 0;
   }
 
-  /* min-width: 0 lets the two pills share the row instead of their nowrap
-     labels pushing the primary one past the screen edge. */
+  /* min-width: 0 lets two pills share the row instead of their nowrap labels
+     pushing the primary one past the screen edge. */
   .primaryBtn,
   .secondaryBtn {
     flex: 1 1 0;
@@ -318,21 +603,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  /* Swipe handles prev/next on touch; keep the header to the close button. */
-  .navBtn {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .illustration {
+    animation: none;
+  }
+
   .primaryBtn,
-  .secondaryBtn {
+  .secondaryBtn,
+  .arrow,
+  .navDot {
     transition: none;
   }
 
   .primaryBtn:hover,
-  .secondaryBtn:hover {
+  .secondaryBtn:hover,
+  .arrow:hover {
     transform: none;
   }
 }
