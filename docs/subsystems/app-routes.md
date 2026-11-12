@@ -73,3 +73,14 @@ route, from the same data modules the overlays use (`projects`, `services`, `pri
 
 > ⚠️ The Welcome window starts open on every load, including a deep link to an app, and returns
 > when that app is closed. Not a bug, but it means `/projects` closes onto the welcome screen.
+
+> ⚠️ Decision (2026-11-12): the desktop icons stay buttons, not `<a href>` links. The wheel
+> (`src/components/layout/LandingPage/components/DesktopIcons.tsx`) is a custom ARIA listbox with drag,
+> momentum and a two-step tap (the first tap centers a row, the second launches), and the phone
+> switcher (`src/components/layout/LandingPage/components/AppSwitcher.tsx`) is a radio group. Anchors
+> inside `role="option"` rows are an accessibility anti-pattern, pointer capture retargets the click
+> away from an anchor (so Ctrl/Cmd+click would not work anyway), and the search goal is already met:
+> the home page has real crawlable links to every indexable app in its text layer, and each app has its
+> own URL. If open-in-new-tab is ever wanted, the cheap option is modifier-click on an icon opening the
+> app's route, without changing the markup.
+
