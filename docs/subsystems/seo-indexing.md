@@ -14,7 +14,7 @@ sources:
   - code: src/app/(desktop)/layout.tsx
   - code: src/lib/constants/appRoutes.ts
   - code: next.config.ts
-verified_at: 2429066
+verified_at: 19053ce
 ---
 
 # SEO indexing
@@ -73,3 +73,11 @@ verified_at: 2429066
 
 > ⚠️ No em dashes in any of this copy (see `CLAUDE.md`). The home title uses a colon between the name
 > and the role for that reason; `npx eslint src` fails on a violation.
+
+> ⚠️ "How many apps" is stated in several places and they mean different things. The home description
+> says "10+ production apps" (a career total, matching the LinkedIn headline). `src/data/aboutMePills.ts`,
+> the MenuBar bio and `src/data/resumeProjectHighlights.ts` say "5 production apps in twelve months, solo"
+> (a specific recent stretch), and the résumé summary in `src/data/DemaceoResume.tsx` says "more than
+> five". Do not "make them all match" by editing one number: change a claim only when the underlying fact
+> changes, and keep "solo" off any claim that covers the full total.
+

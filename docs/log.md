@@ -111,3 +111,11 @@ Append-only. Newest entries at the bottom.
 - [[seo-indexing]]: home title is now "Demaceo Vincent Howard: Senior Full-Stack & Mobile Engineer",
   description rewritten for recruiters, JSON-LD carries both names. The welcome window gains the role
   line under the greeting; the taskbar tagline is unchanged.
+
+## [2026-11-12] config | home description claims 10+ apps, no longer "solo"
+
+- `SITE_DESCRIPTION` (`src/lib/constants/site.ts`): "5+ production apps solo" became "10+ production apps,
+  including ..." to match the LinkedIn headline. "Solo" was dropped because LinkedIn does not claim the
+  ten were solo; the About page keeps its own specific "five apps in twelve months, solo" claim.
+- Role wording stays "Senior Full-Stack & Mobile Engineer" and is the wording to use on GitHub and
+  LinkedIn too (see [[seo-indexing]]).

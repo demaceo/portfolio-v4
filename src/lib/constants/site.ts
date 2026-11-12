@@ -23,7 +23,7 @@ export const SITE_FULL_NAME = "Demaceo Vincent Howard";
 export const SITE_JOB_TITLE = "Senior Full-Stack & Mobile Engineer";
 export const SITE_TITLE = `${SITE_FULL_NAME}: ${SITE_JOB_TITLE}`;
 export const SITE_DESCRIPTION =
-  "Senior full-stack & mobile engineer (React, TypeScript, Node). Shipped 5+ production apps solo: civic tech, privacy AI, PropTech and real-time voice.";
+  "Senior full-stack & mobile engineer (React, TypeScript, Node). Shipped 10+ production apps, including civic tech, privacy AI, PropTech and real-time voice.";
 
 /** Profiles that are verifiably this person; emitted as `sameAs` in the JSON-LD. */
 export const SOCIAL_PROFILES = [EXTERNAL_LINKS.GITHUB, EXTERNAL_LINKS.LINKEDIN] as const;
