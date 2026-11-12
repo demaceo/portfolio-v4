@@ -115,17 +115,19 @@
   --gl-group: rgba(255, 255, 255, 0.72);
   --gl-chip: rgba(0, 0, 0, 0.06);
   --gl-handle: rgba(0, 0, 0, 0.18);
-  --gl-hero: rgba(0, 102, 204, 0.08);
+  --gl-hero: rgba(164, 80, 42, 0.08);
 
   --gl-text: #1d1d1f;
   --gl-muted: #48484d;
   --gl-faint: #636368;
 
-  --gl-accent: #0066cc;
-  --gl-accent-hover: #0057ad;
-  --gl-accent-soft: rgba(0, 102, 204, 0.1);
+  /* Copper: the Warm Noir accent (--noir-accent) tuned for Glass contrast,
+     so overlays match the MenuBar. ≥5:1 on the light material. */
+  --gl-accent: #a4502a;
+  --gl-accent-hover: #8f4423;
+  --gl-accent-soft: rgba(164, 80, 42, 0.1);
   --gl-on-accent: #ffffff;
-  --gl-focus: rgba(0, 102, 204, 0.55);
+  --gl-focus: rgba(164, 80, 42, 0.55);
 
   --gl-seg-bg: rgba(0, 0, 0, 0.06);
   --gl-seg-on: #ffffff;
@@ -150,17 +152,18 @@
     --gl-group: rgba(255, 255, 255, 0.06);
     --gl-chip: rgba(255, 255, 255, 0.1);
     --gl-handle: rgba(255, 255, 255, 0.25);
-    --gl-hero: rgba(77, 163, 255, 0.12);
+    --gl-hero: rgba(227, 154, 112, 0.12);
 
     --gl-text: #f5f5f7;
     --gl-muted: #c7c7cc;
     --gl-faint: #a1a1a6;
 
-    --gl-accent: #4da3ff;
-    --gl-accent-hover: #6fb5ff;
-    --gl-accent-soft: rgba(77, 163, 255, 0.16);
-    --gl-on-accent: #00172e;
-    --gl-focus: rgba(77, 163, 255, 0.7);
+    /* ≥6:1 on the dark material; dark ink on copper buttons (8:1). */
+    --gl-accent: #e39a70;
+    --gl-accent-hover: #eba882;
+    --gl-accent-soft: rgba(227, 154, 112, 0.16);
+    --gl-on-accent: #1f0d04;
+    --gl-focus: rgba(227, 154, 112, 0.7);
 
     --gl-seg-bg: rgba(255, 255, 255, 0.08);
     --gl-seg-on: rgba(255, 255, 255, 0.18);

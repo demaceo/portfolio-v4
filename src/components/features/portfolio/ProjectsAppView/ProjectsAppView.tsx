@@ -125,6 +125,8 @@ const ProjectsAppView: React.FC<ProjectsAppViewProps> = ({
           <ProjectDetailModal
             key="project-detail"
             project={selectedProject}
+            projects={visibleProjects}
+            onSelect={setSelectedProjectId}
             onBack={() => setSelectedProjectId(null)}
             onOpenDeepDive={handleOpenDeepDive}
             onNext={() => handleNavigateProject(1)}

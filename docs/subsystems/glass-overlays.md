@@ -43,6 +43,9 @@ visitor's OS appearance. `--gl-surface` (`src/app/globals.css:177`) is the near-
 full-bleed background for AppViews, which have no blur scrim behind them;
 `--gl-surface-solid` (`src/app/globals.css:181`) is its fully opaque twin.
 
+> ⚠️ The accent is copper (`--gl-accent`, the Warm Noir hue tuned for contrast), not blue. It is
+> the only hue in the overlays: the Toolbelt graph uses neutrals plus this accent (see [[toolbelt]]).
+
 ## The token bridge (`.glass-scope`)
 
 Most content stylesheets were written against the older Warm Noir tokens (`--noir-*`,
@@ -129,9 +132,9 @@ palette.
 
 > ⚠️ Never size project icons with `max-width/max-height: %` on a grid item whose box
 > comes from `aspect-ratio`: the percentage does not resolve, the cap is ignored, and tall
-> art (Pinpoint's 2:3 pin) overflows and is clipped by `overflow: hidden`. The detail
-> sheet pins the image to absolute insets and uses `object-fit: contain`
-> (`src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.module.css:51`).
+> art (Pinpoint's 2:3 pin) overflows and is clipped by `overflow: hidden`. The project
+> detail card pins the image to an explicit box and uses `object-fit: contain`; see
+> [[project-detail-modal]].
 > Never add `border-radius` or `object-fit: cover` to icon artwork — icons are transparent
 > PNGs and must show in full.
 

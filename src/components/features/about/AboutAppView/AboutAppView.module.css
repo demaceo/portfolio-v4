@@ -1,125 +1,21 @@
-/* ===== ABOUT — "THE DOSSIER": RULED EDITORIAL INDEX =====
-   Three chapters (Profile · Strengths · Featured) behind a numbered rail.
-   The grammar here is print, not chrome: hairline rules and uppercase accent
-   micro-labels instead of filled pills, borrowed from ResumeHighlightsModal.css.
-   The two exceptions are deliberate and scoped to the Featured chapter
-   (.aboutFeaturedBadge / .aboutFeaturedCta keep their 999px radius). */
+/* ==========================================================================
+   About: three Services-style plates (Profile, Strengths, Featured).
+   Every chapter opens with the big accent counter, an eyebrow and an
+   uppercase title; one bottom bar carries prev/next and labeled tabs.
+   Colors are --gl- tokens only, so light/dark follow the OS.
+   ========================================================================== */
 
-.aboutDossier {
-  --about-accent: var(--noir-accent);
-  --about-accent-soft: var(--noir-accent-soft);
-  --about-accent-glow: var(--noir-accent-glow);
-  --about-text: var(--noir-text);
-  --about-muted: var(--noir-muted);
-  --about-faint: var(--noir-faint);
-  --about-border: var(--noir-border);
-  --about-panel: var(--noir-panel);
-
-  display: grid;
-  grid-template-columns: 210px 1fr;
+.about {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
-  color: var(--about-text);
+  color: var(--gl-text);
   font-family: var(--gl-font);
 }
 
-/* ── Chapter rail ─────────────────────────────────────── */
-
-.aboutRail {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: 1rem 0.7rem;
-  border-right: 1px solid var(--about-border);
-  background: var(--about-panel);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.aboutRailItem {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  width: 100%;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  color: var(--about-muted);
-  padding: 0.72rem 0.7rem 0.72rem 0.85rem;
-  border-radius: 0;
-  cursor: pointer;
+.stage {
   position: relative;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-/* Hairline between entries so three items read as an index, not three buttons. */
-.aboutRailItem + .aboutRailItem {
-  border-top: 1px solid var(--about-border);
-}
-
-.aboutRailItem::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: scaleY(0);
-  transform-origin: center;
-  width: 2px;
-  height: 100%;
-  border-radius: 0;
-  background: var(--about-accent);
-  transition: transform 0.22s ease;
-}
-
-.aboutRailItem:hover:not(.active) {
-  color: var(--about-text);
-}
-
-.aboutRailItem.active {
-  background: transparent;
-  color: var(--about-text);
-}
-
-.aboutRailItem.active::before {
-  transform: scaleY(1);
-}
-
-.aboutRailNum {
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--about-faint);
-  flex-shrink: 0;
-}
-
-.aboutRailItem.active .aboutRailNum {
-  color: var(--about-accent);
-}
-
-.aboutRailLabel {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-
-.aboutRailItem:focus-visible,
-.aboutProgArrow:focus-visible,
-.aboutIndexTrigger:focus-visible {
-  outline: 2px solid var(--gl-focus);
-  outline-offset: 2px;
-}
-
-/* ── Stage ────────────────────────────────────────────── */
-
-.aboutStageWrap {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.aboutStage {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -129,677 +25,746 @@
   flex-direction: column;
 }
 
-.aboutChapter {
+/* margin-block: auto on the chapter centers it vertically while still letting
+   a tall chapter scroll from its top (justify-content: center would clip it). */
+.chapter {
+  width: 100%;
+  max-width: 1280px;
+  margin: auto;
+  padding: clamp(24px, 4vh, 48px) clamp(20px, 5vw, 72px);
+  box-sizing: border-box;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Shared chapter head --------------------------------------------------- */
+
+.head {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  padding: 1.8rem 1.9rem;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-/* Profile is the dossier's cover page — fixed content that was left sitting
-   against the top of a tall stage once the working-style chapters were cut.
-   Auto margins centre it, and unlike `justify-content: center` they collapse
-   to 0 rather than clipping when the content outgrows the stage, so short
-   viewports still scroll from the top.
-   Deliberately Profile-only: Strengths grows every time a row opens, and
-   re-centring on each toggle would shunt the whole list up the screen. */
-.aboutChapterCentered {
-  margin-block: auto;
-}
-
-.aboutEyebrow {
-  margin: 0;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--about-accent);
-}
-
-.aboutChapterTitle {
-  margin: 0;
-  font-size: 1.7rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
-  color: var(--about-text);
-}
-
-.aboutLede {
-  margin: 0;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--about-muted);
-  max-width: 56ch;
-}
-
-/* ── Hero ("I build ___") — scroll-timeline word highlight ───
-   Adapted from codepenz's scroll-timeline-word-highlight: each word's own
-   animation-timeline: view() brightens/scales it as it crosses the visual
-   center of the scrollable list, independent of any shared scroll position. */
-
-.aboutHero {
+.headText {
   display: flex;
-  align-items: stretch;
-  gap: 1.25rem;
-  min-height: 8rem;
-  margin: -0.2rem 0 0.4rem;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.aboutHeroPhrase {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, calc(1rem + 1.4vw), 2rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--about-text);
-  white-space: nowrap;
+/* Compact head: counter to the left of eyebrow + title. */
+.headCompact {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 18px;
 }
 
-.aboutHeroScroll {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  height: 8rem;
+.headCompact .headText {
+  gap: 6px;
+}
+
+.headCompact .eyebrow {
   margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%);
-  scrollbar-width: none;
 }
 
-.aboutHeroScroll::-webkit-scrollbar {
-  display: none;
+.headCompact .title {
+  font-size: clamp(28px, 3.2vw, 42px);
 }
 
-.aboutHeroPad {
-  height: calc(50% - 1.1rem);
-}
-
-.aboutHeroWord {
-  scroll-snap-align: center;
-  padding: 0.4rem 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, calc(0.95rem + 1.2vw), 1.85rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  /* One Glass accent for every word (was a per-word copper hue ramp that
-     fell under 3:1 on the light surface); focus comes from the animation. */
-  color: var(--about-accent);
-  opacity: 0.2;
-  filter: brightness(0.4);
-  transform: scale(0.92);
-}
-
-@supports (animation-timeline: scroll()) {
-  .aboutHeroWord {
-    animation: about-hero-word-focus linear both;
-    animation-timeline: view(y);
-    animation-range: cover;
-  }
-}
-
-@keyframes about-hero-word-focus {
-  0%,
-  100% {
-    opacity: 0.2;
-    filter: brightness(0.4);
-    transform: scale(0.92);
-  }
-  50% {
-    opacity: 1;
-    filter: brightness(1.15);
-    transform: scale(1);
-  }
-}
-
-/* ── Profile highlights ───────────────────────────────── */
-
-/* Credit line — the press signal, as type rather than two colored badges. */
-.aboutCredit {
-  margin: 0.15rem 0 0;
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--about-faint);
-}
-
-.aboutCreditSep {
-  color: var(--about-accent);
-  margin: 0 0.6em;
-}
-
-/* Capped like .aboutLede is: on a 1440px stage the rules would otherwise run
-   the full width and the copy would set at ~100 characters a line. */
-.aboutHighlightGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem 1.6rem;
-  margin-top: 0.9rem;
-  max-width: 82ch;
-}
-
-/* Ruled blocks, not boxed cards: a single hairline above each entry, with the
-   accent moving to that rule on hover instead of a fill + lift. */
-.aboutHighlightCard {
-  border: 0;
-  border-top: 1px solid var(--about-border);
-  border-radius: 0;
-  background: transparent;
-  padding: 0.7rem 0 0;
-  transition: border-color 0.2s ease;
-}
-
-.aboutHighlightCard:hover {
-  border-top-color: var(--noir-accent-line);
-}
-
-.aboutHighlightCard h3 {
-  margin: 0;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--about-accent);
-}
-
-.aboutHighlightCard p {
-  margin: 0.4rem 0 0;
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: var(--about-muted);
-}
-
-/* ── Strengths — ruled index with inline disclosure ───── */
-
-.aboutIndex {
-  margin: 0.85rem 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--about-border);
-  /* Same measure cap as the highlight grid — keeps the +/- affordance near the
-     label on a wide stage instead of stranding it at the far right edge. */
-  max-width: 82ch;
-}
-
-.aboutIndexRow {
-  border-bottom: 1px solid var(--about-border);
-}
-
-.aboutIndexTrigger {
+.counter {
   display: flex;
   align-items: baseline;
-  gap: 0.9rem;
-  width: 100%;
-  padding: 0.72rem 0.4rem;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--about-muted);
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.aboutIndexTrigger:hover {
-  background: var(--about-accent-soft);
-  color: var(--about-text);
-}
-
-.aboutIndexTrigger[aria-expanded="true"] {
-  color: var(--about-text);
-}
-
-.aboutIndexNum {
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--about-faint);
-  flex-shrink: 0;
-  transition: color 0.2s ease;
-}
-
-.aboutIndexTrigger[aria-expanded="true"] .aboutIndexNum {
-  color: var(--about-accent);
-}
-
-.aboutIndexLabel {
-  flex: 1;
-  min-width: 0;
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
-
-/* CSS-drawn chevron, matching the disclosure marker in ResumeHighlightsModal:
-   points down when collapsed, flips up when open. Centered across the row
-   rather than baseline-aligned, so it stays put if a label wraps. */
-.aboutIndexToggle {
-  flex-shrink: 0;
-  align-self: center;
-  width: 7px;
-  height: 7px;
-  margin-top: -3px;
-  border-right: 2px solid var(--about-faint);
-  border-bottom: 2px solid var(--about-faint);
-  transform: rotate(45deg);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.aboutIndexTrigger:hover .aboutIndexToggle,
-.aboutIndexTrigger[aria-expanded="true"] .aboutIndexToggle {
-  border-color: var(--about-accent);
-}
-
-.aboutIndexTrigger[aria-expanded="true"] .aboutIndexToggle {
-  transform: rotate(225deg);
-  margin-top: 3px;
-}
-
-/* Height is animated by framer-motion, so the padding lives on the inner
-   wrapper — otherwise it would still paint at the collapsed height of 0. */
-.aboutIndexBody {
-  overflow: hidden;
-}
-
-.aboutIndexBodyInner {
-  padding: 0 0.4rem 0.9rem 2.1rem;
-}
-
-.aboutIndexCopy {
-  margin: 0;
-  font-size: 0.84rem;
-  line-height: 1.55;
-  color: var(--about-muted);
-  max-width: 62ch;
-}
-
-.aboutIndexLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.55rem;
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--about-accent);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
-}
-
-.aboutIndexLink:hover,
-.aboutIndexLink:focus-visible {
-  border-bottom-color: var(--about-accent);
-}
-
-/* ── Progress footer ──────────────────────────────────── */
-
-.aboutProgress {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.85rem;
-  padding: 0.6rem 1rem;
-  border-top: 1px solid var(--about-border);
-  background: var(--about-panel);
-  flex-shrink: 0;
-}
-
-.aboutProgArrow {
-  width: 32px;
-  height: 32px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--about-faint);
-  font-size: 0.72rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
-}
-
-.aboutProgArrow:hover:not(:disabled) {
-  color: var(--about-accent);
-}
-
-.aboutProgArrow:disabled {
-  opacity: 0.22;
-  cursor: default;
-}
-
-/* Borderless squares are still real hit targets on touch — match the 44px
-   minimum globals.css applies elsewhere under a coarse pointer. */
-@media (pointer: coarse) {
-  .aboutProgArrow {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-.aboutProgCounter {
-  font-size: 0.66rem;
+  gap: 6px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   line-height: 1;
 }
 
-.aboutProgCurrent {
-  color: var(--noir-accent);
+.counterCurrent {
+  color: var(--gl-accent);
+  font-size: clamp(40px, 4.6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
 }
 
-.aboutProgSep {
-  color: var(--about-faint);
-  margin: 0 0.15em;
+.counterTotal {
+  color: var(--gl-faint);
 }
 
-.aboutProgTotal {
-  color: var(--about-faint);
+.eyebrow {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gl-accent);
 }
 
-/* ── Featured chapter ─────────────────────────────────── */
+.title {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gl-text);
+}
 
-.aboutFeaturedCards {
+.lede {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--gl-muted);
+}
+
+/* Head on the left, lede bottom-aligned on the right (Strengths, Featured). */
+.headRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: 16px clamp(24px, 5vw, 64px);
+}
+
+.headRow .lede {
+  justify-self: end;
+  text-align: right;
+  max-width: 42ch;
+}
+
+.stack {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 0.35rem;
+  gap: clamp(24px, 4vh, 40px);
 }
 
-.aboutFeaturedCard {
-  border: 1px solid var(--about-border);
-  border-radius: 0.82rem;
-  background: var(--about-panel);
+/* --- Profile --------------------------------------------------------------- */
+
+.profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.62fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  min-width: 0;
+}
+
+.build {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.35em;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--gl-text);
+}
+
+/* Fixed height so the cycling word never shifts the lines below it. */
+.buildWordSlot {
+  display: inline-flex;
+  height: 1.3em;
   overflow: hidden;
+}
+
+.buildWord {
+  display: inline-block;
+  color: var(--gl-accent);
+  white-space: nowrap;
+}
+
+.facts {
+  margin: 6px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 28px;
+  width: 100%;
+}
+
+.fact {
+  padding-top: 14px;
+  border-top: 1px solid var(--gl-sep);
+}
+
+.fact dt {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gl-accent);
+}
+
+.fact dd {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gl-muted);
+}
+
+/* Portrait card with an accent glow behind it. The photo is a full-bleed
+   shot with its own background, so it lives in a framed card rather than
+   bleeding into the surface the way the transparent Services art does. */
+.portrait {
+  position: relative;
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 400px);
+  isolation: isolate;
+}
+
+.portrait::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -12% -16%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    color-mix(in srgb, var(--gl-accent) 26%, transparent) 0%,
+    color-mix(in srgb, var(--gl-accent) 8%, transparent) 45%,
+    transparent 70%
+  );
+}
+
+.portraitFrame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: min(56vh, 520px);
+  margin-inline: auto;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--gl-edge);
+  box-shadow:
+    0 40px 80px color-mix(in srgb, var(--gl-accent) 16%, rgba(0, 0, 0, 0.32)),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+  transform: rotate(2.5deg);
+}
+
+.portraitImg {
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.portraitCaption {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--gl-material-strong);
+  border: 1px solid var(--gl-edge);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gl-text);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gl-accent);
+}
+
+/* --- Strengths ------------------------------------------------------------- */
+
+.strengthGrid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.strength {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px 18px 18px;
+  border-radius: 20px;
+  background: var(--gl-group);
+  border: 1px solid var(--gl-sep);
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.aboutFeaturedCard:hover {
-  border-color: var(--noir-accent-line);
+.strength:hover {
+  border-color: color-mix(in srgb, var(--gl-accent) 45%, transparent);
   transform: translateY(-2px);
 }
 
-.aboutFeaturedThumbnail {
+.strengthTitle {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--gl-text);
+}
+
+.strengthNum {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--gl-accent);
+}
+
+.strengthBody {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--gl-muted);
+}
+
+.strengthCta {
+  background: var(--gl-accent-soft);
+  border-color: color-mix(in srgb, var(--gl-accent) 35%, transparent);
+}
+
+.inlineLink {
+  margin-top: auto;
+  padding-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gl-accent);
+  text-decoration: none;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Featured -------------------------------------------------------------- */
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--gl-group);
+  border: 1px solid var(--gl-sep);
+}
+
+.featureMedia {
   position: relative;
+  display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--gl-chip);
-}
-
-.aboutFeaturedThumbImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.aboutFeaturedThumbOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  margin: 0;
+  max-height: 30vh;
   padding: 0;
   border: 0;
-  background: rgba(0, 0, 0, 0.35);
-  transition: background 0.2s ease;
+  background: var(--gl-hero);
+  overflow: hidden;
+  cursor: default;
+}
+
+button.featureMedia {
   cursor: pointer;
 }
 
-.aboutFeaturedThumbOverlay:focus-visible {
-  background: rgba(0, 0, 0, 0.22);
-  outline: 2px solid var(--gl-focus);
-  outline-offset: -2px;
+.featureImg {
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
-.aboutFeaturedCard:hover .aboutFeaturedThumbOverlay {
-  background: rgba(0, 0, 0, 0.22);
+/* Wide stage photo: keep the SXSW EDU 2025 banner and the panel in frame. */
+.featureImgSxsw {
+  object-position: 18% center;
 }
 
-.aboutFeaturedPlayIcon {
-  font-size: 2rem;
-  color: rgba(255, 255, 255, 0.9);
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+.feature:hover .featureImg {
+  transform: scale(1.03);
+}
+
+.play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gl-accent);
+  color: var(--gl-on-accent);
+  font-size: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   transition: transform 0.2s ease;
 }
 
-.aboutFeaturedCard:hover .aboutFeaturedPlayIcon {
-  transform: scale(1.12);
+.play svg {
+  margin-left: 3px;
 }
 
-.aboutFeaturedInfo {
-  padding: 0.85rem;
+.featureMedia:hover .play {
+  transform: scale(1.08);
+}
+
+.featureInfo {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px 20px 20px;
 }
 
-.aboutFeaturedInfoFull {
-  padding: 1rem;
-}
-
-.aboutFeaturedBadges {
+.badges {
   display: flex;
-  gap: 0.4rem;
   flex-wrap: wrap;
+  gap: 6px;
 }
 
-.aboutFeaturedBadge {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--gl-chip);
+  color: var(--gl-text);
+  font-size: 11px;
+  font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.2rem 0.5rem;
-  border-radius: 999px;
-  border: 1px solid var(--about-border);
-  color: var(--about-muted);
-  background: var(--gl-chip);
 }
 
-.aboutFeaturedBadgePbs {
-  background: #1569b8;
-  color: #fff;
-  border-color: transparent;
+.badgePbs {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
 }
 
-.aboutFeaturedBadgeSxsw {
-  /* Darkened from #e94c3d (3.6:1) so the white label clears 4.5:1. */
-  background: #c0392b;
-  color: #fff;
-  border-color: transparent;
+.badgeSxsw {
+  background: var(--gl-danger-soft);
+  color: var(--gl-danger);
 }
 
-.aboutFeaturedTitle {
+.featureTitle {
   margin: 0;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--about-text);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--gl-text);
 }
 
-.aboutFeaturedDesc {
+.featureDesc {
   margin: 0;
-  font-size: 0.78rem;
-  line-height: 1.52;
-  color: var(--about-muted);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gl-muted);
 }
 
-.aboutFeaturedCta {
+.cta {
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.25rem;
-  padding: 0.45rem 0.9rem;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
   border-radius: 999px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  border: 1px solid var(--about-accent);
-  color: var(--about-accent);
-  background: transparent;
-  font-family: inherit;
-  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
+  border: 0;
+  background: var(--gl-accent);
+  color: var(--gl-on-accent);
+  font: 600 14.5px var(--gl-font);
   text-decoration: none;
-  width: fit-content;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
-.aboutFeaturedCta:hover {
-  background: var(--about-accent);
+.cta:hover {
+  background: var(--gl-accent-hover);
   color: var(--gl-on-accent);
   transform: translateY(-1px);
 }
 
-/* ── Responsive ───────────────────────────────────────── */
+/* --- Bottom bar ------------------------------------------------------------ */
 
-/* Collapse the fixed 210px rail + 1fr content to a single column across the
-   whole tablet/phone band. Kept at two columns, the 581–768px band left the
-   short, left-aligned hero cascade and the 56ch lede stranded beside a wide
-   empty right gutter; going single-column (rail as a top strip) lets the
-   content use the full width and closes that gutter. */
+.bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--gl-sep);
+  background: var(--gl-bar);
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gl-muted);
+  font: 700 12px var(--gl-font);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab:hover {
+  background: var(--gl-chip);
+  color: var(--gl-text);
+}
+
+.tabNum {
+  color: var(--gl-faint);
+}
+
+.tabActive,
+.tabActive:hover {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+}
+
+.tabActive .tabNum {
+  color: var(--gl-accent);
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-group);
+  color: var(--gl-muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.arrow:hover:not(:disabled) {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.tab:focus-visible,
+.arrow:focus-visible,
+.cta:focus-visible,
+.inlineLink:focus-visible,
+.featureMedia:focus-visible {
+  outline: 2px solid var(--gl-focus);
+  outline-offset: 2px;
+}
+
+/* --- Narrower desktops / tablets ------------------------------------------ */
+
+@media (max-width: 1180px) {
+  .strengthGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .profile {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr);
+  }
+
+  .headRow {
+    grid-template-columns: 1fr;
+  }
+
+  .headRow .lede {
+    justify-self: start;
+    text-align: left;
+  }
+}
+
+/* --- Short desktop windows (laptops at 720-800px tall) ------------------ */
+
+@media (min-width: 769px) and (max-height: 800px) {
+  .chapter {
+    padding-block: 18px;
+  }
+
+  .stack {
+    gap: 18px;
+  }
+
+  .counterCurrent {
+    font-size: 40px;
+  }
+
+  .copy {
+    gap: 14px;
+  }
+
+  .title {
+    font-size: clamp(28px, 3.4vw, 44px);
+  }
+
+  .portraitFrame {
+    max-height: 52vh;
+  }
+
+  .fact dd {
+    font-size: 13.5px;
+  }
+
+  .featureMedia {
+    max-height: 24vh;
+  }
+
+  .featureDesc {
+    font-size: 13.5px;
+  }
+
+  .cta {
+    height: 38px;
+  }
+}
+
+/* --- Phones ---------------------------------------------------------------- */
+
 @media (max-width: 768px) {
-  .aboutDossier {
+  .chapter {
+    margin: 0;
+    padding: 20px 20px 28px;
+  }
+
+  .profile {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    gap: 36px;
   }
 
-  .aboutRail {
-    flex-direction: row;
-    gap: 0.3rem;
-    padding: 0.55rem 0.7rem;
-    border-right: 0;
-    border-bottom: 1px solid var(--about-border);
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
+  /* Portrait first on phones: a smaller card above the copy. */
+  .portrait {
+    order: -1;
+    width: min(50%, 210px);
   }
 
-  .aboutRailItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.1rem;
-    padding: 0.4rem 0.75rem;
-    white-space: nowrap;
-    /* The base rule's `width: 100%` is sized against the rail itself. That's
-       right for the vertical desktop rail, but here the rail is a flex ROW, so
-       every entry claimed the full strip width and the three chapters scrolled
-       off to 1088px. Size to content and share the strip instead. */
-    width: auto;
-    flex: 1 1 auto;
+  .portraitCaption {
+    font-size: 11px;
+    padding: 6px 11px;
   }
 
-  /* The rail runs horizontally here, so the hairline between entries and the
-     active marker both rotate 90° with it. */
-  .aboutRailItem + .aboutRailItem {
-    border-top: 0;
-    border-left: 1px solid var(--about-border);
+  .portraitFrame {
+    max-height: none;
   }
 
-  .aboutRailItem::before {
-    left: 0;
-    top: auto;
-    bottom: 0;
-    transform: scaleX(0);
-    width: 100%;
-    height: 2px;
-    border-radius: 0;
+  .facts,
+  .strengthGrid,
+  .featureGrid {
+    grid-template-columns: 1fr;
   }
 
-  .aboutRailItem.active::before {
-    transform: scaleX(1);
+  .featureMedia {
+    max-height: none;
   }
 
-  .aboutChapter {
-    padding: 1.4rem 1.25rem;
+  .lede {
+    font-size: 15.5px;
   }
 
-  .aboutChapterTitle {
-    font-size: 1.4rem;
+  /* Three equal tabs fill the bar; arrows are dropped on phones (the tabs
+     already cover every chapter and the arrows pushed the bar off-screen). */
+  .bar {
+    padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
   }
 
-  /* Stack "I build" above the word cascade and center both, so the words sit in
-     the middle of the screen instead of hugging the left edge with a dead right
-     half (visible on phones in the original left-aligned layout). */
-  .aboutHero {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 7rem;
-    text-align: center;
+  .arrow {
+    display: none;
   }
 
-  .aboutHeroPhrase {
+  .tabs {
+    flex: 1;
+  }
+
+  .tab {
+    flex: 1;
     justify-content: center;
+    padding: 0 6px;
+    letter-spacing: 0.08em;
   }
 
-  .aboutHeroScroll {
-    /* The base rule's `flex: 1` (flex-basis: 0%) still applies here, and in a
-       column-direction flex item a definite flex-basis overrides `height` for
-       main-axis sizing — so `height: 6rem` alone was silently ignored and the
-       list grew to its full content height instead of clipping. `flex: none`
-       makes flex-basis resolve to `auto`, restoring `height` as authoritative
-       so overflow/scroll-snap/the mask-gradient peek window work again. */
-    flex: none;
-    height: 6rem;
-    width: 100%;
-    align-self: stretch;
-  }
-
-  .aboutHeroWord {
-    text-align: center;
+  .tabNum {
+    display: none;
   }
 }
 
-/* Highlight cards stay two-up through the tablet band and only go single-column
-   on phones, so tablets don't get over-wide stretched cards. */
-@media (max-width: 580px) {
-  .aboutHighlightGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .aboutChapterTitle {
-    font-size: 1.24rem;
+@media (pointer: coarse) {
+  .arrow,
+  .tab {
+    min-height: 44px;
   }
 
-  .aboutLede,
-  .aboutIndexCopy {
-    font-size: 0.86rem;
+  .arrow {
+    width: 44px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aboutRailItem,
-  .aboutRailItem::before,
-  .aboutHighlightCard,
-  .aboutIndexTrigger,
-  .aboutIndexNum,
-  .aboutIndexToggle,
-  .aboutIndexLink,
-  .aboutProgArrow {
+  .strength,
+  .featureImg,
+  .play,
+  .cta,
+  .tab,
+  .arrow {
     transition: none;
   }
 
-  .aboutHeroWord {
-    animation: none;
-    opacity: 1;
-    filter: none;
+  .strength:hover,
+  .feature:hover .featureImg,
+  .featureMedia:hover .play,
+  .cta:hover {
     transform: none;
   }
 }

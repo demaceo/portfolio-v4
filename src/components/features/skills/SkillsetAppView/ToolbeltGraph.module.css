@@ -13,73 +13,138 @@
   min-height: 420px;
   padding: 16px 20px 20px;
 
-  /* Node fill recipe (hue + depth come from ToolbeltGraph.tsx). Light mode:
-     soft pastels under dark --gl-text icons; dark mode: deep tones under
-     light --gl-text icons. Leaves sit closer to the background than roots. */
-  --tb-node-sat: 52%;
-  --tb-node-l: 68%;
-  --tb-node-l-step: 12%;
+  /* Neutral node fills: color is reserved for meaning (copper = core stack,
+     selected), not for telling categories apart. */
+  --tb-root-fill: color-mix(in srgb, var(--gl-text) 14%, transparent);
+  --tb-leaf-fill: color-mix(in srgb, var(--gl-text) 8%, var(--gl-surface-solid));
+  --tb-core-fill: color-mix(in srgb, var(--gl-accent) 26%, var(--gl-surface-solid));
   --tb-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 @media (prefers-color-scheme: dark) {
   .stage {
-    --tb-node-sat: 40%;
-    --tb-node-l: 34%;
-    --tb-node-l-step: -8%;
     --tb-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   }
 }
 
-.controlsRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.expandToggle {
-  flex-shrink: 0;
-  white-space: nowrap;
-  border: 1px solid var(--noir-border);
-  border-radius: 999px;
-  background: var(--noir-panel);
-  color: var(--noir-muted);
-  font-family: var(--font-body, inherit);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
-}
-
-.expandToggle:hover {
-  border-color: var(--noir-accent-line);
-  color: var(--noir-text);
-}
-
-.expandToggle:focus-visible {
-  outline: 2px solid var(--gl-focus);
-  outline-offset: 2px;
-}
-
-.expandToggle[aria-pressed="true"] {
-  border-color: var(--noir-accent-line);
-  background: var(--noir-accent-soft);
-  color: var(--noir-text);
-}
-
-.hint {
-  margin: 0;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  color: var(--noir-faint);
+/* Desktop: graph on the left, details panel on the right (never on top). */
+.stageDesktop {
+  flex-direction: row;
+  gap: 20px;
 }
 
 .svg {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   width: 100%;
+}
+
+.stageDesktop .svg {
+  height: 100%;
+}
+
+/* ── Side panel (desktop) ─────────────────────────────── */
+
+.panel {
+  flex: 0 0 clamp(240px, 24vw, 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-group);
+}
+
+.panelIntro,
+.panelDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panelDetails {
+  animation: toolCardIn 0.18s ease-out;
+}
+
+.panelEyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gl-accent);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--gl-text);
+}
+
+.panelText {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--gl-muted);
+}
+
+.legend {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gl-muted);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tb-core-fill);
+  border: 2px solid var(--gl-accent);
+}
+
+.legendDotPlain {
+  margin-left: 8px;
+  background: var(--tb-leaf-fill);
+  border-color: var(--gl-sep);
+}
+
+.expandToggle {
+  margin-top: auto;
+  align-self: flex-start;
+  white-space: nowrap;
+  border: 1px solid var(--gl-sep);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gl-muted);
+  font-family: var(--gl-font, inherit);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.expandToggle:hover {
+  border-color: color-mix(in srgb, var(--gl-accent) 45%, transparent);
+  color: var(--gl-text);
+}
+
+.expandToggle:focus-visible {
+  outline: 2px solid var(--gl-focus);
+  outline-offset: 2px;
 }
 
 .link {
@@ -89,19 +154,16 @@
 }
 
 .node text {
-  font-family: var(--font-body, inherit);
+  font-family: var(--gl-font, inherit);
   font-size: 10px;
-  fill: var(--noir-muted);
+  fill: var(--gl-muted);
   pointer-events: none;
   user-select: none;
 }
 
 .mainCircle {
-  fill: hsl(
-    var(--node-hue, 210) var(--tb-node-sat)
-      calc(var(--tb-node-l) + var(--node-depth, 0) * var(--tb-node-l-step))
-  );
-  stroke: var(--noir-border);
+  fill: var(--tb-leaf-fill);
+  stroke: var(--gl-sep);
   stroke-width: 1px;
   transition: stroke 0.18s ease, stroke-width 0.18s ease;
 }
@@ -114,8 +176,26 @@
   pointer-events: all;
 }
 
+.node.root .mainCircle {
+  fill: var(--tb-root-fill);
+}
+
+/* Category labels: bolder and uppercase so they read as headings. */
+.node.root text {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--gl-text);
+  /* Halo in the surface color keeps the label legible over any line or node. */
+  stroke: var(--gl-surface-solid);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
 .node:hover .mainCircle {
-  stroke: var(--noir-accent-line);
+  stroke: color-mix(in srgb, var(--gl-accent) 55%, transparent);
 }
 
 /* Keyboard focus ring on nodes (SVG <g> is focusable via tabindex). */
@@ -138,14 +218,18 @@
 }
 
 .node.signature .mainCircle {
-  stroke: var(--noir-accent);
-  stroke-width: 2.5px;
-  filter: drop-shadow(0 0 5px var(--noir-accent-glow));
+  fill: var(--tb-core-fill);
+  stroke: var(--gl-accent);
+  stroke-width: 2px;
+}
+
+.node.signature .nodeIcon {
+  color: var(--gl-accent);
 }
 
 .node.signature text {
-  fill: var(--noir-text);
-  font-weight: 600;
+  fill: var(--gl-text);
+  font-weight: 700;
 }
 
 .node.hasHiddenChildren .mainCircle {
@@ -209,12 +293,26 @@
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--noir-accent-soft);
-  color: var(--noir-text);
-  font-size: 14px;
+  background: var(--gl-chip);
+  color: var(--gl-text);
+  font-size: 16px;
+}
+
+.toolCardIconCore {
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+}
+
+.coreBadge {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--gl-accent-soft);
+  color: var(--gl-accent);
+  letter-spacing: 0.08em;
 }
 
 .toolCardHeading {
@@ -300,6 +398,15 @@
   transition: border-color 0.18s ease, background-color 0.18s ease;
 }
 
+.toolCardChip svg {
+  margin-right: 6px;
+}
+
+.toolCardChipCore {
+  border-color: color-mix(in srgb, var(--gl-accent) 40%, transparent);
+  color: var(--gl-accent);
+}
+
 .toolCardChip:hover {
   border-color: var(--noir-accent-line);
   background: var(--noir-accent-soft);
@@ -316,26 +423,88 @@
   color: var(--noir-muted);
 }
 
+/* ── Compact list (replaces the graph at ≤1300px, see LIST_MEDIA_QUERY) ── */
+
+/* One column on phones; side-by-side category groups on tablets. */
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  align-content: start;
+  gap: 22px 28px;
+  padding-bottom: 8px;
+}
+
+.listGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listHeading {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gl-text);
+}
+
+.listCount {
+  color: var(--gl-faint);
+  letter-spacing: 0.04em;
+}
+
+.listChips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.listChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--gl-sep);
+  background: var(--gl-group);
+  color: var(--gl-text);
+  font: 600 13.5px var(--gl-font, inherit);
+  cursor: pointer;
+}
+
+.listChip svg {
+  color: var(--gl-muted);
+}
+
+.listChipCore {
+  border-color: color-mix(in srgb, var(--gl-accent) 45%, transparent);
+  background: var(--gl-accent-soft);
+}
+
+.listChipCore svg {
+  color: var(--gl-accent);
+}
+
+.listChip:focus-visible {
+  outline: 2px solid var(--gl-focus);
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
   .stage {
-    padding: 12px 12px 16px;
-    min-height: 360px;
-  }
-
-  .hint {
-    display: none;
-  }
-
-  /* Smaller labels so category names (e.g. "Package Management" and
-     "Project Management") clear their neighbours in the tighter, narrower
-     columns used on phones. */
-  .node text {
-    font-size: 8px;
-  }
-
-  .expandToggle {
-    font-size: 10px;
-    padding: 7px 10px;
+    padding: 14px 16px 16px;
+    min-height: 0;
   }
 
   .toolCard {

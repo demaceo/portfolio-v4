@@ -20,17 +20,6 @@ import styles from "./SkillsetAppView.module.css";
 
 type SkillsetTab = "services" | "tools";
 
-const orderedCategories = [
-  "Frontend",
-  "Backend",
-  "Cloud",
-  "DevOps",
-  "Design",
-  "Collaboration",
-  "Package Management",
-  "Project Management",
-  "Documentation",
-];
 
 // A service renders as a vertical stack of panels. Panel 0 ("Overview") is
 // synthesized from the service's outcome + description; any extra panels defined
@@ -48,8 +37,6 @@ const buildPanels = (s: Service): RenderPanel[] => [
   ...(s.panels ?? []),
 ];
 
-// Tools highlighted with the signature stroke/glow in the toolbelt graph.
-const signatureStack = ["React", "JavaScript", "Next.js", "Node.js", "AWS"];
 
 interface SkillsetAppViewProps extends ModalProps {
   initialServiceId?: string;
@@ -456,8 +443,6 @@ const SkillsetAppView: React.FC<SkillsetAppViewProps> = ({
         >
           <ToolbeltGraph
             tools={tools}
-            orderedCategories={orderedCategories}
-            signatureStack={signatureStack}
             services={services}
             projects={projects}
             active={activeTab === "tools"}

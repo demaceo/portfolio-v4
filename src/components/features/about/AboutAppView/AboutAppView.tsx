@@ -1,7 +1,13 @@
-import React, { useCallback, useState, type CSSProperties } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faArrowUpRightFromSquare, faPlay, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faChevronLeft,
+  faChevronRight,
+  faFileLines,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { aboutMePills, profileHighlights } from "@/data/aboutMePills";
 import { AppView } from "@/components/features/shell";
@@ -12,348 +18,352 @@ interface AboutAppViewProps {
   onOpenDocumentary?: () => void;
 }
 
-// "I build ___" hero — see codepenz's scroll-timeline-word-highlight for the
-// underlying CSS mechanism (animation-timeline: view()). Words are pulled
-// from the actual shipped-project domains (Pinpoint, Payback, RentHarbor,
-// Feng Shui, The Yap App), not generic category nouns.
-const ABOUT_HERO_WORDS = [
+// "I build ___": words come from the shipped-project domains (Pinpoint,
+// Payback, RentHarbor, Feng Shui, The Yap App), not generic category nouns.
+const BUILD_WORDS = [
+  "Realtime Apps",
   "Civic Platforms",
   "Privacy Systems",
   "AI Pipelines",
   "3D Experiences",
   "Voice Interfaces",
-  "Realtime Apps",
   "Secure APIs",
   "Mobile Apps",
   "Design Systems",
-  "Automations",
-  "Products",
 ];
-const ABOUT_HERO_START_INDEX = 5;
+const BUILD_WORD_MS = 2400;
 
-type Chapter =
-  | { id: string; label: string; kind: "profile" }
-  | { id: string; label: string; kind: "strengths" }
-  | { id: string; label: string; kind: "featured" };
+const RESUME_URL = "/resume/Demaceo_Vincent_Howard_Resume.pdf";
+const SXSW_URL = "https://schedule.sxswedu.com/2025/events/PP156313";
+const PBS_THUMB =
+  "https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto";
 
-const chapters: Chapter[] = [
-  { id: "profile", label: "Profile", kind: "profile" },
-  { id: "strengths", label: "Strengths", kind: "strengths" },
-  { id: "featured", label: "Featured", kind: "featured" },
-];
+const chapters = [
+  { id: "profile", label: "Profile" },
+  { id: "strengths", label: "Strengths" },
+  { id: "featured", label: "Featured" },
+] as const;
+
+type ChapterId = (typeof chapters)[number]["id"];
+
+const pad2 = (n: number) => String(n).padStart(2, "0");
 
 const chapterVariants = {
-  enter: (dir: number) => ({ opacity: 0, y: dir > 0 ? 22 : -22 }),
-  center: { opacity: 1, y: 0 },
-  exit: (dir: number) => ({ opacity: 0, y: dir > 0 ? -22 : 22 }),
+  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 28 : -28 }),
+  center: { opacity: 1, x: 0 },
+  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -28 : 28 }),
 };
 
+/** Big accent counter + eyebrow + title shared by every chapter. */
+const ChapterHead: React.FC<{
+  index: number;
+  eyebrow: string;
+  title: React.ReactNode;
+  titleId: string;
+  /** Counter beside the title instead of above it, for content-heavy chapters. */
+  compact?: boolean;
+}> = ({ index, eyebrow, title, titleId, compact = false }) => (
+  <header className={`${styles.head} ${compact ? styles.headCompact : ""}`}>
+    <span className={styles.counter} aria-hidden="true">
+      <span className={styles.counterCurrent}>{pad2(index + 1)}</span>
+      <span className={styles.counterTotal}> / {pad2(chapters.length)}</span>
+    </span>
+    <div className={styles.headText}>
+      <p className={styles.eyebrow}>{eyebrow}</p>
+      <h2 id={titleId} className={styles.title}>
+        {title}
+      </h2>
+    </div>
+  </header>
+);
+
+/** "I build ___" with the noun cycling. Static under reduced motion. */
+const BuildLine: React.FC<{ reduceMotion: boolean }> = ({ reduceMotion }) => {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = window.setInterval(() => setI((n) => (n + 1) % BUILD_WORDS.length), BUILD_WORD_MS);
+    return () => window.clearInterval(id);
+  }, [reduceMotion]);
+
+  return (
+    <p className={styles.build}>
+      <span>I build</span>{" "}
+      <span className={styles.buildWordSlot} aria-hidden="true">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={BUILD_WORDS[i]}
+            className={styles.buildWord}
+            initial={{ opacity: 0, y: "0.5em" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-0.5em" }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {BUILD_WORDS[i]}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <span className={styles.srOnly}>{BUILD_WORDS.join(", ")}</span>
+    </p>
+  );
+};
+
+/**
+ * About as three Services-style plates (Profile, Strengths, Featured): a big
+ * accent counter and uppercase title on every chapter, art on the right where
+ * a chapter has some, and one bottom bar with prev/next and labeled tabs.
+ * ←/→ anywhere inside move between chapters.
+ */
 const AboutAppView: React.FC<AboutAppViewProps> = ({ onClose, onOpenDocumentary }) => {
   const [chapterIndex, setChapterIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-  const [openStrength, setOpenStrength] = useState<string | null>(null);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
 
-  const chapter = chapters[chapterIndex];
-
-  // Center the "start" word within the hero list itself (not the page) each
-  // time the list mounts — including when the Profile chapter is revisited.
-  // A callback ref (not a mount-only effect) is used because AnimatePresence
-  // unmounts and remounts the chapter, so the old `[]`-deps effect never re-ran.
-  const centerHeroList = useCallback((node: HTMLUListElement | null) => {
-    if (!node) return;
-    const target = node.querySelector<HTMLLIElement>(
-      `[data-index="${ABOUT_HERO_START_INDEX}"]`
-    );
-    if (!target) return;
-    node.scrollTop = target.offsetTop - (node.clientHeight - target.clientHeight) / 2;
-  }, []);
+  const chapter: ChapterId = chapters[chapterIndex].id;
+  const titleId = `about-${chapter}-title`;
 
   const goToChapter = (index: number) => {
-    if (index === chapterIndex) return;
+    if (index === chapterIndex || index < 0 || index >= chapters.length) return;
     setDirection(index > chapterIndex ? 1 : -1);
     setChapterIndex(index);
-    setOpenStrength(null);
   };
 
-  const navigate = (dir: 1 | -1) => {
-    const next = chapterIndex + dir;
-    if (next < 0 || next > chapters.length - 1) return;
-    goToChapter(next);
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const tag = (e.target as HTMLElement).tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    if (e.key === "ArrowRight") goToChapter(chapterIndex + 1);
+    else if (e.key === "ArrowLeft") goToChapter(chapterIndex - 1);
   };
 
-  const toggleStrength = (label: string) => {
-    setOpenStrength((current) => (current === label ? null : label));
-  };
-
-  const renderFeaturedChapter = () => (
-    <>
-      <p className={styles.aboutEyebrow}>In The Press</p>
-      <h2 className={styles.aboutChapterTitle}>Featured Work</h2>
-      <p className={styles.aboutLede}>
-        Selected appearances and speaking engagements.
-      </p>
-
-      <div className={styles.aboutFeaturedCards}>
-        {/* Tech For Us — PBS Documentary */}
-        <div className={styles.aboutFeaturedCard}>
-          <div className={styles.aboutFeaturedThumbnail}>
-            <Image
-              src="https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto"
-              alt="Tech For Us: Breaking Barriers on PBS"
-              width={480}
-              height={270}
-              className={styles.aboutFeaturedThumbImg}
-            />
-            <button
-              type="button"
-              className={styles.aboutFeaturedThumbOverlay}
-              onClick={() => onOpenDocumentary?.()}
-              aria-label="Play Tech For Us: Breaking Barriers documentary"
-            >
-              <FontAwesomeIcon icon={faPlay} className={styles.aboutFeaturedPlayIcon} />
-            </button>
-          </div>
-          <div className={styles.aboutFeaturedInfo}>
-            <div className={styles.aboutFeaturedBadges}>
-              <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgePbs}`}>PBS</span>
-              <span className={styles.aboutFeaturedBadge}>Documentary</span>
+  const renderProfile = () => (
+    <div className={styles.profile}>
+      <div className={styles.copy}>
+        <ChapterHead
+          index={0}
+          eyebrow="Profile"
+          titleId={titleId}
+          title={<>Hello, I&apos;m Demaceo Vincent</>}
+        />
+        <BuildLine reduceMotion={reduceMotion} />
+        <p className={styles.lede}>
+          Full-stack engineer who ships solo, fast, and end-to-end, from civic platforms to
+          privacy-first AI tools.
+        </p>
+        <dl className={styles.facts}>
+          {profileHighlights.map((item) => (
+            <div key={item.label} className={styles.fact}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
             </div>
-            <h3 className={styles.aboutFeaturedTitle}>Tech For Us: Breaking Barriers</h3>
-            <p className={styles.aboutFeaturedDesc}>
-              Featured in a Roadtrip Nation documentary exploring technology, innovation, and career development through public interest technology stories.
-            </p>
-            <button
-              type="button"
-              className={styles.aboutFeaturedCta}
-              onClick={() => onOpenDocumentary?.()}
-            >
-              <FontAwesomeIcon icon={faPlay} />
-              Watch Documentary
-            </button>
-          </div>
-        </div>
-
-        {/* SXSW EDU 2025 Panel */}
-        <div className={styles.aboutFeaturedCard}>
-          <div className={`${styles.aboutFeaturedInfo} ${styles.aboutFeaturedInfoFull}`}>
-            <div className={styles.aboutFeaturedBadges}>
-              <span className={`${styles.aboutFeaturedBadge} ${styles.aboutFeaturedBadgeSxsw}`}>SXSW EDU</span>
-              <span className={styles.aboutFeaturedBadge}>2025 Panel</span>
-            </div>
-            <h3 className={styles.aboutFeaturedTitle}>Behind the Wheel: Youth Driving Tech &amp; Media</h3>
-            <p className={styles.aboutFeaturedDesc}>
-              Panelist at SXSW EDU 2025 in Austin, TX, discussing how young people are shaping the future of technology and media.
-            </p>
-            <a
-              href="https://schedule.sxswedu.com/2025/events/PP156313"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.aboutFeaturedCta}
-            >
-              <FontAwesomeIcon icon={faExternalLinkAlt} />
-              View Session
-            </a>
-          </div>
-        </div>
+          ))}
+        </dl>
       </div>
-    </>
+
+      <figure className={styles.portrait}>
+        <div className={styles.portraitFrame}>
+          <Image
+            src="/images/headshot.jpg"
+            alt="Demaceo Vincent Howard, smiling, in a rust-colored cap and black tee"
+            fill
+            sizes="(max-width: 768px) 50vw, 420px"
+            className={styles.portraitImg}
+          />
+        </div>
+        <figcaption className={styles.portraitCaption}>
+          <span className={styles.dot} aria-hidden="true" />
+          PBS documentary · SXSW EDU 2025 panelist
+        </figcaption>
+      </figure>
+    </div>
   );
 
-  const renderChapter = () => {
-    if (chapter.kind === "featured") {
-      return renderFeaturedChapter();
-    }
+  const renderStrengths = () => (
+    <div className={styles.stack}>
+      <div className={styles.headRow}>
+        <ChapterHead index={1} eyebrow="What I bring" titleId={titleId} title="Core strengths" compact />
+        <p className={styles.lede}>
+          Seven habits that show up in every build, each backed by something shipped.
+        </p>
+      </div>
 
-    if (chapter.kind === "profile") {
-      return (
-        <>
-          <div className={styles.aboutHero}>
-            <div className={styles.aboutHeroPhrase}>I build</div>
-            <ul className={styles.aboutHeroScroll} ref={centerHeroList}>
-              <li className={styles.aboutHeroPad} aria-hidden="true" />
-              {ABOUT_HERO_WORDS.map((word, i) => (
-                <li
-                  key={word}
-                  data-index={i}
-                  className={styles.aboutHeroWord}
-                  style={{ "--i": i } as CSSProperties}
-                >
-                  {word}
-                </li>
-              ))}
-              <li className={styles.aboutHeroPad} aria-hidden="true" />
-            </ul>
-          </div>
-
-          <p className={styles.aboutEyebrow}>Profile</p>
-          <h2 className={styles.aboutChapterTitle}>Hello, I&apos;m Demaceo Vincent</h2>
-          <p className={styles.aboutLede}>
-            Full-stack engineer who ships solo, fast, and end-to-end, from civic
-            platforms to privacy-first AI tools.
+      <ul className={styles.strengthGrid}>
+        {aboutMePills.map((pill, i) => (
+          <li key={pill.label} className={styles.strength}>
+            <h3 className={styles.strengthTitle}>
+              <span className={styles.strengthNum} aria-hidden="true">
+                {pad2(i + 1)}
+              </span>
+              {pill.label}
+            </h3>
+            <p className={styles.strengthBody}>{pill.tooltip}</p>
+            {pill.link && (
+              <a
+                href={pill.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.inlineLink}
+              >
+                {pill.linkLabel ?? "Open link"}
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+              </a>
+            )}
+          </li>
+        ))}
+        <li className={`${styles.strength} ${styles.strengthCta}`}>
+          <h3 className={styles.strengthTitle}>
+            <FontAwesomeIcon icon={faFileLines} className={styles.strengthNum} aria-hidden="true" />
+            Want the full picture?
+          </h3>
+          <p className={styles.strengthBody}>
+            Roles, dates, and every shipped project, on one page.
           </p>
-          <p className={styles.aboutCredit}>
-            PBS Documentary
-            <span className={styles.aboutCreditSep} aria-hidden="true">
-              ·
+          <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className={styles.inlineLink}>
+            Open résumé
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+
+  const renderFeatured = () => (
+    <div className={styles.stack}>
+      <div className={styles.headRow}>
+        <ChapterHead index={2} eyebrow="In the press" titleId={titleId} title="Featured work" compact />
+        <p className={styles.lede}>Selected appearances and speaking engagements.</p>
+      </div>
+
+      <div className={styles.featureGrid}>
+        <article className={styles.feature}>
+          <button
+            type="button"
+            className={styles.featureMedia}
+            onClick={() => onOpenDocumentary?.()}
+            aria-label="Play Tech For Us: Breaking Barriers"
+          >
+            <Image
+              src={PBS_THUMB}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 640px"
+              className={styles.featureImg}
+            />
+            <span className={styles.play} aria-hidden="true">
+              <FontAwesomeIcon icon={faPlay} />
             </span>
-            SXSW EDU 2025 Panel
-          </p>
-          <div className={styles.aboutHighlightGrid}>
-            {profileHighlights.map((item) => (
-              <article key={item.label} className={styles.aboutHighlightCard}>
-                <h3>{item.label}</h3>
-                <p>{item.value}</p>
-              </article>
-            ))}
+          </button>
+          <div className={styles.featureInfo}>
+            <div className={styles.badges}>
+              <span className={`${styles.badge} ${styles.badgePbs}`}>PBS</span>
+              <span className={styles.badge}>Documentary</span>
+            </div>
+            <h3 className={styles.featureTitle}>Tech For Us: Breaking Barriers</h3>
+            <p className={styles.featureDesc}>
+              A Roadtrip Nation documentary on technology, innovation, and careers in public
+              interest tech.
+            </p>
+            <button type="button" className={styles.cta} onClick={() => onOpenDocumentary?.()}>
+              <FontAwesomeIcon icon={faPlay} aria-hidden="true" />
+              Watch documentary
+            </button>
           </div>
-        </>
-      );
-    }
+        </article>
 
-    // strengths
-    return (
-      <>
-        <p className={styles.aboutEyebrow}>What I Bring</p>
-        <h2 className={styles.aboutChapterTitle}>Core Strengths</h2>
-        <p className={styles.aboutLede}>Open a line for the detail behind it.</p>
-
-        <ul className={styles.aboutIndex}>
-          {aboutMePills.map((pill, i) => {
-            const isOpen = openStrength === pill.label;
-            const bodyId = `about-strength-${i}`;
-            return (
-              <li key={pill.label} className={styles.aboutIndexRow}>
-                <button
-                  type="button"
-                  className={styles.aboutIndexTrigger}
-                  onClick={() => toggleStrength(pill.label)}
-                  aria-expanded={isOpen}
-                  aria-controls={bodyId}
-                >
-                  <span className={styles.aboutIndexNum}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className={styles.aboutIndexLabel}>{pill.label}</span>
-                  <span className={styles.aboutIndexToggle} aria-hidden="true" />
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={bodyId}
-                      className={styles.aboutIndexBody}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : { duration: 0.24, ease: [0.25, 0.46, 0.45, 0.94] }
-                      }
-                    >
-                      <div className={styles.aboutIndexBodyInner}>
-                        <p className={styles.aboutIndexCopy}>{pill.tooltip}</p>
-                        {pill.link && (
-                          <a
-                            href={pill.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.aboutIndexLink}
-                          >
-                            {pill.linkLabel ?? "Open link"}
-                            <FontAwesomeIcon
-                              icon={faArrowUpRightFromSquare}
-                              aria-hidden="true"
-                            />
-                          </a>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </li>
-            );
-          })}
-        </ul>
-      </>
-    );
-  };
+        <article className={styles.feature}>
+          <div className={styles.featureMedia}>
+            <Image
+              src="/scrapbook/sxsw_panel02.jpg"
+              alt="The SXSW EDU 2025 panel on stage under the conference banner"
+              fill
+              sizes="(max-width: 768px) 100vw, 640px"
+              className={`${styles.featureImg} ${styles.featureImgSxsw}`}
+            />
+          </div>
+          <div className={styles.featureInfo}>
+            <div className={styles.badges}>
+              <span className={`${styles.badge} ${styles.badgeSxsw}`}>SXSW EDU</span>
+              <span className={styles.badge}>2025 panel</span>
+            </div>
+            <h3 className={styles.featureTitle}>Behind the Wheel: Youth Driving Tech &amp; Media</h3>
+            <p className={styles.featureDesc}>
+              Panelist in Austin, TX, on how young people are shaping the future of technology
+              and media.
+            </p>
+            <a href={SXSW_URL} target="_blank" rel="noopener noreferrer" className={styles.cta}>
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+              View session
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  );
 
   return (
     <AppView onClose={onClose} title="About" titleId="about-title">
-      <div className={styles.aboutDossier}>
-        {/* ── Chapter rail (table of contents) ─────────── */}
-        <nav className={styles.aboutRail} aria-label="About chapters">
-          {chapters.map((c, i) => (
-            <button
-              key={c.id}
-              type="button"
-              className={`${styles.aboutRailItem} ${i === chapterIndex ? styles.active : ""}`}
-              onClick={() => goToChapter(i)}
-              aria-current={i === chapterIndex ? "true" : undefined}
+      <div className={styles.about} onKeyDown={onKeyDown}>
+        <div className={styles.stage}>
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.section
+              key={chapter}
+              custom={direction}
+              variants={chapterVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={
+                reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }
+              }
+              className={styles.chapter}
+              aria-labelledby={titleId}
             >
-              <span className={styles.aboutRailNum}>{String(i + 1).padStart(2, "0")}</span>
-              <span className={styles.aboutRailLabel}>{c.label}</span>
-            </button>
-          ))}
-        </nav>
-
-        {/* ── Stage ────────────────────────────────────── */}
-        <div className={styles.aboutStageWrap}>
-          <div className={styles.aboutStage}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.section
-                key={chapter.id}
-                custom={direction}
-                variants={chapterVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className={`${styles.aboutChapter} ${
-                  chapter.kind === "profile" ? styles.aboutChapterCentered : ""
-                }`}
-                aria-labelledby="about-title"
-              >
-                {renderChapter()}
-              </motion.section>
-            </AnimatePresence>
-          </div>
-
-          {/* ── Progress footer ────────────────────────── */}
-          <div className={styles.aboutProgress}>
-            <button
-              type="button"
-              className={styles.aboutProgArrow}
-              onClick={() => navigate(-1)}
-              disabled={chapterIndex === 0}
-              aria-label="Previous chapter"
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-
-            <span className={styles.aboutProgCounter} aria-hidden="true">
-              <span className={styles.aboutProgCurrent}>
-                {String(chapterIndex + 1).padStart(2, "0")}
-              </span>
-              <span className={styles.aboutProgSep}> / </span>
-              <span className={styles.aboutProgTotal}>
-                {String(chapters.length).padStart(2, "0")}
-              </span>
-            </span>
-
-            <button
-              type="button"
-              className={styles.aboutProgArrow}
-              onClick={() => navigate(1)}
-              disabled={chapterIndex === chapters.length - 1}
-              aria-label="Next chapter"
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          </div>
+              {chapter === "profile" && renderProfile()}
+              {chapter === "strengths" && renderStrengths()}
+              {chapter === "featured" && renderFeatured()}
+            </motion.section>
+          </AnimatePresence>
         </div>
+
+        <nav className={styles.bar} aria-label="About chapters">
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={() => goToChapter(chapterIndex - 1)}
+            disabled={chapterIndex === 0}
+            aria-label="Previous chapter"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} aria-hidden="true" />
+          </button>
+
+          <div className={styles.tabs}>
+            {chapters.map((c, i) => (
+              <button
+                key={c.id}
+                type="button"
+                className={`${styles.tab} ${i === chapterIndex ? styles.tabActive : ""}`}
+                onClick={() => goToChapter(i)}
+                aria-current={i === chapterIndex ? "true" : undefined}
+              >
+                <span className={styles.tabNum} aria-hidden="true">
+                  {pad2(i + 1)}
+                </span>
+                {c.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            className={styles.arrow}
+            onClick={() => goToChapter(chapterIndex + 1)}
+            disabled={chapterIndex === chapters.length - 1}
+            aria-label="Next chapter"
+          >
+            <FontAwesomeIcon icon={faChevronRight} aria-hidden="true" />
+          </button>
+        </nav>
       </div>
     </AppView>
   );
