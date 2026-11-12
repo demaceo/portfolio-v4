@@ -8,7 +8,7 @@ sources:
   - code: src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.module.css
   - code: src/components/features/portfolio/shared/ProjectMedia.tsx
   - code: src/components/features/portfolio/ProjectsAppView/ProjectsAppView.tsx
-verified_at: d238889
+verified_at: 903c634
 ---
 
 # Project detail modal
