@@ -127,3 +127,11 @@ Append-only. Newest entries at the bottom.
   half the card empty. Artwork bleeds off the right edge like the Services slides; screenshots get a
   tilted browser frame; counter, dots and arrows moved to a bottom bar; ←/→ navigate.
 - `ProjectMedia` exports `getProjectMediaKind`. [[glass-overlays]] trap repointed to the new page.
+
+## [2026-11-12] ui | About redesigned as Services-style chapters
+
+- [[about-chapters]] (new page): rail and duplicate counter replaced by one bottom tab bar; Profile
+  gets a headshot card and a cycling "I build" line; Strengths become an all-visible card grid with a
+  résumé card; Featured becomes two equal cards, with the SXSW panel photo.
+- Old \`public/scrapbook/headshot.jpg\` deleted at the owner's request; the new headshot goes at
+  \`public/images/headshot.jpg\` (uploaded by the owner).
