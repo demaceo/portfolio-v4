@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
+import { SITE_JOB_TITLE } from "@/lib/constants/site";
 
 interface WelcomeWindowProps {
   onClose: () => void;
@@ -68,6 +69,7 @@ const WelcomeWindow: React.FC<WelcomeWindowProps> = ({ onClose, handleAppClick, 
       </div>
       <div className="window-content">
         <h2>Hello, I&#39;m Demaceo Vincent</h2>
+        <p className="window-role">{SITE_JOB_TITLE}</p>
         <p>
           Click around to explore my work, learn about me, what services I
           offer, and how to best reach out.

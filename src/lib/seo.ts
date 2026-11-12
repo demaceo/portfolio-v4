@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   SITE_DESCRIPTION,
+  SITE_FULL_NAME,
   SITE_JOB_TITLE,
   SITE_NAME,
   SITE_TITLE,
@@ -67,14 +68,16 @@ export const siteJsonLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
-      name: SITE_NAME,
+      name: SITE_FULL_NAME,
+      alternateName: SITE_NAME,
       description: SITE_DESCRIPTION,
       publisher: { "@id": `${SITE_URL}/#person` },
     },
     {
       "@type": "Person",
       "@id": `${SITE_URL}/#person`,
-      name: SITE_NAME,
+      name: SITE_FULL_NAME,
+      alternateName: SITE_NAME,
       url: `${SITE_URL}/`,
       jobTitle: SITE_JOB_TITLE,
       sameAs: [...SOCIAL_PROFILES],

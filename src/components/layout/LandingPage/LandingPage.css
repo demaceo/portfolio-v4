@@ -475,6 +475,14 @@
   font-size: 16px;
 }
 
+/* The role line under the greeting: reads as a subtitle, not body copy. */
+.window-content p.window-role {
+  margin: -4px 0 12px 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .window-content p {
   margin: 0 0 15px 0;
   font-size: 12px;

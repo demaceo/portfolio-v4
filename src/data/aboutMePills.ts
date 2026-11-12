@@ -4,7 +4,7 @@ export const aboutMePills: AboutMePill[] = [
     {
         label: "Solo Full-Stack Shipper",
         tooltip:
-            "Sole engineer, designer, and product owner across 5 production apps — civic tech, privacy AI, PropTech, spatial AI, and real-time translation — shipped within a single 12-month stretch.",
+            "Sole engineer, designer, and product owner across 5 production apps (civic tech, privacy AI, PropTech, spatial AI, and real-time translation) shipped within a single 12-month stretch.",
     },
     {
         label: "Security-First Architect",
@@ -14,12 +14,12 @@ export const aboutMePills: AboutMePill[] = [
     {
         label: "AI Systems Integrator",
         tooltip:
-            "Shipped real-time Gemini streaming, an ElevenLabs voice pipeline, and dual-key failover with rate limiting — production AI, not a demo wrapper.",
+            "Shipped real-time Gemini streaming, an ElevenLabs voice pipeline, and dual-key failover with rate limiting. Production AI, not a demo wrapper.",
     },
     {
         label: "Compliance-Minded Builder",
         tooltip:
-            "Wrote the privacy policy, security policy, terms of service, and data-deletion docs myself — GDPR/CCPA readiness shipped alongside the feature, not after a legal review.",
+            "Wrote the privacy policy, security policy, terms of service, and data-deletion docs myself. GDPR/CCPA readiness shipped alongside the feature, not after a legal review.",
     },
     {
         label: "Mentor & Educator",
@@ -36,18 +36,18 @@ export const aboutMePills: AboutMePill[] = [
     {
         label: "Production-Grade Craftsman",
         tooltip:
-            "Strict TypeScript, CI-gated pipelines (lint → typecheck → test → secret scan), and pre-commit hooks by default — across every shipped project, not just the polished ones.",
+            "Strict TypeScript, CI-gated pipelines (lint → typecheck → test → secret scan), and pre-commit hooks by default, across every shipped project, not just the polished ones.",
     },
 ];
 
 export const profileHighlights = [
   {
     label: "Shipped",
-    value: "Five production apps in twelve months, solo — civic tech, privacy AI, PropTech, spatial AI, and real-time voice.",
+    value: "Five production apps in twelve months, solo: civic tech, privacy AI, PropTech, spatial AI, and real-time voice.",
   },
   {
     label: "Built",
-    value: "Firebase tokens verified straight against Google's JWKS — no Admin SDK, no service account sitting on a server to leak.",
+    value: "Firebase tokens verified straight against Google's JWKS, with no Admin SDK and no service account sitting on a server to leak.",
   },
   {
     label: "Owned",

@@ -123,7 +123,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
         // EmailJS dashboard) — log it so that reason is visible without digging
         // through the Network tab.
         console.error("EmailJS sendForm failed:", error);
-        setErrorMessage("Something went wrong — please try again, or reach out directly below.");
+        setErrorMessage("Something went wrong. Please try again, or reach out directly below.");
       })
       .finally(() => setIsSubmitting(false));
   };
@@ -157,7 +157,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
                 </h2>
                 <p className="contact-subline">
                   Open to roles, collaborations, and good conversations. Pick a
-                  door — I usually reply within a day.
+                  door. I usually reply within a day.
                 </p>
               </header>
 
@@ -190,7 +190,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
                   </span>
                   <span className="door-text">
                     <span className="door-title">Book a 30-min chat</span>
-                    <span className="door-sub">Grab a time that works — live over video.</span>
+                    <span className="door-sub">Grab a time that works, live over video.</span>
                   </span>
                   <span className="door-arrow" aria-hidden="true">
                     <FontAwesomeIcon icon={faArrowRight} />
@@ -244,7 +244,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
               <header className="contact-form-head">
                 <h2 className="contact-headline sm">Send a message</h2>
                 <p className="contact-subline">
-                  A line or two is plenty — I&apos;ll take it from there.
+                  A line or two is plenty. I&apos;ll take it from there.
                 </p>
               </header>
 
@@ -349,7 +349,7 @@ const ContactForm = ({ onClose }: ModalProps) => {
               </motion.span>
               <h2 className="contact-headline sm">Message sent</h2>
               <p className="contact-subline">
-                Thanks for reaching out — I&apos;ll be in touch shortly.
+                Thanks for reaching out. I&apos;ll be in touch shortly.
               </p>
               <div className="sent-actions">
                 <button type="button" className="contact-send ghost" onClick={() => goToView("choose", -1)}>

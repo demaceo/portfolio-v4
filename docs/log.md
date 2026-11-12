@@ -100,3 +100,14 @@ Append-only. Newest entries at the bottom.
   `SearchButton` for every device: a compact pill in the taskbar strip (bottom-right) on a mouse
   desktop, floating in the corner while an app is open; the round top-right button on phones/touch,
   unchanged. See [[glass-overlays]] for the trap (keep it in the strip, not above it).
+
+## [2026-11-12] config | no em dashes in UI copy; employer-facing title and description
+
+- New root `CLAUDE.md` with the house rule (no em dashes in anything visitors read), enforced by a
+  `no-restricted-syntax` rule in `eslint.config.mjs` on string literals, template strings and JSX text.
+  56 existing instances in `src/` were rewritten by context (data files, aria-labels, contact form
+  copy, scrapbook blurbs, the woozyx3 messages, console warnings). The résumé PDF in `public/` has one
+  that only its source document can fix.
+- [[seo-indexing]]: home title is now "Demaceo Vincent Howard: Senior Full-Stack & Mobile Engineer",
+  description rewritten for recruiters, JSON-LD carries both names. The welcome window gains the role
+  line under the greeting; the taskbar tagline is unchanged.
