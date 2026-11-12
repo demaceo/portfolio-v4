@@ -14,7 +14,7 @@ sources:
   - code: src/app/(desktop)/layout.tsx
   - code: src/lib/constants/appRoutes.ts
   - code: next.config.ts
-verified_at: 0e5a56e
+verified_at: 2429066
 ---
 
 # SEO indexing
