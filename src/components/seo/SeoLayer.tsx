@@ -127,6 +127,11 @@ function Projects() {
           </h2>
           {project.yearRange && <p>{project.yearRange}</p>}
           <p>{project.description}</p>
+          {project.webLink && (
+            <p>
+              <a href={project.webLink}>Try {project.name} on the web</a>
+            </p>
+          )}
           {project.highlights && (
             <ul>
               {project.highlights.map((highlight) => (

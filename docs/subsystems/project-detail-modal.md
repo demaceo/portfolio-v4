@@ -2,12 +2,13 @@
 title: Project detail modal
 type: subsystem
 created: 2026-11-12
-updated: 2026-11-12
+updated: 2026-11-21
 sources:
   - code: src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.tsx
   - code: src/components/features/portfolio/ProjectDetailModal/ProjectDetailModal.module.css
   - code: src/components/features/portfolio/shared/ProjectMedia.tsx
   - code: src/components/features/portfolio/ProjectsAppView/ProjectsAppView.tsx
+  - code: src/data/projects.ts
 verified_at: 903c634
 ---
 
@@ -32,6 +33,14 @@ The art depends on `getProjectMediaKind` (`ProjectMedia.tsx`), exposed on the pl
 
 On phones the art becomes a banner above the copy and the whole plate scrolls under the pinned
 action bar.
+
+The action bar holds up to three actions: "Read case study" (when `deepDiveKey` is set), "Try on
+web" (when `webLink` is set; a live web build, e.g. `pinpoint.demaceo.com`) and the primary link,
+whose label and icon come from `linkType`. [[seo-indexing]]'s `SeoLayer` mirrors `webLink`.
+
+> ⚠️ On phones three labelled pills truncate each other, so `.webBtn` drops to a 50px globe button
+> (its `aria-label` names the project). Keep any further action icon-only on phones, or move the
+> bar to two rows.
 
 > ⚠️ `.art` shares a `layoutId` with the coverflow card and `.artInner` runs an entrance scale, so
 > framer-motion writes inline `transform`s on both. Position `.art` with offsets only, and put any

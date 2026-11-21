@@ -40,6 +40,9 @@ export interface Project {
      *  "appstore" links to an App Store listing, "website" to a live site,
      *  "watch" to a video. Omitted falls back to "Open Project". */
     linkType?: "appstore" | "website" | "watch";
+    /** A web build of the project, shown as a secondary "Try on web" action
+     *  beside the primary one. Set only for a build that is actually live. */
+    webLink?: string;
 }
 
 export interface ServicePanel {
