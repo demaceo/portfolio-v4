@@ -603,6 +603,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  /* A third action would squeeze the two labelled pills until both truncate,
+     so the web link drops to its globe here. Its aria-label still names it. */
+  .webBtn {
+    flex: 0 0 50px;
+    padding: 0;
+  }
+
+  .webBtn span {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

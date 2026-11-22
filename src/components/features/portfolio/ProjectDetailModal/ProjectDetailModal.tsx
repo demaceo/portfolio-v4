@@ -10,6 +10,7 @@ import {
   faChevronLeft,
   faChevronRight,
   faFilm,
+  faGlobe,
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { faAppStoreIos } from "@fortawesome/free-brands-svg-icons";
@@ -295,6 +296,21 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
               >
                 Read case study
               </button>
+            )}
+            {project.webLink && (
+              <a
+                href={project.webLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.secondaryBtn} ${styles.webBtn}`}
+                aria-label={`Try ${project.name} on the web (opens in a new tab)`}
+                onClick={(e) => {
+                  if (performance.now() - lastDragEndAt.current < 80) e.preventDefault();
+                }}
+              >
+                <FontAwesomeIcon icon={faGlobe} aria-hidden="true" />
+                <span>Try on web</span>
+              </a>
             )}
             <a
               href={project.link}

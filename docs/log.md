@@ -147,3 +147,9 @@ Append-only. Newest entries at the bottom.
 - [[toolbelt]] (new page): tool list synced with shipped projects (React Native, Expo, TypeScript,
   Supabase, Three.js, Gemini, ElevenLabs added; stale entries removed), core stack in copper on
   neutrals, leaves on per-category rings, details panel beside the graph, grouped list at ≤1300px.
+
+## [2026-11-21] ui | "Try on web" action for projects with a live web build
+
+- [[project-detail-modal]]: new optional `Project.webLink`, rendered as a secondary action beside the
+  primary link; icon-only on phones. Set for Pinpoint (`https://pinpoint.demaceo.com`, a separate
+  Vercel project `pinpoint-web` serving the app's Expo static export). `SeoLayer` mirrors it.
