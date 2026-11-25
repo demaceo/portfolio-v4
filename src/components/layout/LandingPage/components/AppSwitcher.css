@@ -216,7 +216,7 @@
 }
 
 /* LandingPage.css's shared ".icon-image svg" rule hardcodes a dark navy
-   fill for the desktop wheel's light icon surface; it otherwise silences
+   dark navy fill; it otherwise silences
    .app-switcher-option's own muted/white/accent color states above, which
    is why every glyph — including the "active" one — rendered dark-on-dark. */
 .app-switcher-option .app-switcher-icon-image .icon-glass-content svg {

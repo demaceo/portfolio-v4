@@ -7,7 +7,7 @@ import "./LandingPage.css";
 import "./LandingPage.menu.css";
 import {
   MenuBar,
-  DesktopIcons,
+  Desktop,
   AppSwitcher,
   WelcomeWindow,
   Taskbar,
@@ -148,11 +148,7 @@ const LandingPage = () => {
             isAppViewOpen={isAppViewOpen}
           />
 
-          <DesktopIcons
-            showContactNotification={modalState.showContactNotification}
-            handleAppClick={handleAppClick}
-            maybePreloadByPath={maybePreloadByPath}
-          />
+          <Desktop />
 
           <AppSwitcher
             showContactNotification={modalState.showContactNotification}
