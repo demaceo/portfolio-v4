@@ -179,6 +179,7 @@ const projectData: Project[] = [
   },
   {
     id: 10,
+    slug: "unmasked-coaching",
     name: "Unmasked Coaching",
     description:
       "Personalized career guidance and strategic professional development platform.",

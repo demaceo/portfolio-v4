@@ -15,7 +15,7 @@ export interface DesktopApp {
   color: string;
 }
 
-// The apps listed in AppSwitcher (the mobile pill switcher, ≤480px).
+// The apps listed in AppSwitcher (the dock shown wherever the MenuBar is hidden).
 export const DESKTOP_APPS: DesktopApp[] = [
   { name: "Mindset", icon: faBrain, path: APP_PATHS.mindset, color: "#8b7dfb" },
   { name: "Skillset", icon: faToolbox, path: APP_PATHS.skillset, color: "#f0ab1b" },

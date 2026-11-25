@@ -153,3 +153,12 @@ Append-only. Newest entries at the bottom.
 - [[project-detail-modal]]: new optional `Project.webLink`, rendered as a secondary action beside the
   primary link; icon-only on phones. Set for Pinpoint (`https://pinpoint.demaceo.com`, a separate
   Vercel project `pinpoint-web` serving the app's Expo static export). `SeoLayer` mirrors it.
+
+## [2026-11-25] change | Desktop wheel replaced by a home-screen icon grid
+
+- `DesktopIcons.tsx` (the curved app wheel) removed; `Desktop.tsx` now renders the rain plus
+  `HomeScreen.tsx`: glass project icons with a 3D tilt (slugs in `src/data/homeScreenProjects.ts`)
+  and a Featured row (`src/data/featuredLinks.ts`, also listed in the ⌘K palette).
+- AppSwitcher dock and taskbar-hide now use the MenuBar-hide query, so tablets/touch get the dock.
+- `CommandPalette` takes an `actions` prop; Scrapbook and the Featured links are palette actions.
+- See [[app-routes]].

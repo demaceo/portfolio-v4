@@ -33,7 +33,7 @@ export function useAppActions({ modalActions }: UseAppActionsProps) {
             modalActions.setShowResume(true);
         } else if (path.startsWith("http")) {
             // External URL - open in new tab
-            window.open(path, "_blank");
+            window.open(path, "_blank", "noopener,noreferrer");
         } else {
             // Internal navigation
             router.push(path);

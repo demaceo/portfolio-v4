@@ -2,23 +2,27 @@
 
 import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  type IconDefinition,
-  faEnvelope,
-  faFileLines,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import { type IconDefinition, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ModalShell } from "@/components/features/modal";
 import { useProjects, useMediaQuery, useShortcutLabel, SHEET_MEDIA_QUERY } from "@/hooks";
 import ProjectMedia from "@/components/features/portfolio/shared/ProjectMedia";
 import type { Project } from "@/lib/types";
 import styles from "./CommandPalette.module.css";
 
+/** A non-project palette entry (open an app, a modal, or an external link). */
+export interface PaletteAction {
+  key: string;
+  label: string;
+  icon: IconDefinition;
+  run: () => void;
+}
+
 export interface CommandPaletteProps {
   onClose: () => void;
   onOpenProject: (id: number) => void;
-  onOpenContact: () => void;
-  onOpenResume: () => void;
+  /** Listed under "Actions", searchable by label. Keep the array stable
+   *  (memoized) so the result list is not rebuilt on every render. */
+  actions: PaletteAction[];
 }
 
 type PaletteItem =
@@ -57,8 +61,7 @@ const ProjectThumb: React.FC<{ project: Project }> = ({ project }) => (
 const CommandPalette: React.FC<CommandPaletteProps> = ({
   onClose,
   onOpenProject,
-  onOpenContact,
-  onOpenResume,
+  actions,
 }) => {
   const { activeProjects } = useProjects();
   const isPhone = useMediaQuery(SHEET_MEDIA_QUERY);
@@ -80,14 +83,11 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
         project: p,
         run: () => onOpenProject(p.id),
       }));
-    const actionItems: PaletteItem[] = (
-      [
-        { kind: "action", key: "action-contact", label: "Start a conversation", icon: faEnvelope, run: onOpenContact },
-        { kind: "action", key: "action-resume", label: "View résumé", icon: faFileLines, run: onOpenResume },
-      ] as const
-    ).filter((a) => !q || matches(q, a.label));
+    const actionItems: PaletteItem[] = actions
+      .filter((a) => !q || matches(q, a.label))
+      .map((a) => ({ kind: "action", ...a, key: `action-${a.key}` }));
     return { projectItems, actionItems };
-  }, [query, activeProjects, onOpenProject, onOpenContact, onOpenResume]);
+  }, [query, activeProjects, onOpenProject, actions]);
 
   const items = useMemo(() => [...projectItems, ...actionItems], [projectItems, actionItems]);
   const clampedIndex = Math.min(activeIndex, Math.max(items.length - 1, 0));

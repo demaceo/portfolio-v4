@@ -1,4 +1,4 @@
-/* ===== Mobile App Switcher (≤480px) =====
+/* ===== App Switcher dock (phones, tablets, touch screens) =====
    A labeled, full-width bottom tab bar — not the small icon-only floating
    pill this used to be. Spans the framed screen edge-to-edge (minus a small
    margin) so each of the 4 tabs gets a real touch target and a visible name,
@@ -26,7 +26,9 @@
   z-index: 4;
 }
 
-@media (max-width: 480px) {
+/* Same query that hides the MenuBar (LandingPage.menu.css), so exactly one
+   app launcher is visible at any size: phones, tablets and touch screens. */
+@media (max-width: 768px), (pointer: coarse) {
   .app-switcher-dock {
     display: flex;
   }

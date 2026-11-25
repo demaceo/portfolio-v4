@@ -441,21 +441,22 @@
     padding: 16px;
   }
 
-  /* On phones the MenuBar and desktop surface are hidden and the glass
-     AppSwitcher dock takes over navigation, so the retro taskbar has no
-     siblings above it and collapses into a stray light-gray strip at the top.
-     Hide it here — same precedent as the MenuBar hide in LandingPage.menu.css. */
+}
+
+/* Wherever the MenuBar is hidden (LandingPage.menu.css), the glass AppSwitcher
+   dock takes over the bottom edge, so the retro taskbar would sit under it.
+   Hide it on the same query. */
+@media (max-width: 768px), (pointer: coarse) {
   .taskbar {
     display: none;
   }
 }
 
-/* Phone-only — the desktop surface gives way to the Liquid Glass App
-   Switcher dock (see AppSwitcher.css), a touch-first pill switcher. Both
-   components always mount; CSS alone decides which renders, mirroring the
-   MenuBar-hide precedent below. */
+/* Phone-only: the desktop surface stays (it holds the home-screen icon grid,
+   see HomeScreen.css), but the animated rain behind it is dropped to spare
+   phone GPUs and batteries. */
 @media (max-width: 480px) {
-  .desktop {
+  .desktop-rain {
     display: none;
   }
 }

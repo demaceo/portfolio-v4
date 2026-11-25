@@ -77,8 +77,11 @@ route, from the same data modules the overlays use (`projects`, `services`, `pri
 > ⚠️ Decision (2026-11-12): the app launchers stay buttons, not `<a href>` links. The phone
 > switcher (`src/components/layout/LandingPage/components/AppSwitcher.tsx`) is a radio group, and
 > anchors inside radio/option widgets are an accessibility anti-pattern. (The desktop wheel this
-> decision was first written for, `DesktopIcons.tsx`, was removed on 2026-11-25; desktop launches
-> apps from the MenuBar, the Welcome window and the ⌘K palette.) The search goal is already met:
+> decision was first written for, `DesktopIcons.tsx`, was removed on 2026-11-25. Mouse desktops
+> launch apps from the MenuBar, the Welcome window and the ⌘K palette; wherever the MenuBar is hidden
+> (`(max-width: 768px), (pointer: coarse)`) the AppSwitcher dock does. The home-screen icon grid
+> (`HomeScreen.tsx`) opens project details, not apps, and its tiles are plain `<button>`s, or `<a>`
+> for the external Featured links.) The search goal is already met:
 > the home page has real crawlable links to every indexable app in its text layer, and each app has its
 > own URL. If open-in-new-tab is ever wanted, the cheap option is modifier-click on an icon opening the
 > app's route, without changing the markup.

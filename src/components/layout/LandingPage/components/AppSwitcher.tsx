@@ -24,10 +24,10 @@ const ICON_FILTER_ID = "app-switcher-icon-glass-distortion";
 const PILL_FILTER_ID = "app-switcher-pill-glass-refraction";
 
 /**
- * Mobile-only (≤480px) app launcher pill, adapted from codepenz's
+ * Touch/narrow-screen app launcher pill, adapted from codepenz's
  * "Apple Liquid Glass Switcher" — a 3-way theme toggle there, generalized
- * here to the 4 desktop apps. Always mounts; CSS shows it only at that
- * breakpoint (see AppSwitcher.css), matching the MenuBar-hide precedent.
+ * here to the 4 desktop apps. Always mounts; CSS shows it wherever the
+ * MenuBar is hidden (≤768px or a coarse pointer, see AppSwitcher.css).
  */
 const AppSwitcher: React.FC<AppSwitcherProps> = ({
   showContactNotification,
