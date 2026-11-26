@@ -162,3 +162,11 @@ Append-only. Newest entries at the bottom.
 - AppSwitcher dock and taskbar-hide now use the MenuBar-hide query, so tablets/touch get the dock.
 - `CommandPalette` takes an `actions` prop; Scrapbook and the Featured links are palette actions.
 - See [[app-routes]].
+
+## [2026-11-26] grow | home screen page; placeholders for Squabble Up and Versus
+
+- New [[home-screen]] page (grid, Featured links, shared media query, tilt and `preferIcon` traps).
+- Squabble Up and Versus added to `src/data/projects.ts` with lettered placeholder icons.
+- [[glass-overlays]]: palette `actions` prop, obsolete wheel trap rewritten, line refs refreshed.
+- `verified_at` moved on [[app-routes]], [[project-detail-modal]], [[about-chapters]] after checking
+  the commits since their last sha.

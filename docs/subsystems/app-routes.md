@@ -2,7 +2,7 @@
 title: App routes (URL-driven overlays and the text layer)
 type: subsystem
 created: 2026-11-10
-updated: 2026-11-10
+updated: 2026-11-25
 sources:
   - code: src/lib/constants/appRoutes.ts
   - code: src/hooks/useModalState.ts
@@ -14,7 +14,7 @@ sources:
   - code: src/components/layout/LandingPage/components/AppViews.tsx
   - code: src/data/aboutMePills.ts
   - code: src/app/globals.css
-verified_at: 0e5a56e
+verified_at: 71adc49
 ---
 
 # App routes
