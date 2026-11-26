@@ -151,6 +151,28 @@ const projectData: Project[] = [
     iconHeight: 1024,
     iconScale: 1.55,
   },
+  // Placeholder entries: real descriptions and icon art still to come. The
+  // lettered glyphs ("fas fa-s icon" / "fas fa-v icon") are mapped in
+  // PROJECT_ICON_MAP until then.
+  {
+    id: 18,
+    slug: "squabble-up",
+    name: "Squabble Up",
+    description:
+      "A browser game you can install as a web app, playable at squabble.demaceo.com.",
+    link: "https://squabble.demaceo.com",
+    linkType: "website",
+    icon: "fas fa-s icon",
+  },
+  {
+    id: 19,
+    slug: "versus",
+    name: "Versus",
+    description: "Hasan vs., a browser game playable at demaceo.com/versus.",
+    link: "https://demaceo.com/versus",
+    linkType: "website",
+    icon: "fas fa-v icon",
+  },
   {
     id: 8,
     name: "Tech For Us",

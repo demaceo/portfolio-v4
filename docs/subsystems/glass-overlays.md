@@ -2,7 +2,7 @@
 title: Glass overlays (modals, AppViews, ⌘K palette)
 type: subsystem
 created: 2026-11-05
-updated: 2026-11-05
+updated: 2026-11-26
 sources:
   - code: src/app/globals.css
   - code: src/components/features/modal/ModalFrame.tsx
@@ -24,7 +24,7 @@ sources:
   - code: src/components/layout/LandingPage/components/SearchButton.tsx
   - code: src/data/DemaceoResume.tsx
   - code: public/resume/Demaceo_Vincent_Howard_Resume.pdf
-verified_at: 5f3bf32
+verified_at: 71adc49
 ---
 
 # Glass overlays
@@ -88,26 +88,30 @@ the same variable names still give it Warm Noir there.
 
 ## ⌘K command palette
 
-`src/components/features/command/CommandPalette.tsx` lists active projects plus actions
-(contact, résumé). It uses the combobox/listbox pattern: focus stays in the input and ↑/↓
-move `aria-activedescendant` (`src/components/features/command/CommandPalette.tsx:198`); options use `onMouseDown`
-preventDefault so clicking doesn't steal focus (`src/components/features/command/CommandPalette.tsx:152`). It opens from
+`src/components/features/command/CommandPalette.tsx` lists active projects plus an
+`actions` prop that `LandingPage` builds (contact, résumé, Scrapbook, and the Featured links
+from `src/data/featuredLinks.ts`; see [[home-screen]]). It uses the combobox/listbox pattern: focus stays in the input and ↑/↓
+move `aria-activedescendant` (`src/components/features/command/CommandPalette.tsx:183`); options use `onMouseDown`
+preventDefault so clicking doesn't steal focus (`src/components/features/command/CommandPalette.tsx:137`). It opens from
 the MenuBar "Projects" item, the global Cmd/Ctrl+K listener
-(`src/components/layout/LandingPage/LandingPage.tsx:48`) and the one on-screen `SearchButton`
+(`src/components/layout/LandingPage/LandingPage.tsx:64`) and the one on-screen `SearchButton`
 (`src/components/layout/LandingPage/components/SearchButton.tsx`). That component has two looks,
 picked by CSS in `src/components/layout/LandingPage/LandingPage.menu.css`: on a mouse desktop a
 compact pill with the shortcut label seated in the taskbar strip (floating in the corner while an app is open), and on
 phones/touch (the media query that hides the MenuBar) an icon-only circle at the top right.
 
-> ⚠️ Keep the desktop pill inside the taskbar strip, not floating above it. The icon wheel's lowest
-> rows curve into the bottom-right corner; a pill above the strip covered the "Contact" label at
-> 1366×768 and crowded "Scrapbook" on larger screens. The wheel is clipped at the strip's top edge,
-> so the strip is the one place they cannot meet.
+> ⚠️ The desktop pill sits inside the taskbar strip. It was put there because the old icon wheel
+> (removed 2026-11-25) curved into the bottom-right corner; nothing occupies that corner now, so
+> the placement is a style choice, not a constraint.
 
 > ⚠️ The palette is rendered from `LandingPage`, not inside `MenuBar`
-> (`src/components/layout/LandingPage/LandingPage.tsx:199`). `.menu-bar` has a `backdrop-filter`, and an ancestor with a
+> (`src/components/layout/LandingPage/LandingPage.tsx:242`). `.menu-bar` has a `backdrop-filter`, and an ancestor with a
 > filter becomes the containing block for `position: fixed` descendants — a palette
 > rendered inside the bar is positioned and clipped relative to the bar, not the viewport.
+
+> ⚠️ Keep the palette's `actions` array memoized in `LandingPage` (`useMemo`): the palette
+> rebuilds its result list whenever that array's identity changes, so an inline array would
+> rebuild it on every LandingPage render.
 
 > ⚠️ Picking a project from the palette while the Projects AppView is already open does
 > not remount the view. `ProjectsAppView` adopts the request during render, keyed on
@@ -117,7 +121,7 @@ phones/touch (the media query that hides the MenuBar) an icon-only circle at the
 > (after closing its sheet) a silent no-op.
 
 > ⚠️ Palette search folds case *and* diacritics (`fold`,
-> `src/components/features/command/CommandPalette.tsx:29`) so "resume" finds "résumé", and
+> `src/components/features/command/CommandPalette.tsx:33`) so "resume" finds "résumé", and
 > its key handler ignores keys while an IME is composing
 > (`src/components/features/command/CommandPalette.tsx:107`); without that, Enter that
 > commits a Japanese/Chinese/Korean word also opens the highlighted result.

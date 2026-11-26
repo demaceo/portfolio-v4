@@ -7,6 +7,8 @@ import {
   faCookieBite,
   faFilm,
   faLaptopCode,
+  faS,
+  faV,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Legacy projects (pre-2025) store their icon as a FontAwesome class string
@@ -20,6 +22,9 @@ export const PROJECT_ICON_MAP: Record<string, typeof faBriefcase> = {
   "fas fa-music icon": faMusic,
   "fas fa-cookie-bite icon": faCookieBite,
   "fas fa-film icon": faFilm,
+  // Lettered placeholders for projects still waiting on icon art.
+  "fas fa-s icon": faS,
+  "fas fa-v icon": faV,
 };
 
 // Shared fallback for any project whose `icon` doesn't match a mapped

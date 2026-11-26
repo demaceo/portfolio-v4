@@ -9,7 +9,7 @@ sources:
   - code: src/components/features/portfolio/shared/ProjectMedia.tsx
   - code: src/components/features/portfolio/ProjectsAppView/ProjectsAppView.tsx
   - code: src/data/projects.ts
-verified_at: 903c634
+verified_at: 71adc49
 ---
 
 # Project detail modal

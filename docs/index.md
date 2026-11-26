@@ -24,6 +24,7 @@ _No pages yet._
 ## subsystems
 
 - [[glass-overlays]] -- Glass tokens, `.glass-scope` bridge, ModalFrame/AppView shells, ⌘K palette, icon sizing
+- [[home-screen]] -- desktop/phone icon grid of chosen projects, Featured links, the app dock and the one media query they share
 - [[app-routes]] -- `/mindset` `/skillset` `/projects` `/scrapbook`: URL-driven overlays, `useModalState`, the inert text layer
 - [[services-slides]] -- Skillset → Services: oversized illustration layout, phone card, carousels
 - [[about-chapters]] -- About: Profile / Strengths / Featured plates, bottom tab bar, fit-to-screen rules
