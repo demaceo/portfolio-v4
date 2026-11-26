@@ -16,24 +16,18 @@ interface AppSwitcherProps {
 }
 
 // Two distinct glass techniques, each kept in its own role:
-// - ICON_FILTER_ID: the same feTurbulence-based distortion DesktopIcons uses
-//   per-icon (visual continuity with the wheel across the breakpoint).
+// - ICON_FILTER_ID: a feTurbulence-based distortion applied per icon.
 // - PILL_FILTER_ID: the apple-liquid-glass-switcher pen's feImage-driven
 //   lens refraction, applied via backdrop-filter to the whole pill so it
 //   genuinely refracts the wallpaper/rain behind it (new to this codebase).
 const ICON_FILTER_ID = "app-switcher-icon-glass-distortion";
 const PILL_FILTER_ID = "app-switcher-pill-glass-refraction";
 
-// Desktop-only apps (e.g. Scrapbook) are intentionally excluded from the mobile
-// switcher — they live solely on the desktop wheel, which is hidden ≤480px.
-const MOBILE_APPS = DESKTOP_APPS.filter((app) => !app.desktopOnly);
-
 /**
- * Mobile-only (≤480px) app launcher pill, adapted from codepenz's
+ * Touch/narrow-screen app launcher pill, adapted from codepenz's
  * "Apple Liquid Glass Switcher" — a 3-way theme toggle there, generalized
- * here to the 4 desktop apps. Replaces DesktopIcons' curved wheel picker at
- * that breakpoint; both always mount, CSS decides which is visible (see
- * AppSwitcher.css / LandingPage.css), matching the MenuBar-hide precedent.
+ * here to the 4 desktop apps. Always mounts; CSS shows it wherever the
+ * MenuBar is hidden (≤768px or a coarse pointer, see AppSwitcher.css).
  */
 const AppSwitcher: React.FC<AppSwitcherProps> = ({
   showContactNotification,
@@ -45,7 +39,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
   // highlighted tab never goes stale: it reflects "nothing is open" on
   // first load and again whenever the user closes back out to the home
   // screen, instead of freezing on whichever tab was tapped last.
-  const activeIndex = MOBILE_APPS.findIndex((app) => app.path === activeAppPath);
+  const activeIndex = DESKTOP_APPS.findIndex((app) => app.path === activeAppPath);
   const hasActiveTab = activeIndex !== -1;
 
   // The capsule's own position/slide-direction bookkeeping — kept pinned to
@@ -67,7 +61,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
   }, [activeIndex]);
 
   const handleTap = (index: number) => {
-    const app = MOBILE_APPS[index];
+    const app = DESKTOP_APPS[index];
     handleAppClick(app.path, app.isToggle);
   };
 
@@ -105,7 +99,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
         data-idle={hasActiveTab ? undefined : ""}
         style={
           {
-            "--n-options": MOBILE_APPS.length,
+            "--n-options": DESKTOP_APPS.length,
             "--active-index": capsuleIndex,
             "--pill-origin": pillOrigin,
             backdropFilter: `blur(8px) url(#${PILL_FILTER_ID}) saturate(150%)`,
@@ -114,7 +108,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({
         }
       >
         <legend className="app-switcher-legend">Launch an app</legend>
-        {MOBILE_APPS.map((app, index) => {
+        {DESKTOP_APPS.map((app, index) => {
           const isActive = index === activeIndex;
           const hasNotification = app.name === "Contact" && showContactNotification;
           return (

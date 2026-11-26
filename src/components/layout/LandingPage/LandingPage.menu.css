@@ -380,7 +380,7 @@
 /* ==========================================================================
    Phone & tablet — drop the MenuBar entirely.
    Its content (About/Services/Projects) is already reachable from the
-   desktop icons and the welcome window's quick links, and a mac-style top
+   welcome window's quick links and the search button, and a mac-style top
    menu bar doesn't translate well to a touch layout. `(pointer: coarse)`
    catches real tablets in portrait that sit above the 768px width check —
    and, deliberately, ANY coarse pointer regardless of width, which is why
@@ -396,10 +396,7 @@
    Search button — the on-screen entry point to the ⌘K palette (SearchButton).
    One component, two looks, so exactly one trigger is visible at any viewport:
    - mouse desktop: a compact frosted pill with the shortcut label, seated in the
-     right end of the taskbar strip like a tray item. Not above the strip: the
-     icon wheel's lowest rows curve into that corner and the pill would cover
-     them. The wheel is clipped at the strip's top edge, so they can't meet.
-     While an app is open the taskbar is hidden, so it floats in the corner
+     right end of the taskbar strip like a tray item. While an app is open the taskbar is hidden, so it floats in the corner
      instead, slightly larger.
    - phones & touch tablets (the query that hides .menu-bar above): an
      icon-only circle top-right, hidden while an app is open because every

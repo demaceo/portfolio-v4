@@ -11,73 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* The per-row icon size is set inline by JS; only the rounding is styled here.
-   The drop-shadow and glyph recoloring below exist so the icon reads as a
-   solid object against the animated rain/photo backdrop behind it (DesktopRain)
-   instead of blending into whatever colors happen to be behind it at a given
-   moment. */
-.desktop-wheel-row .icon-image {
-  border-radius: 16px;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
-}
-
-/* mix-blend-mode: difference makes the glyph the photographic negative of
-   whatever is directly behind it (the per-app glass tint, and — since
-   .desktop-items no longer isolates its own stacking context, see below —
-   the animated rain/photo through it), so it self-adjusts to stay legible
-   against any background color instead of relying on a fixed light/dark
-   choice. A solid, fully opaque color is what makes that inversion read as a
-   clean invert rather than a partial, muddy one. */
-.desktop-wheel-row .icon-image svg {
-  width: 58%;
-  height: 58%;
-  color: #ffffff;
-  mix-blend-mode: difference;
-}
-
-/* Per-app accent (see --app-accent, set inline from DESKTOP_APPS) lifts the
-   glass surface off the background with a colored glow, and gives each row
-   its own identity beyond the generic frosted look. */
-.desktop-wheel-row .icon-glass {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3),
-    0 0 16px 1px var(--app-accent, rgba(255, 255, 255, 0.35));
-  transition: box-shadow 200ms ease;
-}
-
-.desktop-wheel-row .icon-glass-base {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.4),
-    rgba(255, 255, 255, 0.16)
-  );
-}
-
-.desktop-wheel-row .icon-glass-border {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6),
-    inset 0 1px 2px rgba(255, 255, 255, 0.4);
-}
-
-.desktop-wheel-row:hover .icon-glass {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35),
-    0 0 22px 3px var(--app-accent, rgba(255, 255, 255, 0.5));
-}
-
 /* tighter sizing for dock icons */
 .dock-app svg {
   width: 22px;
   height: 22px;
-}
-
-/* The wheel is an ARIA listbox: focus lives on the container and
-   aria-activedescendant tracks the centered option, so the keyboard focus
-   ring is drawn on the selected option's icon rather than the container. */
-.desktop-items:focus {
-  outline: none;
-}
-
-.desktop-items:focus-visible .desktop-wheel-row[aria-selected="true"] .icon-image {
-  outline: 2px solid rgba(255, 255, 255, 0.95);
-  outline-offset: 3px;
 }
 
 /* reduce motion preference */
@@ -144,8 +81,8 @@
 }
 
 /* While a full-screen AppView (e.g. About) is open, the desktop chrome
-   behind it is visually hidden — visibility (not display) so DesktopIcons'
-   wheel position and other internal state survive the open/close cycle.
+   behind it is visually hidden — visibility (not display) so the rain
+   canvas and other internal state survive the open/close cycle.
    The MenuBar is intentionally NOT hidden: on desktop it stays visible and
    hosts the in-app back button + app title (the AppView's own title bar is
    folded away there — see MenuBar.tsx / AppView.module.css). */
@@ -174,9 +111,8 @@
   padding: 20px;
 }
 
-/* Animated rain-on-glass layer (see DesktopRain.tsx). Painted before
-   .desktop-items in the DOM so it sits behind the icons with no z-index
-   needed; a milky film keeps the existing frosted-glass read intact. */
+/* Animated rain-on-glass layer (see DesktopRain.tsx); a milky film keeps
+   the existing frosted-glass read intact. */
 .desktop-rain {
   position: absolute;
   inset: 0;
@@ -202,87 +138,6 @@
   }
 }
 
-/* Curved Activity Picker wheel (tailored from the codepen of the same name):
-   the wheel spans the full height of .desktop so the app rows and the
-   decorative rail behind them share one coordinate box — the rail touches
-   the right edge at the top and bottom corners and bows inward at the
-   vertical middle, and the centered (active) row pops inward to that same
-   middle, so the rows read as strung along the rail rather than a separate
-   shape. Drag, scroll, or tap a row to bring it to center; tapping the
-   centered row launches that app. */
-.desktop-items {
-  position: absolute;
-  /* Deliberately no z-index: DOM order alone already keeps this painted above
-     .desktop-rain (see that rule's own comment), and giving it one would form
-     a stacking context that traps the wheel-label/icon mix-blend-mode below
-     inside it — blending them against each other instead of against the real
-     rain/photo behind the whole wheel. */
-  right: 20px;
-  top: 0;
-  width: 320px;
-  max-width: calc(100vw - 40px);
-  height: 100%;
-  overflow: hidden;
-  touch-action: none;
-}
-
-.desktop-wheel-rail {
-  position: absolute;
-  top: 0;
-  right: 90px;
-  height: 100%;
-  width: 130px;
-  color: rgba(255, 255, 255, 0.4);
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.35));
-  pointer-events: none;
-}
-
-.desktop-wheel-row {
-  /* top/right are set inline per row (see DesktopIcons.tsx) — deliberately
-     not transform, which would force a stacking context here and trap the
-     label/icon mix-blend-mode below into blending with only this row's own
-     contents instead of the real desktop behind it. */
-  position: absolute;
-  left: 0;
-  height: 120px;
-  padding: 0 12px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 18px;
-  cursor: pointer;
-}
-
-/* Promote the rows to their own layer only while a gesture is actively moving
-   them, rather than compositing all four rows permanently at rest. */
-.desktop-items.is-animating .desktop-wheel-row {
-  will-change: top, right;
-}
-
-/* A fixed white + dark drop-shadow reads reliably against any background —
-   the photo, the blurred WebGL-unavailable fallback, or the rain layer —
-   unlike mix-blend-mode: difference (the icon glyph's trick above), which
-   can wash out to near-invisible over a low-contrast/pastel backdrop. No
-   background box on either variant: the active row already reads as
-   selected via its larger icon and inward curve position, so the label
-   doesn't need its own pill to stand out. */
-.desktop-wheel-label,
-.desktop-wheel-label-active {
-  color: #ffffff;
-  white-space: nowrap;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 1px 10px rgba(0, 0, 0, 0.6);
-}
-
-.desktop-wheel-label {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.desktop-wheel-label-active {
-  font-size: 18px;
-  font-weight: 700;
-}
-
 .icon-image {
   width: 48px;
   height: 48px;
@@ -299,13 +154,6 @@
    layers live inside their own overflow-hidden wrapper so the notification
    badge (which needs to poke outside the rounded surface) is unaffected;
    the hover feedback lives on .icon-glass-base below. */
-.desktop-glass-filter {
-  position: absolute;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-
 .icon-glass {
   position: relative;
   width: 100%;
@@ -324,7 +172,6 @@
   border-radius: inherit;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  filter: url(#desktop-icon-glass-distortion);
   isolation: isolate;
   pointer-events: none;
 }
@@ -357,14 +204,6 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-}
-
-.desktop-wheel-row:hover .icon-glass-base {
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.46),
-    rgba(255, 255, 255, 0.22)
-  );
 }
 
 /* Notification Badge */
@@ -412,8 +251,8 @@
   background: #ffffff;
   border: 2px solid #3b3a3a;
   box-shadow: 2px 2px 0px #3b3a3a;
-  /* Sits above the curved activity picker so it reads as a window floating
-     on top of the desktop, same as the icons it was always drawn over. */
+  /* Sits above the desktop surface so it reads as a window floating on top
+     of it. */
   z-index: 10;
 }
 
@@ -573,13 +412,12 @@
 /* ==========================================================================
    Responsive adjustments
    The retro "screen" is a single layout across every device. We keep the
-   framed-screen identity — and the curved activity picker — at all sizes;
-   only the framed screen's own proportions and the picker's scale reflow:
+   framed-screen identity at all sizes; only the framed screen's own
+   proportions reflow:
      - monitors: the frame is capped (see .mac-screen max-width/height)
      - tablets:  the frame grows toward the viewport edges
-     - phones:   the picker shrinks a little and the welcome window (which
-                 the user can dismiss via its own close button) floats on
-                 top of it, same layering as on desktop
+     - phones:   the welcome window (which the user can dismiss via its own
+                 close button) floats on top, same layering as on desktop
    ========================================================================== */
 
 /* Tablet — give the framed screen more breathing room */
@@ -591,9 +429,7 @@
   }
 }
 
-/* Phone — shrink the framed screen; the picker keeps its size and now sits
-   behind the welcome window (dismissible via its own close button) instead
-   of being pushed into a separate flat dock. */
+/* Phone — shrink the framed screen. */
 @media (max-width: 600px) {
   .mac-screen {
     width: 96vw;
@@ -605,21 +441,22 @@
     padding: 16px;
   }
 
-  /* On phones the MenuBar and desktop icons are hidden and the glass
-     AppSwitcher dock takes over navigation, so the retro taskbar has no
-     siblings above it and collapses into a stray light-gray strip at the top.
-     Hide it here — same precedent as the MenuBar hide in LandingPage.menu.css. */
+}
+
+/* Wherever the MenuBar is hidden (LandingPage.menu.css), the glass AppSwitcher
+   dock takes over the bottom edge, so the retro taskbar would sit under it.
+   Hide it on the same query. */
+@media (max-width: 768px), (pointer: coarse) {
   .taskbar {
     display: none;
   }
 }
 
-/* Phone-only — the curved wheel picker gives way to the Liquid Glass App
-   Switcher dock (see AppSwitcher.css), a touch-first pill switcher instead
-   of a tall vertical wheel. Both components always mount; CSS alone decides
-   which renders, mirroring the MenuBar-hide precedent below. */
+/* Phone-only: the desktop surface stays (it holds the home-screen icon grid,
+   see HomeScreen.css), but the animated rain behind it is dropped to spare
+   phone GPUs and batteries. */
 @media (max-width: 480px) {
-  .desktop {
+  .desktop-rain {
     display: none;
   }
 }

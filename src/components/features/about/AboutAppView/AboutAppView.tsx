@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { aboutMePills, profileHighlights } from "@/data/aboutMePills";
+import { SXSW_URL } from "@/data/featuredLinks";
 import { AppView } from "@/components/features/shell";
 import styles from "./AboutAppView.module.css";
 
@@ -34,7 +35,6 @@ const BUILD_WORDS = [
 const BUILD_WORD_MS = 2400;
 
 const RESUME_URL = "/resume/Demaceo_Vincent_Howard_Resume.pdf";
-const SXSW_URL = "https://schedule.sxswedu.com/2025/events/PP156313";
 const PBS_THUMB =
   "https://image.pbs.org/video-assets/5Q3iQAC-asset-mezzanine-16x9-luFIYQ7.jpg?crop=1440x810&format=auto";
 

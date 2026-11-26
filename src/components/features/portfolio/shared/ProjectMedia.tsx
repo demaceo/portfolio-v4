@@ -25,6 +25,9 @@ interface ProjectMediaProps {
   /** Empty alt text, for callers that already name the project next to the
    *  image (e.g. a palette option), so screen readers don't hear it twice. */
   decorative?: boolean;
+  /** Use the image `icon` even when the project also has a hero `image`
+   *  (e.g. app-icon tiles, where a logo reads better than a screenshot). */
+  preferIcon?: boolean;
 }
 
 export type ProjectMediaKind = "icon" | "image" | "glyph";
@@ -35,7 +38,8 @@ export type ProjectMediaKind = "icon" | "image" | "glyph";
  * re-deriving the rules: a non-empty `image` wins, then an image `icon`, then
  * the FontAwesome glyph fallback.
  */
-export const getProjectMediaKind = (project: Project): ProjectMediaKind => {
+export const getProjectMediaKind = (project: Project, preferIcon = false): ProjectMediaKind => {
+  if (preferIcon && isImageIcon(project.icon)) return "icon";
   if (typeof project.image === "string" && project.image) return "image";
   if (isImageIcon(project.icon)) return "icon";
   return "glyph";
@@ -54,8 +58,9 @@ const ProjectMedia: React.FC<ProjectMediaProps> = ({
   sizes = "(max-width: 640px) 100vw, 42vw",
   applyIconScale = false,
   decorative = false,
+  preferIcon = false,
 }) => {
-  const kind = getProjectMediaKind(project);
+  const kind = getProjectMediaKind(project, preferIcon);
   const imageStr = kind === "image" ? (project.image as string) : undefined;
 
   if (kind === "icon") {

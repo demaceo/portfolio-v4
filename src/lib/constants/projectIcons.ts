@@ -23,8 +23,8 @@ export const PROJECT_ICON_MAP: Record<string, typeof faBriefcase> = {
 };
 
 // Shared fallback for any project whose `icon` doesn't match a mapped
-// FontAwesome string and isn't an image path — matches the Projects desktop
-// icon (DesktopIcons.tsx) so the fallback stays visually consistent.
+// FontAwesome string and isn't an image path — matches the Projects app
+// icon (DESKTOP_APPS) so the fallback stays visually consistent.
 export const PROJECT_ICON_FALLBACK = faLaptopCode;
 
 export const isImageIcon = (icon?: string): boolean => {

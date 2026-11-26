@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
 import "./LandingPage.css";
 import "./LandingPage.menu.css";
 import {
   MenuBar,
-  DesktopIcons,
+  Desktop,
   AppSwitcher,
   WelcomeWindow,
   Taskbar,
@@ -24,6 +24,14 @@ import {
 } from "@/hooks";
 import { preloadModules } from "@/lib/utils/preload";
 import { PaletteContext } from "@/components/features/command/PaletteContext";
+import type { PaletteAction } from "@/components/features/command";
+import { APP_PATHS } from "@/lib/constants/appRoutes";
+import { FEATURED_LINKS } from "@/data/featuredLinks";
+import {
+  faBookOpen,
+  faEnvelope,
+  faFileLines,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Code-split: the palette only downloads on first ⌘K / Projects click (or on
 // MenuBar hover/focus via preloadModules.palette).
@@ -61,25 +69,48 @@ const LandingPage = () => {
   }, []);
 
   const { setSelectedProjectId } = modalActions;
-  const paletteOpenProject = useCallback(
+  // Opens the Projects app with one project's detail modal on top. Shared by
+  // the home-screen icons and the palette (which also closes itself first).
+  const openProject = useCallback(
     (id: number) => {
-      setShowPalette(false);
       setSelectedProjectId(id);
       setProjectRequestKey((k) => k + 1);
-      handleAppClick("/projects");
+      handleAppClick(APP_PATHS.projects);
     },
     [setSelectedProjectId, handleAppClick]
   );
-  const paletteOpenContact = useCallback(() => {
-    setShowPalette(false);
-    // handleAppClick("/contact") toggles (and clears the badge) — only fire it
-    // when Contact isn't already open, so this always means "open".
-    if (!modalState.showContactForm) handleAppClick("/contact");
-  }, [modalState.showContactForm, handleAppClick]);
-  const paletteOpenResume = useCallback(() => {
-    setShowPalette(false);
-    handleAppClick("/resume");
-  }, [handleAppClick]);
+  const paletteOpenProject = useCallback(
+    (id: number) => {
+      setShowPalette(false);
+      openProject(id);
+    },
+    [openProject]
+  );
+
+  const { showContactForm } = modalState;
+  const paletteActions = useMemo<PaletteAction[]>(() => {
+    const action = (key: string, label: string, icon: PaletteAction["icon"], open: () => void) => ({
+      key,
+      label,
+      icon,
+      run: () => {
+        setShowPalette(false);
+        open();
+      },
+    });
+    return [
+      // handleAppClick("/contact") toggles (and clears the badge); only fire
+      // it when Contact isn't already open, so this always means "open".
+      action("contact", "Start a conversation", faEnvelope, () => {
+        if (!showContactForm) handleAppClick("/contact");
+      }),
+      action("resume", "View résumé", faFileLines, () => handleAppClick("/resume")),
+      action("scrapbook", "Open Scrapbook", faBookOpen, () => handleAppClick(APP_PATHS.scrapbook)),
+      ...FEATURED_LINKS.map((link) =>
+        action(link.key, link.title, link.icon, () => handleAppClick(link.path))
+      ),
+    ];
+  }, [showContactForm, handleAppClick]);
 
   // Initialize desktop with preloading
   // useDesktopInitialization();
@@ -148,8 +179,8 @@ const LandingPage = () => {
             isAppViewOpen={isAppViewOpen}
           />
 
-          <DesktopIcons
-            showContactNotification={modalState.showContactNotification}
+          <Desktop
+            onOpenProject={openProject}
             handleAppClick={handleAppClick}
             maybePreloadByPath={maybePreloadByPath}
           />
@@ -212,8 +243,7 @@ const LandingPage = () => {
               key="command-palette"
               onClose={closePalette}
               onOpenProject={paletteOpenProject}
-              onOpenContact={paletteOpenContact}
-              onOpenResume={paletteOpenResume}
+              actions={paletteActions}
             />
           )}
         </AnimatePresence>
